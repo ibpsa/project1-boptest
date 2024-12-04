@@ -1,0 +1,778 @@
+{
+  "instances": {
+    "TransmittedRadiation": {
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThe model calculates the solar radiation through the window.\nThe calculations follow the description in Wetter (2004), Appendix A.4.3.\n</p>\n<p>\nThe transmitted exterior radiation for window system includes:\n</p>\n<ol>\n<li>\nthe transmitted diffusive radiation on unshaded part: <code>AWin*(1-uSha)*HDif*tau(HEM)</code>\n</li>\n<li>\nthe transmitted direct radiation on no shade part: <code>AWin*(1-uSha)*HDir*tau(IncAng)</code>\n</li>\n<li>\nthe transmitted diffusive radiation on shaded part: <code>AWin*uSha*HDif*tauSha(HEM)</code>\n</li>\n<li>\nthe transmitted direct radiation on shaded part: <code>AWin*uSha*HDir*tauSha(IncAng);</code>\n</li>\n</ol>\n<p>\nThe outputs are <code>QTraDif_flow = Part1 + Part3</code> and\n<code>QTraDir_flow = Part2 + Part4</code>.\n</p>\n<h4>References</h4>\n<ul>\n<li>\nMichael Wetter.<br/>\n<a href=\\\"http://simulationresearch.lbl.gov/wetter/download/mwdiss.pdf\\\">\nSimulation-based Building Energy Optimization</a>.<br/>\nDissertation. University of California at Berkeley. 2004.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nJune 7, 2016, by Michael Wetter:<br/>\nRemoved output <code>QTra_flow</code> and introduced instead\n<code>QTraDif_flow</code> and <code>QTraDir_flow</code>.\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/451\\\">issue 451</a>.\n</li>\n<li>\nAugust 7, 2015, by Michael Wetter:<br/>\nRevised model to allow modeling of electrochromic windows.\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/445\\\">issue 445</a>.\n</li>\n<li>\nMarch 13, 2015, by Michael Wetter:<br/>\nChanged <code>initial algorithm</code>\nto <code>initial equation</code> section\nto avoid a translation error in OpenModelica.\n</li>\n<li>\nMarch 4, 2011, by Wangda Zuo:<br/>\nRemove the if-statement and integer function that can trigger events.\n</li>\n<li>\nFebruary 2, 2010, by Michael Wetter:<br/>\nMade connector <code>uSha</code> a conditional connector.\n</li>\n<li>\nDecember 15, 2010, by Wangda Zuo:<br/>\nSeparate transmittance and absorbance models from the window radiation model.\n</li>\n<li>\nDecember 12, 2010, by Michael Wetter:<br/>\nReplaced record\n<a href=\\\"modelica://Buildings.HeatTransfer.Data.GlazingSystems\\\">\nBuildings.HeatTransfer.Data.GlazingSystems</a> with the\nparameters used by this model.\nThis was needed to integrate the radiation model into the room model.\n</li>\n<li>\nDecember 10, 2010, by Wangda Zuo:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -32,
+                                  "y": -80
+                                },
+                                {
+                                  "x": 22,
+                                  "y": -96
+                                }
+                              ],
+                              "textString": "\"uSha\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 56,
+                                  "y": 28
+                                },
+                                {
+                                  "x": 98,
+                                  "y": 14
+                                }
+                              ],
+                              "textString": "\"QTraDif\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 54,
+                                  "y": -14
+                                },
+                                {
+                                  "x": 96,
+                                  "y": -28
+                                }
+                              ],
+                              "textString": "\"QTraDir\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "QTraDif_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QTraDif_flow",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Power\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Transmitted exterior diffuse radiation through the window. (1: no shade; 2: shade)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 10
+                        },
+                        {
+                          "x": 120,
+                          "y": 30
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 10
+                        },
+                        {
+                          "x": 120,
+                          "y": 30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 10
+                    },
+                    {
+                      "x": 120,
+                      "y": 30
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 10
+                    },
+                    {
+                      "x": 120,
+                      "y": 30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "QTraDir_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QTraDir_flow",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Power\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Transmitted exterior direct radiation through the window. (1: no shade; 2: shade)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -30
+                        },
+                        {
+                          "x": 120,
+                          "y": -10
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -30
+                        },
+                        {
+                          "x": 120,
+                          "y": -10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -30
+                    },
+                    {
+                      "x": 120,
+                      "y": -10
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -30
+                    },
+                    {
+                      "x": 120,
+                      "y": -10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "traCoeRoo": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "traCoeRoo",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Transmitivity of the window glass for interior radiation without shading"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "QTraDifUns_flow": {
+      "type_prefix": "output",
+      "type_specifier": "Modelica.Units.SI.Power",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QTraDifUns_flow",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Transmitted diffuse solar radiation through unshaded part of window"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "QTraDirUns_flow": {
+      "type_prefix": "output",
+      "type_specifier": "Modelica.Units.SI.Power",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QTraDirUns_flow",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Transmitted direct solar radiation through unshaded part of window"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "QTraDifSha_flow": {
+      "type_prefix": "output",
+      "type_specifier": "Modelica.Units.SI.Power",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QTraDifSha_flow",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Transmitted diffuse solar radiation through shaded part of window"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "QTraDirSha_flow": {
+      "type_prefix": "output",
+      "type_specifier": "Modelica.Units.SI.Power",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QTraDirSha_flow",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Transmitted direct solar radiation through shaded part of window"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "x": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "x"
+        },
+        "description": {
+          "description_string": "Intermediate variable"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "NDIR": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NDIR",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "radDat.NDIR"
+            }
+          }
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "HEM": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HEM",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "radDat.HEM"
+            }
+          }
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "NoShade": {
+      "type_prefix": "constant",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NoShade",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "1"
+            }
+          }
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "Shade": {
+      "type_prefix": "constant",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Shade",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "2"
+            }
+          }
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "Interior": {
+      "type_prefix": "constant",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Interior",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "1"
+            }
+          }
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "Exterior": {
+      "type_prefix": "constant",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Exterior",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "2"
+            }
+          }
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "coeTraWinExtIrr": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "coeTraWinExtIrr",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "2"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "radDat.HEM +2"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    },
+    "incAng2": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "TransmittedRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "incAng2"
+        },
+        "description": {
+          "description_string": "=min(incAng, 0.5*Modelica.Constants.pi)"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/TransmittedRadiation.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.HeatTransfer.Windows.BaseClasses.PartialRadiation",
+        "long_class_specifier_identifier": "TransmittedRadiation",
+        "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {}
+  }
+}

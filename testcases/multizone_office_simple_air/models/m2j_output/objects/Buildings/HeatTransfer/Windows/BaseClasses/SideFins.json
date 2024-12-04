@@ -1,0 +1,1189 @@
+{
+  "instances": {
+    "SideFins": {
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Bitmap",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -92,
+                                  "y": 92
+                                },
+                                {
+                                  "x": 92,
+                                  "y": -92
+                                }
+                              ],
+                              "fileName": "\"modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/SideFins.png\""
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"fin\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nFor a window with side fins, this block outputs the fraction of\nthe area that is exposed to the sun.\nThis models can also be used for doors with side fins.\n</p>\n<p>\nInput to this block are the\nwall solar azimuth angle and the altitude angle of the sun.\nThese angles can be calculated using blocks from the package\n<a href=\\\"modelica://Buildings.BoundaryConditions.SolarGeometry.BaseClasses\\\">\nBuildings.BoundaryConditions.SolarGeometry.BaseClasses</a>.\n</p>\n\n<h4>Limitations</h4>\n<p>\nThe model assumes that\n</p>\n<ul>\n<li>\nthe side fins are placed symmetrically to the left and right of the window,\n</li>\n<li>\nthe top of the side fins must be at an equal or greater height than the window, and\n</li>\n<li>\nthe bottom of the side fins must be at an equal or lower height than the\nbottom of the window.\n</li>\n</ul>\n\n<h4>Implementation</h4>\n<p>\nThe method of super position is used to calculate the shaded area of the window.\nThe area besides the side fin is divided as shown in the figure below.\n</p>\n<p align=\\\"center\\\">\n<img alt=\\\"imaghe\\\" src=\\\"modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/SideFinsSuperPosition.png\\\" />\n</p>\n\n<p>\nVariables used in the code for the rectangle <i>AEGI, BEGH, DFGI</i> and <i>CFGH</i> are shown in figure below.\n</p>\n<p align=\\\"center\\\">\n<img alt=\\\"imaghe\\\" src=\\\"modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/SideFinsVariables.png\\\" />\n</p>\n\n<p>\nThe rectangles <i>AEGI, BEGH, DFGI</i> and <i>CFGH</i>  have the same geometric configuration\nwith respect to the side fin.\nThus, the same algorithm is used to calculate the shaded portion in these areas.\nA single equation in the <code>for</code> loop improves the total calculation time,\nas compared to <code>if-then-else</code>\nconditions, considering the various shapes of the shaded portions.\nTo find the shaded area in the window <i>ABCD</i>, the shaded portion of\n<i>BEGH</i> and <i>DFGI</i> is subtracted from <i>AEGI</i> and <i>CFGH</i>.\nThis shaded area of the window is then divided by the total window area\nto calculate the shaded fraction of the window.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nJuly 5, 2012, by Michael Wetter:<br/>\nChanged definitions of side fin height <code>h</code> to be\nmeasured from the top of the window.\nThis allows changing the window height without having to adjust the\nside fin parameters.\n</li>\n<li>\nFebruary 25, 2012, by Michael Wetter:<br/>\nRevised implementation.\n</li>\n<li>\nFeb 01, 2012, by Kaustubh Phalak:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "alt": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "alt",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Angle\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"rad\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"deg\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Solar altitude angle (angle between sun ray and horizontal surface)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -60
+                        },
+                        {
+                          "x": -100,
+                          "y": -20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -60
+                    },
+                    {
+                      "x": -100,
+                      "y": -20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "verAzi": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "verAzi",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Angle\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"rad\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"deg\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Angle between projection of sun's rays and normal to vertical surface",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 20
+                        },
+                        {
+                          "x": -100,
+                          "y": 60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 20
+                    },
+                    {
+                      "x": -100,
+                      "y": 60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "fraSun": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "fraSun",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Fraction of window area exposed to the sun",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -10
+                        },
+                        {
+                          "x": 120,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -10
+                    },
+                    {
+                      "x": 120,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "hWin": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "hWin"
+        },
+        "description": {
+          "description_string": "Window height",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "tab",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"General\""
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Window\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "tab",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"General\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Window\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "wWin": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "wWin"
+        },
+        "description": {
+          "description_string": "Window width",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "tab",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"General\""
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Window\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "tab",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"General\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Window\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "tmpH": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tmpH",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "{h +hWin,h,h +hWin,h}"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Height of rectangular sections used for superposition"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "tmpW": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tmpW",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "{gap +wWin,gap +wWin,gap,gap}"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Width of rectangular sections used for superpositions; c1,c2 etc"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "deltaL": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "deltaL",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "wWin/100"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Fraction of window dimension over which min-max functions are smoothened"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "AWin": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "AWin",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "hWin*wWin"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Window area"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "x1": {
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "x1",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Horizontal distance between side fin and point where shadow line and window lower edge intersects"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "x2": {
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "x2"
+        },
+        "description": {
+          "description_string": "Horizontal distance between side fin and shadow corner"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "x3": {
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "x3",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Window width"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "y1": {
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "y1",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Window height"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "y2": {
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "y2"
+        },
+        "description": {
+          "description_string": "Vertical distance between window upper edge and shadow corner"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "y3": {
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "y3",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Vertical distance between window upper edge and point where shadow line and window side edge intersects"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "area": {
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "area",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Shaded areas of the sections used in superposition"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "shdArea": {
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "shdArea"
+        },
+        "description": {
+          "description_string": "Shaded area"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "crShdArea": {
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "crShdArea"
+        },
+        "description": {
+          "description_string": "Final value of shaded area"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "crShdArea1": {
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "crShdArea1"
+        },
+        "description": {
+          "description_string": "Shaded area, corrected for the sun behind the surface/wall"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "crShdArea2": {
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "crShdArea2"
+        },
+        "description": {
+          "description_string": "Shaded area, corrected for the sun below horizon"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "minX": {
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "minX",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ]
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "minY": {
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "minY",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ]
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "minX2X3": {
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "minX2X3",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ]
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "minY2Y3": {
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "minY2Y3",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "4"
+              }
+            }
+          ]
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "delta": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "delta",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "0.000001"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Small number to avoid division by zero"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "tanLambda": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tanLambda"
+        },
+        "description": {
+          "description_string": "Tangent of angle between horizontal and sun ray projection on vertical wall"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "verAzi_t": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "verAzi_t"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "lambda_t": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "lambda_t"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "verAzi_c": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "verAzi_c"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    },
+    "alt_t": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SideFins",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "alt_t"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Blocks.Icons.Block",
+        "long_class_specifier_identifier": "SideFins",
+        "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+        "compositionSpecifier": "public"
+      },
+      {
+        "name": "Buildings.ThermalZones.Detailed.BaseClasses.SideFins",
+        "long_class_specifier_identifier": "SideFins",
+        "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {}
+  }
+}

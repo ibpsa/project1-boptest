@@ -1,0 +1,2733 @@
+{
+  "instances": {
+    "PrescribedOutlet": {
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"heaCoo\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -99,
+                                  "y": 6
+                                },
+                                {
+                                  "x": 102,
+                                  "y": -4
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 2,
+                                  "y": -4
+                                },
+                                {
+                                  "x": 102,
+                                  "y": 6
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -98,
+                                  "y": 64
+                                },
+                                {
+                                  "x": -76,
+                                  "y": 42
+                                }
+                              ],
+                              "textString": "\"X_w\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "visible": "use_X_wSet"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 74,
+                                  "y": 72
+                                },
+                                {
+                                  "x": 120,
+                                  "y": 44
+                                }
+                              ],
+                              "textString": "\"mWat_flow\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -70,
+                                  "y": 60
+                                },
+                                {
+                                  "x": 70,
+                                  "y": -60
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -64,
+                                  "y": 34
+                                },
+                                {
+                                  "x": -34,
+                                  "y": 54
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -64,
+                                  "y": 34
+                                },
+                                {
+                                  "x": -52,
+                                  "y": 44
+                                },
+                                {
+                                  "x": -64,
+                                  "y": 54
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -70,
+                                  "y": 60
+                                },
+                                {
+                                  "x": -66,
+                                  "y": 82
+                                }
+                              ],
+                              "visible": "use_TSet",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 66,
+                                  "y": 60
+                                },
+                                {
+                                  "x": 70,
+                                  "y": 82
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -106,
+                                  "y": 102
+                                },
+                                {
+                                  "x": -74,
+                                  "y": 88
+                                }
+                              ],
+                              "textString": "\"T\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "visible": "use_TSet"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -100,
+                                  "y": 82
+                                },
+                                {
+                                  "x": -70,
+                                  "y": 78
+                                }
+                              ],
+                              "visible": "use_TSet",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 72,
+                                  "y": 108
+                                },
+                                {
+                                  "x": 120,
+                                  "y": 92
+                                }
+                              ],
+                              "textString": "\"Q_flow\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 70,
+                                  "y": 82
+                                },
+                                {
+                                  "x": 100,
+                                  "y": 78
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -100,
+                                  "y": 41
+                                },
+                                {
+                                  "x": -70,
+                                  "y": 38
+                                }
+                              ],
+                              "visible": "use_X_wSet",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 70,
+                                  "y": 41
+                                },
+                                {
+                                  "x": 100,
+                                  "y": 38
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis model sets the temperature or the water vapor mass fraction\nof the medium that leaves <code>port_a</code>\nto the value given by the input <code>TSet</code> or <code>X_wSet</code>,\nsubject to optional limitations on the capacity\nfor heating and cooling, or limitations on the humidification or dehumidification\nmoisture mass flow rate.\nAlso, optionally the model allows to take into account first order dynamics.\n</p>\n<p>\nIf the parameters <code>energyDynamics</code> is not equal to\n<code>Modelica.Fluid.Types.Dynamics.SteadyState</code>,\nthe component models the dynamic response using a first order differential equation.\nThe time constant of the component is equal to the parameter <code>tau</code>.\nThis time constant is adjusted based on the mass flow rate using\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n&tau;<sub>eff</sub> = &tau; |m&#775;| &frasl; m&#775;<sub>nom</sub>\n</p>\n<p>\nwhere\n<i>&tau;<sub>eff</sub></i> is the effective time constant for the given mass flow rate\n<i>m&#775;</i> and\n<i>&tau;</i> is the time constant at the nominal mass flow rate\n<i>m&#775;<sub>nom</sub></i>.\nThis type of dynamics is equal to the dynamics that a completely mixed\ncontrol volume would have.\n</p>\n<p>\nThis model has no pressure drop.\nSee <a href=\\\"modelica://Buildings.Fluid.HeatExchangers.PrescribedOutlet\\\">\nBuildings.Fluid.HeatExchangers.PrescribedOutlet</a>\nfor a model that instantiates this model and that has a pressure drop.\n</p>\n<p>\nIn case of reverse flow,\nthe fluid that leaves <code>port_a</code> has the same\nproperties as the fluid that enters <code>port_b</code>.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nMarch 3, 2022, by Michael Wetter:<br/>\nRemoved <code>massDynamics</code>.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1542\\\">issue 1542</a>.\n</li>\n<li>\nApril 29, 2021, by Michael Wetter:<br/>\nRemoved duplicate declaration of <code>m_flow_nominal</code> which is already\ndeclared in the base class.<br/>\n</li>\n<li>\nMarch 19, 2018, by Michael Wetter:<br/>\nAdded bugfix as the old model did not track <code>TSet</code> and <code>X_wSet</code>\nsimultaneously.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/893\\\">#893</a>.\n</li>\n<li>\nMay 3, 2017, by Michael Wetter:<br/>\nRefactored model to allow <code>X_wSet</code> as an input.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/763\\\">#763</a>.\n</li>\n<li>\nJanuary 26, 2016, by Michael Wetter:<br/>\nRemoved inequality comparison of real numbers in <code>restrictCool</code>\nand in <code>restrictHeat</code> as this is not allowed in Modelica.\n</li>\n<li>\nNovember 10, 2014, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "QMax_flow": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QMax_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "Modelica.Constants.inf"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Maximum heat flow rate for heating (positive)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "use_TSet"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "use_TSet"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "QMin_flow": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QMin_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "-Modelica.Constants.inf"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Maximum heat flow rate for cooling (negative)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "use_TSet"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "use_TSet"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "mWatMax_flow": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mWatMax_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "Modelica.Constants.inf"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Maximum water mass flow rate addition (positive)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "use_X_wSet"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "use_X_wSet"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "mWatMin_flow": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mWatMin_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "-Modelica.Constants.inf"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Maximum water mass flow rate removal (negative)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "use_X_wSet"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "use_X_wSet"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "tau": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Time",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tau",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "10"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Time constant at nominal flow rate (used if energyDynamics not equal Modelica.Fluid.Types.Dynamics.SteadyState)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "tab",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Dynamics\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "tab",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Dynamics\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "T_start": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "T_start",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Medium.T_default"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Start value of temperature",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "tab",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Initialization\""
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "use_TSet"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "tab",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Initialization\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "use_TSet"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "X_start": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.MassFraction",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "X_start",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "Medium.nX"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Medium.X_default"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Start value of mass fractions m_i/m",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "tab",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Initialization\""
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "logical_expression": {
+                                    "logical_or": [
+                                      {
+                                        "logical_and": [
+                                          {
+                                            "arithmetic_expressions": [
+                                              {
+                                                "name": "Medium.nXi"
+                                              },
+                                              {
+                                                "name": "0"
+                                              }
+                                            ],
+                                            "relation_operator": ">"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "tab",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Initialization\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": {
+                              "logical_expression": {
+                                "logical_or": [
+                                  {
+                                    "logical_and": [
+                                      {
+                                        "arithmetic_expressions": [
+                                          {
+                                            "name": "Medium.nXi"
+                                          },
+                                          {
+                                            "name": "0"
+                                          }
+                                        ],
+                                        "relation_operator": ">"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "energyDynamics": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Fluid.Types.Dynamics",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "energyDynamics",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Modelica.Fluid.Types.Dynamics.SteadyState"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Type of energy balance: dynamic (3 initialization options) or steady state",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "tab",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Dynamics\""
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Conservation equations\""
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "use_TSet"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "tab",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Dynamics\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Conservation equations\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "use_TSet"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "use_TSet": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "use_TSet",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "true"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set to false to disable temperature set point",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "use_X_wSet": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "use_X_wSet",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "true"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set to false to disable water vapor set point",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "TSet": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TSet",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"degC\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "use_TSet"
+          }
+        },
+        "description": {
+          "description_string": "Set point temperature of the fluid that leaves port_b",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": -120,
+                        "y": 90
+                      },
+                      "extent": [
+                        {
+                          "x": 20,
+                          "y": -20
+                        },
+                        {
+                          "x": -20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 180
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": -110,
+                        "y": 80
+                      },
+                      "extent": [
+                        {
+                          "x": 10,
+                          "y": -10
+                        },
+                        {
+                          "x": -10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 180
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": -120,
+                    "y": 90
+                  },
+                  "extent": [
+                    {
+                      "x": 20,
+                      "y": -20
+                    },
+                    {
+                      "x": -20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 180
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": -110,
+                    "y": 80
+                  },
+                  "extent": [
+                    {
+                      "x": 10,
+                      "y": -10
+                    },
+                    {
+                      "x": -10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 180
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "X_wSet": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "X_wSet",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "use_X_wSet"
+          }
+        },
+        "description": {
+          "description_string": "Set point for water vapor mass fraction of the fluid that leaves port_b",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": -120,
+                        "y": 50
+                      },
+                      "extent": [
+                        {
+                          "x": 20,
+                          "y": -20
+                        },
+                        {
+                          "x": -20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 180
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": -110,
+                        "y": 40
+                      },
+                      "extent": [
+                        {
+                          "x": 10,
+                          "y": -10
+                        },
+                        {
+                          "x": -10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 180
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": -120,
+                    "y": 50
+                  },
+                  "extent": [
+                    {
+                      "x": 20,
+                      "y": -20
+                    },
+                    {
+                      "x": -20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 180
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": -110,
+                    "y": 40
+                  },
+                  "extent": [
+                    {
+                      "x": 10,
+                      "y": -10
+                    },
+                    {
+                      "x": -10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 180
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "Q_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Q_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Heat flow rate added to the fluid (if flow is from port_a to port_b)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 70
+                        },
+                        {
+                          "x": 120,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 70
+                    },
+                    {
+                      "x": 120,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "mWat_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mWat_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"kg/s\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Water vapor mass flow rate added to the fluid (if flow is from port_a to port_b)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 30
+                        },
+                        {
+                          "x": 120,
+                          "y": 50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 30
+                    },
+                    {
+                      "x": 120,
+                      "y": 50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "cp_default": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.SpecificHeatCapacity",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "cp_default",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Medium.specificHeatCapacityCp",
+                  "arguments": [
+                    {
+                      "name": "Medium.setState_pTX(p=Medium.p_default,T=Medium.T_default,X=Medium.X_default)"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Specific heat capacity at default medium state"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "restrictHeat": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "restrictHeat",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "logical_expression": {
+                  "logical_or": [
+                    {
+                      "logical_and": [
+                        {
+                          "arithmetic_expressions": [
+                            {
+                              "name": "QMax_flow"
+                            },
+                            {
+                              "name": "Modelica.Constants.inf/10"
+                            }
+                          ],
+                          "relation_operator": "<"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag, true if maximum heating power is restricted",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "restrictCool": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "restrictCool",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "logical_expression": {
+                  "logical_or": [
+                    {
+                      "logical_and": [
+                        {
+                          "arithmetic_expressions": [
+                            {
+                              "name": "QMin_flow"
+                            },
+                            {
+                              "name": "-Modelica.Constants.inf/10"
+                            }
+                          ],
+                          "relation_operator": ">"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag, true if maximum cooling power is restricted",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "restrictHumi": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "restrictHumi",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "logical_expression": {
+                  "logical_or": [
+                    {
+                      "logical_and": [
+                        {
+                          "arithmetic_expressions": [
+                            {
+                              "name": "mWatMax_flow"
+                            },
+                            {
+                              "name": "Modelica.Constants.inf/10"
+                            }
+                          ],
+                          "relation_operator": "<"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag, true if maximum humidification is restricted",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "restrictDehu": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "restrictDehu",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "logical_expression": {
+                  "logical_or": [
+                    {
+                      "logical_and": [
+                        {
+                          "arithmetic_expressions": [
+                            {
+                              "name": "mWatMin_flow"
+                            },
+                            {
+                              "name": "-Modelica.Constants.inf/10"
+                            }
+                          ],
+                          "relation_operator": ">"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag, true if maximum dehumidification is restricted",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "deltaH": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.SpecificEnthalpy",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "deltaH",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "cp_default*0.000001"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Small value for deltaH used for regularization"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "deltaXi": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.MassFraction",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "deltaXi",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "0.000001"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Small mass fraction used for regularization"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "m_flow_pos": {
+      "type_specifier": "Modelica.Units.SI.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "m_flow_pos"
+        },
+        "description": {
+          "description_string": "Mass flow rate, or zero if reverse flow"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "m_flow_non_zero": {
+      "type_specifier": "Modelica.Units.SI.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "m_flow_non_zero"
+        },
+        "description": {
+          "description_string": "Mass flow rate bounded away from zero"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "hSet": {
+      "type_specifier": "Modelica.Units.SI.SpecificEnthalpy",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "hSet"
+        },
+        "description": {
+          "description_string": "Set point for enthalpy leaving port_b"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "T": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "T"
+        },
+        "description": {
+          "description_string": "Temperature of outlet state assuming unlimited capacity and taking dynamics into account"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "Xi": {
+      "type_specifier": "Modelica.Units.SI.MassFraction",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Xi"
+        },
+        "description": {
+          "description_string": "Water vapor mass fraction of outlet state assuming unlimited capacity and taking dynamics into account"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "Xi_instream": {
+      "type_specifier": "Modelica.Units.SI.MassFraction",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Xi_instream",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "Medium.nXi"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Instreaming water vapor mass fraction at port_a"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "Xi_outflow": {
+      "type_specifier": "Modelica.Units.SI.MassFraction",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Xi_outflow"
+        },
+        "description": {
+          "description_string": "Outstreaming water vapor mass fraction at port_a"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "dhAct": {
+      "type_specifier": "Modelica.Units.SI.SpecificEnthalpy",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dhAct"
+        },
+        "description": {
+          "description_string": "Actual enthalpy difference from port_a to port_b"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "dXiAct": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dXiAct",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Actual mass fraction difference from port_a to port_b"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "k": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "k",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Gain to take flow rate into account for sensor time constant"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "mNor_flow": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mNor_flow"
+        },
+        "description": {
+          "description_string": "Normalized mass flow rate"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "TSet_internal": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TSet_internal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"degC\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Internal connector for set point temperature of the fluid that leaves port_b"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    },
+    "X_wSet_internal": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "PrescribedOutlet",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "X_wSet_internal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Internal connector for set point for water vapor mass fraction of the fluid that leaves port_b"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/PrescribedOutlet.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.Fluid.Interfaces.PartialTwoPortInterface",
+        "long_class_specifier_identifier": "PrescribedOutlet",
+        "within": "Buildings.Fluid.Interfaces",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "TSet": [
+        "TSet_internal"
+      ],
+      "X_wSet": [
+        "X_wSet_internal"
+      ]
+    }
+  }
+}

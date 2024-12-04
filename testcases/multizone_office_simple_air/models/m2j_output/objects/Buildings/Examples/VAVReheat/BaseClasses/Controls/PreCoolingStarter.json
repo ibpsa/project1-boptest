@@ -1,0 +1,461 @@
+{
+  "instances": {
+    "PreCoolingStarter": {
+      "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/PreCoolingStarter.mo",
+      "type": "long_class_specifier"
+    },
+    "TOutLim": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PreCoolingStarter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TOutLim",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "286.15"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Limit for activating precooling"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/PreCoolingStarter.mo"
+    },
+    "TRooSetCooOcc": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PreCoolingStarter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooSetCooOcc"
+        },
+        "description": {
+          "description_string": "Set point for room air temperature during cooling mode"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/PreCoolingStarter.mo"
+    },
+    "controlBus": {
+      "type_specifier": "BaseClasses.Controls.ControlBus",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PreCoolingStarter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "controlBus"
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -72,
+                          "y": 50
+                        },
+                        {
+                          "x": -52,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -72,
+                      "y": 50
+                    },
+                    {
+                      "x": -52,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/PreCoolingStarter.mo"
+    },
+    "greater": {
+      "type_specifier": "Modelica.Blocks.Logical.GreaterThreshold",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PreCoolingStarter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "greater",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "threshold",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "TRooSetCooOcc"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": 0
+                        },
+                        {
+                          "x": -20,
+                          "y": 20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": 0
+                    },
+                    {
+                      "x": -20,
+                      "y": 20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/PreCoolingStarter.mo"
+    },
+    "greater2": {
+      "type_specifier": "Modelica.Blocks.Logical.LessThreshold",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PreCoolingStarter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "greater2",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "threshold",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1800"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -80
+                        },
+                        {
+                          "x": -20,
+                          "y": -60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -80
+                    },
+                    {
+                      "x": -20,
+                      "y": -60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/PreCoolingStarter.mo"
+    },
+    "greater1": {
+      "type_specifier": "Modelica.Blocks.Logical.LessThreshold",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PreCoolingStarter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "greater1",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "threshold",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "TOutLim"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -40
+                        },
+                        {
+                          "x": -20,
+                          "y": -20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -40
+                    },
+                    {
+                      "x": -20,
+                      "y": -20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/PreCoolingStarter.mo"
+    },
+    "and3": {
+      "type_specifier": "Modelica.Blocks.MathBoolean.And",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "PreCoolingStarter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "and3",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nu",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "3"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 28,
+                          "y": -6
+                        },
+                        {
+                          "x": 40,
+                          "y": 6
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 28,
+                      "y": -6
+                    },
+                    {
+                      "x": 40,
+                      "y": 6
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/PreCoolingStarter.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Blocks.Interfaces.BooleanSignalSource",
+        "long_class_specifier_identifier": "PreCoolingStarter",
+        "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "controlBus.dTNexOcc": [
+        "greater2.u"
+      ],
+      "controlBus.TRooAve": [
+        "greater.u"
+      ],
+      "controlBus.TOut": [
+        "greater1.u"
+      ],
+      "and3.y": [
+        "y"
+      ],
+      "greater.y": [
+        "and3.u[1]"
+      ],
+      "greater1.y": [
+        "and3.u[2]"
+      ],
+      "greater2.y": [
+        "and3.u[3]"
+      ]
+    }
+  }
+}

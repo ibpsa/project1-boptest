@@ -1,0 +1,1911 @@
+{
+  "instances": {
+    "SourceSelectorRadiation": {
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"souSel\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nBlock that outputs the direct normal, diffuse horizontal and diffuse global\nsolar irradiation.\nThis block computes these output quantities based on conditionally provided\ninput signals.\n</p>\n<p>\nThe computations are based on Wetter (2004).\n</p>\n<h4>References</h4>\n<ul>\n<li>\nMichael Wetter.<br/>\n<a href=\\\"http://simulationresearch.lbl.gov/wetter/download/mwdiss.pdf\\\">\nSimulation-based Building Energy Optimization</a>.<br/>\nDissertation. University of California at Berkeley. 2004.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nApril 14, 2020, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -100,
+                                  "y": 100
+                                },
+                                {
+                                  "x": 100,
+                                  "y": -100
+                                }
+                              ],
+                              "borderPattern": "BorderPattern.Raised",
+                              "fillColor": {
+                                "r": 210,
+                                "g": 210,
+                                "b": 210
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 12,
+                                  "y": 0
+                                },
+                                {
+                                  "x": 100,
+                                  "y": 0
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 40,
+                                  "y": -80
+                                },
+                                {
+                                  "x": 100,
+                                  "y": -80
+                                },
+                                {
+                                  "x": 100,
+                                  "y": -80
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 40,
+                                  "y": 80
+                                },
+                                {
+                                  "x": 100,
+                                  "y": 78
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 6,
+                                  "y": 0
+                                },
+                                {
+                                  "x": 40,
+                                  "y": -82
+                                },
+                                {
+                                  "x": 40,
+                                  "y": -80
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 40,
+                                  "y": 80
+                                },
+                                {
+                                  "x": 6,
+                                  "y": 0
+                                },
+                                {
+                                  "x": 6,
+                                  "y": 0
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -2,
+                                  "y": -8
+                                },
+                                {
+                                  "x": 14,
+                                  "y": 8
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "datSou": {
+      "type_prefix": "parameter",
+      "type_specifier": "Buildings.BoundaryConditions.Types.RadiationDataSource",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "datSou"
+        },
+        "description": {
+          "description_string": "Data source",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HDirNorFil": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDirNorFil",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": {
+              "logical_expression": {
+                "logical_or": [
+                  {
+                    "logical_and": [
+                      {
+                        "arithmetic_expressions": [
+                          {
+                            "name": "datSou"
+                          },
+                          {
+                            "name": "Buildings.BoundaryConditions.Types.RadiationDataSource.File"
+                          }
+                        ],
+                        "relation_operator": "=="
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Direct normal solar irradiation from weather data file",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -10
+                        },
+                        {
+                          "x": -100,
+                          "y": 30
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -120,
+                          "y": 10
+                        },
+                        {
+                          "x": -100,
+                          "y": 30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -10
+                    },
+                    {
+                      "x": -100,
+                      "y": 30
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -120,
+                      "y": 10
+                    },
+                    {
+                      "x": -100,
+                      "y": 30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HDirNorIn": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDirNorIn",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": {
+              "logical_expression": {
+                "logical_or": [
+                  {
+                    "logical_and": [
+                      {
+                        "arithmetic_expressions": [
+                          {
+                            "name": "datSou"
+                          },
+                          {
+                            "name": "Buildings.BoundaryConditions.Types.RadiationDataSource.Input_HDirNor_HDifHor"
+                          }
+                        ],
+                        "relation_operator": "=="
+                      }
+                    ]
+                  },
+                  {
+                    "logical_and": [
+                      {
+                        "arithmetic_expressions": [
+                          {
+                            "name": "datSou"
+                          },
+                          {
+                            "name": "Buildings.BoundaryConditions.Types.RadiationDataSource.Input_HDirNor_HGloHor"
+                          }
+                        ],
+                        "relation_operator": "=="
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Direct normal solar irradiation from input connector",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -40
+                        },
+                        {
+                          "x": -100,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -120,
+                          "y": -30
+                        },
+                        {
+                          "x": -100,
+                          "y": -10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -40
+                    },
+                    {
+                      "x": -100,
+                      "y": 0
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -120,
+                      "y": -30
+                    },
+                    {
+                      "x": -100,
+                      "y": -10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HDifHorFil": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDifHorFil",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": {
+              "logical_expression": {
+                "logical_or": [
+                  {
+                    "logical_and": [
+                      {
+                        "arithmetic_expressions": [
+                          {
+                            "name": "datSou"
+                          },
+                          {
+                            "name": "Buildings.BoundaryConditions.Types.RadiationDataSource.File"
+                          }
+                        ],
+                        "relation_operator": "=="
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Diffuse horizontal solar irradiation from weather data file",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 60
+                        },
+                        {
+                          "x": -100,
+                          "y": 100
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -120,
+                          "y": 80
+                        },
+                        {
+                          "x": -100,
+                          "y": 100
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 60
+                    },
+                    {
+                      "x": -100,
+                      "y": 100
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -120,
+                      "y": 80
+                    },
+                    {
+                      "x": -100,
+                      "y": 100
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HDifHorIn": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDifHorIn",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": {
+              "logical_expression": {
+                "logical_or": [
+                  {
+                    "logical_and": [
+                      {
+                        "arithmetic_expressions": [
+                          {
+                            "name": "datSou"
+                          },
+                          {
+                            "name": "Buildings.BoundaryConditions.Types.RadiationDataSource.Input_HGloHor_HDifHor"
+                          }
+                        ],
+                        "relation_operator": "=="
+                      }
+                    ]
+                  },
+                  {
+                    "logical_and": [
+                      {
+                        "arithmetic_expressions": [
+                          {
+                            "name": "datSou"
+                          },
+                          {
+                            "name": "Buildings.BoundaryConditions.Types.RadiationDataSource.Input_HDirNor_HDifHor"
+                          }
+                        ],
+                        "relation_operator": "=="
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Diffuse horizontal solar irradiation from input connector",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 30
+                        },
+                        {
+                          "x": -100,
+                          "y": 70
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -120,
+                          "y": 50
+                        },
+                        {
+                          "x": -100,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 30
+                    },
+                    {
+                      "x": -100,
+                      "y": 70
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -120,
+                      "y": 50
+                    },
+                    {
+                      "x": -100,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HGloHorFil": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HGloHorFil",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": {
+              "logical_expression": {
+                "logical_or": [
+                  {
+                    "logical_and": [
+                      {
+                        "arithmetic_expressions": [
+                          {
+                            "name": "datSou"
+                          },
+                          {
+                            "name": "Buildings.BoundaryConditions.Types.RadiationDataSource.File"
+                          }
+                        ],
+                        "relation_operator": "=="
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Global horizontal solar irradiation from weather data file",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -70
+                        },
+                        {
+                          "x": -100,
+                          "y": -30
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -120,
+                          "y": -70
+                        },
+                        {
+                          "x": -100,
+                          "y": -50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -70
+                    },
+                    {
+                      "x": -100,
+                      "y": -30
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -120,
+                      "y": -70
+                    },
+                    {
+                      "x": -100,
+                      "y": -50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HGloHorIn": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HGloHorIn",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": {
+              "logical_expression": {
+                "logical_or": [
+                  {
+                    "logical_and": [
+                      {
+                        "arithmetic_expressions": [
+                          {
+                            "name": "datSou"
+                          },
+                          {
+                            "name": "Buildings.BoundaryConditions.Types.RadiationDataSource.Input_HGloHor_HDifHor"
+                          }
+                        ],
+                        "relation_operator": "=="
+                      }
+                    ]
+                  },
+                  {
+                    "logical_and": [
+                      {
+                        "arithmetic_expressions": [
+                          {
+                            "name": "datSou"
+                          },
+                          {
+                            "name": "Buildings.BoundaryConditions.Types.RadiationDataSource.Input_HDirNor_HGloHor"
+                          }
+                        ],
+                        "relation_operator": "=="
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Global horizontal solar irradiation from input connector",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -98
+                        },
+                        {
+                          "x": -100,
+                          "y": -58
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -120,
+                          "y": -100
+                        },
+                        {
+                          "x": -100,
+                          "y": -80
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -98
+                    },
+                    {
+                      "x": -100,
+                      "y": -58
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -120,
+                      "y": -100
+                    },
+                    {
+                      "x": -100,
+                      "y": -80
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "zen": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "zen",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Angle\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"rad\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Zenith angle",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": -120
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 90
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": -60,
+                        "y": -110
+                      },
+                      "extent": [
+                        {
+                          "x": -10,
+                          "y": -10
+                        },
+                        {
+                          "x": 10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 90
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": -120
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 90
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": -60,
+                    "y": -110
+                  },
+                  "extent": [
+                    {
+                      "x": -10,
+                      "y": -10
+                    },
+                    {
+                      "x": 10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 90
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HDirNor": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDirNor",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Direct normal solar irradiation",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -10
+                        },
+                        {
+                          "x": 120,
+                          "y": 10
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -10
+                        },
+                        {
+                          "x": 120,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -10
+                    },
+                    {
+                      "x": 120,
+                      "y": 10
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -10
+                    },
+                    {
+                      "x": 120,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HDifHor": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDifHor",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Diffuse horizontal solar irradiation",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 60
+                        },
+                        {
+                          "x": 120,
+                          "y": 80
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 68
+                        },
+                        {
+                          "x": 120,
+                          "y": 88
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 60
+                    },
+                    {
+                      "x": 120,
+                      "y": 80
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 68
+                    },
+                    {
+                      "x": 120,
+                      "y": 88
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HGloHor": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HGloHor",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Global horizontal solar irradiation",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -80
+                        },
+                        {
+                          "x": 120,
+                          "y": -60
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -90
+                        },
+                        {
+                          "x": 120,
+                          "y": -70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -80
+                    },
+                    {
+                      "x": 120,
+                      "y": -60
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -90
+                    },
+                    {
+                      "x": 120,
+                      "y": -70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "epsCos": {
+      "type_prefix": "constant",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "epsCos",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "0.000001"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Small value to avoid division by 0"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "solCon": {
+      "type_prefix": "constant",
+      "type_specifier": "Modelica.Units.SI.HeatFlux",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "solCon",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "1367.7"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Solar constant"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HGloHor_in_internal": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HGloHor_in_internal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Needed to connect to conditional connector"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HDifHor_in_internal": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDifHor_in_internal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Needed to connect to conditional connector"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    },
+    "HDirNor_in_internal": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SourceSelectorRadiation",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDirNor_in_internal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"RadiantEnergyFluenceRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Needed to connect to conditional connector"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/BaseClasses/SourceSelectorRadiation.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Blocks.Icons.Block",
+        "long_class_specifier_identifier": "SourceSelectorRadiation",
+        "within": "Buildings.BoundaryConditions.WeatherData.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "HGloHor_in_internal": [
+        "HGloHorFil",
+        "HGloHorIn"
+      ],
+      "HDifHor_in_internal": [
+        "HDifHorFil",
+        "HDifHorIn"
+      ],
+      "HDirNor_in_internal": [
+        "HDirNorFil",
+        "HDirNorIn"
+      ]
+    }
+  }
+}

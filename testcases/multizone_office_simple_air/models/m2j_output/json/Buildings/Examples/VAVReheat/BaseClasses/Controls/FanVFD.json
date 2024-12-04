@@ -1,0 +1,1054 @@
+{
+  "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+  "class_definition": [
+    {
+      "class_prefixes": "block",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "FanVFD",
+          "description_string": "Controller for fan revolution",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Modelica.Blocks.Interfaces.SISO"
+                }
+              },
+              {
+                "import_clause": {
+                  "identifier": "",
+                  "name": "Buildings.Examples.VAVReheat.BaseClasses.Controls.OperationModes"
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.Controls.OBC.CDL.Reals.PIDWithReset",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "con",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "r",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "xSet_nominal"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "yMax",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "1"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "Td",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "60"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "yMin",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "r_N_min"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "k",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "k"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "Ti",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "Ti"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "controllerType",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "controllerType"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Controller",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -10,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": 10,
+                                        "y": 40
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "xSet_nominal"
+                      },
+                      "description": {
+                        "description_string": "Nominal setpoint (used for normalization)"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Sources.Constant",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "off",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "k",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Off signal",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -40,
+                                        "y": -40
+                                      },
+                                      {
+                                        "x": -20,
+                                        "y": -20
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "u_m"
+                      },
+                      "description": {
+                        "description_string": "Connector of measurement input signal",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "origin": {
+                                      "x": 0,
+                                      "y": -120
+                                    },
+                                    "extent": [
+                                      {
+                                        "x": -20,
+                                        "y": -20
+                                      },
+                                      {
+                                        "x": 20,
+                                        "y": 20
+                                      }
+                                    ],
+                                    "rotation": 90
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "r_N_min",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "0.01"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Minimum normalized fan speed"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Blocks.Types.Init",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "initType",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "Modelica.Blocks.Types.Init.NoInit"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Type of initialization (1: no init, 2: steady state, 3/4: initial output)"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "y_start",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "0"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Initial or guess value of output (= state)"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Blocks.Types.SimpleController",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "controllerType",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "Modelica.Blocks.Types.SimpleController.PI"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Type of controller",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Setpoint tracking\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "k",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "0.5"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Gain of controller",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Setpoint tracking\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Time",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "Ti",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "15"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Time constant of integrator block",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Setpoint tracking\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.Controls.OBC.CDL.Reals.Switch",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "swi"
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 40,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 60,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.Controls.OBC.CDL.Interfaces.BooleanInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "uFan"
+                      },
+                      "description": {
+                        "description_string": "Set to true to enable the fan on",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 40
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 80
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "con"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "swi"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u1"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 12,
+                                      "y": 30
+                                    },
+                                    {
+                                      "x": 18,
+                                      "y": 30
+                                    },
+                                    {
+                                      "x": 18,
+                                      "y": 8
+                                    },
+                                    {
+                                      "x": 38,
+                                      "y": 8
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "off"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "swi"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u3"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -19,
+                                      "y": -30
+                                    },
+                                    {
+                                      "x": 10,
+                                      "y": -30
+                                    },
+                                    {
+                                      "x": 10,
+                                      "y": -8
+                                    },
+                                    {
+                                      "x": 38,
+                                      "y": -8
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "swi"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u2"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "uFan"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 38,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": -28,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": -28,
+                                      "y": 60
+                                    },
+                                    {
+                                      "x": -120,
+                                      "y": 60
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 255,
+                                    "g": 0,
+                                    "b": 255
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "swi"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 62,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": 110,
+                                      "y": 0
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "con"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "trigger"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "uFan"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -6,
+                                      "y": 18
+                                    },
+                                    {
+                                      "x": -6,
+                                      "y": 10
+                                    },
+                                    {
+                                      "x": -28,
+                                      "y": 10
+                                    },
+                                    {
+                                      "x": -28,
+                                      "y": 60
+                                    },
+                                    {
+                                      "x": -120,
+                                      "y": 60
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 255,
+                                    "g": 0,
+                                    "b": 255
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "con"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u_s"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "u"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -12,
+                                      "y": 30
+                                    },
+                                    {
+                                      "x": -90,
+                                      "y": 30
+                                    },
+                                    {
+                                      "x": -90,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": -120,
+                                      "y": 0
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "u_m"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "con"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u_m"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 0,
+                                      "y": -120
+                                    },
+                                    {
+                                      "x": 0,
+                                      "y": 18
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -90,
+                                        "y": -50
+                                      },
+                                      {
+                                        "x": 96,
+                                        "y": -96
+                                      }
+                                    ],
+                                    "textString": ",textString=",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nMay 2, 2021, by Michael Wetter:<br/>\nChanged controller to the version from <code>Buildings.Controls.OBC.CDL</code>,\nand enabled reset trigger.\n</li>\n<li>\nDecember 20, 2016, by Michael Wetter:<br/>\nAdded type conversion for enumeration when used as an array index.<br/>\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/602\\\">#602</a>.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nPI controller for the fan speed. The controller outputs <i>y = 0</i> if the fan control signal is off, e.g., if <code>uFan = false</code>.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/Examples/VAVReheat/BaseClasses/Controls/FanVFD.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/FanVFD.mo",
+  "checksum": "e2eebb4efc40d34f3320e34f4fd9887e"
+}

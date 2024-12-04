@@ -1,0 +1,823 @@
+{
+  "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+  "class_definition": [
+    {
+      "class_prefixes": "model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "FreezeStat",
+          "description_string": "Freeze thermostat with timed lockout",
+          "composition": {
+            "element_list": [
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "lockoutTime",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Time\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"s\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"min\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "60"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "900"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Delay time"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TSet",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"ThermodynamicTemperature\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"K\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"degC\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "276.15"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Temperature below which the freeze protection starts"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.Controls.OBC.CDL.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "u",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"ThermodynamicTemperature\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"K\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"degC\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Connector of Real input signal used as measurement signal",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": -20
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.Controls.OBC.CDL.Interfaces.BooleanOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "y"
+                      },
+                      "description": {
+                        "description_string": "Connector of Real output signal used as actuator signal",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": -20
+                                      },
+                                      {
+                                        "x": 140,
+                                        "y": 20
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.Controls.OBC.CDL.Logical.TrueDelay",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "locOut",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "delayTime",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "lockoutTime"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "If freeze stat triggers, keep it on for specified time",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -10,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 10,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.Controls.OBC.CDL.Logical.Not",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "freStaSig"
+                      },
+                      "description": {
+                        "description_string": "Signal for freeze stat",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 40,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 60,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.Controls.OBC.CDL.Reals.GreaterThreshold",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "greThr",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "t",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "TSet"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "h",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0.5"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Greater comparison",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -60,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": -40,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "locOut"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "freStaSig"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 12,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": 38,
+                                      "y": 0
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 255,
+                                    "g": 0,
+                                    "b": 255
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "freStaSig"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 62,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": 120,
+                                      "y": 0
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 255,
+                                    "g": 0,
+                                    "b": 255
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "greThr"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "locOut"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -38,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": -12,
+                                      "y": 0
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 255,
+                                    "g": 0,
+                                    "b": 255
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "greThr"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "u"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -62,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": -120,
+                                      "y": 0
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "preserveAspectRatio": "false"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -100,
+                                        "y": 100
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": -100
+                                      }
+                                    ],
+                                    "borderPattern": "BorderPattern.Raised",
+                                    "fillColor": {
+                                      "r": 210,
+                                      "g": 210,
+                                      "b": 210
+                                    },
+                                    "fillPattern": "FillPattern.Solid",
+                                    "lineThickness": 5
+                                  }
+                                },
+                                {
+                                  "name": "Ellipse",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": 71,
+                                        "y": 7
+                                      },
+                                      {
+                                        "x": 85,
+                                        "y": -7
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 235,
+                                      "g": 235,
+                                      "b": null
+                                    },
+                                    "fillColor": {
+                                      "r": 235,
+                                      "g": 235,
+                                      "b": null
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -160,
+                                        "y": 140
+                                      },
+                                      {
+                                        "x": 140,
+                                        "y": 100
+                                      }
+                                    ],
+                                    "textString": "\"%name\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Diagram",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "preserveAspectRatio": "false"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nFreeze stat that outputs <code>true</code> if freeze protection should be engaged.\n</p>\n<p>\nThe freeze stat regulates around a set point. When it triggers freeze protection,\nthen the freeze protection stays engaged for at least <code>delayTime</code>.\nIt only becomes disengaged after this time period if the measured temperature is above\nthe set point.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nApril 26, 2022, by Michael Wetter:<br/>\nEnabled hysteresis for freeze stat. This is required to avoid simulation to stall.<br/>\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2975\\\">#2975</a>.\n</li>\n<li>\nApril 23, 2021, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/Examples/VAVReheat/BaseClasses/Controls/FreezeStat.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/FreezeStat.mo",
+  "checksum": "3ead40376f9ab133857083ace5fb46a1"
+}

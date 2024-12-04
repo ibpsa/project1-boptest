@@ -1,0 +1,852 @@
+{
+  "instances": {
+    "RadiationBaseData": {
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nRecord that defines basic parameters for the window radiation calculation.\nThe parameter <code>NSta</code> is the number of states. Regular glass\nhas <code>NSta=1</code>, whereas electrochromic windows have <code>NSta &gt; 1</code>.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nAugust 7, 2015, by Michael Wetter:<br/>\nRevised model to allow modeling of electrochromic windows.\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/445\\\">issue 445</a>.\n</li>\n<li>\nDecember 12, 2011, by Wangda Zuo:<br/>\nAdd glass thickness as a parameter. It is needed by the calculation of property\nfor uncoated glass.\n</li>\n<li>\nDecember 16, 2010, by Wangda Zuo:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "N": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationBaseData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "N",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Number of glass layers",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Glass\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Glass\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo"
+    },
+    "NSta": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationBaseData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NSta",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "size",
+                  "arguments": [
+                    {
+                      "name": "tauGlaSol"
+                    },
+                    {
+                      "name": "2"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of window states for electrochromic windows (set to 1 for regular windows)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo"
+    },
+    "xGla": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationBaseData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "xGla",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Thickness of glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Glass\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Glass\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo"
+    },
+    "tauGlaSol": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.TransmissionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationBaseData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tauGlaSol",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "colon_op": true
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Solar transmissivity of glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Glass\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Glass\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo"
+    },
+    "rhoGlaSol_a": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.ReflectionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationBaseData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "rhoGlaSol_a",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Solar reflectivity of glass at surface a (facing outside)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Glass\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Glass\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo"
+    },
+    "rhoGlaSol_b": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.ReflectionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationBaseData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "rhoGlaSol_b",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Solar reflectivity of glass at surface b (facing room-side)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Glass\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Glass\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo"
+    },
+    "tauShaSol_a": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.TransmissionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationBaseData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tauShaSol_a"
+        },
+        "description": {
+          "description_string": "Solar transmissivity of shade for irradiation from air-side",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Shade\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Shade\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo"
+    },
+    "tauShaSol_b": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.TransmissionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationBaseData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tauShaSol_b"
+        },
+        "description": {
+          "description_string": "Solar transmissivity of shade for irradiation from glass-side",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Shade\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Shade\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo"
+    },
+    "rhoShaSol_a": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.ReflectionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationBaseData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "rhoShaSol_a"
+        },
+        "description": {
+          "description_string": "Solar reflectivity of shade for irradiation from air-side",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Shade\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Shade\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo"
+    },
+    "rhoShaSol_b": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.ReflectionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationBaseData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "rhoShaSol_b"
+        },
+        "description": {
+          "description_string": "Solar reflectivity of shade for irradiation from glass-side",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Shade\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Shade\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationBaseData.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Icons.Record",
+        "long_class_specifier_identifier": "RadiationBaseData",
+        "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ]
+  }
+}

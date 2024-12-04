@@ -1,0 +1,450 @@
+@prefix bacnet: <http://data.ashrae.org/bacnet/2020#> .
+@prefix bldg: <urn:bldg/> .
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix om: <http://openmetrics.eu/openmetrics#> .
+
+bldg:Building a brick:Building ;
+brick:hasPart 
+	bldg:hvac_cor_zone, 
+	bldg:hvac_eas_zone,
+	bldg:hvac_nor_zone,
+	bldg:hvac_sou_zone,	
+	bldg:hvac_wes_zone.
+
+bldg:hvac_cor_zone a brick:Zone ;
+brick:hasPoint 
+        bldg:hvac_oveZonSupCor_TZonCooSet_u,
+        bldg:hvac_oveZonSupCor_TZonHeaSet_u,
+       	bldg:hvac_reaZonCor_TZon_y ,
+	    bldg:LowerSetp_cor,
+	    bldg:UpperSetp_cor,
+        bldg:occ_cor ,
+        bldg:hvac_reaZonCor_CO2Zon_y ,
+        bldg:hvac_reaZonCor_V_flow_y .
+
+bldg:hvac_eas_zone a brick:Zone ;
+brick:hasPoint 
+        bldg:hvac_oveZonSupEas_TZonCooSet_u,
+        bldg:hvac_oveZonSupEas_TZonHeaSet_u,
+        bldg:hvac_reaZonEas_TZon_y ,
+	    bldg:LowerSetp_eas,
+	    bldg:UpperSetp_eas,
+        bldg:occ_eas ,
+        bldg:hvac_reaZonEas_CO2Zon_y ,
+        bldg:hvac_reaZonEas_V_flow_y .
+
+bldg:hvac_nor_zone a brick:Zone ;
+brick:hasPoint  
+        bldg:hvac_oveZonSupNor_TZonCooSet_u,
+        bldg:hvac_oveZonSupNor_TZonHeaSet_u,
+        bldg:hvac_reaZonNor_TZon_y ,
+	    bldg:LowerSetp_nor,
+	    bldg:UpperSetp_nor,
+        bldg:occ_nor ,
+        bldg:hvac_reaZonNor_CO2Zon_y ,
+        bldg:hvac_reaZonNor_V_flow_y .
+
+bldg:hvac_sou_zone a brick:Zone ;
+brick:hasPoint
+        bldg:hvac_oveZonSupSou_TZonCooSet_u,
+        bldg:hvac_oveZonSupSou_TZonHeaSet_u,
+        bldg:hvac_reaZonSou_TZon_y ,
+	    bldg:LowerSetp_sou,
+	    bldg:UpperSetp_sou,
+        bldg:occ_sou ,
+        bldg:hvac_reaZonSou_CO2Zon_y ,
+        bldg:hvac_reaZonSou_V_flow_y .
+
+bldg:hvac_wes_zone a brick:Zone ;
+brick:hasPoint 
+        bldg:hvac_oveZonSupWes_TZonCooSet_u,
+        bldg:hvac_oveZonSupWes_TZonHeaSet_u,
+        bldg:hvac_reaZonWes_TZon_y ,
+	    bldg:LowerSetp_wes,
+	    bldg:UpperSetp_wes,
+        bldg:occ_wes ,
+        bldg:hvac_reaZonWes_CO2Zon_y ,
+        bldg:hvac_reaZonWes_V_flow_y .
+
+
+bldg:hvac_oveZonSupCor_TZonCooSet_u a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_cor_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonSupCor_TZonCooSet_u" ] .
+
+bldg:hvac_oveZonSupCor_TZonHeaSet_u a brick:Zone_Air_Heating_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_cor_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_oveZonSupCor_TZonHeaSet_u" ] .
+
+bldg:hvac_oveZonSupEas_TZonCooSet_u a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_eas_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_oveZonSupEas_TZonCooSet_u" ] .
+
+bldg:hvac_oveZonSupEas_TZonHeaSet_u a brick:Zone_Air_Heating_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_eas_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_oveZonSupEas_TZonHeaSet_u" ] .
+
+bldg:hvac_oveZonSupNor_TZonCooSet_u a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonSupNor_TZonCooSet_u" ] .
+
+bldg:hvac_oveZonSupNor_TZonHeaSet_u a brick:Zone_Air_Heating_Temperature_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonSupNor_TZonHeaSet_u" ] .
+
+bldg:hvac_oveZonSupSou_TZonCooSet_u a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_sou_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonSupSou_TZonCooSet_u" ] .
+
+bldg:hvac_oveZonSupSou_TZonHeaSet_u a brick:Zone_Air_Heating_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_sou_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_oveZonSupSou_TZonHeaSet_u" ] .
+
+bldg:hvac_oveZonSupWes_TZonCooSet_u a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_wes_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonSupWes_TZonCooSet_u" ] .
+
+bldg:hvac_oveZonSupWes_TZonHeaSet_u a brick:Zone_Air_Heating_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_wes_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_oveZonSupWes_TZonHeaSet_u" ] .
+
+
+
+
+bldg:hvac_reaZonWes_TZon_y a brick:Zone_Air_Temperature_Sensor ;
+    brick:hasLocation bldg:hvac_wes_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonWes_TZon_y" ] .
+
+bldg:hvac_reaZonCor_TZon_y a brick:Zone_Air_Temperature_Sensor ;
+    brick:hasLocation bldg:hvac_cor_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaZonCor_TZon_y" ] .
+
+bldg:hvac_reaZonEas_TZon_y a brick:Zone_Air_Temperature_Sensor ;
+    brick:hasLocation bldg:hvac_eas_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonEas_TZon_y" ] .
+
+bldg:hvac_reaZonNor_TZon_y a brick:Zone_Air_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonNor_TZon_y" ] .
+
+bldg:hvac_reaZonSou_TZon_y a brick:Zone_Air_Temperature_Sensor ;
+    brick:hasLocation bldg:hvac_sou_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaZonSou_TZon_y" ] .
+
+
+
+bldg:LowerSetp_wes a brick:Min_Air_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_wes_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "LowerSetp[wes]" ] .
+
+bldg:LowerSetp_cor a brick:Min_Air_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_cor_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "LowerSetp[cor]" ] .
+
+bldg:LowerSetp_eas a brick:Min_Air_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_eas_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "LowerSetp[eas]" ] .
+
+bldg:LowerSetp_nor a brick:Min_Air_Temperature_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "LowerSetp[nor]" ] .
+
+bldg:LowerSetp_sou a brick:Min_Air_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_sou_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "LowerSetp[sou]" ] .
+
+
+
+bldg:UpperSetp_wes a brick:Max_Air_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_wes_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "UpperSetp[wes]" ] .
+
+bldg:UpperSetp_cor a brick:Max_Air_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_cor_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "UpperSetp[cor]" ] .
+
+bldg:UpperSetp_eas a brick:Max_Air_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_eas_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "UpperSetp[eas]" ] .
+
+bldg:UpperSetp_nor a brick:Max_Air_Temperature_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "UpperSetp[nor]" ] .
+
+bldg:UpperSetp_sou a brick:Max_Air_Temperature_Setpoint ;
+    brick:hasLocation bldg:hvac_sou_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "UpperSetp[sou]" ] .
+
+
+
+bldg:occ_wes a brick:Occupancy_Sensor ;
+    brick:hasLocation bldg:hvac_wes_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "Occupancy[wes]" ] .
+
+bldg:occ_cor a brick:Occupancy_Sensor ;
+    brick:hasLocation bldg:hvac_cor_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "Occupancy[cor]" ] .
+
+bldg:occ_eas a brick:Occupancy_Sensor ;
+    brick:hasLocation bldg:hvac_eas_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "Occupancy[eas]" ] .
+
+bldg:occ_nor a brick:Occupancy_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "Occupancy[nor]" ] .
+
+bldg:occ_sou a brick:Occupancy_Sensor ;
+    brick:hasLocation bldg:hvac_sou_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "Occupancy[sou]" ] .
+
+
+
+bldg:hvac_reaZonCor_CO2Zon_y a brick:CO2_Sensor ;
+    brick:hasLocation bldg:hvac_cor_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonCor_CO2Zon_y" ] .
+
+bldg:hvac_reaZonWes_CO2Zon_y a brick:CO2_Sensor ;
+    brick:hasLocation bldg:hvac_wes_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonWes_CO2Zon_y" ] .
+
+bldg:hvac_reaZonNor_CO2Zon_y a brick:CO2_Sensor ;
+    brick:hasLocation bldg:hvac_nor_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonNor_CO2Zon_y" ] .
+
+bldg:hvac_reaZonSou_CO2Zon_y a brick:CO2_Sensor ;
+    brick:hasLocation bldg:hvac_sou_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonSou_CO2Zon_y" ] .
+
+bldg:hvac_reaZonEas_CO2Zon_y a brick:CO2_Sensor ;
+    brick:hasLocation bldg:hvac_eas_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonEas_CO2Zon_y" ] .
+
+
+
+
+bldg:hvac_reaZonCor_V_flow_y a brick:Discharge_Air_Flow_Sensor ;
+    brick:hasLocation bldg:hvac_cor_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonCor_V_flow_y" ] .
+
+
+bldg:hvac_reaZonEas_V_flow_y a brick:Discharge_Air_Flow_Sensor ;
+    brick:hasLocation bldg:hvac_eas_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonEas_V_flow_y" ] .
+
+
+bldg:hvac_reaZonNor_V_flow_y a brick:Discharge_Air_Flow_Sensor ;
+    brick:hasLocation bldg:hvac_nor_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonNor_V_flow_y" ] .
+
+
+bldg:hvac_reaZonSou_V_flow_y a brick:Discharge_Air_Flow_Sensor ;
+    brick:hasLocation bldg:hvac_sou_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonSou_V_flow_y" ] .
+
+
+bldg:hvac_reaZonWes_V_flow_y a brick:Discharge_Air_Flow_Sensor ;
+    brick:hasLocation bldg:hvac_wes_zone ;
+    ref:hasExternalReference [ ref:hasTimeseriesId  "hvac_reaZonWes_V_flow_y" ] .
+
+
+
+
+
+
+
+bldg:hvac_ahu a brick:AHU ;
+    brick:feeds 
+        bldg:vav_wes,
+        bldg:vav_cor,
+        bldg:vav_eas,
+        bldg:vav_nor,
+        bldg:vav_sou ;
+    brick:hasPart 
+        bldg:hvac_fanSup ,
+        bldg:cooling_coil ,
+        bldg:heating_coil ;
+    brick:hasPoint 
+        bldg:hvac_reaAhu_V_flow_sup_y ,
+        bldg:hvac_reaAhu_TSup_y ,
+        bldg:hvac_oveAhu_TSupSet_u ,
+        bldg:hvac_reaAhu_TMix_y ,
+        bldg:hvac_reaAhu_TRet_y ,
+        bldg:hvac_reaAhu_V_flow_ret_y .
+
+bldg:hvac_fanSup a brick:Supply_Fan ;
+    brick:hasPoint bldg:hvac_reaAhu_PFanSup_y ,
+                   bldg:hvac_reaAhu_dp_sup_y .
+
+bldg:hvac_reaAhu_PFanSup_y a brick:Electric_Power_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_PFanSup_y" ] .
+
+bldg:cooling_coil a brick:Cooling_Coil;
+    brick:isFedBy bldg:chiller ;
+    brick:hasPoint bldg:hvac_reaAhu_PPumCoo_y  ,
+                   bldg:hvac_reaAhu_TCooCoiRet_y ,
+                   bldg:hvac_reaAhu_TCooCoiSup_y .
+
+bldg:hvac_reaAhu_PPumCoo_y  a brick:Electric_Power_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_PPumCoo_y" ] .
+
+bldg:heating_coil a brick:Heating_Coil ;
+    brick:isFedBy bldg:heat_pump ;
+    brick:hasPoint bldg:hvac_reaAhu_PPumHea_y  ,
+                   bldg:hvac_reaAhu_THeaCoiRet_y,
+                   bldg:hvac_reaAhu_THeaCoiSup_y.
+
+bldg:hvac_reaAhu_PPumHea_y  a brick:Electric_Power_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_PPumHea_y" ] .
+
+bldg:heat_pump a brick:Pump ; 
+    brick:feeds bldg:hwd_pump ;
+    brick:hasPoint bldg:heaPum_reaPHeaPum_y .
+
+bldg:heaPum_reaPHeaPum_y a brick:Electric_Power_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "heaPum_reaPHeaPum_y" ] .
+
+bldg:hwd_pump a brick:Hot_Water_Pump ;
+    brick:hasPoint bldg:heaPum_reaPPumDis_y .
+
+bldg:heaPum_reaPPumDis_y a brick:Electric_Power_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "heaPum_reaPPumDis_y" ] .
+
+bldg:chiller a brick:Chiller ;
+    brick:feeds bldg:chi_pump ;
+    brick:hasPoint bldg:chi_reaPChi_y .
+
+bldg:chi_reaPChi_y a brick:Electric_Power_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "chi_reaPChi_y" ] .
+
+bldg:chi_pump a brick:Pump ;
+    brick:hasPoint bldg:chi_reaPPumDis_y .
+
+bldg:chi_reaPPumDis_y a brick:Electric_Power_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "chi_reaPPumDis_y" ] .
+
+bldg:hvac_reaAhu_V_flow_sup_y a brick:Supply_Air_Flow_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_V_flow_sup_y" ] .
+    
+bldg:hvac_reaAhu_V_flow_ret_y a brick:Return_Air_Flow_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_V_flow_ret_y" ] .
+
+
+bldg:hvac_reaAhu_TSup_y  a brick:Supply_Air_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_TSup_y" ] .
+
+bldg:hvac_oveAhu_TSupSet_u a brick:Supply_Air_Temperature_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveAhu_TSupSet_u" ] .
+
+bldg:vav_wes a brick:Variable_Air_Volume_Box_With_Reheat;
+    brick:feeds bldg:hvac_wes_zone ;
+    brick:hasPoint 
+        bldg:hvac_oveZonActWes_yDam_u,
+        bldg:hvac_reaZonWes_TSup_y,
+        bldg:hvac_oveZonActWes_yReaHea_u. 
+
+bldg:hvac_oveZonActWes_yDam_u a brick:Damper_Position_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonActWes_yDam_u" ] .
+    
+bldg:hvac_reaZonWes_TSup_y a brick:Discharge_Air_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaZonWes_TSup_y" ] .
+
+
+bldg:vav_cor a brick:Variable_Air_Volume_Box_With_Reheat;
+    brick:feeds bldg:hvac_cor_zone ;
+    brick:hasPoint 
+        bldg:hvac_oveZonActCor_yDam_u,
+        bldg:hvac_reaZonCor_TSup_y,
+        bldg:hvac_oveZonActCor_yReaHea_u. 
+
+bldg:hvac_oveZonActCor_yDam_u a brick:Damper_Position_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonActCor_yDam_u" ] .
+    
+bldg:hvac_reaZonCor_TSup_y a brick:Discharge_Air_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaZonCor_TSup_y" ] .
+
+
+bldg:vav_eas a brick:Variable_Air_Volume_Box_With_Reheat;
+    brick:feeds bldg:hvac_eas_zone ;
+    brick:hasPoint 
+        bldg:hvac_oveZonActEas_yDam_u,
+        bldg:hvac_reaZonEas_TSup_y,
+        bldg:hvac_oveZonActEas_yReaHea_u. 
+
+bldg:hvac_oveZonActEas_yDam_u a brick:Damper_Position_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonActEas_yDam_u" ] .
+    
+bldg:hvac_reaZonEas_TSup_y a brick:Discharge_Air_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaZonEas_TSup_y" ] .
+
+
+bldg:vav_nor a brick:Variable_Air_Volume_Box_With_Reheat;
+    brick:feeds bldg:hvac_nor_zone ;
+    brick:hasPoint 
+        bldg:hvac_oveZonActNor_yDam_u,
+        bldg:hvac_reaZonNor_TSup_y,
+        bldg:hvac_oveZonActNor_yReaHea_u. 
+
+bldg:hvac_oveZonActNor_yDam_u a brick:Damper_Position_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonActNor_yDam_u" ] .
+    
+bldg:hvac_reaZonNor_TSup_y a brick:Discharge_Air_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaZonNor_TSup_y" ] .
+
+
+bldg:vav_sou a brick:Variable_Air_Volume_Box_With_Reheat;
+    brick:feeds bldg:hvac_sou_zone ;
+    brick:hasPoint 
+        bldg:hvac_oveZonActSou_yDam_u,
+        bldg:hvac_reaZonSou_TSup_y,
+        bldg:hvac_oveZonActSou_yReaHea_u. 
+
+bldg:hvac_oveZonActSou_yDam_u a brick:Damper_Position_Setpoint ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonActSou_yDam_u" ] .
+    
+bldg:hvac_reaZonSou_TSup_y a brick:Discharge_Air_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaZonSou_TSup_y" ] .
+
+
+
+
+bldg:hvac_oveZonActCor_yReaHea_u a brick:Valve_Command ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonActCor_yReaHea_u" ] .
+
+
+bldg:hvac_oveZonActEas_yReaHea_u a brick:Valve_Command ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonActEas_yReaHea_u" ] .
+    
+
+bldg:hvac_oveZonActNor_yReaHea_u a brick:Valve_Command ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonActNor_yReaHea_u" ] .
+   
+
+bldg:hvac_oveZonActSou_yReaHea_u a brick:Valve_Command ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonActSou_yReaHea_u" ] .
+   
+
+bldg:hvac_oveZonActWes_yReaHea_u a brick:Valve_Command ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_oveZonActWes_yReaHea_u" ] .
+
+
+
+bldg:hvac_reaAhu_TCooCoiRet_y a brick:Chilled_Water_Return_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_TCooCoiRet_y" ] .
+
+bldg:hvac_reaAhu_TCooCoiSup_y a brick:Chilled_Water_Supply_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_TCooCoiSup_y" ] .
+
+bldg:hvac_reaAhu_THeaCoiRet_y a brick:Hot_Water_Return_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_THeaCoiRet_y" ] .
+
+bldg:hvac_reaAhu_THeaCoiSup_y a brick:Hot_Water_Supply_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_THeaCoiSup_y" ] .
+
+
+
+
+bldg:hvac_reaAhu_TMix_y a brick:Mixed_Air_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_TMix_y" ] .
+
+bldg:hvac_reaAhu_TRet_y a brick:Return_Air_Temperature_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_TRet_y" ] .
+
+
+bldg:hvac_reaAhu_dp_sup_y a brick:Discharge_Air_Static_Pressure_Sensor ;
+    ref:hasExternalReference [ ref:hasTimeseriesId "hvac_reaAhu_dp_sup_y" ] .

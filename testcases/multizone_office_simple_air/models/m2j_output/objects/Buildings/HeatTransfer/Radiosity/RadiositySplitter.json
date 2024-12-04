@@ -1,0 +1,870 @@
+{
+  "instances": {
+    "RadiositySplitter": {
+      "within": "Buildings.HeatTransfer.Radiosity",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Radiosity/RadiositySplitter.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"radSpl\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis blocks splits the incoming radiosity into two fluxes according to\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  J<sub>Out,1</sub> = u J<sub>In</sub>,<br/>\n  J<sub>Out,2</sub> = (1-u)  J<sub>In</sub>.\n</p>\n<p>\nThis block may be used to split the radiosity flux into a fraction that\nstrikes the shaded part of a window, and a fraction that strikes the\nnon-shaded part.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nJune 27, 2013, by Michael Wetter:<br/>\nChanged model because the outflowing radiosity has been changed to be a non-negative quantity.\nSee track issue <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/158\\\">#158</a>.\n</li>\n<li>\nOctober 23 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -100,
+                                  "y": 60
+                                },
+                                {
+                                  "x": -40,
+                                  "y": 60
+                                },
+                                {
+                                  "x": -30,
+                                  "y": 40
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -100,
+                                  "y": -60
+                                },
+                                {
+                                  "x": -40,
+                                  "y": -60
+                                },
+                                {
+                                  "x": -30,
+                                  "y": -40
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 50,
+                                  "y": 0
+                                },
+                                {
+                                  "x": 100,
+                                  "y": 0
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -30,
+                                  "y": 0
+                                },
+                                {
+                                  "x": 30,
+                                  "y": 0
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -15,
+                                  "y": 25.99
+                                },
+                                {
+                                  "x": 15,
+                                  "y": -25.99
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -15,
+                                  "y": -25.99
+                                },
+                                {
+                                  "x": 15,
+                                  "y": 25.99
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -50,
+                                  "y": 50
+                                },
+                                {
+                                  "x": 50,
+                                  "y": -50
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 102,
+                                  "y": 60
+                                },
+                                {
+                                  "x": 42,
+                                  "y": 60
+                                },
+                                {
+                                  "x": 32,
+                                  "y": 40
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 102,
+                                  "y": -60
+                                },
+                                {
+                                  "x": 42,
+                                  "y": -60
+                                },
+                                {
+                                  "x": 32,
+                                  "y": -40
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -100,
+                                  "y": -100
+                                },
+                                {
+                                  "x": 100,
+                                  "y": 100
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -100,
+                                  "y": 60
+                                },
+                                {
+                                  "x": -40,
+                                  "y": 60
+                                },
+                                {
+                                  "x": -30,
+                                  "y": 40
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -100,
+                                  "y": -60
+                                },
+                                {
+                                  "x": -40,
+                                  "y": -60
+                                },
+                                {
+                                  "x": -30,
+                                  "y": -40
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 50,
+                                  "y": 0
+                                },
+                                {
+                                  "x": 100,
+                                  "y": 0
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -30,
+                                  "y": 0
+                                },
+                                {
+                                  "x": 30,
+                                  "y": 0
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -15,
+                                  "y": 25.99
+                                },
+                                {
+                                  "x": 15,
+                                  "y": -25.99
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -15,
+                                  "y": -25.99
+                                },
+                                {
+                                  "x": 15,
+                                  "y": 25.99
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -50,
+                                  "y": 50
+                                },
+                                {
+                                  "x": 50,
+                                  "y": -50
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 100,
+                                  "y": 60
+                                },
+                                {
+                                  "x": 40,
+                                  "y": 60
+                                },
+                                {
+                                  "x": 30,
+                                  "y": 40
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 100,
+                                  "y": -60
+                                },
+                                {
+                                  "x": 40,
+                                  "y": -60
+                                },
+                                {
+                                  "x": 30,
+                                  "y": -40
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "JIn": {
+      "type_specifier": "Interfaces.RadiosityInflow",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiositySplitter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JIn"
+        },
+        "description": {
+          "description_string": "Inflowing radiosity",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -120,
+                          "y": 50
+                        },
+                        {
+                          "x": -100,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -120,
+                      "y": 50
+                    },
+                    {
+                      "x": -100,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Radiosity",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Radiosity/RadiositySplitter.mo"
+    },
+    "u": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiositySplitter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "u",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "u times incoming radiosity",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -80
+                        },
+                        {
+                          "x": -100,
+                          "y": -40
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -80
+                        },
+                        {
+                          "x": -100,
+                          "y": -40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -80
+                    },
+                    {
+                      "x": -100,
+                      "y": -40
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -80
+                    },
+                    {
+                      "x": -100,
+                      "y": -40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Radiosity",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Radiosity/RadiositySplitter.mo"
+    },
+    "JOut_1": {
+      "type_specifier": "Interfaces.RadiosityOutflow",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiositySplitter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JOut_1"
+        },
+        "description": {
+          "description_string": "u times incoming radiosity",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 50
+                        },
+                        {
+                          "x": 120,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 50
+                    },
+                    {
+                      "x": 120,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Radiosity",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Radiosity/RadiositySplitter.mo"
+    },
+    "JOut_2": {
+      "type_specifier": "Interfaces.RadiosityOutflow",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiositySplitter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JOut_2"
+        },
+        "description": {
+          "description_string": "(1-u) times incoming radiosity",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -70
+                        },
+                        {
+                          "x": 120,
+                          "y": -50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -70
+                    },
+                    {
+                      "x": 120,
+                      "y": -50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Radiosity",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Radiosity/RadiositySplitter.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Blocks.Icons.Block",
+        "long_class_specifier_identifier": "RadiositySplitter",
+        "within": "Buildings.HeatTransfer.Radiosity",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {}
+  }
+}

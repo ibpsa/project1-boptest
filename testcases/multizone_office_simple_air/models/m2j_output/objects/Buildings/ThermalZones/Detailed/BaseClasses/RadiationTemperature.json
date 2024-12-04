@@ -1,0 +1,1630 @@
+{
+  "instances": {
+    "RadiationTemperature": {
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "preferredView",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"info\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -240,
+                              "y": -240
+                            },
+                            {
+                              "x": 240,
+                              "y": 240
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -240,
+                              "y": -240
+                            },
+                            {
+                              "x": 240,
+                              "y": 240
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -144,
+                                  "y": -8
+                                },
+                                {
+                                  "x": 146,
+                                  "y": -8
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "thickness": 0.5,
+                              "smooth": "Smooth.None"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 2,
+                                  "y": -200
+                                },
+                                {
+                                  "x": 2,
+                                  "y": 184
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "thickness": 0.5,
+                              "smooth": "Smooth.None"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis model computes the radiative temperature in the room.\nFor a room with windows but no shade, the radiative temperature is\ncomputed as\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  T<sub>rad</sub> = &sum;<sub>i</sub> &nbsp; (A<sup>i</sup> &nbsp; &epsilon;<sup>i</sup> &nbsp; T<sup>i</sup>)\n  &frasl;\n  &sum;<sub>i</sub> &nbsp; (A<sup>i</sup> &nbsp; &epsilon;<sup>i</sup>)\n</p>\n<p>\nwhere\n<i>T<sub>rad</sub></i> is the radiative temperature of the room,\n<i>A<sup>i</sup></i> are the surface areas of the room,\n<i>&epsilon;<sup>i</sup></i> are the infrared emissivities of the surfaces, and\n<i>T<sup>i</sup></i> are the surface temperatures.\n</p>\n<p>\nIf a the windows have a shade, then the equation is modified to take the actual shaded and non-shaded\nsurface area into account. In this situation, the shaded part of a window has a infrared radiative power\nof</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n E = A &nbsp; ( u &nbsp; &epsilon;<sub>s</sub> &nbsp; T<sub>s</sub> +\n   (1-u) &nbsp; &epsilon;<sub>g</sub> &tau;<sub>s</sub> &nbsp; T<sub>gs</sub>)\n</p>\n<p>\nwhere\n<i>A</i> is the surface area of the glass,\n<i>u</i> is the control signal of the shade,\n<i>&epsilon;<sub>s</sub></i> is the infrared absorptivity of the shade,\n<i>T<sub>s</sub></i> is the temperature of the shade,\n<i>&epsilon;<sub>g</sub></i> is the infrared absorptivity of the glass,\n<i>&tau;<sub>s</sub></i> is the infrared transmittance of the shade, and\n<i>T<sub>gs</sub></i> is the glass temperature behind the shade.\n</p>\n<p>\nFor the unshaded part of the window, the radiative power is\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n E = A &nbsp; (1-u) &nbsp; &epsilon;<sub>g</sub> &nbsp; T<sub>gn</sub>\n</p>\n<p>where\n<i>T<sub>gn</sub></i> is the glass temperature of the non-shaded part of the window.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nMarch 13, 2015, by Michael Wetter:<br/>\nChanged model to avoid a translation error\nin OpenModelica.\n</li>\n<li>\nJuly 16, 2013, by Michael Wetter:<br/>\nAdded assignment of heat port temperature instead of heat flow rate\nfor the cases where a construction has been conditionally removed.\nThis is required to avoid a singularity.\n</li>\n<li>\nMarch 29 2011, by Michael Wetter:<br/>\nRewrote sum for the radiation temperature.\n</li>\n<li>\nJan. 18 2011, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "glaUns": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "glaUns",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveConExtWin"
+          }
+        },
+        "description": {
+          "description_string": "Heat port that connects to room-side surface of unshaded glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 230,
+                          "y": 110
+                        },
+                        {
+                          "x": 250,
+                          "y": 130
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 230,
+                      "y": 110
+                    },
+                    {
+                      "x": 250,
+                      "y": 130
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "glaSha": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "glaSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Heat port that connects to room-side surface of shaded glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 230,
+                          "y": 70
+                        },
+                        {
+                          "x": 250,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 230,
+                      "y": 70
+                    },
+                    {
+                      "x": 250,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "sha": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Heat port that connects to shade",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 230,
+                          "y": 28
+                        },
+                        {
+                          "x": 250,
+                          "y": 48
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 230,
+                      "y": 28
+                    },
+                    {
+                      "x": 250,
+                      "y": 48
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "haveShade": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "haveShade"
+        },
+        "description": {
+          "description_string": "Set to true if the windows have a shade",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "HideResult",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "HideResult",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "uSha": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "uSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Control signal for the shading device (removed if no shade is present)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -280,
+                          "y": 160
+                        },
+                        {
+                          "x": -240,
+                          "y": 200
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -280,
+                          "y": 160
+                        },
+                        {
+                          "x": -240,
+                          "y": 200
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -280,
+                      "y": 160
+                    },
+                    {
+                      "x": -240,
+                      "y": 200
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -280,
+                      "y": 160
+                    },
+                    {
+                      "x": -240,
+                      "y": 200
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "TRad": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRad",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"degC\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Radiative temperature",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -240,
+                          "y": -190
+                        },
+                        {
+                          "x": -260,
+                          "y": -170
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -240,
+                          "y": -194
+                        },
+                        {
+                          "x": -260,
+                          "y": -174
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -240,
+                      "y": -190
+                    },
+                    {
+                      "x": -260,
+                      "y": -170
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -240,
+                      "y": -194
+                    },
+                    {
+                      "x": -260,
+                      "y": -174
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "NOpa": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NOpa",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "NConExt +2*NConExtWin +2*NConPar +NConBou +NSurBou"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of opaque surfaces, including the window frame"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "NWin": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NWin",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "NConExtWin"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of window surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "NTot": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NTot",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "NOpa +NWin"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Total number of surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "AGla": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "AGla",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NWin"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "datConExtWin.AGla"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Surface area of opaque surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "epsGla": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "epsGla",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "for_loop": {
+                  "expression": {
+                    "simple_expression": "datConExtWin[i].glaSys.glass[[object Object]].absIR_b"
+                  },
+                  "for_loop": [
+                    {
+                      "name": "i",
+                      "range": "1:NWin"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Absorptivity of glass"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "epsSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "epsSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "for_loop": {
+                  "expression": {
+                    "simple_expression": "datConExtWin[i].glaSys.shade.absIR_a"
+                  },
+                  "for_loop": [
+                    {
+                      "name": "i",
+                      "range": "1:NWin"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Absorptivity of shade"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "tauSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tauSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "for_loop": {
+                  "expression": {
+                    "simple_expression": {
+                      "if_expression": [
+                        {
+                          "if_elseif": [
+                            {
+                              "condition": "datConExtWin[i].glaSys.haveInteriorShade",
+                              "then": "datConExtWin[i].glaSys.shade.tauIR_a"
+                            }
+                          ],
+                          "else": "1"
+                        }
+                      ]
+                    }
+                  },
+                  "for_loop": [
+                    {
+                      "name": "i",
+                      "range": "1:NWin"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Transmissivity of shade"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "epsAOpa": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "epsAOpa",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NOpa"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Product of area times absorptivity of opaque surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "epsAGla": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "epsAGla",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Product of area times absorptivity of window surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "epsASha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "epsASha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Product of area times absorptivity of window shade"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "epsTauASha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "epsTauASha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Product of area times glass absorptivity times shade transmittance"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "TOpa": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TOpa",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NOpa"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Temperature of opaque surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "TGlaUns": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TGlaUns",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Temperature of unshaded part of glass"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "TGlaSha": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TGlaSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Temperature of shaded part of glass"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "TSha": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Temperature of shade"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "glaUns_internal": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "glaUns_internal",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Heat port that connects to room-side surface of unshaded glass"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "glaSha_internal": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "glaSha_internal",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Heat port that connects to room-side surface of shaded glass"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "sha_internal": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sha_internal",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Heat port that connects to shade"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    },
+    "uSha_internal": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "RadiationTemperature",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "uSha_internal",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Control signal for the shading device"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.ThermalZones.Detailed.BaseClasses.PartialSurfaceInterfaceRadiative",
+        "long_class_specifier_identifier": "RadiationTemperature",
+        "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "glaUns": [
+        "glaUns_internal"
+      ],
+      "glaSha": [
+        "glaSha_internal"
+      ],
+      "sha": [
+        "sha_internal"
+      ],
+      "uSha": [
+        "uSha_internal"
+      ]
+    }
+  }
+}

@@ -1,0 +1,2117 @@
+{
+  "instances": {
+    "AirToWaterHeatPump": {
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "TSetHws": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TSetHws",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "TSetSup"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Heat pump water supply temperature set point",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": 80
+                        },
+                        {
+                          "x": 40,
+                          "y": 100
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": 80
+                    },
+                    {
+                      "x": 40,
+                      "y": 100
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "conSou": {
+      "type_specifier": "Buildings.Fluid.Sources.MassFlowSource_WeatherData",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conSou",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumA"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "m_flow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "heaPum.m2_flow_nominal"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nPorts",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Source for condenser air",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -80,
+                          "y": 20
+                        },
+                        {
+                          "x": -60,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -80,
+                      "y": 20
+                    },
+                    {
+                      "x": -60,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "conSin": {
+      "type_specifier": "Buildings.Fluid.Sources.Boundary_pT",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conSin",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumA"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nPorts",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Sink for condenser air flow",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 20
+                        },
+                        {
+                          "x": 80,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 20
+                    },
+                    {
+                      "x": 80,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "ret": {
+      "type_specifier": "Modelica.Fluid.Interfaces.FluidPort_a",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "ret",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumW"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Return water port",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 90,
+                          "y": -10
+                        },
+                        {
+                          "x": 110,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 90,
+                      "y": -10
+                    },
+                    {
+                      "x": 110,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "sup": {
+      "type_specifier": "Modelica.Fluid.Interfaces.FluidPort_b",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sup",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumW"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Supply water port",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -110,
+                          "y": -10
+                        },
+                        {
+                          "x": -90,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -110,
+                      "y": -10
+                    },
+                    {
+                      "x": -90,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "weaBus": {
+      "type_specifier": "Buildings.BoundaryConditions.WeatherData.Bus",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "weaBus"
+        },
+        "description": {
+          "description_string": "Bus with weather data",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -110,
+                          "y": 90
+                        },
+                        {
+                          "x": -90,
+                          "y": 110
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -110,
+                      "y": 90
+                    },
+                    {
+                      "x": -90,
+                      "y": 110
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "PHeaPum": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "PHeaPum"
+        },
+        "description": {
+          "description_string": "Electric power consumed by heat pump",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 90
+                        },
+                        {
+                          "x": 120,
+                          "y": 110
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 90
+                    },
+                    {
+                      "x": 120,
+                      "y": 110
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "reaPHeaPum": {
+      "type_specifier": "Buildings.Utilities.IO.SignalExchange.Read",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "reaPHeaPum",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "description",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Electric power consumed by heat pump\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "KPIs",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "unit",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"W\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Electric power consumed by heat pump",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 76,
+                          "y": 90
+                        },
+                        {
+                          "x": 96,
+                          "y": 110
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 76,
+                      "y": 90
+                    },
+                    {
+                      "x": 96,
+                      "y": 110
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "TSetSup": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TSetSup"
+        },
+        "description": {
+          "description_string": "Supply water temperature set point"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "QCon_flow_max": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QCon_flow_max",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Modelica.Constants.inf"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Maximum heat flow rate for heating"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "dp_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.PressureDifference",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dp_nominal",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "45000"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Nominal pump head"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "heaPum": {
+      "type_specifier": "Buildings.Fluid.HeatPumps.Carnot_TCon",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "heaPum",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium1",
+                      "value": {
+                        "name": "MediumW"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium2",
+                      "value": {
+                        "name": "MediumA"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "QCon_flow_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "QCon_flow_max"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "etaCarnot_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.3"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "dp1_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "dp2_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "QCon_flow_max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "QCon_flow_max"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 40,
+                          "y": 16
+                        },
+                        {
+                          "x": 20,
+                          "y": -4
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 40,
+                      "y": 16
+                    },
+                    {
+                      "x": 20,
+                      "y": -4
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "senSupFlo": {
+      "type_specifier": "Buildings.Fluid.Sensors.VolumeFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "senSupFlo",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumW"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "m_flow_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "heaPum.m1_flow_nominal"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Supply flow sensor for heat pump",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -70,
+                          "y": -10
+                        },
+                        {
+                          "x": -90,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -70,
+                      "y": -10
+                    },
+                    {
+                      "x": -90,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "senTemRet": {
+      "type_specifier": "Buildings.Fluid.Sensors.TemperatureTwoPort",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "senTemRet",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumW"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "m_flow_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "heaPum.m1_flow_nominal"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Return water tempearture sensor",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 80,
+                          "y": 10
+                        },
+                        {
+                          "x": 60,
+                          "y": -10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 80,
+                      "y": 10
+                    },
+                    {
+                      "x": 60,
+                      "y": -10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "reaTRet": {
+      "type_specifier": "Buildings.Utilities.IO.SignalExchange.Read",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "reaTRet",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "description",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Return water temperature of heat pump\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "KPIs",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "unit",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"K\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Return water temperature of heat pump",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": -60
+                        },
+                        {
+                          "x": 80,
+                          "y": -40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": -60
+                    },
+                    {
+                      "x": 80,
+                      "y": -40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "reaFloSup": {
+      "type_specifier": "Buildings.Utilities.IO.SignalExchange.Read",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "reaFloSup",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "description",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Supply water flow rate of heat pump\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "KPIs",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "unit",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"m3/s\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Supply water flow rate of heat pump",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -80
+                        },
+                        {
+                          "x": -20,
+                          "y": -60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -80
+                    },
+                    {
+                      "x": -20,
+                      "y": -60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "pum": {
+      "type_specifier": "Buildings.Fluid.Movers.FlowControlled_dp",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "pum",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumW"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "m_flow_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "heaPum.m1_flow_nominal"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "addPowerToMedium",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "dp_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "dp_nominal"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Heat pump water pump",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -30
+                        },
+                        {
+                          "x": -40,
+                          "y": -10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -30
+                    },
+                    {
+                      "x": -40,
+                      "y": -10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "senTemSup": {
+      "type_specifier": "Buildings.Fluid.Sensors.TemperatureTwoPort",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "senTemSup",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumW"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "m_flow_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "heaPum.m1_flow_nominal"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Return water tempearture sensor",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": -20
+                      },
+                      "extent": [
+                        {
+                          "x": 10,
+                          "y": 10
+                        },
+                        {
+                          "x": -10,
+                          "y": -10
+                        }
+                      ],
+                      "rotation": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": -20
+                  },
+                  "extent": [
+                    {
+                      "x": 10,
+                      "y": 10
+                    },
+                    {
+                      "x": -10,
+                      "y": -10
+                    }
+                  ],
+                  "rotation": 0
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "refPres": {
+      "type_specifier": "Buildings.Fluid.Sources.Boundary_pT",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "refPres",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumW"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nPorts",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Reference pressure",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -80,
+                          "y": -80
+                        },
+                        {
+                          "x": -60,
+                          "y": -60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -80,
+                      "y": -80
+                    },
+                    {
+                      "x": -60,
+                      "y": -60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "dp": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dp",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "dp_nominal"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Chilled water pump",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": 80
+                        },
+                        {
+                          "x": -40,
+                          "y": 100
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": 80
+                    },
+                    {
+                      "x": -40,
+                      "y": 100
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "reaTSup": {
+      "type_specifier": "Buildings.Utilities.IO.SignalExchange.Read",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "reaTSup",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "description",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Supply water temperature of heat pump\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "KPIs",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "unit",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"K\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Supply water temperature of heat pump",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": -90
+                        },
+                        {
+                          "x": 80,
+                          "y": -70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": -90
+                    },
+                    {
+                      "x": 80,
+                      "y": -70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "reaPPumDis": {
+      "type_specifier": "Buildings.Utilities.IO.SignalExchange.Read",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "reaPPumDis",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "description",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Electric power consumed by hot water distribution pump\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "KPIs",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "unit",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"W\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Electric power consumed by distribution pump",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 76,
+                          "y": 70
+                        },
+                        {
+                          "x": 96,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 76,
+                      "y": 70
+                    },
+                    {
+                      "x": 96,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    },
+    "PPum": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "AirToWaterHeatPump",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "PPum"
+        },
+        "description": {
+          "description_string": "Electric power consumed by distribution pump",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 70
+                        },
+                        {
+                          "x": 120,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 70
+                    },
+                    {
+                      "x": 120,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/AirToWaterHeatPump.mo"
+    }
+  },
+  "requiredReferences": {
+    "connections": {
+      "conSou.weaBus": [
+        "weaBus"
+      ],
+      "reaPHeaPum.y": [
+        "PHeaPum"
+      ],
+      "TSetHws.y": [
+        "heaPum.TSet"
+      ],
+      "conSou.ports[1]": [
+        "heaPum.port_a2"
+      ],
+      "heaPum.port_b2": [
+        "conSin.ports[1]"
+      ],
+      "reaPHeaPum.u": [
+        "heaPum.P"
+      ],
+      "senSupFlo.port_b": [
+        "sup"
+      ],
+      "ret": [
+        "senTemRet.port_a"
+      ],
+      "senTemRet.port_b": [
+        "heaPum.port_a1"
+      ],
+      "senTemRet.T": [
+        "reaTRet.u"
+      ],
+      "senSupFlo.V_flow": [
+        "reaFloSup.u"
+      ],
+      "heaPum.port_b1": [
+        "senTemSup.port_a"
+      ],
+      "senTemSup.port_b": [
+        "pum.port_a"
+      ],
+      "pum.port_b": [
+        "senSupFlo.port_a"
+      ],
+      "refPres.ports[1]": [
+        "senSupFlo.port_a"
+      ],
+      "dp.y": [
+        "pum.dp_in"
+      ],
+      "senTemSup.T": [
+        "reaTSup.u"
+      ],
+      "reaPPumDis.y": [
+        "PPum"
+      ],
+      "reaPPumDis.u": [
+        "pum.P"
+      ]
+    }
+  }
+}

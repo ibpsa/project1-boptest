@@ -1,0 +1,3813 @@
+{
+  "within": "Buildings.Fluid.Chillers.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "partial model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "Carnot",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Buildings.Fluid.Interfaces.PartialFourPortInterface",
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "m1_flow_nominal",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "QCon_flow_nominal/cp1_default/dTCon_nominal"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "m2_flow_nominal",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "QEva_flow_nominal/cp2_default/dTEva_nominal"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "constant",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "homotopyInitialization",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "true"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "= true, use homotopy method",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "HideResult",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "true"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "QEva_flow_nominal",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "max",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Nominal cooling heat flow rate (QEva_flow_nominal < 0)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Nominal condition\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "QCon_flow_nominal",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Nominal heating flow rate",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Nominal condition\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.TemperatureDifference",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "dTEva_nominal",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "max",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "-10"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Temperature difference evaporator outlet-inlet",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Nominal condition\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.TemperatureDifference",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "dTCon_nominal",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "10"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Temperature difference condenser outlet-inlet",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Nominal condition\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "use_eta_Carnot_nominal",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "true"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Set to true to use Carnot effectiveness etaCarnot_nominal rather than COP_nominal",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Efficiency\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "etaCarnot_nominal",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"1\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "0.3"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Carnot effectiveness (=COP/COP_Carnot) used during simulation if use_eta_Carnot_nominal = true",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Efficiency\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "enable",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "use_eta_Carnot_nominal"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "COP_nominal",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"1\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "etaCarnot_nominal*TUseAct_nominal/(TCon_nominal +TAppCon_nominal -(TEva_nominal -TAppEva_nominal))"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Coefficient of performance at TEva_nominal and TCon_nominal, used during simulation if use_eta_Carnot_nominal = false",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Efficiency\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "enable",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "not use_eta_Carnot_nominal"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Temperature",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TCon_nominal",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "303.15"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Condenser temperature used to compute COP_nominal if use_eta_Carnot_nominal=false",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Efficiency\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "enable",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "not use_eta_Carnot_nominal"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Temperature",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TEva_nominal",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "278.15"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Evaporator temperature used to compute COP_nominal if use_eta_Carnot_nominal=false",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Efficiency\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "enable",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "not use_eta_Carnot_nominal"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "a",
+                        "array_subscripts": [
+                          {
+                            "colon_op": true
+                          }
+                        ],
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "{1}"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Coefficients for efficiency curve (need p(a=a, yPL=1)=1)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Efficiency\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Pressure",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "dp1_nominal",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Pa\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Pressure difference over condenser",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Nominal condition\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Pressure",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "dp2_nominal",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Pa\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Pressure difference over evaporator",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Nominal condition\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.TemperatureDifference",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TAppCon_nominal",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "if_expression": {
+                              "if_elseif": [
+                                {
+                                  "condition": {
+                                    "simple_expression": {
+                                      "logical_expression": {
+                                        "logical_or": [
+                                          {
+                                            "logical_and": [
+                                              {
+                                                "arithmetic_expressions": [
+                                                  {
+                                                    "name": "cp1_default"
+                                                  },
+                                                  {
+                                                    "name": "1500"
+                                                  }
+                                                ],
+                                                "relation_operator": "<"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "then": {
+                                    "simple_expression": "5"
+                                  }
+                                }
+                              ],
+                              "else_expression": {
+                                "simple_expression": "2"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Temperature difference between refrigerant and working fluid outlet in condenser",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Efficiency\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.TemperatureDifference",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TAppEva_nominal",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "if_expression": {
+                              "if_elseif": [
+                                {
+                                  "condition": {
+                                    "simple_expression": {
+                                      "logical_expression": {
+                                        "logical_or": [
+                                          {
+                                            "logical_and": [
+                                              {
+                                                "arithmetic_expressions": [
+                                                  {
+                                                    "name": "cp2_default"
+                                                  },
+                                                  {
+                                                    "name": "1500"
+                                                  }
+                                                ],
+                                                "relation_operator": "<"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "then": {
+                                    "simple_expression": "5"
+                                  }
+                                }
+                              ],
+                              "else_expression": {
+                                "simple_expression": "2"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Temperature difference between refrigerant and working fluid outlet in evaporator",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Efficiency\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "from_dp1",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "false"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "= true, use m_flow = f(dp) else dp = f(m_flow)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Flow resistance\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Condenser\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "from_dp2",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "false"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "= true, use m_flow = f(dp) else dp = f(m_flow)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Flow resistance\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Evaporator\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "linearizeFlowResistance1",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "false"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "= true, use linear relation between m_flow and dp for any flow rate",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Flow resistance\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Condenser\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "linearizeFlowResistance2",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "false"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "= true, use linear relation between m_flow and dp for any flow rate",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Flow resistance\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Evaporator\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "deltaM1",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"1\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "0.1"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Fraction of nominal flow rate where flow transitions to laminar",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Flow resistance\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Condenser\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "deltaM2",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"1\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "0.1"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Fraction of nominal flow rate where flow transitions to laminar",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Flow resistance\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Evaporator\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Time",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "tau1",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "60"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Time constant at nominal flow rate (used if energyDynamics1 <> Modelica.Fluid.Types.Dynamics.SteadyState)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Dynamics\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Condenser\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Time",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "tau2",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "60"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Time constant at nominal flow rate (used if energyDynamics2 <> Modelica.Fluid.Types.Dynamics.SteadyState)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Dynamics\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Evaporator\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Temperature",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "T1_start",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "Medium1.T_default"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Initial or guess value of set point",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Dynamics\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Condenser\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Temperature",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "T2_start",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "Medium2.T_default"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Initial or guess value of set point",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Dynamics\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Evaporator\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Fluid.Types.Dynamics",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "energyDynamics",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "Modelica.Fluid.Types.Dynamics.SteadyState"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Type of energy balance: dynamic (3 initialization options) or steady state",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Dynamics\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Evaporator and condenser\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "QCon_flow",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"HeatFlowRate\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"W\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Actual heating heat flow rate added to fluid 1",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": 80
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": 100
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": 80
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": 100
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "P",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Power\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"W\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Electric power consumed by compressor",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": 10
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "QEva_flow",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"HeatFlowRate\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"W\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Actual cooling heat flow rate removed from fluid 2",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": -100
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": -80
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": -100
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": -80
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "yPL",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"1\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "if_expression": {
+                              "if_elseif": [
+                                {
+                                  "condition": {
+                                    "simple_expression": "COP_is_for_cooling"
+                                  },
+                                  "then": {
+                                    "simple_expression": "QEva_flow/QEva_flow_nominal"
+                                  }
+                                }
+                              ],
+                              "else_expression": {
+                                "simple_expression": "QCon_flow/QCon_flow_nominal"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Part load ratio"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "etaPL",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"1\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "if_expression": {
+                              "if_elseif": [
+                                {
+                                  "condition": {
+                                    "simple_expression": "evaluate_etaPL"
+                                  },
+                                  "then": {
+                                    "simple_expression": {
+                                      "function_call": {
+                                        "name": "Buildings.Utilities.Math.Functions.polynomial",
+                                        "arguments": [
+                                          {
+                                            "name": "a=a,x=yPL"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              ],
+                              "else_expression": {
+                                "simple_expression": "1"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Efficiency due to part load (etaPL(yPL=1)=1)"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "COP",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"1\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "etaCarnot_nominal_internal*COPCar*etaPL"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Coefficient of performance"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Real",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "COPCar",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "TUseAct/Buildings.Utilities.Math.Functions.smoothMax(x1=1,x2=TConAct -TEvaAct,deltaX=0.25)"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Carnot efficiency"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Units.SI.Temperature",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TConAct",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "start",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "TCon_nominal +TAppCon_nominal"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "Medium1.temperature(staB1) +QCon_flow/QCon_flow_nominal*TAppCon_nominal"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Condenser temperature used to compute efficiency, taking into account pinch temperature between fluid and refrigerant"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Units.SI.Temperature",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TEvaAct",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "start",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "TEva_nominal -TAppEva_nominal"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "Medium2.temperature(staB2) -QEva_flow/QEva_flow_nominal*TAppEva_nominal"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Evaporator temperature used to compute efficiency, taking into account pinch temperature between fluid and refrigerant"
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "component_clause": {
+                      "type_prefix": "constant",
+                      "type_specifier": "Boolean",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "COP_is_for_cooling"
+                          },
+                          "description": {
+                            "description_string": "Set to true if the specified COP is for cooling"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "etaCarnot_nominal_internal",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "unit",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "\"1\""
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ],
+                              "equal": true,
+                              "expression": {
+                                "if_expression": {
+                                  "if_elseif": [
+                                    {
+                                      "condition": {
+                                        "simple_expression": "use_eta_Carnot_nominal"
+                                      },
+                                      "then": {
+                                        "simple_expression": "etaCarnot_nominal"
+                                      }
+                                    }
+                                  ],
+                                  "else_expression": {
+                                    "simple_expression": "COP_nominal/(TUseAct_nominal/(TCon_nominal +TAppCon_nominal -(TEva_nominal -TAppEva_nominal)))"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Carnot effectiveness (=COP/COP_Carnot) used to compute COP"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Boolean",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "evaluate_etaPL",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "not (([object Object]))"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Flag, true if etaPL should be computed as it depends on yPL",
+                            "annotation": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "name": "Evaluate",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "simple_expression": "true"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Temperature",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "TUseAct_nominal",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "if_expression": {
+                                  "if_elseif": [
+                                    {
+                                      "condition": {
+                                        "simple_expression": "COP_is_for_cooling"
+                                      },
+                                      "then": {
+                                        "simple_expression": "TEva_nominal -TAppEva_nominal"
+                                      }
+                                    }
+                                  ],
+                                  "else_expression": {
+                                    "simple_expression": "TCon_nominal +TAppCon_nominal"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Nominal evaporator temperature for chiller or condenser temperature for heat pump, taking into account pinch temperature between fluid and refrigerant"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Temperature",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "TUseAct",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "if_expression": {
+                                  "if_elseif": [
+                                    {
+                                      "condition": {
+                                        "simple_expression": "COP_is_for_cooling"
+                                      },
+                                      "then": {
+                                        "simple_expression": "TEvaAct"
+                                      }
+                                    }
+                                  ],
+                                  "else_expression": {
+                                    "simple_expression": "TConAct"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Temperature of useful heat (evaporator for chiller, condenser for heat pump), taking into account pinch temperature between fluid and refrigerant"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.SpecificHeatCapacity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "cp1_default",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "Medium1.specificHeatCapacityCp",
+                                    "arguments": [
+                                      {
+                                        "name": "Medium1.setState_pTX(p=Medium1.p_default,T=Medium1.T_default,X=Medium1.X_default)"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Specific heat capacity of medium 1 at default medium state"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.SpecificHeatCapacity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "cp2_default",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "Medium2.specificHeatCapacityCp",
+                                    "arguments": [
+                                      {
+                                        "name": "Medium2.setState_pTX(p=Medium2.p_default,T=Medium2.T_default,X=Medium2.X_default)"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Specific heat capacity of medium 2 at default medium state"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Medium1.ThermodynamicState",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "staA1",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "Medium1.setState_phX",
+                                    "arguments": [
+                                      {
+                                        "name": "port_a1.p"
+                                      },
+                                      {
+                                        "name": "inStream(port_a1.h_outflow),inStream(port_a1.Xi_outflow)"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Medium properties in port_a1"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Medium1.ThermodynamicState",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "staB1",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "Medium1.setState_phX",
+                                    "arguments": [
+                                      {
+                                        "name": "port_b1.p"
+                                      },
+                                      {
+                                        "name": "port_b1.h_outflow,port_b1.Xi_outflow"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Medium properties in port_b1"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Medium2.ThermodynamicState",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "staA2",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "Medium2.setState_phX",
+                                    "arguments": [
+                                      {
+                                        "name": "port_a2.p"
+                                      },
+                                      {
+                                        "name": "inStream(port_a2.h_outflow),inStream(port_a2.Xi_outflow)"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Medium properties in port_a2"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Medium2.ThermodynamicState",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "staB2",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "Medium2.setState_phX",
+                                    "arguments": [
+                                      {
+                                        "name": "port_b2.p"
+                                      },
+                                      {
+                                        "name": "port_b2.h_outflow,port_b2.Xi_outflow"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Medium properties in port_b2"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "replaceable": true,
+                    "constraining_clause": {
+                      "name": "Interfaces.PartialTwoPortInterface",
+                      "class_modification": [
+                        {
+                          "element_redeclaration": {
+                            "final": true,
+                            "short_class_definition": {
+                              "class_prefixes": "package",
+                              "short_class_specifier": {
+                                "identifier": "Medium",
+                                "value": {
+                                  "name": "Medium1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "allowFlowReversal",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "allowFlowReversal1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "m_flow_nominal",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "m1_flow_nominal"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "m_flow_small",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "m1_flow_small"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "show_T",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "false"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "component_clause": {
+                      "type_specifier": "Interfaces.PartialTwoPortInterface",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "con"
+                          }
+                        }
+                      ]
+                    },
+                    "description": {
+                      "description_string": "Condenser",
+                      "annotation": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "Placement": {
+                                "transformation": {
+                                  "extent": [
+                                    {
+                                      "x": -10,
+                                      "y": 50
+                                    },
+                                    {
+                                      "x": 10,
+                                      "y": 70
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "replaceable": true,
+                    "constraining_clause": {
+                      "name": "Interfaces.PartialTwoPortInterface",
+                      "class_modification": [
+                        {
+                          "element_redeclaration": {
+                            "final": true,
+                            "short_class_definition": {
+                              "class_prefixes": "package",
+                              "short_class_specifier": {
+                                "identifier": "Medium",
+                                "value": {
+                                  "name": "Medium2"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "allowFlowReversal",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "allowFlowReversal2"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "m_flow_nominal",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "m2_flow_nominal"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "m_flow_small",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "m2_flow_small"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "show_T",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "false"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "component_clause": {
+                      "type_specifier": "Interfaces.PartialTwoPortInterface",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "eva"
+                          }
+                        }
+                      ]
+                    },
+                    "description": {
+                      "description_string": "Evaporator",
+                      "annotation": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "Placement": {
+                                "transformation": {
+                                  "extent": [
+                                    {
+                                      "x": 10,
+                                      "y": -70
+                                    },
+                                    {
+                                      "x": -10,
+                                      "y": -50
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "initial": true,
+                  "equation": [
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "dTEva_nominal"
+                                            },
+                                            {
+                                              "name": "0"
+                                            }
+                                          ],
+                                          "relation_operator": "<"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"Parameter dTEva_nominal must be negative.\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "dTCon_nominal"
+                                            },
+                                            {
+                                              "name": "0"
+                                            }
+                                          ],
+                                          "relation_operator": ">"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"Parameter dTCon_nominal must be positive.\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "abs(Buildings.Utilities.Math.Functions.polynomial(a=a,x=1) -1)"
+                                            },
+                                            {
+                                              "name": "0.01"
+                                            }
+                                          ],
+                                          "relation_operator": "<"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"Efficiency curve is wrong. Need etaPL(y=1)=1.\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "etaCarnot_nominal_internal"
+                                            },
+                                            {
+                                              "name": "1"
+                                            }
+                                          ],
+                                          "relation_operator": "<"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"Parameters lead to etaCarnot_nominal > 1. Check parameters.\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": "homotopyInitialization"
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"In \" +getInstanceName() +\": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.\""
+                              }
+                            },
+                            "function_arguments": {
+                              "named_arguments": [
+                                {
+                                  "identifier": "level",
+                                  "value": {
+                                    "expression": {
+                                      "simple_expression": "AssertionLevel.warning"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "port_a2"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "eva"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "port_a"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 100,
+                                      "y": -60
+                                    },
+                                    {
+                                      "x": 56,
+                                      "y": -60
+                                    },
+                                    {
+                                      "x": 10,
+                                      "y": -60
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 127,
+                                    "b": 255
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "eva"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "port_b"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "port_b2"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -10,
+                                      "y": -60
+                                    },
+                                    {
+                                      "x": -100,
+                                      "y": -60
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 127,
+                                    "b": 255
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "port_a1"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "con"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "port_a"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -100,
+                                      "y": 60
+                                    },
+                                    {
+                                      "x": -56,
+                                      "y": 60
+                                    },
+                                    {
+                                      "x": -10,
+                                      "y": 60
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 127,
+                                    "b": 255
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "con"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "port_b"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "port_b1"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 10,
+                                      "y": 60
+                                    },
+                                    {
+                                      "x": 56,
+                                      "y": 60
+                                    },
+                                    {
+                                      "x": 100,
+                                      "y": 60
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 127,
+                                    "b": 255
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -100,
+                                    "y": -100
+                                  },
+                                  {
+                                    "x": 100,
+                                    "y": 100
+                                  }
+                                ],
+                                "preserveAspectRatio": "false"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -70,
+                                        "y": 80
+                                      },
+                                      {
+                                        "x": 70,
+                                        "y": -80
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "fillColor": {
+                                      "r": 95,
+                                      "g": 95,
+                                      "b": 95
+                                    },
+                                    "pattern": "LinePattern.None",
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -56,
+                                        "y": 68
+                                      },
+                                      {
+                                        "x": 58,
+                                        "y": 50
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -56,
+                                        "y": -52
+                                      },
+                                      {
+                                        "x": 58,
+                                        "y": -70
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -103,
+                                        "y": 64
+                                      },
+                                      {
+                                        "x": 98,
+                                        "y": 54
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "fillColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "pattern": "LinePattern.None",
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -2,
+                                        "y": 54
+                                      },
+                                      {
+                                        "x": 98,
+                                        "y": 64
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "pattern": "LinePattern.None",
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -101,
+                                        "y": -56
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": -66
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "fillColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "pattern": "LinePattern.None",
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -100,
+                                        "y": -66
+                                      },
+                                      {
+                                        "x": 0,
+                                        "y": -56
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    },
+                                    "fillColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    },
+                                    "pattern": "LinePattern.None",
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Polygon",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -42,
+                                        "y": 0
+                                      },
+                                      {
+                                        "x": -52,
+                                        "y": -12
+                                      },
+                                      {
+                                        "x": -32,
+                                        "y": -12
+                                      },
+                                      {
+                                        "x": -42,
+                                        "y": 0
+                                      }
+                                    ],
+                                    "smooth": "Smooth.None",
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Polygon",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -42,
+                                        "y": 0
+                                      },
+                                      {
+                                        "x": -52,
+                                        "y": 10
+                                      },
+                                      {
+                                        "x": -32,
+                                        "y": 10
+                                      },
+                                      {
+                                        "x": -42,
+                                        "y": 0
+                                      }
+                                    ],
+                                    "smooth": "Smooth.None",
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -44,
+                                        "y": 50
+                                      },
+                                      {
+                                        "x": -40,
+                                        "y": 10
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -44,
+                                        "y": -12
+                                      },
+                                      {
+                                        "x": -40,
+                                        "y": -52
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": 38,
+                                        "y": 50
+                                      },
+                                      {
+                                        "x": 42,
+                                        "y": -52
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Ellipse",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": 18,
+                                        "y": 22
+                                      },
+                                      {
+                                        "x": 62,
+                                        "y": -20
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Polygon",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 40,
+                                        "y": 22
+                                      },
+                                      {
+                                        "x": 22,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 58,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 40,
+                                        "y": 22
+                                      }
+                                    ],
+                                    "smooth": "Smooth.None",
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 0,
+                                        "y": 68
+                                      },
+                                      {
+                                        "x": 0,
+                                        "y": 90
+                                      },
+                                      {
+                                        "x": 90,
+                                        "y": 90
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": 90
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 0,
+                                        "y": -70
+                                      },
+                                      {
+                                        "x": 0,
+                                        "y": -90
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": -90
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 62,
+                                        "y": 0
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": 0
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nThis is the base class for the Carnot chiller and the Carnot heat pump\nwhose coefficient of performance COP changes\nwith temperatures in the same way as the Carnot efficiency changes.\n</p>\n<p>\nSet <code>use_eta_Carnot_nominal=true</code> to specify directly\nthe Carnot effectiveness <i>&eta;<sub>Carnot,0</sub></i>,\nin which case the value of the parameter <code>COP_nominal</code>\nwill not affect the simulation.\nIf <code>use_eta_Carnot_nominal=false</code>, the model will use\nthe value of the parameter <code>COP_nominal</code>\ntogether with the specified nominal temperatures\nto compute the Carnot effectiveness as\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n&eta;<sub>Carnot,0</sub> =\n  COP<sub>0</sub>\n&frasl;  (T<sub>use,0</sub> &frasl; (T<sub>con,0</sub> + T<sub>app,con,0</sub> - (T<sub>eva,0</sub>-T<sub>app,eva,0</sub>))),\n</p>\n<p>\nwhere\n<i>T<sub>eva,0</sub></i> is the evaporator temperature,\n<i>T<sub>con,0</sub></i> is the condenser temperature,\n<i>T<sub>app,eva,0</sub></i> is the evaporator approach temperature,\n<i>T<sub>app,con,0</sub></i> is the condenser approach temperature, and\n<i>T<sub>use,0</sub></i> is the temperature of the the useful heat.\nIf <code>COP_is_for_cooling=true</code>,\nthen <i>T<sub>use,0</sub></i> is the condenser temperature of a heat pump plus the approach temperature,\notherwise it is the evaporator temperature minus the approach temperature of a chiller.\n</p>\n<p>\nThe COP is computed as the product\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  COP = &eta;<sub>Carnot,0</sub> COP<sub>Carnot</sub> &eta;<sub>PL</sub>,\n</p>\n<p>\nwhere <i>COP<sub>Carnot</sub></i> is the Carnot efficiency and\n<i>&eta;<sub>PL</sub></i> is the part load efficiency, expressed using\na polynomial.\nThis polynomial has the form\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  &eta;<sub>PL</sub> = a<sub>1</sub> + a<sub>2</sub> y + a<sub>3</sub> y<sup>2</sup> + ...,\n</p>\n<p>\nwhere <i>y &isin; [0, 1]</i> is\neither the part load for cooling in case of a chiller, or the part load of heating in\ncase of a heat pump, and the coefficients <i>a<sub>i</sub></i>\nare declared by the parameter <code>a</code>.\n</p>\n<h4>Implementation</h4>\n<p>\nTo make this base class applicable to chiller or heat pumps, it uses\nthe boolean constant <code>COP_is_for_cooling</code>.\nDepending on its value, the equations for the coefficient of performance\nand the part load ratio are set up.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nFebruary 3, 2023, by Michael Wetter:<br/>\nChanged parameter binding\n<code>etaCarnot_nominal(unit=\\\"1\\\") = COP_nominal/(TUseAct_nominal/(TCon_nominal+TAppCon_nominal - (TEva_nominal-TAppEva_nominal)))</code>\nto\n<code>etaCarnot_nominal(unit=\\\"1\\\") = 0.3</code> to avoid a circular assignment.<br/>\nImproved documentation.<br/>\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/3226\\\">Buildings, #3226</a>.\n</li>\n<li>\nApril 14, 2020, by Michael Wetter:<br/>\nChanged <code>homotopyInitialization</code> to a constant.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\\\">IBPSA, #1341</a>.\n</li>\n<li>\nSeptember 12, 2019, by Michael Wetter:<br/>\nCorrected value of <code>evaluate_etaPL</code> and how it is used.\nThis correction only affects protected variables and does not affect the results.<br/>\nThis is for <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1200\\\">\n#1200</a>.\n</li>\n<li>\nJune 16, 2017, by Michael Wetter:<br/>\nAdded temperature difference between fluids in condenser and evaporator\nfor computation of nominal COP and effectiveness.<br/>\nThis is for <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/698\\\">\n#698</a>.\n</li>\n<li>\nMarch 28, 2017, by Felix Buenning:<br/>\nAdded temperature difference between fluids in condenser and evaporator.\nThe difference is based on discussions with Emerson Climate Technologies.<br/>\nThis is for <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/698\\\">\n#698</a>.\n</li>\n<li>\nJanuary 2, 2017, by Filip Jorissen:<br/>\nRemoved option for choosing what temperature\nshould be used to compute the Carnot efficiency.\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/497\\\">\nissue 497</a>.\n</li>\n<li>\nJanuary 26, 2016, by Michael Wetter:<br/>\nFirst implementation of this base class.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/Fluid/Chillers/BaseClasses/Carnot.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Chillers/BaseClasses/Carnot.mo",
+  "checksum": "73770087572654e3c1419651a56882b5"
+}

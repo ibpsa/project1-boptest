@@ -1,0 +1,1177 @@
+{
+  "instances": {
+    "ReadZone": {
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 80
+                            }
+                          ],
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -100,
+                                  "y": 80
+                                },
+                                {
+                                  "x": 100,
+                                  "y": -100
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 170,
+                                "b": 170
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -56,
+                                  "y": 176
+                                },
+                                {
+                                  "x": 52,
+                                  "y": 142
+                                }
+                              ],
+                              "textString": "\"%name\"",
+                              "lineColor": {
+                                "r": 28,
+                                "g": 108,
+                                "b": 200
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 170,
+                                "b": 170
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -28,
+                                  "y": 24
+                                },
+                                {
+                                  "x": 38,
+                                  "y": -16
+                                }
+                              ],
+                              "textString": "\"Read\nZone\"",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "TZon": {
+      "type_specifier": "Buildings.Utilities.IO.SignalExchange.Read",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TZon",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "description",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Zone air temperature measurement for zone \" +zone"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "KPIs",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "unit",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"K\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "zone",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "zone"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Zone air temperature measurement",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "__Buildings",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "semantic",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "metadataLanguage",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "\"Brick 1.3 text/turtle\""
+                                        }
+                                      },
+                                      "description_string": "bldg:<cdl_instance_name>_y a brick:Zone_Air_Temperature_Sensor ;\n                          brick:hasLocation bldg:hvac_cor_zone ."
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 0,
+                          "y": 50
+                        },
+                        {
+                          "x": 20,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "__Buildings",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "semantic",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "metadataLanguage",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Brick 1.3 text/turtle\""
+                                    }
+                                  },
+                                  "description_string": "bldg:<cdl_instance_name>_y a brick:Zone_Air_Temperature_Sensor ;\n                          brick:hasLocation bldg:hvac_cor_zone ."
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 0,
+                      "y": 50
+                    },
+                    {
+                      "x": 20,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {
+        "Brick 1.3 text/turtle": "bldg:<cdl_instance_name>_y a brick:Zone_Air_Temperature_Sensor ;\n                          brick:hasLocation bldg:hvac_cor_zone .\n"
+      },
+      "cdl_annotations": {
+        "semantic": {
+          "metadataLanguage": "\"Brick 1.3 text/turtle\""
+        }
+      },
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    },
+    "TZon_in": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TZon_in"
+        },
+        "description": {
+          "description_string": "Zone air temperature measurement",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 40
+                        },
+                        {
+                          "x": -100,
+                          "y": 80
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 40
+                    },
+                    {
+                      "x": -100,
+                      "y": 80
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    },
+    "zone": {
+      "type_prefix": "parameter",
+      "type_specifier": "String",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "zone",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "\"1\""
+            }
+          }
+        },
+        "description": {
+          "description_string": "Zone designation, required if KPIs is AirZoneTemperature,\n    RadiativeZoneTemperature, OperativeZoneTemperature, RelativeHumidity,\n    or CO2Concentration"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    },
+    "TSup": {
+      "type_specifier": "Buildings.Utilities.IO.SignalExchange.Read",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TSup",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "description",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Discharge air temperature to zone measurement for zone \" +zone"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "KPIs",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "unit",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"K\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Supply air temperature to zone measurement",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 0,
+                          "y": 10
+                        },
+                        {
+                          "x": 20,
+                          "y": 30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 0,
+                      "y": 10
+                    },
+                    {
+                      "x": 20,
+                      "y": 30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    },
+    "V_flow": {
+      "type_specifier": "Buildings.Utilities.IO.SignalExchange.Read",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "V_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "description",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Discharge air flowrate to zone measurement for zone \" +zone"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "KPIs",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "unit",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"m3/s\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Supply air flowrate to zone measurement",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 0,
+                          "y": -30
+                        },
+                        {
+                          "x": 20,
+                          "y": -10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 0,
+                      "y": -30
+                    },
+                    {
+                      "x": 20,
+                      "y": -10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    },
+    "TSup_in": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TSup_in"
+        },
+        "description": {
+          "description_string": "Supply air temperature to zone measurement",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 0
+                        },
+                        {
+                          "x": -100,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 0
+                    },
+                    {
+                      "x": -100,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    },
+    "V_flow_in": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "V_flow_in"
+        },
+        "description": {
+          "description_string": "Supply air flowrate to zone measurement",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -40
+                        },
+                        {
+                          "x": -100,
+                          "y": 0
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -40
+                    },
+                    {
+                      "x": -100,
+                      "y": 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    },
+    "conMasVolFra": {
+      "type_specifier": "Buildings.Fluid.Sensors.Conversions.To_VolumeFraction",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conMasVolFra",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "MMMea",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Conversion from mass fraction CO2 to volume fraction CO2",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": -70
+                        },
+                        {
+                          "x": -40,
+                          "y": -50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": -70
+                    },
+                    {
+                      "x": -40,
+                      "y": -50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    },
+    "gaiPPM": {
+      "type_specifier": "Modelica.Blocks.Math.Gain",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "gaiPPM",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1000000"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Convert mass fraction to PPM",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -30,
+                          "y": -70
+                        },
+                        {
+                          "x": -10,
+                          "y": -50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -30,
+                      "y": -70
+                    },
+                    {
+                      "x": -10,
+                      "y": -50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    },
+    "CO2Zon": {
+      "type_specifier": "Buildings.Utilities.IO.SignalExchange.Read",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "CO2Zon",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "description",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Zone air CO2 measurement for zone \" +zone"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "KPIs",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "unit",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"ppm\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "zone",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "zone"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Zone air CO2 concentration measurement",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 0,
+                          "y": -70
+                        },
+                        {
+                          "x": 20,
+                          "y": -50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 0,
+                      "y": -70
+                    },
+                    {
+                      "x": 20,
+                      "y": -50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    },
+    "C_In": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ReadZone",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "C_In"
+        },
+        "description": {
+          "description_string": "Mass fraction of CO2",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -80
+                        },
+                        {
+                          "x": -100,
+                          "y": -40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -80
+                    },
+                    {
+                      "x": -100,
+                      "y": -40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ReadZone.mo"
+    }
+  },
+  "requiredReferences": {
+    "connections": {
+      "TZon.u": [
+        "TZon_in"
+      ],
+      "TSup.u": [
+        "TSup_in"
+      ],
+      "V_flow.u": [
+        "V_flow_in"
+      ],
+      "conMasVolFra.V": [
+        "gaiPPM.u"
+      ],
+      "gaiPPM.y": [
+        "CO2Zon.u"
+      ],
+      "conMasVolFra.m": [
+        "C_In"
+      ]
+    }
+  }
+}

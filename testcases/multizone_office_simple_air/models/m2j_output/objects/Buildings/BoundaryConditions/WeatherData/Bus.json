@@ -1,0 +1,714 @@
+{
+  "instances": {
+    "Bus": {
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"weaBus\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -20,
+                                  "y": 2
+                                },
+                                {
+                                  "x": 22,
+                                  "y": -2
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 255,
+                                "g": 204,
+                                "b": 51
+                              },
+                              "lineThickness": 0.5
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis component is an expandable connector that is used to implement a bus that contains the weather data.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nSeptember 22, 2023, by Michael Wetter:<br/>\nDeclared the variables that are on the bus.<br/>\nThis is for <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1798\\\">IBPSA, #1798</a>.\n</li>\n<li>\nJune 25, 2010, by Wangda Zuo:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "TDryBul": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TDryBul"
+        },
+        "description": {
+          "description_string": "Dry bulb temperature"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "TWetBul": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TWetBul"
+        },
+        "description": {
+          "description_string": "Wet bulb temperature"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "TDewPoi": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TDewPoi"
+        },
+        "description": {
+          "description_string": "Dew point temperature"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "TBlaSky": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TBlaSky"
+        },
+        "description": {
+          "description_string": "Black-body sky temperature"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "relHum": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "relHum",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Relative humidity"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "HDirNor": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDirNor",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Direct normal solar irradiation"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "HGloHor": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HGloHor",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Global horizontal solar irradiation"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "HDifHor": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDifHor",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Diffuse horizontal solar irradiation"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "HHorIR": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HHorIR",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Horizontal infrared irradiation"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "winDir": {
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "winDir"
+        },
+        "description": {
+          "description_string": "Wind direction"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "winSpe": {
+      "type_specifier": "Modelica.Units.SI.Velocity",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "winSpe"
+        },
+        "description": {
+          "description_string": "Wind speed"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "ceiHei": {
+      "type_specifier": "Modelica.Units.SI.Height",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "ceiHei"
+        },
+        "description": {
+          "description_string": "Cloud cover ceiling height"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "nOpa": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "nOpa",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Opaque sky cover"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "nTot": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "nTot",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Total sky cover"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "lat": {
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "lat"
+        },
+        "description": {
+          "description_string": "Latitude of the location"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "lon": {
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "lon"
+        },
+        "description": {
+          "description_string": "Longitude of the location"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "alt": {
+      "type_specifier": "Modelica.Units.SI.Height",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "alt"
+        },
+        "description": {
+          "description_string": "Location altitude above sea level"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "pAtm": {
+      "type_specifier": "Modelica.Units.SI.AbsolutePressure",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "pAtm"
+        },
+        "description": {
+          "description_string": "Atmospheric pressure"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "solAlt": {
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "solAlt"
+        },
+        "description": {
+          "description_string": "Solar altitude angle"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "solDec": {
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "solDec"
+        },
+        "description": {
+          "description_string": "Solar declination angle"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "solHouAng": {
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "solHouAng"
+        },
+        "description": {
+          "description_string": "Solar hour angle"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "solZen": {
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "solZen"
+        },
+        "description": {
+          "description_string": "Solar zenith angle"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "solTim": {
+      "type_specifier": "Modelica.Units.SI.Time",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "solTim"
+        },
+        "description": {
+          "description_string": "Solar time"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    },
+    "cloTim": {
+      "type_specifier": "Modelica.Units.SI.Time",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Bus",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "cloTim"
+        },
+        "description": {
+          "description_string": "Model time"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.WeatherData",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/WeatherData/Bus.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Icons.SignalBus",
+        "long_class_specifier_identifier": "Bus",
+        "within": "Buildings.BoundaryConditions.WeatherData",
+        "compositionSpecifier": "public"
+      }
+    ]
+  }
+}

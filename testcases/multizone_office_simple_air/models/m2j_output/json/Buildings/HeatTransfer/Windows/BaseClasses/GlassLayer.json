@@ -1,0 +1,1025 @@
+{
+  "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "GlassLayer",
+          "description_string": "Model for a glass layer of a window assembly",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Buildings.HeatTransfer.Radiosity.BaseClasses.RadiosityTwoSurfaces"
+                }
+              },
+              {
+                "extends_clause": {
+                  "name": "Buildings.HeatTransfer.Radiosity.BaseClasses.ParametersTwoSurfaces",
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "final": true,
+                        "element_modification": {
+                          "name": "rhoIR_a",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "1 -absIR_a -tauIR"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "final": true,
+                        "element_modification": {
+                          "name": "rhoIR_b",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "1 -absIR_b -tauIR"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "constant",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "homotopyInitialization",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "true"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "= true, use homotopy method",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "HideResult",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "true"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Length",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "x"
+                      },
+                      "description": {
+                        "description_string": "Material thickness"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.ThermalConductivity",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "k"
+                      },
+                      "description": {
+                        "description_string": "Thermal conductivity"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "u"
+                      },
+                      "description": {
+                        "description_string": "Input connector, used to scale the surface area to take into account an operable shading device",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 50
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 90
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": -120,
+                                        "y": 70
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 90
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "port_a",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "T",
+                                  "modification": {
+                                    "class_modification": [
+                                      {
+                                        "element_modification_or_replaceable": {
+                                          "element_modification": {
+                                            "name": "start",
+                                            "modification": {
+                                              "equal": true,
+                                              "expression": {
+                                                "simple_expression": "293.15"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port at surface a",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -110,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": -90,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "port_b",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "T",
+                                  "modification": {
+                                    "class_modification": [
+                                      {
+                                        "element_modification_or_replaceable": {
+                                          "element_modification": {
+                                            "name": "start",
+                                            "modification": {
+                                              "equal": true,
+                                              "expression": {
+                                                "simple_expression": "293.15"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port at surface b",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 90,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 110,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "QAbs_flow",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"W\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Power\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Solar radiation absorbed by glass",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "origin": {
+                                      "x": 0,
+                                      "y": -120
+                                    },
+                                    "extent": [
+                                      {
+                                        "x": -20,
+                                        "y": -20
+                                      },
+                                      {
+                                        "x": 20,
+                                        "y": 20
+                                      }
+                                    ],
+                                    "rotation": 90
+                                  },
+                                  "iconTransformation": {
+                                    "origin": {
+                                      "x": 0,
+                                      "y": -110
+                                    },
+                                    "extent": [
+                                      {
+                                        "x": -10,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 10,
+                                        "y": 10
+                                      }
+                                    ],
+                                    "rotation": 90
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "T4_a",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "100000000"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "unit",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "\"K4\""
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15^4"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "10000000000"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "4th power of temperature at surface a"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "T4_b",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "100000000"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "unit",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "\"K4\""
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15^4"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "10000000000"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "4th power of temperature at surface b"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "E_a",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "100"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Emissive power of surface a"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "E_b",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "100"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Emissive power of surface b"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.ThermalResistance",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "R",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "x/2/k/A"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Thermal resistance from surface of glass to center of glass"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "initial": true,
+                  "equation": [
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": "homotopyInitialization"
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"In \" +getInstanceName() +\": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.\""
+                              }
+                            },
+                            "function_arguments": {
+                              "named_arguments": [
+                                {
+                                  "identifier": "level",
+                                  "value": {
+                                    "expression": {
+                                      "simple_expression": "AssertionLevel.warning"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "assignment_equation": {
+                        "lhs": "0",
+                        "rhs": {
+                          "simple_expression": "port_a.Q_flow +port_b.Q_flow +QAbs_flow +JIn_a +JIn_b -JOut_a -JOut_b"
+                        }
+                      }
+                    },
+                    {
+                      "assignment_equation": {
+                        "lhs": "u*(port_b.T -port_a.T)",
+                        "rhs": {
+                          "simple_expression": "2*R*(-port_a.Q_flow -QAbs_flow/2 -JIn_a +JOut_a +tauIR*(JIn_a -JIn_b))"
+                        }
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "linearize"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "T4_a",
+                                    "rhs": {
+                                      "simple_expression": "4*T03*port_a.T -3*T04"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "T4_b",
+                                    "rhs": {
+                                      "simple_expression": "4*T03*port_b.T -3*T04"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "if_equation": {
+                              "if_elseif": [
+                                {
+                                  "condition": {
+                                    "simple_expression": "homotopyInitialization"
+                                  },
+                                  "then": [
+                                    {
+                                      "equation": {
+                                        "assignment_equation": {
+                                          "lhs": "T4_a",
+                                          "rhs": {
+                                            "simple_expression": {
+                                              "function_call": {
+                                                "name": "homotopy",
+                                                "arguments": [
+                                                  {
+                                                    "name": "actual=port_a.T^4,simplified=4*T03*port_a.T -3*T04"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "equation": {
+                                        "assignment_equation": {
+                                          "lhs": "T4_b",
+                                          "rhs": {
+                                            "simple_expression": {
+                                              "function_call": {
+                                                "name": "homotopy",
+                                                "arguments": [
+                                                  {
+                                                    "name": "actual=port_b.T^4,simplified=4*T03*port_b.T -3*T04"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ],
+                              "else_equation": [
+                                {
+                                  "assignment_equation": {
+                                    "lhs": "T4_a",
+                                    "rhs": {
+                                      "simple_expression": "port_a.T^4"
+                                    }
+                                  }
+                                },
+                                {
+                                  "assignment_equation": {
+                                    "lhs": "T4_b",
+                                    "rhs": {
+                                      "simple_expression": "port_b.T^4"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "assignment_equation": {
+                        "lhs": "E_a",
+                        "rhs": {
+                          "simple_expression": "u*A*absIR_a*Modelica.Constants.sigma*T4_a"
+                        }
+                      }
+                    },
+                    {
+                      "assignment_equation": {
+                        "lhs": "E_b",
+                        "rhs": {
+                          "simple_expression": "u*A*absIR_b*Modelica.Constants.sigma*T4_b"
+                        }
+                      }
+                    },
+                    {
+                      "assignment_equation": {
+                        "lhs": "JOut_a",
+                        "rhs": {
+                          "simple_expression": "E_a +rhoIR_a*JIn_a +tauIR*JIn_b"
+                        }
+                      }
+                    },
+                    {
+                      "assignment_equation": {
+                        "lhs": "JOut_b",
+                        "rhs": {
+                          "simple_expression": "E_b +rhoIR_b*JIn_b +tauIR*JIn_a"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -100,
+                                        "y": 100
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": -100
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 170,
+                                      "g": 213,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -90,
+                                        "y": 2
+                                      },
+                                      {
+                                        "x": 92,
+                                        "y": -4
+                                      }
+                                    ],
+                                    "fillColor": {
+                                      "r": 191,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "pattern": "LinePattern.None",
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -4,
+                                        "y": 2
+                                      },
+                                      {
+                                        "x": 4,
+                                        "y": -100
+                                      }
+                                    ],
+                                    "fillColor": {
+                                      "r": 191,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "pattern": "LinePattern.None",
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": 8,
+                                        "y": -70
+                                      },
+                                      {
+                                        "x": 60,
+                                        "y": -98
+                                      }
+                                    ],
+                                    "textString": "\"QAbs\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -96,
+                                        "y": 88
+                                      },
+                                      {
+                                        "x": -64,
+                                        "y": 70
+                                      }
+                                    ],
+                                    "textString": "\"u\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\nModel of a single layer of window glass. The input port <code>QAbs_flow</code>\nneeds to be connected to the solar radiation that is absorbed\nby the glass pane.\nThe model computes the heat conduction between the two glass surfaces.\nThe heat flow <code>QAbs_flow</code> is added at the center of the glass.\n<br/>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nApril 14, 2020, by Michael Wetter:<br/>\nChanged <code>homotopyInitialization</code> to a constant.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\\\">IBPSA, #1341</a>.\n</li>\n<li>\nOctober 24, 2016, by Michael Wetter:<br/>\nRemoved declarations of <code>A</code>,\n<code>absIR_a</code>,\n<code>absIR_b</code> and\n<code>tauIR</code>, which are already declared\nin the base class.\n</li>\n<li>\nDecember 8, 2014, by Michael Wetter:<br/>\nAdded term <code>tauIR * (JIn_a - JIn_b)</code>\nto heat balance. This is to correct\nissue\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/304\\\">#304</a>\nthat led to an error in the glass temperatures if the glass conductance\nis very small.\n</li>\n<li>\nOctober 17, 2014, by Michael Wetter:<br/>\nRemoved nominal value for heat ports as the default is already\n<i>300</i> Kelvin.\n</li>\n<li>\nOctober 15, 2014, by Michael Wetter:<br/>\nChanged type of <code>tauIR</code> from\n<code>Modelica.Units.SI.Emissivity</code> to\n<code>Modelica.Units.SI.TransmissionCoefficient</code>.\nThis avoids a type error in OpenModelica.\n</li>\n<li>\nJune 27, 2013, by Michael Wetter:<br/>\nChanged model because the outflowing radiosity has been changed to be a non-negative quantity.\nSee track issue <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/158\\\">#158</a>.\n</li>\n<li>\nMarch 20, 2012 by Wangda Zuo:<br/>\nFixed bug for heat flow reported by Pierre Tittelein and fixed bug for temperature linearization.\n</li>\n<li>\nApril 2, 2011 by Michael Wetter:<br/>\nAdded <code>homotopy</code> operator.\n</li>\n<li>\nAugust 18 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/HeatTransfer/Windows/BaseClasses/GlassLayer.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/GlassLayer.mo",
+  "checksum": "e74cae83c347a1a878cbde1a445700a2"
+}

@@ -1,0 +1,5185 @@
+{
+  "instances": {
+    "ModeSelector": {
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -220,
+                              "y": -220
+                            },
+                            {
+                              "x": 220,
+                              "y": 220
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -220,
+                              "y": -220
+                            },
+                            {
+                              "x": 220,
+                              "y": 220
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -220,
+                                  "y": 220
+                                },
+                                {
+                                  "x": 220,
+                                  "y": -220
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 215,
+                                "g": 215,
+                                "b": 215
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -176,
+                                  "y": 80
+                                },
+                                {
+                                  "x": 192,
+                                  "y": -84
+                                }
+                              ],
+                              "textString": "\"%name\"",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "initialStepWithSignal": {
+      "type_specifier": "Modelica.StateGraph.InitialStepWithSignal",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "initialStepWithSignal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nIn",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -80,
+                          "y": 20
+                        },
+                        {
+                          "x": -60,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -80,
+                      "y": 20
+                    },
+                    {
+                      "x": -60,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "start": {
+      "type_specifier": "Modelica.StateGraph.Transition",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "start"
+        },
+        "description": {
+          "description_string": "Starts the system",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -50,
+                          "y": 20
+                        },
+                        {
+                          "x": -30,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -50,
+                      "y": 20
+                    },
+                    {
+                      "x": -30,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "unOccOff": {
+      "type_specifier": "State",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "unOccOff",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "mode",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "OperationModes.unoccupiedOff"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nIn",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "4"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nOut",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "5"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Unoccupied off mode, no coil protection",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": 20
+                        },
+                        {
+                          "x": 0,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": 20
+                    },
+                    {
+                      "x": 0,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "unOccNigSetBac": {
+      "type_specifier": "State",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "unOccNigSetBac",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nOut",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "mode",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "OperationModes.unoccupiedNightSetBack"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nIn",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Unoccupied night set back",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 80,
+                          "y": 20
+                        },
+                        {
+                          "x": 100,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 80,
+                      "y": 20
+                    },
+                    {
+                      "x": 100,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t2": {
+      "type_specifier": "Modelica.StateGraph.TransitionWithSignal",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t2",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "enableTimer",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "true"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "waitTime",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "60"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 28,
+                          "y": 20
+                        },
+                        {
+                          "x": 48,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 28,
+                      "y": 20
+                    },
+                    {
+                      "x": 48,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "numZon": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "numZon",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "5"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of zones"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "delTRooOnOff": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.TemperatureDifference",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "delTRooOnOff",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.1"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "1"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Deadband in room temperature between occupied on and occupied off"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooSetHeaOcc": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooSetHeaOcc",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "293.15"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set point for room air temperature during heating mode"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooSetCooOcc": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooSetCooOcc",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "299.15"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set point for room air temperature during cooling mode"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t1": {
+      "type_specifier": "Modelica.StateGraph.Transition",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t1",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "condition",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "logical_expression": {
+                            "logical_or": [
+                              {
+                                "logical_and": [
+                                  {
+                                    "arithmetic_expressions": [
+                                      {
+                                        "name": "delTRooOnOff/2"
+                                      },
+                                      {
+                                        "name": "-maxTRooErrHea.y"
+                                      }
+                                    ],
+                                    "relation_operator": "<"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "enableTimer",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "true"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "waitTime",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "30*60"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 50,
+                          "y": 70
+                        },
+                        {
+                          "x": 30,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 50,
+                      "y": 70
+                    },
+                    {
+                      "x": 30,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "stateGraphRoot": {
+      "type_specifier": "Modelica.StateGraph.StateGraphRoot",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "stateGraphRoot"
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 160,
+                          "y": 160
+                        },
+                        {
+                          "x": 180,
+                          "y": 180
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 160,
+                      "y": 160
+                    },
+                    {
+                      "x": 180,
+                      "y": 180
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "cb": {
+      "type_specifier": "Buildings.Examples.VAVReheat.BaseClasses.Controls.ControlBus",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "cb"
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -168,
+                          "y": 130
+                        },
+                        {
+                          "x": -148,
+                          "y": 150
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -176,
+                          "y": 124
+                        },
+                        {
+                          "x": -124,
+                          "y": 176
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -168,
+                      "y": 130
+                    },
+                    {
+                      "x": -148,
+                      "y": 150
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -176,
+                      "y": 124
+                    },
+                    {
+                      "x": -124,
+                      "y": 176
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "morWarUp": {
+      "type_specifier": "State",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "morWarUp",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "mode",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "OperationModes.unoccupiedWarmUp"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nIn",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nOut",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Morning warm up",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -100
+                        },
+                        {
+                          "x": -20,
+                          "y": -80
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -100
+                    },
+                    {
+                      "x": -20,
+                      "y": -80
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t6": {
+      "type_specifier": "Modelica.StateGraph.TransitionWithSignal",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t6",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "enableTimer",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "true"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "waitTime",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "60"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -76,
+                          "y": -100
+                        },
+                        {
+                          "x": -56,
+                          "y": -80
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -76,
+                      "y": -100
+                    },
+                    {
+                      "x": -56,
+                      "y": -80
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "occThrSho": {
+      "type_specifier": "Modelica.Blocks.Logical.LessEqualThreshold",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "occThrSho",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "threshold",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1800"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Signal to allow transition into morning warmup",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -190
+                        },
+                        {
+                          "x": -120,
+                          "y": -170
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -190
+                    },
+                    {
+                      "x": -120,
+                      "y": -170
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t5": {
+      "type_specifier": "Modelica.StateGraph.TransitionWithSignal",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t5"
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 118,
+                          "y": 20
+                        },
+                        {
+                          "x": 138,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 118,
+                      "y": 20
+                    },
+                    {
+                      "x": 138,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "occ": {
+      "type_specifier": "State",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "occ",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nOut",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "3"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "mode",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "OperationModes.occupied"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nIn",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "4"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Occupied mode",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": -100
+                        },
+                        {
+                          "x": 80,
+                          "y": -80
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": -100
+                    },
+                    {
+                      "x": 80,
+                      "y": -80
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooErrHeaSou": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooErrHeaSou"
+        },
+        "description": {
+          "description_string": "Room control error for heating",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 190
+                        },
+                        {
+                          "x": -120,
+                          "y": 210
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 190
+                    },
+                    {
+                      "x": -120,
+                      "y": 210
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t3": {
+      "type_specifier": "Modelica.StateGraph.Transition",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t3",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "condition",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "logical_expression": {
+                            "logical_or": [
+                              {
+                                "logical_and": [
+                                  {
+                                    "arithmetic_expressions": [
+                                      {
+                                        "name": "TRooMin.y +delTRooOnOff/2"
+                                      },
+                                      {
+                                        "name": "TRooSetHeaOcc"
+                                      }
+                                    ],
+                                    "relation_operator": ">"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 10,
+                          "y": -100
+                        },
+                        {
+                          "x": 30,
+                          "y": -80
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 10,
+                      "y": -100
+                    },
+                    {
+                      "x": 30,
+                      "y": -80
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "occupied": {
+      "type_specifier": "Modelica.Blocks.Routing.BooleanPassThrough",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "occupied"
+        },
+        "description": {
+          "description_string": "outputs true if building is occupied",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -80,
+                          "y": 80
+                        },
+                        {
+                          "x": -60,
+                          "y": 100
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -80,
+                      "y": 80
+                    },
+                    {
+                      "x": -60,
+                      "y": 100
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t4": {
+      "type_specifier": "Modelica.StateGraph.Transition",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t4",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "condition",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "not occupied.y and not1.y and not booSetBack.y and not booSetUp.y"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "enableTimer",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 118,
+                          "y": 120
+                        },
+                        {
+                          "x": 98,
+                          "y": 140
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 118,
+                      "y": 120
+                    },
+                    {
+                      "x": 98,
+                      "y": 140
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "morPreCoo": {
+      "type_specifier": "State",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "morPreCoo",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nIn",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "mode",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "OperationModes.unoccupiedPreCool"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nOut",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Pre-cooling mode",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -140
+                        },
+                        {
+                          "x": -20,
+                          "y": -120
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -140
+                    },
+                    {
+                      "x": -20,
+                      "y": -120
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t7": {
+      "type_specifier": "Modelica.StateGraph.Transition",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t7",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "condition",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "logical_expression": {
+                            "logical_or": [
+                              {
+                                "logical_and": [
+                                  {
+                                    "arithmetic_expressions": [
+                                      {
+                                        "name": "TRooMin.y -delTRooOnOff/2"
+                                      },
+                                      {
+                                        "name": "TRooSetCooOcc"
+                                      }
+                                    ],
+                                    "relation_operator": "<"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 10,
+                          "y": -140
+                        },
+                        {
+                          "x": 30,
+                          "y": -120
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 10,
+                      "y": -140
+                    },
+                    {
+                      "x": 30,
+                      "y": -120
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooAve": {
+      "type_specifier": "Modelica.Blocks.Routing.RealPassThrough",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooAve"
+        },
+        "description": {
+          "description_string": "Average room temperature",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -80,
+                          "y": 110
+                        },
+                        {
+                          "x": -60,
+                          "y": 130
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -80,
+                      "y": 110
+                    },
+                    {
+                      "x": -60,
+                      "y": 130
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "booleanExpression": {
+      "type_specifier": "Modelica.Blocks.Sources.BooleanExpression",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "booleanExpression",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "occThrSho.y and ([object Object])"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Test that outputs true if room temperature is below occupied heating and system should be switched on soon",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -204,
+                          "y": -226
+                        },
+                        {
+                          "x": -100,
+                          "y": -192
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -204,
+                      "y": -226
+                    },
+                    {
+                      "x": -100,
+                      "y": -192
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "preCooSta": {
+      "type_specifier": "Buildings.Examples.VAVReheat.BaseClasses.Controls.PreCoolingStarter",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "preCooSta",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "TRooSetCooOcc",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "TRooSetCooOcc"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Model to start pre-cooling",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -160
+                        },
+                        {
+                          "x": -120,
+                          "y": -140
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -160
+                    },
+                    {
+                      "x": -120,
+                      "y": -140
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t9": {
+      "type_specifier": "Modelica.StateGraph.TransitionWithSignal",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t9"
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -90,
+                          "y": -140
+                        },
+                        {
+                          "x": -70,
+                          "y": -120
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -90,
+                      "y": -140
+                    },
+                    {
+                      "x": -70,
+                      "y": -120
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "not1": {
+      "type_specifier": "Modelica.Blocks.Logical.Not",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "not1"
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -100,
+                          "y": -190
+                        },
+                        {
+                          "x": -80,
+                          "y": -170
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -100,
+                      "y": -190
+                    },
+                    {
+                      "x": -80,
+                      "y": -170
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t8": {
+      "type_specifier": "Modelica.StateGraph.TransitionWithSignal",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t8"
+        },
+        "description": {
+          "description_string": "changes to occupied in case precooling is deactivated",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 30,
+                          "y": -30
+                        },
+                        {
+                          "x": 50,
+                          "y": -10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 30,
+                      "y": -30
+                    },
+                    {
+                      "x": 50,
+                      "y": -10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "sum": {
+      "type_specifier": "Modelica.Blocks.MathInteger.Sum",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sum",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nu",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "7"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -192,
+                          "y": 134
+                        },
+                        {
+                          "x": -180,
+                          "y": 146
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -192,
+                      "y": 134
+                    },
+                    {
+                      "x": -180,
+                      "y": 146
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "yFan": {
+      "type_specifier": "Modelica.Blocks.Interfaces.BooleanOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yFan"
+        },
+        "description": {
+          "description_string": "True if the fans are to be switched on",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 220,
+                          "y": 80
+                        },
+                        {
+                          "x": 260,
+                          "y": 120
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 220,
+                          "y": 80
+                        },
+                        {
+                          "x": 260,
+                          "y": 120
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 220,
+                      "y": 80
+                    },
+                    {
+                      "x": 260,
+                      "y": 120
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 220,
+                      "y": 80
+                    },
+                    {
+                      "x": 260,
+                      "y": 120
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "or1": {
+      "type_specifier": "Modelica.Blocks.MathBoolean.Or",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "or1",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nu",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "5"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 170,
+                          "y": -10
+                        },
+                        {
+                          "x": 190,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 170,
+                      "y": -10
+                    },
+                    {
+                      "x": 190,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "yEco": {
+      "type_specifier": "Modelica.Blocks.Interfaces.BooleanOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yEco"
+        },
+        "description": {
+          "description_string": "True if the economizer is enabled",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 220,
+                          "y": -120
+                        },
+                        {
+                          "x": 260,
+                          "y": -80
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 220,
+                          "y": -120
+                        },
+                        {
+                          "x": 260,
+                          "y": -80
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 220,
+                      "y": -120
+                    },
+                    {
+                      "x": 260,
+                      "y": -80
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 220,
+                      "y": -120
+                    },
+                    {
+                      "x": 260,
+                      "y": -80
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "or2": {
+      "type_specifier": "Modelica.Blocks.MathBoolean.Or",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "or2",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nu",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "3"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Occupied or pre-cool mode",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 170,
+                          "y": -50
+                        },
+                        {
+                          "x": 190,
+                          "y": -30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 170,
+                      "y": -50
+                    },
+                    {
+                      "x": 190,
+                      "y": -30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "and3": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Logical.And",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "and3"
+        },
+        "description": {
+          "description_string": "(Occupied or pre-cool mode) and fan on",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 200,
+                        "y": -70
+                      },
+                      "extent": [
+                        {
+                          "x": -10,
+                          "y": -10
+                        },
+                        {
+                          "x": 10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": -90
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 200,
+                    "y": -70
+                  },
+                  "extent": [
+                    {
+                      "x": -10,
+                      "y": -10
+                    },
+                    {
+                      "x": 10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": -90
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "modIni": {
+      "type_specifier": "Modelica.Blocks.Math.BooleanToInteger",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "modIni",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "integerTrue",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "function_call": {
+                            "name": "Integer",
+                            "arguments": [
+                              {
+                                "name": "OperationModes.unoccupiedOff"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Initial operation mode",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -160,
+                          "y": 10
+                        },
+                        {
+                          "x": -180,
+                          "y": 30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -160,
+                      "y": 10
+                    },
+                    {
+                      "x": -180,
+                      "y": 30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooSetHeaNum": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooSetHeaNum",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "numZon"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"degC\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Room temperature heating set points",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": -240,
+                        "y": 220
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 0
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": -220,
+                        "y": 220
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": -240,
+                    "y": 220
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 0
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": -220,
+                    "y": 220
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 0
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooSetCooNum": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooSetCooNum",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "numZon"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"degC\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Room temperature cooling set points",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": -240,
+                        "y": 180
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 0
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": -220,
+                        "y": 180
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": -240,
+                    "y": 180
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 0
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": -220,
+                    "y": 180
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 0
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRoo": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRoo",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "numZon"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"degC\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Room temperatures",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": -240,
+                        "y": 140
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 0
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": -220,
+                        "y": 140
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": -240,
+                    "y": 140
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 0
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": -220,
+                    "y": 140
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 0
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooErrHeaEas": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooErrHeaEas"
+        },
+        "description": {
+          "description_string": "Room control error for heating",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -100,
+                          "y": 190
+                        },
+                        {
+                          "x": -80,
+                          "y": 210
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -100,
+                      "y": 190
+                    },
+                    {
+                      "x": -80,
+                      "y": 210
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooErrHeaNor": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooErrHeaNor"
+        },
+        "description": {
+          "description_string": "Room control error for heating",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": 190
+                        },
+                        {
+                          "x": -40,
+                          "y": 210
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": 190
+                    },
+                    {
+                      "x": -40,
+                      "y": 210
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooErrHeaWes": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooErrHeaWes"
+        },
+        "description": {
+          "description_string": "Room control error for heating",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": 190
+                        },
+                        {
+                          "x": 0,
+                          "y": 210
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": 190
+                    },
+                    {
+                      "x": 0,
+                      "y": 210
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooErrHeaCor": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooErrHeaCor"
+        },
+        "description": {
+          "description_string": "Room control error for heating",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 20,
+                          "y": 190
+                        },
+                        {
+                          "x": 40,
+                          "y": 210
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 20,
+                      "y": 190
+                    },
+                    {
+                      "x": 40,
+                      "y": 210
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "maxTRooErrHea": {
+      "type_specifier": "Modelica.Blocks.Sources.RealExpression",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "maxTRooErrHea",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "function_call": {
+                            "name": "max",
+                            "arguments": [
+                              {
+                                "name": "{TRooErrHeaSou.y,TRooErrHeaEas.y,TRooErrHeaNor.y,TRooErrHeaWes.y,TRooErrHeaCor.y}"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": 190
+                        },
+                        {
+                          "x": 80,
+                          "y": 210
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": 190
+                    },
+                    {
+                      "x": 80,
+                      "y": 210
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooErrCooSou": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooErrCooSou"
+        },
+        "description": {
+          "description_string": "Room control error for cooling",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 150
+                        },
+                        {
+                          "x": -120,
+                          "y": 170
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 150
+                    },
+                    {
+                      "x": -120,
+                      "y": 170
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooErrCooEas": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooErrCooEas"
+        },
+        "description": {
+          "description_string": "Room control error for cooling",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -100,
+                          "y": 150
+                        },
+                        {
+                          "x": -80,
+                          "y": 170
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -100,
+                      "y": 150
+                    },
+                    {
+                      "x": -80,
+                      "y": 170
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooErrCooNor": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooErrCooNor"
+        },
+        "description": {
+          "description_string": "Room control error for cooling",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": 150
+                        },
+                        {
+                          "x": -40,
+                          "y": 170
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": 150
+                    },
+                    {
+                      "x": -40,
+                      "y": 170
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooErrCooWes": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooErrCooWes"
+        },
+        "description": {
+          "description_string": "Room control error for cooling",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": 150
+                        },
+                        {
+                          "x": 0,
+                          "y": 170
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": 150
+                    },
+                    {
+                      "x": 0,
+                      "y": 170
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooErrCooCor": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooErrCooCor"
+        },
+        "description": {
+          "description_string": "Room control error for cooling",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 20,
+                          "y": 150
+                        },
+                        {
+                          "x": 40,
+                          "y": 170
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 20,
+                      "y": 150
+                    },
+                    {
+                      "x": 40,
+                      "y": 170
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "maxTRooErrCoo": {
+      "type_specifier": "Modelica.Blocks.Sources.RealExpression",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "maxTRooErrCoo",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "function_call": {
+                            "name": "max",
+                            "arguments": [
+                              {
+                                "name": "{TRooErrCooSou.y,TRooErrCooEas.y,TRooErrCooNor.y,TRooErrCooWes.y,TRooErrCooCor.y}"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": 150
+                        },
+                        {
+                          "x": 80,
+                          "y": 170
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": 150
+                    },
+                    {
+                      "x": 80,
+                      "y": 170
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "unOccNigSetUp": {
+      "type_specifier": "State",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "unOccNigSetUp",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nOut",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "3"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "mode",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "OperationModes.unoccupiedNightSetUp"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nIn",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Unoccupied night set up",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -30
+                        },
+                        {
+                          "x": 120,
+                          "y": -10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -30
+                    },
+                    {
+                      "x": 120,
+                      "y": -10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t10": {
+      "type_specifier": "Modelica.StateGraph.TransitionWithSignal",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t10",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "enableTimer",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "true"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "waitTime",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "60"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 70,
+                          "y": -30
+                        },
+                        {
+                          "x": 90,
+                          "y": -10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 70,
+                      "y": -30
+                    },
+                    {
+                      "x": 90,
+                      "y": -10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t11": {
+      "type_specifier": "Modelica.StateGraph.Transition",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t11",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "condition",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "logical_expression": {
+                            "logical_or": [
+                              {
+                                "logical_and": [
+                                  {
+                                    "arithmetic_expressions": [
+                                      {
+                                        "name": "delTRooOnOff/2"
+                                      },
+                                      {
+                                        "name": "-maxTRooErrCoo.y"
+                                      }
+                                    ],
+                                    "relation_operator": "<"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "enableTimer",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "true"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "waitTime",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "30*60"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 90,
+                          "y": 54
+                        },
+                        {
+                          "x": 70,
+                          "y": 74
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 90,
+                      "y": 54
+                    },
+                    {
+                      "x": 70,
+                      "y": 74
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t12": {
+      "type_specifier": "Modelica.StateGraph.TransitionWithSignal",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t12"
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 128,
+                          "y": -138
+                        },
+                        {
+                          "x": 108,
+                          "y": -118
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 128,
+                      "y": -138
+                    },
+                    {
+                      "x": 108,
+                      "y": -118
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t13": {
+      "type_specifier": "Modelica.StateGraph.TransitionWithSignal",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t13"
+        },
+        "description": {
+          "description_string": "changes to occupied in case precooling is deactivated",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 122,
+                          "y": -76
+                        },
+                        {
+                          "x": 102,
+                          "y": -56
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 122,
+                      "y": -76
+                    },
+                    {
+                      "x": 102,
+                      "y": -56
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "TRooMin": {
+      "type_specifier": "Modelica.Blocks.Routing.RealPassThrough",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRooMin"
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -80,
+                          "y": 50
+                        },
+                        {
+                          "x": -60,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -80,
+                      "y": 50
+                    },
+                    {
+                      "x": -60,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "booSetBack": {
+      "type_specifier": "Modelica.Blocks.Sources.BooleanExpression",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "booSetBack",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "logical_expression": {
+                            "logical_or": [
+                              {
+                                "logical_and": [
+                                  {
+                                    "arithmetic_expressions": [
+                                      {
+                                        "name": "maxTRooErrHea.y"
+                                      },
+                                      {
+                                        "name": "delTRooOnOff/2"
+                                      }
+                                    ],
+                                    "relation_operator": ">"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Check for night set back",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -20
+                        },
+                        {
+                          "x": 0,
+                          "y": 0
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -20
+                    },
+                    {
+                      "x": 0,
+                      "y": 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "booSetUp": {
+      "type_specifier": "Modelica.Blocks.Sources.BooleanExpression",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "booSetUp",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "logical_expression": {
+                            "logical_or": [
+                              {
+                                "logical_and": [
+                                  {
+                                    "arithmetic_expressions": [
+                                      {
+                                        "name": "maxTRooErrCoo.y"
+                                      },
+                                      {
+                                        "name": "delTRooOnOff/2"
+                                      }
+                                    ],
+                                    "relation_operator": ">"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Check for night set up",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -34
+                        },
+                        {
+                          "x": 0,
+                          "y": -14
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -34
+                    },
+                    {
+                      "x": 0,
+                      "y": -14
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t14": {
+      "type_specifier": "Modelica.StateGraph.Transition",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t14",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "condition",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "not occupied.y and not1.y and booSetBack.y and not booSetUp.y"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "enableTimer",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 130,
+                          "y": 90
+                        },
+                        {
+                          "x": 110,
+                          "y": 110
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 130,
+                      "y": 90
+                    },
+                    {
+                      "x": 110,
+                      "y": 110
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    },
+    "t15": {
+      "type_specifier": "Modelica.StateGraph.Transition",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ModeSelector",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t15",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "condition",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "not occupied.y and not1.y and not booSetBack.y and booSetUp.y"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "enableTimer",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 140,
+                          "y": 50
+                        },
+                        {
+                          "x": 120,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 140,
+                      "y": 50
+                    },
+                    {
+                      "x": 120,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/ModeSelector.mo"
+    }
+  },
+  "requiredReferences": {
+    "connections": {
+      "start.outPort": [
+        "unOccOff.inPort[1]"
+      ],
+      "initialStepWithSignal.outPort[1]": [
+        "start.inPort"
+      ],
+      "unOccOff.outPort[1]": [
+        "t2.inPort"
+      ],
+      "t2.outPort": [
+        "unOccNigSetBac.inPort[1]"
+      ],
+      "unOccNigSetBac.outPort[1]": [
+        "t1.inPort"
+      ],
+      "t1.outPort": [
+        "unOccOff.inPort[2]"
+      ],
+      "cb.dTNexOcc": [
+        "occThrSho.u"
+      ],
+      "t6.outPort": [
+        "morWarUp.inPort[1]"
+      ],
+      "t5.outPort": [
+        "morWarUp.inPort[2]"
+      ],
+      "unOccNigSetBac.outPort[2]": [
+        "t5.inPort"
+      ],
+      "unOccOff.outPort[2]": [
+        "t6.inPort"
+      ],
+      "morWarUp.outPort[1]": [
+        "t3.inPort"
+      ],
+      "cb.occupied": [
+        "occupied.u"
+      ],
+      "occ.outPort[1]": [
+        "t4.inPort"
+      ],
+      "t4.outPort": [
+        "unOccOff.inPort[3]"
+      ],
+      "cb.TRooAve": [
+        "TRooAve.u"
+      ],
+      "t9.outPort": [
+        "morPreCoo.inPort[1]"
+      ],
+      "unOccOff.outPort[3]": [
+        "t9.inPort"
+      ],
+      "cb": [
+        "preCooSta.controlBus"
+      ],
+      "morPreCoo.outPort[1]": [
+        "t7.inPort"
+      ],
+      "t7.outPort": [
+        "occ.inPort[2]"
+      ],
+      "t3.outPort": [
+        "occ.inPort[1]"
+      ],
+      "occThrSho.y": [
+        "not1.u"
+      ],
+      "t8.outPort": [
+        "occ.inPort[3]"
+      ],
+      "unOccOff.outPort[4]": [
+        "t8.inPort"
+      ],
+      "occupied.y": [
+        "t8.condition",
+        "t13.condition"
+      ],
+      "morPreCoo.y": [
+        "sum.u[1]"
+      ],
+      "morWarUp.y": [
+        "sum.u[2]"
+      ],
+      "occ.y": [
+        "sum.u[3]"
+      ],
+      "unOccOff.y": [
+        "sum.u[4]"
+      ],
+      "unOccNigSetBac.y": [
+        "sum.u[5]"
+      ],
+      "yFan": [
+        "or1.y"
+      ],
+      "unOccNigSetBac.active": [
+        "or1.u[1]"
+      ],
+      "occ.active": [
+        "or1.u[2]",
+        "or2.u[1]"
+      ],
+      "morWarUp.active": [
+        "or1.u[3]"
+      ],
+      "morPreCoo.active": [
+        "or1.u[4]",
+        "or2.u[2]"
+      ],
+      "yEco": [
+        "and3.y"
+      ],
+      "or1.y": [
+        "and3.u1"
+      ],
+      "or2.y": [
+        "and3.u2"
+      ],
+      "initialStepWithSignal.active": [
+        "modIni.u"
+      ],
+      "sum.y": [
+        "cb.controlMode"
+      ],
+      "modIni.y": [
+        "sum.u[6]"
+      ],
+      "t6.condition": [
+        "booleanExpression.y"
+      ],
+      "t5.condition": [
+        "booleanExpression.y"
+      ],
+      "TRooSetHeaNum[1]": [
+        "TRooErrHeaSou.u1"
+      ],
+      "TRooSetHeaNum[2]": [
+        "TRooErrHeaEas.u1"
+      ],
+      "TRooSetHeaNum[3]": [
+        "TRooErrHeaNor.u1"
+      ],
+      "TRooSetHeaNum[4]": [
+        "TRooErrHeaWes.u1"
+      ],
+      "TRooSetHeaNum[5]": [
+        "TRooErrHeaCor.u1"
+      ],
+      "TRoo[1]": [
+        "TRooErrHeaSou.u2",
+        "TRooErrCooSou.u1"
+      ],
+      "TRoo[2]": [
+        "TRooErrHeaEas.u2",
+        "TRooErrCooEas.u1"
+      ],
+      "TRoo[3]": [
+        "TRooErrHeaNor.u2",
+        "TRooErrCooNor.u1"
+      ],
+      "TRoo[4]": [
+        "TRooErrHeaWes.u2",
+        "TRooErrCooWes.u1"
+      ],
+      "TRoo[5]": [
+        "TRooErrHeaCor.u2",
+        "TRooErrCooCor.u1"
+      ],
+      "TRooSetCooNum[1]": [
+        "TRooErrCooSou.u2"
+      ],
+      "TRooSetCooNum[2]": [
+        "TRooErrCooEas.u2"
+      ],
+      "TRooSetCooNum[3]": [
+        "TRooErrCooNor.u2"
+      ],
+      "TRooSetCooNum[4]": [
+        "TRooErrCooWes.u2"
+      ],
+      "TRooSetCooNum[5]": [
+        "TRooErrCooCor.u2"
+      ],
+      "preCooSta.y": [
+        "t9.condition",
+        "t12.condition"
+      ],
+      "t10.outPort": [
+        "unOccNigSetUp.inPort[1]"
+      ],
+      "unOccOff.outPort[5]": [
+        "t10.inPort"
+      ],
+      "unOccNigSetUp.y": [
+        "sum.u[7]"
+      ],
+      "unOccNigSetUp.active": [
+        "or1.u[5]",
+        "or2.u[3]"
+      ],
+      "t11.outPort": [
+        "unOccOff.inPort[4]"
+      ],
+      "t11.inPort": [
+        "unOccNigSetUp.outPort[1]"
+      ],
+      "unOccNigSetUp.outPort[2]": [
+        "t12.inPort"
+      ],
+      "t12.outPort": [
+        "morPreCoo.inPort[2]"
+      ],
+      "unOccNigSetUp.outPort[3]": [
+        "t13.inPort"
+      ],
+      "t13.outPort": [
+        "occ.inPort[4]"
+      ],
+      "cb.TRooMin": [
+        "TRooMin.u"
+      ],
+      "booSetBack.y": [
+        "t2.condition"
+      ],
+      "booSetUp.y": [
+        "t10.condition"
+      ],
+      "t14.outPort": [
+        "unOccNigSetBac.inPort[2]"
+      ],
+      "t14.inPort": [
+        "occ.outPort[2]"
+      ],
+      "t15.outPort": [
+        "unOccNigSetUp.inPort[2]"
+      ],
+      "t15.inPort": [
+        "occ.outPort[3]"
+      ]
+    }
+  }
+}

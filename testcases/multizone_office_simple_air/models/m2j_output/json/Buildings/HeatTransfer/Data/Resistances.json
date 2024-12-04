@@ -1,0 +1,450 @@
+{
+  "within": "Buildings.HeatTransfer.Data",
+  "class_definition": [
+    {
+      "class_prefixes": "package",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "Resistances",
+          "description_string": "Package with thermal resistances",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Modelica.Icons.MaterialPropertiesPackage"
+                }
+              },
+              {
+                "class_definition": {
+                  "class_prefixes": "record",
+                  "class_specifier": {
+                    "long_class_specifier": {
+                      "identifier": "Generic",
+                      "description_string": "Thermal properties of heat resistances",
+                      "composition": {
+                        "element_list": [
+                          {
+                            "extends_clause": {
+                              "name": "Buildings.HeatTransfer.Data.BaseClasses.Material",
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "c",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "d",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "k",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "x",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "nStaRef",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "nSta",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "1"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "steadyState",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "true"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "TSol",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "TLiq",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "LHea",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "final": true,
+                                    "element_modification": {
+                                      "name": "phasechange",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Icon",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "coordinateSystem": {
+                                            "extent": [
+                                              {
+                                                "x": -100,
+                                                "y": -100
+                                              },
+                                              {
+                                                "x": 100,
+                                                "y": 100
+                                              }
+                                            ],
+                                            "preserveAspectRatio": "false"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "graphics": [
+                                            {
+                                              "name": "Rectangle",
+                                              "attribute": {
+                                                "extent": [
+                                                  {
+                                                    "x": -100,
+                                                    "y": 50
+                                                  },
+                                                  {
+                                                    "x": 100,
+                                                    "y": -100
+                                                  }
+                                                ],
+                                                "lineColor": {
+                                                  "r": 0,
+                                                  "g": 0,
+                                                  "b": 255
+                                                },
+                                                "fillColor": {
+                                                  "r": 255,
+                                                  "g": 255,
+                                                  "b": 127
+                                                },
+                                                "fillPattern": "FillPattern.Solid"
+                                              }
+                                            },
+                                            {
+                                              "name": "Text",
+                                              "attribute": {
+                                                "extent": [
+                                                  {
+                                                    "x": -98,
+                                                    "y": -72
+                                                  },
+                                                  {
+                                                    "x": 96,
+                                                    "y": -94
+                                                  }
+                                                ],
+                                                "textString": ",textString=",
+                                                "textColor": {
+                                                  "r": 0,
+                                                  "g": 0,
+                                                  "b": 255
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "defaultComponentPrefixes",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "\"parameter\""
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "defaultComponentName",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "\"datTheRes\""
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Documentation",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "info",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"<html>\nGeneric record for thermal properties of\nheat resistances.\n</html>\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "revisions",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"<html>\n<ul>\n<li>\nSep. 3 2010, by Michael Wetter, Wangda Zuo:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "class_definition": {
+                  "class_prefixes": "record",
+                  "class_specifier": {
+                    "short_class_specifier": {
+                      "identifier": "Carpet",
+                      "value": {
+                        "name": "Buildings.HeatTransfer.Data.Resistances.Generic",
+                        "class_modification": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "R",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "0.2165"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ],
+                        "description": {
+                          "description_string": "Carpet",
+                          "annotation": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "defaultComponentPrefixes",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"parameter\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "defaultComponentName",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"datTheRes\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\nPackage with records that implement thermal properties of\nheat resistances.\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nSep. 3 2010, by Michael Wetter, Wangda Zuo:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/HeatTransfer/Data/Resistances.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/Resistances.mo",
+  "checksum": "2f8f8033f39b1a011d3160437ef3e207"
+}

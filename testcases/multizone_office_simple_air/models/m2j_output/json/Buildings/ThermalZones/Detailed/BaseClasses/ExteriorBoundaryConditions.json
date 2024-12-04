@@ -1,0 +1,2531 @@
+{
+  "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "ExteriorBoundaryConditions",
+          "description_string": "Model for convection and radiation bounary condition of exterior constructions",
+          "composition": {
+            "element_list": [
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Integer",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "nCon",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "1"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Number of exterior constructions",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Exterior constructions\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "linearizeRadiation"
+                      },
+                      "description": {
+                        "description_string": "Set to true to linearize emissive power"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "replaceable": true,
+                "constraining_clause": {
+                  "name": "ParameterConstruction"
+                },
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "ParameterConstruction",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conPar",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "nCon"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "description": {
+                  "description_string": "Records for construction",
+                  "annotation": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "Placement": {
+                            "transformation": {
+                              "extent": [
+                                {
+                                  "x": 174,
+                                  "y": -214
+                                },
+                                {
+                                  "x": 194,
+                                  "y": -194
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "opa_a",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "nCon"
+                            }
+                          }
+                        ]
+                      },
+                      "description": {
+                        "description_string": "Heat port at surface a of opaque construction",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -310,
+                                        "y": 190
+                                      },
+                                      {
+                                        "x": -290,
+                                        "y": 210
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Buildings.HeatTransfer.Types.ExteriorConvection",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conMod",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "Buildings.HeatTransfer.Types.ExteriorConvection.TemperatureWind"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Convective heat transfer model for opaque part of the constructions",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Convective heat transfer\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.CoefficientOfHeatTransfer",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "hFixed",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "10"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Constant convection coefficient for opaque part of the constructions",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Convective heat transfer\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "enable",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "([object Object])"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "HeatTransfer.Convection.Exterior",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conOpa",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "nCon"
+                            }
+                          }
+                        ],
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "A",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "AOpa"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "til",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "Modelica.Constants.pi*ones(nCon) .-conPar[:].til"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "azi",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "conPar[:].azi"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "each": true,
+                                "element_modification": {
+                                  "name": "conMod",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "conMod"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "each": true,
+                                "element_modification": {
+                                  "name": "hFixed",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "hFixed"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Convection model for opaque part of the wall",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -180,
+                                        "y": 160
+                                      },
+                                      {
+                                        "x": -140,
+                                        "y": 200
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "SkyRadiationExchange",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "skyRadExc",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "n",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "nCon"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "A",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "AOpa"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "absIR",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "conPar[:].layers.absIR_a"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "vieFacSky",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": {
+                                        "for_loop": {
+                                          "expression": {
+                                            "simple_expression": "(Modelica.Constants.pi -conPar[i].til)./Modelica.Constants.pi"
+                                          },
+                                          "for_loop": [
+                                            {
+                                              "name": "i",
+                                              "range": "1:nCon"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Infrared radiative heat exchange with sky",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 240
+                                      },
+                                      {
+                                        "x": -180,
+                                        "y": 280
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "BoundaryConditions.WeatherData.Bus",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "weaBus"
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 234,
+                                        "y": 32
+                                      },
+                                      {
+                                        "x": 254,
+                                        "y": 52
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": 192,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 254,
+                                        "y": 52
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "BoundaryConditions.SolarIrradiation.DirectTiltedSurface",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "HDirTil",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "nCon"
+                            }
+                          }
+                        ],
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "til",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "conPar[:].til"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "azi",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "conPar[:].azi"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Direct solar irradiation on the surface",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 220,
+                                        "y": 120
+                                      },
+                                      {
+                                        "x": 200,
+                                        "y": 140
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "BoundaryConditions.SolarIrradiation.DiffusePerez",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "HDifTil",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "nCon"
+                            }
+                          }
+                        ],
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "til",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "conPar[:].til"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "azi",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "conPar[:].azi"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Diffuse solar irradiation",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 220,
+                                        "y": 80
+                                      },
+                                      {
+                                        "x": 200,
+                                        "y": 100
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Math.Add",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "HTotConExt",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "nCon"
+                            }
+                          }
+                        ],
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "k1",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "conPar[:].layers.absSol_a.*AOpa"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "k2",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "conPar[:].layers.absSol_a.*AOpa"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Total solar irradiation",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 40,
+                                        "y": 100
+                                      },
+                                      {
+                                        "x": 20,
+                                        "y": 120
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.HeatTransfer.Sources.PrescribedHeatFlow",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "solHeaGaiConExt",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "nCon"
+                            }
+                          }
+                        ]
+                      },
+                      "description": {
+                        "description_string": "Total solar heat gain of the surface",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 0,
+                                        "y": 100
+                                      },
+                                      {
+                                        "x": -20,
+                                        "y": 120
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AOpa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nCon"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "conPar[:].A"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Area of opaque construction"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Buildings.HeatTransfer.Sources.PrescribedTemperature",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "TAirConExt",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nCon"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Outside air temperature for exterior constructions",
+                            "annotation": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "Placement": {
+                                      "transformation": {
+                                        "extent": [
+                                          {
+                                            "x": 8,
+                                            "y": 160
+                                          },
+                                          {
+                                            "x": -32,
+                                            "y": 200
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Blocks.Routing.Replicator",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "repConExt",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "nout",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "nCon"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Signal replicator",
+                            "annotation": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "Placement": {
+                                      "transformation": {
+                                        "extent": [
+                                          {
+                                            "x": 100,
+                                            "y": 170
+                                          },
+                                          {
+                                            "x": 80,
+                                            "y": 190
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Blocks.Routing.Replicator",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "repConExt1",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "nout",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "nCon"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Signal replicator",
+                            "annotation": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "Placement": {
+                                      "transformation": {
+                                        "extent": [
+                                          {
+                                            "x": 130,
+                                            "y": 200
+                                          },
+                                          {
+                                            "x": 110,
+                                            "y": 220
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Blocks.Routing.Replicator",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "repConExt2",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "nout",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "nCon"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Signal replicator",
+                            "annotation": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "Placement": {
+                                      "transformation": {
+                                        "extent": [
+                                          {
+                                            "x": 180,
+                                            "y": 220
+                                          },
+                                          {
+                                            "x": 160,
+                                            "y": 240
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "conOpa"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "solid"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "opa_a"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -180,
+                                      "y": 180
+                                    },
+                                    {
+                                      "x": -240,
+                                      "y": 180
+                                    },
+                                    {
+                                      "x": -240,
+                                      "y": 200
+                                    },
+                                    {
+                                      "x": -300,
+                                      "y": 200
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 191,
+                                    "g": 0,
+                                    "b": 0
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "skyRadExc"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "port"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "opa_a"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -180,
+                                      "y": 260
+                                    },
+                                    {
+                                      "x": -212,
+                                      "y": 260
+                                    },
+                                    {
+                                      "x": -212,
+                                      "y": 260
+                                    },
+                                    {
+                                      "x": -240,
+                                      "y": 260
+                                    },
+                                    {
+                                      "x": -240,
+                                      "y": 200
+                                    },
+                                    {
+                                      "x": -300,
+                                      "y": 200
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 191,
+                                    "g": 0,
+                                    "b": 0
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "TAirConExt"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "port"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "conOpa"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "fluid"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -32,
+                                      "y": 180
+                                    },
+                                    {
+                                      "x": -140,
+                                      "y": 180
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 191,
+                                    "g": 0,
+                                    "b": 0
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "repConExt"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "TAirConExt"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "T"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 79,
+                                      "y": 180
+                                    },
+                                    {
+                                      "x": 12,
+                                      "y": 180
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "repConExt"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "weaBus"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "TDryBul"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 102,
+                                      "y": 180
+                                    },
+                                    {
+                                      "x": 244,
+                                      "y": 180
+                                    },
+                                    {
+                                      "x": 244,
+                                      "y": 42
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Text": {
+                                  "extent": [
+                                    {
+                                      "x": 6,
+                                      "y": 3
+                                    },
+                                    {
+                                      "x": 6,
+                                      "y": 3
+                                    }
+                                  ],
+                                  "textString": "\"%second\"",
+                                  "index": 1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "skyRadExc"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "TOut"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "weaBus"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "TDryBul"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -136,
+                                      "y": 252
+                                    },
+                                    {
+                                      "x": 244,
+                                      "y": 252
+                                    },
+                                    {
+                                      "x": 244,
+                                      "y": 42
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Text": {
+                                  "extent": [
+                                    {
+                                      "x": 6,
+                                      "y": 3
+                                    },
+                                    {
+                                      "x": 6,
+                                      "y": 3
+                                    }
+                                  ],
+                                  "textString": "\"%second\"",
+                                  "index": 1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "skyRadExc"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "TBlaSky"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "weaBus"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "TBlaSky"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -136,
+                                      "y": 268
+                                    },
+                                    {
+                                      "x": 244,
+                                      "y": 268
+                                    },
+                                    {
+                                      "x": 244,
+                                      "y": 42
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Text": {
+                                  "extent": [
+                                    {
+                                      "x": 6,
+                                      "y": 3
+                                    },
+                                    {
+                                      "x": 6,
+                                      "y": 3
+                                    }
+                                  ],
+                                  "textString": "\"%second\"",
+                                  "index": 1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nCon"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "connect_clause": {
+                              "from": [
+                                {
+                                  "dot_op": false,
+                                  "identifier": "weaBus"
+                                }
+                              ],
+                              "to": [
+                                {
+                                  "dot_op": false,
+                                  "identifier": "HDirTil",
+                                  "array_subscripts": [
+                                    {
+                                      "expression": {
+                                        "simple_expression": "i"
+                                      }
+                                    }
+                                  ]
+                                },
+                                {
+                                  "dot_op": true
+                                },
+                                {
+                                  "dot_op": false,
+                                  "identifier": "weaBus"
+                                }
+                              ]
+                            },
+                            "description": {
+                              "annotation": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "Line": {
+                                        "points": [
+                                          {
+                                            "x": 244,
+                                            "y": 42
+                                          },
+                                          {
+                                            "x": 244,
+                                            "y": 130
+                                          },
+                                          {
+                                            "x": 220,
+                                            "y": 130
+                                          }
+                                        ],
+                                        "color": {
+                                          "r": 255,
+                                          "g": 204,
+                                          "b": 51
+                                        },
+                                        "thickness": 0.5,
+                                        "smooth": "Smooth.None"
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "Text": {
+                                        "extent": [
+                                          {
+                                            "x": -6,
+                                            "y": 3
+                                          },
+                                          {
+                                            "x": -6,
+                                            "y": 3
+                                          }
+                                        ],
+                                        "textString": "\"%first\"",
+                                        "index": -1
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "connect_clause": {
+                              "from": [
+                                {
+                                  "dot_op": false,
+                                  "identifier": "HDifTil",
+                                  "array_subscripts": [
+                                    {
+                                      "expression": {
+                                        "simple_expression": "i"
+                                      }
+                                    }
+                                  ]
+                                },
+                                {
+                                  "dot_op": true
+                                },
+                                {
+                                  "dot_op": false,
+                                  "identifier": "weaBus"
+                                }
+                              ],
+                              "to": [
+                                {
+                                  "dot_op": false,
+                                  "identifier": "weaBus"
+                                }
+                              ]
+                            },
+                            "description": {
+                              "annotation": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "Line": {
+                                        "points": [
+                                          {
+                                            "x": 220,
+                                            "y": 90
+                                          },
+                                          {
+                                            "x": 244,
+                                            "y": 90
+                                          },
+                                          {
+                                            "x": 244,
+                                            "y": 42
+                                          }
+                                        ],
+                                        "color": {
+                                          "r": 255,
+                                          "g": 204,
+                                          "b": 51
+                                        },
+                                        "thickness": 0.5,
+                                        "smooth": "Smooth.None"
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "Text": {
+                                        "extent": [
+                                          {
+                                            "x": 6,
+                                            "y": 3
+                                          },
+                                          {
+                                            "x": 6,
+                                            "y": 3
+                                          }
+                                        ],
+                                        "textString": "\"%second\"",
+                                        "index": 1
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "HTotConExt"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "solHeaGaiConExt"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "Q_flow"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 19,
+                                      "y": 110
+                                    },
+                                    {
+                                      "x": 5.55112e-16,
+                                      "y": 110
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "solHeaGaiConExt"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "port"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "opa_a"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -20,
+                                      "y": 110
+                                    },
+                                    {
+                                      "x": -240,
+                                      "y": 110
+                                    },
+                                    {
+                                      "x": -240,
+                                      "y": 200
+                                    },
+                                    {
+                                      "x": -300,
+                                      "y": 200
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 191,
+                                    "g": 0,
+                                    "b": 0
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "HDirTil"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "H"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "HTotConExt"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u1"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 199,
+                                      "y": 130
+                                    },
+                                    {
+                                      "x": 60,
+                                      "y": 130
+                                    },
+                                    {
+                                      "x": 60,
+                                      "y": 116
+                                    },
+                                    {
+                                      "x": 42,
+                                      "y": 116
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "HDifTil"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "H"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "HTotConExt"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u2"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 199,
+                                      "y": 90
+                                    },
+                                    {
+                                      "x": 60,
+                                      "y": 90
+                                    },
+                                    {
+                                      "x": 60,
+                                      "y": 104
+                                    },
+                                    {
+                                      "x": 42,
+                                      "y": 104
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "repConExt2"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "weaBus"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "winDir"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 182,
+                                      "y": 230
+                                    },
+                                    {
+                                      "x": 244,
+                                      "y": 230
+                                    },
+                                    {
+                                      "x": 244,
+                                      "y": 42
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Text": {
+                                  "extent": [
+                                    {
+                                      "x": 6,
+                                      "y": 3
+                                    },
+                                    {
+                                      "x": 6,
+                                      "y": 3
+                                    }
+                                  ],
+                                  "textString": "\"%second\"",
+                                  "index": 1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "repConExt1"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "weaBus"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "winSpe"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 132,
+                                      "y": 210
+                                    },
+                                    {
+                                      "x": 244,
+                                      "y": 210
+                                    },
+                                    {
+                                      "x": 244,
+                                      "y": 42
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Text": {
+                                  "extent": [
+                                    {
+                                      "x": 6,
+                                      "y": 3
+                                    },
+                                    {
+                                      "x": 6,
+                                      "y": 3
+                                    }
+                                  ],
+                                  "textString": "\"%second\"",
+                                  "index": 1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "repConExt1"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "conOpa"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "v"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 109,
+                                      "y": 210
+                                    },
+                                    {
+                                      "x": -194,
+                                      "y": 210
+                                    },
+                                    {
+                                      "x": -194,
+                                      "y": 200
+                                    },
+                                    {
+                                      "x": -184,
+                                      "y": 200
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "repConExt2"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "conOpa"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "dir"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 159,
+                                      "y": 230
+                                    },
+                                    {
+                                      "x": -200,
+                                      "y": 230
+                                    },
+                                    {
+                                      "x": -200,
+                                      "y": 190
+                                    },
+                                    {
+                                      "x": -184,
+                                      "y": 190
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Diagram",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -300,
+                                    "y": -300
+                                  },
+                                  {
+                                    "x": 300,
+                                    "y": 300
+                                  }
+                                ],
+                                "preserveAspectRatio": "true"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -300,
+                                    "y": -300
+                                  },
+                                  {
+                                    "x": 300,
+                                    "y": 300
+                                  }
+                                ],
+                                "preserveAspectRatio": "true"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -160,
+                                        "y": 280
+                                      },
+                                      {
+                                        "x": 280,
+                                        "y": -250
+                                      }
+                                    ],
+                                    "fillColor": {
+                                      "r": 230,
+                                      "g": 243,
+                                      "b": 255
+                                    },
+                                    "pattern": "LinePattern.None",
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Ellipse",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": 164,
+                                        "y": 262
+                                      },
+                                      {
+                                        "x": 270,
+                                        "y": 162
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 213,
+                                      "b": 170
+                                    },
+                                    "fillPattern": "FillPattern.Sphere"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -220,
+                                        "y": 280
+                                      },
+                                      {
+                                        "x": -160,
+                                        "y": -280
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 175,
+                                      "g": 175,
+                                      "b": 175
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -160,
+                                        "y": -250
+                                      },
+                                      {
+                                        "x": 280,
+                                        "y": -280
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 0
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -168,
+                                        "y": 346
+                                      },
+                                      {
+                                        "x": 212,
+                                        "y": 280
+                                      }
+                                    ],
+                                    "textString": "\"%name\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nThis model computes the boundary conditions for the outside-facing surface of\nopaque constructions.\n</p>\n<p>\nThe model computes the infrared, solar, and convective heat exchange\nbetween these surfaces and the exterior temperature and the sky temperature.\nInput into this model are weather data that may be obtained from\n<a href=\\\"modelica://Buildings.BoundaryConditions.WeatherData\\\">\nBuildings.BoundaryConditions.WeatherData</a>.\n</p>\n<p>\nIn this model, the solar radiation data are converted from horizontal irradiation to\nirradiation on tilted surfaces using models from the package\n<a href=\\\"modelica://Buildings.BoundaryConditions.SolarIrradiation\\\">\nBuildings.BoundaryConditions.SolarIrradiation</a>.\nThe convective heat transfer between the exterior surface of the opaque constructions\nis computed using\n<a href=\\\"modelica://Buildings.HeatTransfer.Convection\\\">\nBuildings.HeatTransfer.Convection</a>.\n</p>\n<p>\nThe heat transfer of windows are not computed in this model. They are implemented in\n<a href=\\\"modelica://Buildings.ThermalZones.Detailed.BaseClasses.ExteriorBoundaryConditionsWithWindow\\\">\nBuildings.ThermalZones.Detailed.BaseClasses.ExteriorBoundaryConditionsWithWindow</a>.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nSeptember 16, 2021, by Michael Wetter:<br/>\nRemoved parameter <code>lat</code> because the latitude is now obtained from the weather data bus.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\\\">IBPSA, #1477</a>.\n</li>\n<li>\nAugust 9, 2011 by Michael Wetter:<br/>\nChanged assignment of tilt in instance <code>conOpa</code>.\nThis fixes the bug in <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/35\\\">issue 35</a>\nthat led to the wrong solar radiation gain for roofs and floors.\n(Since the tilt has been changed in the model\n<a href=\\\"modelica://Buildings.ThermalZones.Detailed.MixedAir\\\">\nBuildings.ThermalZones.Detailed.MixedAir</a> at the place where it makes an instance of this model,\nthe change in the tilt parameter of the convective heat transfer model was required.)\n</li>\n<li>\nMarch 28, 2011, by Michael Wetter:<br/>\nPropaged parameter <code>hFixed</code> to top-level of the model.\n</li>\n<li>\nMarch 23, 2011, by Michael Wetter:<br/>\nRemoved default value for convection model.\n</li>\n<li>\nNovember 23, 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/ThermalZones/Detailed/BaseClasses/ExteriorBoundaryConditions.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/ExteriorBoundaryConditions.mo",
+  "checksum": "d8717b6073673a71a34d529329de9d36"
+}

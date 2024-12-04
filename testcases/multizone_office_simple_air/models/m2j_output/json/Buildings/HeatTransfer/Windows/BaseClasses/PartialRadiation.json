@@ -1,0 +1,1262 @@
+{
+  "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "partial block",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "PartialRadiation",
+          "description_string": "Partial model for variables and data used in radiation calculation",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Modelica.Blocks.Icons.Block"
+                }
+              },
+              {
+                "extends_clause": {
+                  "name": "Buildings.HeatTransfer.Windows.BaseClasses.RadiationBaseData"
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "haveExteriorShade"
+                      },
+                      "description": {
+                        "description_string": "Set to true if window has an exterior shade"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "haveInteriorShade"
+                      },
+                      "description": {
+                        "description_string": "Set to true if window has an interior shade"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Area",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "AWin"
+                      },
+                      "description": {
+                        "description_string": "Area of window"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "final": true,
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "haveShade",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "haveExteriorShade or haveInteriorShade"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Set to true if window has a shade",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Evaluate",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "true"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "final": true,
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Buildings.HeatTransfer.Windows.BaseClasses.RadiationData",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "radDat",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "N",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "N"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "tauGlaSol",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "tauGlaSol"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "rhoGlaSol_a",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "rhoGlaSol_a"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "rhoGlaSol_b",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "rhoGlaSol_b"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "xGla",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "xGla"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "tauShaSol_a",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "tauShaSol_a"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "tauShaSol_b",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "tauShaSol_b"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "rhoShaSol_a",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "rhoShaSol_a"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "rhoShaSol_b",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "rhoShaSol_b"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Optical properties of window for different irradiation angles",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 60,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": 80,
+                                        "y": 40
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "uSha",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "max",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "1"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveShade"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Control signal for shading (0: unshaded; 1: fully shaded)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "origin": {
+                                      "x": 0,
+                                      "y": -120
+                                    },
+                                    "extent": [
+                                      {
+                                        "x": -20,
+                                        "y": -20
+                                      },
+                                      {
+                                        "x": 20,
+                                        "y": 20
+                                      }
+                                    ],
+                                    "rotation": 90
+                                  },
+                                  "iconTransformation": {
+                                    "origin": {
+                                      "x": -2,
+                                      "y": -116
+                                    },
+                                    "extent": [
+                                      {
+                                        "x": -16,
+                                        "y": -16
+                                      },
+                                      {
+                                        "x": 16,
+                                        "y": 16
+                                      }
+                                    ],
+                                    "rotation": 90
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "HDif",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"RadiantEnergyFluenceRate\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"W/m2\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Diffussive solar radiation",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 60
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 100
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": -130,
+                                        "y": 65
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 95
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "incAng",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Angle\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"rad\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"deg\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Incident angle",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": -20
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 20
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": -130,
+                                        "y": -25
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 5
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "HDir",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"RadiantEnergyFluenceRate\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"W/m2\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Direct solar radiation",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 60
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": -130,
+                                        "y": 25
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 55
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "uSha_internal",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "max",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "1"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Control signal for shading (0: unshaded; 1: fully shaded)"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "initial": true,
+                  "equation": [
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": "not (haveExteriorShade and haveInteriorShade)"
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"Window radiation model does not support an exterior and interior shade at the same time.\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "uSha"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "uSha_internal"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "(not haveShade)"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "uSha_internal",
+                                    "rhs": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\nThe model calculates solar absorbance on the window.\nThe calculations follow the description in Wetter (2004), Appendix A.4.3.\n\n<h4>References</h4>\n<ul>\n<li>\nMichael Wetter.<br/>\n<a href=\\\"http://simulationresearch.lbl.gov/wetter/download/mwdiss.pdf\\\">\nSimulation-based Building Energy Optimization</a>.<br/>\nDissertation. University of California at Berkeley. 2004.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nDecember 12, 2011, by Wangda Zuo:<br/>\nAdd glass thickness as a parameter for radDat. It is needed by the claculation of property for uncoated glass.\n</li>\n<li>\nFebruary 2, 2010, by Michael Wetter:<br/>\nMade connector <code>uSha</code> a conditional connector.\n</li>\n<li>\nDecember 16, 2010, by Wangda Zuo:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -92,
+                                        "y": 0
+                                      },
+                                      {
+                                        "x": -62,
+                                        "y": -20
+                                      }
+                                    ],
+                                    "textString": "\"incAng\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -94,
+                                        "y": 84
+                                      },
+                                      {
+                                        "x": -70,
+                                        "y": 70
+                                      }
+                                    ],
+                                    "textString": "\"HDif\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -96,
+                                        "y": 42
+                                      },
+                                      {
+                                        "x": -62,
+                                        "y": 30
+                                      }
+                                    ],
+                                    "textString": "\"HDir\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -32,
+                                        "y": -82
+                                      },
+                                      {
+                                        "x": 22,
+                                        "y": -94
+                                      }
+                                    ],
+                                    "textString": "\"uSha\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Polygon",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -46,
+                                        "y": 66
+                                      },
+                                      {
+                                        "x": -46,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": -6,
+                                        "y": -50
+                                      },
+                                      {
+                                        "x": -6,
+                                        "y": 22
+                                      },
+                                      {
+                                        "x": -46,
+                                        "y": 66
+                                      }
+                                    ],
+                                    "smooth": "Smooth.None",
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 170,
+                                      "g": 213,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Polygon",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 18,
+                                        "y": 64
+                                      },
+                                      {
+                                        "x": 18,
+                                        "y": -12
+                                      },
+                                      {
+                                        "x": 58,
+                                        "y": -52
+                                      },
+                                      {
+                                        "x": 58,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": 18,
+                                        "y": 64
+                                      }
+                                    ],
+                                    "smooth": "Smooth.None",
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 170,
+                                      "g": 213,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -28,
+                                        "y": 2
+                                      },
+                                      {
+                                        "x": -18,
+                                        "y": 10
+                                      },
+                                      {
+                                        "x": -8,
+                                        "y": 0
+                                      },
+                                      {
+                                        "x": 2,
+                                        "y": 10
+                                      },
+                                      {
+                                        "x": 12,
+                                        "y": 0
+                                      },
+                                      {
+                                        "x": 22,
+                                        "y": 10
+                                      },
+                                      {
+                                        "x": 32,
+                                        "y": -2
+                                      },
+                                      {
+                                        "x": 40,
+                                        "y": 4
+                                      },
+                                      {
+                                        "x": 34,
+                                        "y": 4
+                                      },
+                                      {
+                                        "x": 38,
+                                        "y": -2
+                                      },
+                                      {
+                                        "x": 40,
+                                        "y": 4
+                                      },
+                                      {
+                                        "x": 38,
+                                        "y": 4
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 128,
+                                      "b": 0
+                                    },
+                                    "smooth": "Smooth.None"
+                                  }
+                                },
+                                {
+                                  "name": "Polygon",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 38,
+                                        "y": -2
+                                      },
+                                      {
+                                        "x": 34,
+                                        "y": 4
+                                      },
+                                      {
+                                        "x": 40,
+                                        "y": 4
+                                      },
+                                      {
+                                        "x": 38,
+                                        "y": -2
+                                      }
+                                    ],
+                                    "smooth": "Smooth.None",
+                                    "lineColor": {
+                                      "r": 255,
+                                      "g": 128,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 128,
+                                      "b": 0
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 38,
+                                        "y": -4
+                                      },
+                                      {
+                                        "x": 46,
+                                        "y": -14
+                                      },
+                                      {
+                                        "x": 58,
+                                        "y": -4
+                                      },
+                                      {
+                                        "x": 66,
+                                        "y": -14
+                                      },
+                                      {
+                                        "x": 66,
+                                        "y": -14
+                                      },
+                                      {
+                                        "x": 76,
+                                        "y": -4
+                                      },
+                                      {
+                                        "x": 86,
+                                        "y": -16
+                                      },
+                                      {
+                                        "x": 94,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 88,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 92,
+                                        "y": -16
+                                      },
+                                      {
+                                        "x": 94,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 92,
+                                        "y": -10
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 128,
+                                      "b": 0
+                                    },
+                                    "smooth": "Smooth.None"
+                                  }
+                                },
+                                {
+                                  "name": "Polygon",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 92,
+                                        "y": -16
+                                      },
+                                      {
+                                        "x": 88,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 94,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 92,
+                                        "y": -16
+                                      }
+                                    ],
+                                    "smooth": "Smooth.None",
+                                    "lineColor": {
+                                      "r": 255,
+                                      "g": 128,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 128,
+                                      "b": 0
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Polygon",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -26,
+                                        "y": 8
+                                      },
+                                      {
+                                        "x": -30,
+                                        "y": 14
+                                      },
+                                      {
+                                        "x": -24,
+                                        "y": 14
+                                      },
+                                      {
+                                        "x": -26,
+                                        "y": 8
+                                      }
+                                    ],
+                                    "smooth": "Smooth.None",
+                                    "lineColor": {
+                                      "r": 255,
+                                      "g": 128,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 128,
+                                      "b": 0
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -80,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": -72,
+                                        "y": 10
+                                      },
+                                      {
+                                        "x": -60,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": -52,
+                                        "y": 10
+                                      },
+                                      {
+                                        "x": -52,
+                                        "y": 10
+                                      },
+                                      {
+                                        "x": -42,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": -32,
+                                        "y": 8
+                                      },
+                                      {
+                                        "x": -24,
+                                        "y": 14
+                                      },
+                                      {
+                                        "x": -30,
+                                        "y": 14
+                                      },
+                                      {
+                                        "x": -26,
+                                        "y": 8
+                                      },
+                                      {
+                                        "x": -24,
+                                        "y": 14
+                                      },
+                                      {
+                                        "x": -26,
+                                        "y": 14
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 128,
+                                      "b": 0
+                                    },
+                                    "smooth": "Smooth.None"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/HeatTransfer/Windows/BaseClasses/PartialRadiation.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/PartialRadiation.mo",
+  "checksum": "1791f707a7c731f569e0736a93dc5351"
+}

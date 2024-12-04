@@ -1,0 +1,601 @@
+{
+  "within": "Buildings.BoundaryConditions.SolarIrradiation.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "block",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "SkyClearness",
+          "description_string": "Sky clearness",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Modelica.Blocks.Icons.Block"
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "zen",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Angle\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"rad\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"degreeC\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Zenith angle of the sun beam",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": -80
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": -40
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "HDifHor",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"RadiantEnergyFluenceRate\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"W/m2\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Horizontal diffuse solar radiation",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": -20
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 20
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "HDirNor",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"RadiantEnergyFluenceRate\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"W/m2\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Horizontal global solar radiation",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 40
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 80
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "skyCle"
+                      },
+                      "description": {
+                        "description_string": "Sky clearness. skyCle=1: overast sky; skyCle=8: clear sky",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "component_clause": {
+                      "type_prefix": "constant",
+                      "type_specifier": "Modelica.Units.SI.Irradiance",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "hSmall",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "0.00005"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Small radiation for regularization"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "constant",
+                      "type_specifier": "Modelica.Units.SI.Irradiance",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "deltaX",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "hSmall/2"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Small radiation for regularization"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "constant",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "k",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "0.000005534*(180/Modelica.Constants.pi)^3"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Constant factor"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "tmp1"
+                          },
+                          "description": {
+                            "description_string": "Intermediate variable"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Irradiance",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "HDifHorBou"
+                          },
+                          "description": {
+                            "description_string": "Diffuse horizontal irradiation, bounded away from zero"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "assignment_equation": {
+                        "lhs": "tmp1",
+                        "rhs": {
+                          "simple_expression": "k*zen^3"
+                        }
+                      }
+                    },
+                    {
+                      "assignment_equation": {
+                        "lhs": "HDifHorBou",
+                        "rhs": {
+                          "simple_expression": {
+                            "function_call": {
+                              "name": "Buildings.Utilities.Math.Functions.smoothMax",
+                              "arguments": [
+                                {
+                                  "name": "x1=HDifHor,x2=hSmall,deltaX=deltaX"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "assignment_equation": {
+                        "lhs": "skyCle",
+                        "rhs": {
+                          "simple_expression": {
+                            "function_call": {
+                              "name": "Buildings.Utilities.Math.Functions.smoothLimit",
+                              "arguments": [
+                                {
+                                  "name": "x=((HDirNor +HDifHorBou)/HDifHorBou +tmp1)/(1 +tmp1),l=1,u=8,deltaX=0.01"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "defaultComponentName",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"skyCle\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nThis component computes the sky clearness.\n</p>\n<h4>Implementation</h4>\n<p>\nIn the <code>Buildings</code> library, <code>HDirNor</code>\nis always larger than <i>1E-4</i>,\nminus some small undershoot due to regularization. Hence,\nthe implementation is not simplified for\n<code>HDirNor &lt; Modelica.Constants.small</code>.\n</p>\n<p>\nThe function call\n<code>Buildings.Utilities.Math.Functions.smoothMax</code>\nis such that the regularization is usually not triggered.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nSeptember 6, 2021, by Ettore Zanetti:<br/>\nChanged <code>lat</code> from being a parameter to an input from weather bus.<br/>\nChanged input connector <code>HGloHor</code> to <code>HDirNor</code>.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\\\">IBPSA, #1477</a>.\n</li>\n<li>\nMay 2, 2021, by Ettore Zanetti:<br/>\nCorrected expression for sky clearness.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\\\">issue 1477</a>.\n</li>\n<li>\nSeptember 23, 2016, by Michael Wetter:<br/>\nChanged <code>deltaX</code> from <code>0.1</code> to <code>0.01</code>,\nand also optimized the code.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/521\\\">issue 521</a>.\n</li>\n<li>\nMay 5, 2015, by Michael Wetter:<br/>\nIntroduced constant <code>k</code> to reduce number of operations.\n</li>\n<li>\nMay 5, 2015, by Filip Jorissen:<br/>\nConverted <code>algorithm</code> section into\n<code>equation</code> section for easier differentiability.\n</li>\n<li>\nJuly 07, 2010, by Wangda Zuo:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -100,
+                                    "y": -100
+                                  },
+                                  {
+                                    "x": 100,
+                                    "y": 100
+                                  }
+                                ],
+                                "preserveAspectRatio": "true"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -150,
+                                        "y": 110
+                                      },
+                                      {
+                                        "x": 150,
+                                        "y": 150
+                                      }
+                                    ],
+                                    "textString": "\"%name\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -48,
+                                        "y": -6
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 6
+                                      }
+                                    ],
+                                    "textString": "\"HDifHor\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -48,
+                                        "y": 54
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 66
+                                      }
+                                    ],
+                                    "textString": "\"HDirNor\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -48,
+                                        "y": -66
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": -54
+                                      }
+                                    ],
+                                    "textString": "\"zen\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/BoundaryConditions/SolarIrradiation/BaseClasses/SkyClearness.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarIrradiation/BaseClasses/SkyClearness.mo",
+  "checksum": "dd7e2d2cf1bc187ec78c05ac94ba04a3"
+}

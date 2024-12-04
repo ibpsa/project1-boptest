@@ -1,0 +1,1388 @@
+{
+  "instances": {
+    "CenterOfGlass": {
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -82,
+                                  "y": 100
+                                },
+                                {
+                                  "x": -32,
+                                  "y": 86
+                                }
+                              ],
+                              "textString": "\"outside\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -108,
+                                  "y": 110
+                                },
+                                {
+                                  "x": -88,
+                                  "y": 90
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 213,
+                                "b": 170
+                              },
+                              "fillPattern": "FillPattern.Sphere"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 44,
+                                  "y": 98
+                                },
+                                {
+                                  "x": 94,
+                                  "y": 84
+                                }
+                              ],
+                              "textString": "\"room-side\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -90,
+                                  "y": 2
+                                },
+                                {
+                                  "x": 92,
+                                  "y": -4
+                                }
+                              ],
+                              "fillColor": {
+                                "r": 191,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -56,
+                                  "y": 50
+                                },
+                                {
+                                  "x": -44,
+                                  "y": -52
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -8,
+                                  "y": 50
+                                },
+                                {
+                                  "x": 4,
+                                  "y": -52
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 42,
+                                  "y": 50
+                                },
+                                {
+                                  "x": 54,
+                                  "y": -52
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -90,
+                                  "y": 86
+                                },
+                                {
+                                  "x": -78,
+                                  "y": 74
+                                }
+                              ],
+                              "textString": "\"u\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\nThis is a model for the heat transfer through the center of the glass.\nThe properties of the glazing system is defined by the parameter\n<code>glaSys</code>.\nThe model contains these main component models:\n<ul>\n<li>\nan array of models <code>glass</code> for the heat conduction and the\ninfrared radiative heat balance of the glass layers.\nThere can be an arbitrary number of glass layers, which are all modeled using\ninstances of\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.BaseClasses.GlassLayer\\\">\nBuildings.HeatTransfer.Windows.BaseClasses.GlassLayer</a>.\n</li>\n<li>\nan array of models <code>gas</code> for the gas layers. There is one model of a\ngas layer between each window panes. The gas layers are modeled using instances of\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.BaseClasses.GasConvection\\\">\nBuildings.HeatTransfer.Windows.BaseClasses.GasConvection</a>.\n</li>\n</ul>\nNote that this model does <em>not</em> compute heat conduction through the frame and\nit does <em>not</em> model the convective heat transfer at the exterior and interior\nsurface. These models are implemented in\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.Window\\\">\nBuildings.HeatTransfer.Windows.Window</a>,\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.ExteriorHeatTransfer\\\">\nBuildings.HeatTransfer.Windows.ExteriorHeatTransfer</a>, and\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.InteriorHeatTransferConvective\\\">\nBuildings.HeatTransfer.Windows.InteriorHeatTransferConvective</a>.\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nMay 24, 2022, by Jianjun Hu:<br/>\nChanged the gas layer to be conditional.<br/>\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/3026\\\">#3026</a>.\n</li>\n<li>\nApril 14, 2020, by Michael Wetter:<br/>\nChanged <code>homotopyInitialization</code> to a constant.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\\\">IBPSA, #1341</a>.\n</li>\n<li>\nMarch 13, 2015, by Michael Wetter:<br/>\nChanged assignment of <code>nLay</code> to avoid a translation error\nin OpenModelica.\n</li>\n<li>\nJuly 25, 2014, by Michael Wetter:<br/>\nPropagated parameter <code>homotopyInitialization</code>.\n</li>\n<li>\nMay 30, 2014, by Michael Wetter:<br/>\nRemoved undesirable annotation <code>Evaluate=true</code>.\n</li>\n<li>\nJuly 9 2012, by Wangda Zuo:<br/>\nFixed a bug in the parameter assignment of the instance <code>glass</code>.\nPreviously, the infrared emissivity of surface a was assigned to the surface b.\n</li>\n<li>\nSep. 3 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "homotopyInitialization": {
+      "type_prefix": "constant",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "homotopyInitialization",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "true"
+            }
+          }
+        },
+        "description": {
+          "description_string": "= true, use homotopy method",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "HideResult",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "HideResult",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "til": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "til",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"deg\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Surface tilt (only 90 degrees=vertical is implemented)"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "glaSys": {
+      "type_prefix": "parameter",
+      "type_specifier": "Buildings.HeatTransfer.Data.GlazingSystems.Generic",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "glaSys"
+        },
+        "description": {
+          "description_string": "Glazing system",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "HideResult",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "choicesAllMatching",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": 60
+                        },
+                        {
+                          "x": 80,
+                          "y": 80
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "HideResult",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "choicesAllMatching",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": 60
+                    },
+                    {
+                      "x": 80,
+                      "y": 80
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "linearize": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "linearize",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "false"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set to true to linearize emissive power",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "u": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "u"
+        },
+        "description": {
+          "description_string": "Input connector, used to scale the surface area to take into account an operable shading device",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 60
+                        },
+                        {
+                          "x": -100,
+                          "y": 100
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -120,
+                          "y": 70
+                        },
+                        {
+                          "x": -100,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 60
+                    },
+                    {
+                      "x": -100,
+                      "y": 100
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -120,
+                      "y": 70
+                    },
+                    {
+                      "x": -100,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "glass": {
+      "type_specifier": "Buildings.HeatTransfer.Windows.BaseClasses.GlassLayer",
+      "array_subscripts": [
+        {
+          "expression": {
+            "simple_expression": "nGlaLay"
+          }
+        }
+      ],
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "glass",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "A"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "x",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "glaSys.glass.x"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "glaSys.glass.k"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "absIR_a",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "glaSys.glass.absIR_a"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "absIR_b",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "glaSys.glass.absIR_b"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "tauIR",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "glaSys.glass.tauIR"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "linearize",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "linearize"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "homotopyInitialization",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "homotopyInitialization"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Window glass layer",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -10
+                        },
+                        {
+                          "x": 0,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -10
+                    },
+                    {
+                      "x": 0,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "gas": {
+      "type_specifier": "Buildings.HeatTransfer.Windows.BaseClasses.GasConvection",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "gas",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nGlaLay -1"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "A"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "gas",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "glaSys.gas"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "til",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "til"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "linearize",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "linearize"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "homotopyInitialization",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "homotopyInitialization"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "have_GasLay"
+          }
+        },
+        "description": {
+          "description_string": "Window gas layer",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 20,
+                          "y": 10
+                        },
+                        {
+                          "x": 40,
+                          "y": 30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 20,
+                      "y": 10
+                    },
+                    {
+                      "x": 40,
+                      "y": 30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "glass_a": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "glass_a"
+        },
+        "description": {
+          "description_string": "Heat port connected to the outside facing surface of the glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -110,
+                          "y": -10
+                        },
+                        {
+                          "x": -90,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -110,
+                      "y": -10
+                    },
+                    {
+                      "x": -90,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "glass_b": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "glass_b"
+        },
+        "description": {
+          "description_string": "Heat port connected to the room-facing surface of the glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 90,
+                          "y": -10
+                        },
+                        {
+                          "x": 110,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 90,
+                      "y": -10
+                    },
+                    {
+                      "x": 110,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "QAbs_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QAbs_flow",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nGlaLay"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Power\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Solar radiation absorbed by glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": -120
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 90
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": -110
+                      },
+                      "extent": [
+                        {
+                          "x": -10,
+                          "y": -10
+                        },
+                        {
+                          "x": 10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 90
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": -120
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 90
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": -110
+                  },
+                  "extent": [
+                    {
+                      "x": -10,
+                      "y": -10
+                    },
+                    {
+                      "x": 10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 90
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "nGlaLay": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "nGlaLay",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "size",
+                  "arguments": [
+                    {
+                      "name": "glaSys.glass"
+                    },
+                    {
+                      "name": "1"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of glass layers"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    },
+    "have_GasLay": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "CenterOfGlass",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "have_GasLay",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "logical_expression": {
+                  "logical_or": [
+                    {
+                      "logical_and": [
+                        {
+                          "arithmetic_expressions": [
+                            {
+                              "name": "nGlaLay"
+                            },
+                            {
+                              "name": "1"
+                            }
+                          ],
+                          "relation_operator": ">"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "True if it has gas layer"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/CenterOfGlass.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.HeatTransfer.Radiosity.BaseClasses.RadiosityTwoSurfaces",
+        "long_class_specifier_identifier": "CenterOfGlass",
+        "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "glass_b": [
+        "glass[nGlaLay].port_b"
+      ],
+      "glass_a": [
+        "glass[1].port_a"
+      ],
+      "JIn_a": [
+        "glass[1].JIn_a"
+      ],
+      "glass[1].JOut_a": [
+        "JOut_a"
+      ],
+      "glass[nGlaLay].JOut_b": [
+        "JOut_b"
+      ],
+      "JIn_b": [
+        "glass[nGlaLay].JIn_b"
+      ],
+      "glass.QAbs_flow": [
+        "QAbs_flow"
+      ]
+    }
+  }
+}

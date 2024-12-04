@@ -1,0 +1,438 @@
+{
+  "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "partial model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "PartialSurfaceInterfaceRadiative",
+          "description_string": "Partial model that is used for infrared radiation balance",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Buildings.ThermalZones.Detailed.BaseClasses.PartialSurfaceInterface"
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Emissivity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsConExt",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExt"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConExt.layers.absIR_b"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of exterior constructions"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Emissivity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsConExtWinOpa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConExtWin.layers.absIR_b"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of opaque part of exterior constructions that contain a window"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Emissivity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsConExtWinUns",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "for_loop": {
+                                    "expression": {
+                                      "simple_expression": "(datConExtWin[i].glaSys.glass[[object Object]].absIR_b)"
+                                    },
+                                    "for_loop": [
+                                      {
+                                        "name": "i",
+                                        "range": "1:NConExtWin"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of unshaded part of window constructions"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Emissivity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsConExtWinSha",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConExtWin.glaSys.shade.absIR_a"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of shaded part of window constructions"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Emissivity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsConExtWinFra",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConExtWin.glaSys.absIRFra"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of window frame"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Emissivity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsConPar_a",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConPar"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConPar.layers.absIR_a"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of partition constructions surface a"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Emissivity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsConPar_b",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConPar"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConPar.layers.absIR_b"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of partition constructions surface b"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Emissivity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsConBou",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConBou"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConBou.layers.absIR_b"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of constructions with exterior boundary conditions exposed to outside of room model"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Emissivity",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsSurBou",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NSurBou"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "surBou.absIR"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of surface models of constructions that are modeled outside of this room"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Diagram",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -240,
+                                    "y": -240
+                                  },
+                                  {
+                                    "x": 240,
+                                    "y": 240
+                                  }
+                                ],
+                                "preserveAspectRatio": "true"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {}
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -240,
+                                    "y": -240
+                                  },
+                                  {
+                                    "x": 240,
+                                    "y": 240
+                                  }
+                                ],
+                                "preserveAspectRatio": "true"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -234,
+                                        "y": 328
+                                      },
+                                      {
+                                        "x": 242,
+                                        "y": 244
+                                      }
+                                    ],
+                                    "textString": "\"%name\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nThis partial model is used as a base class for models that need to exchange\nheat with room-facing surfaces by radiation. It declares parameters that are\nneeded for the radiative balance.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nMarch 13, 2015, by Michael Wetter:<br/>\nChanged model to avoid a translation error\nin OpenModelica.\n</li>\n<li>\nJuly 12, 2013, by Michael Wetter:<br/>\nFirst implementation to facilitate the separation of the convective and radiative model.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/ThermalZones/Detailed/BaseClasses/PartialSurfaceInterfaceRadiative.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/PartialSurfaceInterfaceRadiative.mo",
+  "checksum": "b1af2af356f9e648956f62fa1cc560f6"
+}

@@ -1,0 +1,60 @@
+{
+  "instances": {
+    "Types": {
+      "within": "Buildings.ThermalZones.Detailed",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/Types.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "preferredView",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"info\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\nThis package contains type definitions.\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Icons.TypesPackage",
+        "long_class_specifier_identifier": "Types",
+        "within": "Buildings.ThermalZones.Detailed",
+        "compositionSpecifier": "public"
+      }
+    ]
+  }
+}

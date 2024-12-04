@@ -1,0 +1,106 @@
+{
+  "instances": {
+    "ControlBus": {
+      "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Controls/ControlBus.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -20,
+                                  "y": 2
+                                },
+                                {
+                                  "x": 22,
+                                  "y": -2
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 255,
+                                "g": 204,
+                                "b": 51
+                              },
+                              "lineThickness": 0.5
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis connector defines the <code>expandable connector</code> ControlBus that\nis used to connect control signals.\nNote, this connector is empty. When using it, the actual content is\nconstructed by the signals connected to this bus.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Icons.SignalBus",
+        "long_class_specifier_identifier": "ControlBus",
+        "within": "Buildings.Examples.VAVReheat.BaseClasses.Controls",
+        "compositionSpecifier": "public"
+      }
+    ]
+  }
+}

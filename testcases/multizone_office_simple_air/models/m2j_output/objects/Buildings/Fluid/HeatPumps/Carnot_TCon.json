@@ -1,0 +1,811 @@
+{
+  "instances": {
+    "Carnot_TCon": {
+      "within": "Buildings.Fluid.HeatPumps",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/HeatPumps/Carnot_TCon.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -148,
+                                  "y": 156
+                                },
+                                {
+                                  "x": -92,
+                                  "y": 114
+                                }
+                              ],
+                              "textString": "\"TCon\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -100,
+                                  "y": 90
+                                },
+                                {
+                                  "x": -80,
+                                  "y": 90
+                                },
+                                {
+                                  "x": -80,
+                                  "y": 84
+                                },
+                                {
+                                  "x": 80,
+                                  "y": 84
+                                },
+                                {
+                                  "x": 80,
+                                  "y": 64
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"heaPum\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis is a model of a heat pump whose coefficient of performance COP changes\nwith temperatures in the same way as the Carnot efficiency changes.\nThe control input is the setpoint of the condenser leaving temperature, which\nis met exactly at steady state if the heat pump has sufficient capacity.\n</p>\n<p>\nSet <code>use_eta_Carnot_nominal=true</code> to specify directly\nthe Carnot effectiveness <i>&eta;<sub>Carnot,0</sub></i>,\nin which case the value of the parameter <code>COP_nominal</code>\nwill not affect the simulation.\nIf <code>use_eta_Carnot_nominal=false</code>, the model will use\nthe value of the parameter <code>COP_nominal</code>\ntogether with the specified nominal temperatures\nto compute the Carnot effectiveness as\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n&eta;<sub>Carnot,0</sub> =\n  COP<sub>0</sub>\n&frasl;  (T<sub>con,0</sub> &frasl; (T<sub>con,0</sub> + T<sub>app,con,0</sub> - (T<sub>eva,0</sub>-T<sub>app,eva,0</sub>))),\n</p>\n<p>\nwhere\n<i>T<sub>eva,0</sub></i> is the evaporator temperature,\n<i>T<sub>con,0</sub></i> is the condenser temperature,\n<i>T<sub>app,eva,0</sub></i> is the evaporator approach temperature and\n<i>T<sub>app,con,0</sub></i> is the condenser approach temperature.\n</p>\n<p>\nThe COP is computed as the product\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  COP = &eta;<sub>Carnot,0</sub> COP<sub>Carnot</sub> &eta;<sub>PL</sub>,\n</p>\n<p>\nwhere <i>COP<sub>Carnot</sub></i> is the Carnot efficiency and\n<i>&eta;<sub>PL</sub></i> is the part load efficiency, expressed using\na polynomial.\nThis polynomial has the form\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  &eta;<sub>PL</sub> = a<sub>1</sub> + a<sub>2</sub> y + a<sub>3</sub> y<sup>2</sup> + ...,\n</p>\n<p>\nwhere <i>y &isin; [0, 1]</i> is\nthe part load for heating and the coefficients <i>a<sub>i</sub></i>\nare declared by the parameter <code>a</code>.\n</p>\n<p>\nOn the <code>Dynamics</code> tag, the model can be parametrized to compute a transient\nor steady-state response.\nThe transient response of the model is computed using a first\norder differential equation for the evaporator and condenser fluid volumes.\nThe heat pump outlet temperatures are equal to the temperatures of these lumped volumes.\n</p>\n<h4>Typical use and important parameters</h4>\n<p>\nWhen using this component, make sure that the condenser has sufficient mass flow rate.\nBased on the evaporator mass flow rate, temperature difference and the efficiencies,\nthe model computes how much heat will be removed by to the evaporator.\nIf the mass flow rate is too small, very low outlet temperatures can result, possibly below freezing.\n</p>\n<p>\nThe condenser heat flow rate <code>QCon_flow_nominal</code> is used to assign\nthe default value for the mass flow rates, which are used for the pressure drop\ncalculations.\nIt is also used to compute the part load efficiency.\nHence, make sure that <code>QCon_flow_nominal</code> is set to a reasonable value.\n</p>\n<p>\nThe maximum heating capacity is set by the parameter <code>QCon_flow_max</code>,\nwhich is by default set to infinity.\n</p>\n<p>\nThe coefficient of performance depends on the\nevaporator and condenser leaving temperature\nsince otherwise the second law of thermodynamics may be violated.\n</p>\n<h4>Notes</h4>\n<p>\nFor a similar model that can be used as a chiller, see\n<a href=\\\"modelica://Buildings.Fluid.Chillers.Examples.Carnot_TEva\\\">\nBuildings.Fluid.Chillers.Examples.Carnot_TEva</a>.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nFebruary 3, 2023, by Michael Wetter:<br/>\nChanged in base class the parameter binding\n<code>etaCarnot_nominal(unit=\\\"1\\\") = COP_nominal/(TUseAct_nominal/(TCon_nominal+TAppCon_nominal - (TEva_nominal-TAppEva_nominal)))</code>\nto\n<code>etaCarnot_nominal(unit=\\\"1\\\") = 0.3</code> to avoid a circular assignment.<br/>\nImproved documentation.<br/>\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/3226\\\">Buildings, #3226</a>.\n</li>\n<li>\nJanuary 3, 2017, by Michael Wetter:<br/>\nRemoved parameters\n<code>effInpEva</code> and <code>effInpCon</code>\nand updated documentation.\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/497\\\">\nissue 497</a>.\n</li>\n<li>\nAugust 8, 2016, by Michael Wetter:<br/>\nChanged default temperature to compute COP to be the leaving temperature as\nuse of the entering temperature can violate the 2nd law if the temperature\nlift is small.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/497\\\">\nAnnex 60, issue 497</a>.\n</li>\n<li>\nNovember 25, 2015 by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "QCon_flow_max": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Carnot_TCon",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QCon_flow_max",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "Modelica.Constants.inf"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Maximum heat flow rate for heating (positive)"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.HeatPumps",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/HeatPumps/Carnot_TCon.mo"
+    },
+    "TSet": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Carnot_TCon",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TSet",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Condenser leaving water temperature",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 70
+                        },
+                        {
+                          "x": -100,
+                          "y": 110
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 70
+                    },
+                    {
+                      "x": -100,
+                      "y": 110
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.HeatPumps",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/HeatPumps/Carnot_TCon.mo"
+    },
+    "yEva": {
+      "type_specifier": "Modelica.Blocks.Math.Gain",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "Carnot_TCon",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yEva",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1/QEva_flow_nominal"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Normalized evaporator heat flow rate",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 40,
+                          "y": -40
+                        },
+                        {
+                          "x": 60,
+                          "y": -20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 40,
+                      "y": -40
+                    },
+                    {
+                      "x": 60,
+                      "y": -20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.HeatPumps",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/HeatPumps/Carnot_TCon.mo"
+    },
+    "QEva_flow_internal": {
+      "type_specifier": "Modelica.Blocks.Math.Add",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "Carnot_TCon",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QEva_flow_internal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "k1",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "-1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Heat removed by evaporator",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 0,
+                          "y": -40
+                        },
+                        {
+                          "x": 20,
+                          "y": -20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 0,
+                      "y": -40
+                    },
+                    {
+                      "x": 20,
+                      "y": -20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.HeatPumps",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/HeatPumps/Carnot_TCon.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.Fluid.Chillers.BaseClasses.PartialCarnot_T",
+        "class_modification": [
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "COP_is_for_cooling",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "false"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "QEva_flow_nominal",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "-QCon_flow_nominal*(COP_nominal -1)/COP_nominal"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "PEle",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "y",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "QCon_flow/COP"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_redeclaration": {
+              "component_clause1": {
+                "type_specifier": "HeatExchangers.Heater_T",
+                "component_declaration1": {
+                  "declaration": {
+                    "identifier": "con",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "from_dp",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "from_dp1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "dp_nominal",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "dp1_nominal"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "linearizeFlowResistance",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "linearizeFlowResistance1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "deltaM",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "deltaM1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "QMax_flow",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "QCon_flow_max"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "tau",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "tau1"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "T_start",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "T1_start"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "energyDynamics",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "energyDynamics"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "homotopyInitialization",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "homotopyInitialization"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_redeclaration": {
+              "component_clause1": {
+                "type_specifier": "HeatExchangers.HeaterCooler_u",
+                "component_declaration1": {
+                  "declaration": {
+                    "identifier": "eva",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "from_dp",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "from_dp2"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "dp_nominal",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "dp2_nominal"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "linearizeFlowResistance",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "linearizeFlowResistance2"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "deltaM",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "deltaM2"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "tau",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "tau2"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "T_start",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "T2_start"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "energyDynamics",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "energyDynamics"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "homotopyInitialization",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "homotopyInitialization"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "final": true,
+                            "element_modification": {
+                              "name": "Q_flow_nominal",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "QEva_flow_nominal"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "long_class_specifier_identifier": "Carnot_TCon",
+        "within": "Buildings.Fluid.HeatPumps",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "TSet": [
+        "con.TSet"
+      ],
+      "con.Q_flow": [
+        "QCon_flow"
+      ],
+      "QEva_flow_internal.u1": [
+        "con.Q_flow"
+      ],
+      "QEva_flow_internal.u2": [
+        "PEle.y"
+      ],
+      "QEva_flow_internal.y": [
+        "yEva.u"
+      ],
+      "QEva_flow": [
+        "QEva_flow_internal.y"
+      ],
+      "yEva.y": [
+        "eva.u"
+      ]
+    }
+  }
+}

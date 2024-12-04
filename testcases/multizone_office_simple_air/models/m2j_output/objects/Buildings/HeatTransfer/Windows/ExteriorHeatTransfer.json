@@ -1,0 +1,2295 @@
+{
+  "instances": {
+    "ExteriorHeatTransfer": {
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -94,
+                                  "y": 48
+                                },
+                                {
+                                  "x": -52,
+                                  "y": 32
+                                }
+                              ],
+                              "textString": "\"vWind\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -110,
+                                  "y": 110
+                                },
+                                {
+                                  "x": -90,
+                                  "y": 90
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 213,
+                                "b": 170
+                              },
+                              "fillPattern": "FillPattern.Sphere"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -96,
+                                  "y": -76
+                                },
+                                {
+                                  "x": -66,
+                                  "y": -88
+                                }
+                              ],
+                              "textString": "\"TOut\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -94,
+                                  "y": -34
+                                },
+                                {
+                                  "x": -54,
+                                  "y": -46
+                                }
+                              ],
+                              "textString": "\"TBlaSky\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -38,
+                                  "y": -84
+                                },
+                                {
+                                  "x": 28,
+                                  "y": -102
+                                }
+                              ],
+                              "textString": "\"QSolAbs\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"extHeaTra\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nModel for the convective heat transfer between a window shade, a window surface\nand the room air.\nThis model is applicable for the outside-facing surface of a window system and\ncan be used with the model\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.Window\\\">\nBuildings.HeatTransfer.Windows.Window</a>.\n</p>\n<p>\nThis model adds the convective heat transfer coefficient to its base model.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nMarch 2, 2015, by Michael Wetter:<br/>\nRefactored model to allow a temperature dependent convective heat transfer\non the room side.\nThis is for issue\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/52\\\">52</a>.\n</li>\n<li>\nFebruary 8 2012, by Michael Wetter:<br/>\nChanged model to use new implementation of\n<a href=\\\"modelica://Buildings.HeatTransfer.Radiosity.OutdoorRadiosity\\\">\nBuildings.HeatTransfer.Radiosity.OutdoorRadiosity</a>.\nThis change leads to the use of the same equations for the radiative\nheat transfer between window and ambient as is used for\nthe opaque constructions.\n</li>\n<li>\nOctober 25 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "absIRSha_air": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Emissivity",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "absIRSha_air"
+        },
+        "description": {
+          "description_string": "Infrared absorptivity of shade surface that faces air",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Shading\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Shading\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "absIRSha_glass": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Emissivity",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "absIRSha_glass"
+        },
+        "description": {
+          "description_string": "Infrared absorptivity of shade surface that faces glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Shading\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Shading\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "tauIRSha_air": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.TransmissionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tauIRSha_air"
+        },
+        "description": {
+          "description_string": "Infrared transmissivity of shade for radiation coming from the exterior or the room",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Shading\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Shading\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "tauIRSha_glass": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.TransmissionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tauIRSha_glass"
+        },
+        "description": {
+          "description_string": "Infrared transmissivity of shade for radiation coming from the glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Shading\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Shading\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "linearizeRadiation": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "linearizeRadiation"
+        },
+        "description": {
+          "description_string": "Set to true to linearize emissive power"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "vieFacSky": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "vieFacSky",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "View factor from receiving surface to sky"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "vWin": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "vWin",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"m/s\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Wind speed",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 20
+                        },
+                        {
+                          "x": -100,
+                          "y": 60
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -116,
+                          "y": 32
+                        },
+                        {
+                          "x": -100,
+                          "y": 48
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 20
+                    },
+                    {
+                      "x": -100,
+                      "y": 60
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -116,
+                      "y": 32
+                    },
+                    {
+                      "x": -100,
+                      "y": 48
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "conCoeGla": {
+      "type_specifier": "Buildings.HeatTransfer.Windows.BaseClasses.ExteriorConvectionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conCoeGla",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AGla"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Model for the outside convective heat transfer coefficient of the glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -84,
+                          "y": 40
+                        },
+                        {
+                          "x": -64,
+                          "y": 60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -84,
+                      "y": 40
+                    },
+                    {
+                      "x": -64,
+                      "y": 60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "conCoeFra": {
+      "type_specifier": "Buildings.HeatTransfer.Windows.BaseClasses.ExteriorConvectionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conCoeFra",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AFra"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Model for the outside convective heat transfer coefficient of the frame",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -80
+                        },
+                        {
+                          "x": 0,
+                          "y": -60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -80
+                    },
+                    {
+                      "x": 0,
+                      "y": -60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "radOut": {
+      "type_specifier": "Radiosity.OutdoorRadiosity",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "radOut",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AGla"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "vieFacSky",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "vieFacSky"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "linearize",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "linearizeRadiation"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Outdoor radiosity",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -72,
+                          "y": -72
+                        },
+                        {
+                          "x": -52,
+                          "y": -52
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -72,
+                      "y": -72
+                    },
+                    {
+                      "x": -52,
+                      "y": -52
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "TBlaSky": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TBlaSky",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"ThermodynamicTemperature\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Black body sky temperature",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -60
+                        },
+                        {
+                          "x": -100,
+                          "y": -20
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -120,
+                          "y": -50
+                        },
+                        {
+                          "x": -100,
+                          "y": -30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -60
+                    },
+                    {
+                      "x": -100,
+                      "y": -20
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -120,
+                      "y": -50
+                    },
+                    {
+                      "x": -100,
+                      "y": -30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "TOut": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TOut",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"ThermodynamicTemperature\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Outside temperature",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -100
+                        },
+                        {
+                          "x": -100,
+                          "y": -60
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -120,
+                          "y": -92
+                        },
+                        {
+                          "x": -100,
+                          "y": -72
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -100
+                    },
+                    {
+                      "x": -100,
+                      "y": -60
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -120,
+                      "y": -92
+                    },
+                    {
+                      "x": -100,
+                      "y": -72
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "JOutUns": {
+      "type_specifier": "Interfaces.RadiosityOutflow",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JOutUns"
+        },
+        "description": {
+          "description_string": "Outgoing radiosity that connects to unshaded part of glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 70
+                        },
+                        {
+                          "x": 120,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 70
+                    },
+                    {
+                      "x": 120,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "JInUns": {
+      "type_specifier": "Interfaces.RadiosityInflow",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JInUns"
+        },
+        "description": {
+          "description_string": "Incoming radiosity that connects to unshaded part of glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 120,
+                          "y": 50
+                        },
+                        {
+                          "x": 100,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 120,
+                      "y": 50
+                    },
+                    {
+                      "x": 100,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "JOutSha": {
+      "type_specifier": "Interfaces.RadiosityOutflow",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JOutSha"
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Outgoing radiosity that connects to shaded part of glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -70
+                        },
+                        {
+                          "x": 120,
+                          "y": -50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -70
+                    },
+                    {
+                      "x": 120,
+                      "y": -50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "JInSha": {
+      "type_specifier": "Interfaces.RadiosityInflow",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JInSha"
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Incoming radiosity that connects to shaded part of glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 120,
+                          "y": -90
+                        },
+                        {
+                          "x": 100,
+                          "y": -70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 120,
+                      "y": -90
+                    },
+                    {
+                      "x": 100,
+                      "y": -70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "QSolAbs_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QSolAbs_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Power\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Solar radiation absorbed by shade",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": -120
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 90
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": -110
+                      },
+                      "extent": [
+                        {
+                          "x": -10,
+                          "y": -10
+                        },
+                        {
+                          "x": 10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 90
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": -120
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 90
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": -110
+                  },
+                  "extent": [
+                    {
+                      "x": -10,
+                      "y": -10
+                    },
+                    {
+                      "x": 10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 90
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "shaRad": {
+      "type_specifier": "BaseClasses.ShadeRadiation",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "shaRad",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "thisSideHasShade",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "thisSideHasShade"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AGla"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "linearize",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "linearizeRadiation"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "absIR_air",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "if_expression": {
+                          "if_elseif": [
+                            {
+                              "condition": {
+                                "simple_expression": "thisSideHasShade"
+                              },
+                              "then": {
+                                "simple_expression": "absIRSha_air"
+                              }
+                            }
+                          ],
+                          "else_expression": {
+                            "simple_expression": "0"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "absIR_glass",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "if_expression": {
+                          "if_elseif": [
+                            {
+                              "condition": {
+                                "simple_expression": "thisSideHasShade"
+                              },
+                              "then": {
+                                "simple_expression": "absIRSha_glass"
+                              }
+                            }
+                          ],
+                          "else_expression": {
+                            "simple_expression": "0"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "tauIR_air",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "if_expression": {
+                          "if_elseif": [
+                            {
+                              "condition": {
+                                "simple_expression": "thisSideHasShade"
+                              },
+                              "then": {
+                                "simple_expression": "tauIRSha_air"
+                              }
+                            }
+                          ],
+                          "else_expression": {
+                            "simple_expression": "1"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "tauIR_glass",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "if_expression": {
+                          "if_elseif": [
+                            {
+                              "condition": {
+                                "simple_expression": "thisSideHasShade"
+                              },
+                              "then": {
+                                "simple_expression": "tauIRSha_glass"
+                              }
+                            }
+                          ],
+                          "else_expression": {
+                            "simple_expression": "1"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Radiative heat balance of shade",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 0,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 0
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 0,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "radShaOut": {
+      "type_specifier": "Radiosity.RadiositySplitter",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "radShaOut"
+        },
+        "description": {
+          "description_string": "Radiosity that strikes shading device",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -40
+                        },
+                        {
+                          "x": -20,
+                          "y": -20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -40
+                    },
+                    {
+                      "x": -20,
+                      "y": -20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "shaCon": {
+      "type_specifier": "BaseClasses.ShadeConvection",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "shaCon",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "thisSideHasShade",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "thisSideHasShade"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AGla"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Convective heat balance of shade",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 0,
+                          "y": 20
+                        },
+                        {
+                          "x": 20,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 0,
+                      "y": 20
+                    },
+                    {
+                      "x": 20,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "conFra": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Components.Convection",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conFra"
+        },
+        "description": {
+          "description_string": "Convective heat transfer between air and frame",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 50,
+                          "y": -98
+                        },
+                        {
+                          "x": 30,
+                          "y": -78
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 50,
+                      "y": -98
+                    },
+                    {
+                      "x": 30,
+                      "y": -78
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "conWinUns": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Components.Convection",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conWinUns",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "dT",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "start",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "0"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Convection from unshaded part of window to outside or room air",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": 0
+                        },
+                        {
+                          "x": 40,
+                          "y": 20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": 0
+                    },
+                    {
+                      "x": 40,
+                      "y": 20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    },
+    "proUns": {
+      "type_specifier": "Modelica.Blocks.Math.Product",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "ExteriorHeatTransfer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "proUns"
+        },
+        "description": {
+          "description_string": "Product for unshaded part of window",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 20,
+                          "y": 70
+                        },
+                        {
+                          "x": 40,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 20,
+                      "y": 70
+                    },
+                    {
+                      "x": 40,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/ExteriorHeatTransfer.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "BaseClasses.PartialWindowBoundaryCondition",
+        "class_modification": [
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "thisSideHasShade",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "haveExteriorShade"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "long_class_specifier_identifier": "ExteriorHeatTransfer",
+        "within": "Buildings.HeatTransfer.Windows",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "vWin": [
+        "conCoeGla.v",
+        "conCoeFra.v"
+      ],
+      "conCoeFra.GCon": [
+        "conFra.Gc"
+      ],
+      "conCoeGla.GCon": [
+        "proSha.u1",
+        "proUns.u2"
+      ],
+      "radOut.JOut": [
+        "radShaOut.JIn"
+      ],
+      "radOut.TBlaSky": [
+        "TBlaSky"
+      ],
+      "radOut.TOut": [
+        "TOut"
+      ],
+      "radShaOut.JOut_2": [
+        "JOutUns"
+      ],
+      "shaRad.JOut_glass": [
+        "JOutSha"
+      ],
+      "shaRad.JIn_glass": [
+        "JInSha"
+      ],
+      "radShaOut.JOut_1": [
+        "shaRad.JIn_air"
+      ],
+      "shaRad.u": [
+        "shaSig.y"
+      ],
+      "glaSha": [
+        "shaCon.glass"
+      ],
+      "shaCon.air": [
+        "air"
+      ],
+      "shaCon.Gc": [
+        "proSha.y"
+      ],
+      "shaCon.TSha": [
+        "shaRad.TSha"
+      ],
+      "shaRad.QRadAbs_flow": [
+        "shaCon.QRadAbs_flow"
+      ],
+      "radShaOut.u": [
+        "shaSig.y"
+      ],
+      "shaRad.QSolAbs_flow": [
+        "QSolAbs_flow"
+      ],
+      "conFra.fluid": [
+        "air"
+      ],
+      "conWinUns.fluid": [
+        "air"
+      ],
+      "glaUns": [
+        "conWinUns.solid"
+      ],
+      "proUns.y": [
+        "conWinUns.Gc"
+      ],
+      "conFra.solid": [
+        "frame"
+      ],
+      "shaSig.yCom": [
+        "proUns.u1"
+      ]
+    }
+  }
+}

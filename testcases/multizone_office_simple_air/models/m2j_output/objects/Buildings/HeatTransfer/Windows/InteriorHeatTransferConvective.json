@@ -1,0 +1,971 @@
+{
+  "instances": {
+    "InteriorHeatTransferConvective": {
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/InteriorHeatTransferConvective.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"intConSha\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nModel for the convective heat transfer between a window shade, a window surface\nand the room air.\nThis model is applicable for the room-facing surface of a window system and\ncan be used with the model\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.Window\\\">\nBuildings.HeatTransfer.Windows.Window</a>.\n</p>\n<p>\nThis model adds the convective heat transfer coefficient to its base model.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nMarch 2, 2015, by Michael Wetter:<br/>\nRefactored model to allow a temperature dependent convective heat transfer\non the room side.\nThis is for issue\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/52\\\">52</a>.\n</li>\n<li>\nJuly 11, 2013, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -94,
+                                  "y": -82
+                                },
+                                {
+                                  "x": -28,
+                                  "y": -100
+                                }
+                              ],
+                              "textString": "\"QRadAbs\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -28,
+                                  "y": -84
+                                },
+                                {
+                                  "x": 34,
+                                  "y": -100
+                                }
+                              ],
+                              "textString": "\"TSha\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "hFixed": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.CoefficientOfHeatTransfer",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InteriorHeatTransferConvective",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "hFixed",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "4"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Constant convection coefficient"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/InteriorHeatTransferConvective.mo"
+    },
+    "conMod": {
+      "type_prefix": "parameter",
+      "type_specifier": "Types.InteriorConvection",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InteriorHeatTransferConvective",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conMod",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Buildings.HeatTransfer.Types.InteriorConvection.Fixed"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Convective heat transfer model"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/InteriorHeatTransferConvective.mo"
+    },
+    "til": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InteriorHeatTransferConvective",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "til"
+        },
+        "description": {
+          "description_string": "Surface tilt"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/InteriorHeatTransferConvective.mo"
+    },
+    "QRadAbs_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InteriorHeatTransferConvective",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QRadAbs_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Total net radiation that is absorbed by the shade (positive if absorbed)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": -60,
+                        "y": -110
+                      },
+                      "extent": [
+                        {
+                          "x": 10,
+                          "y": -10
+                        },
+                        {
+                          "x": -10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 270
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": -60,
+                        "y": -110
+                      },
+                      "extent": [
+                        {
+                          "x": 10,
+                          "y": -10
+                        },
+                        {
+                          "x": -10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 270
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": -60,
+                    "y": -110
+                  },
+                  "extent": [
+                    {
+                      "x": 10,
+                      "y": -10
+                    },
+                    {
+                      "x": -10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 270
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": -60,
+                    "y": -110
+                  },
+                  "extent": [
+                    {
+                      "x": 10,
+                      "y": -10
+                    },
+                    {
+                      "x": -10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 270
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/InteriorHeatTransferConvective.mo"
+    },
+    "TSha": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InteriorHeatTransferConvective",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TSha",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"ThermodynamicTemperature\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Shade temperature",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": -110
+                      },
+                      "extent": [
+                        {
+                          "x": -10,
+                          "y": -10
+                        },
+                        {
+                          "x": 10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 270
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": -110
+                      },
+                      "extent": [
+                        {
+                          "x": -10,
+                          "y": -10
+                        },
+                        {
+                          "x": 10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 270
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": -110
+                  },
+                  "extent": [
+                    {
+                      "x": -10,
+                      "y": -10
+                    },
+                    {
+                      "x": 10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 270
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": -110
+                  },
+                  "extent": [
+                    {
+                      "x": -10,
+                      "y": -10
+                    },
+                    {
+                      "x": 10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 270
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/InteriorHeatTransferConvective.mo"
+    },
+    "conCoeGla": {
+      "type_specifier": "Buildings.HeatTransfer.Windows.BaseClasses.InteriorConvectionCoefficient",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InteriorHeatTransferConvective",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conCoeGla",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AGla"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Model for the inside convective heat transfer coefficient of the glass",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -92,
+                          "y": 26
+                        },
+                        {
+                          "x": -72,
+                          "y": 46
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -92,
+                      "y": 26
+                    },
+                    {
+                      "x": -72,
+                      "y": 46
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/InteriorHeatTransferConvective.mo"
+    },
+    "conSha": {
+      "type_specifier": "BaseClasses.ShadeConvection",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InteriorHeatTransferConvective",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conSha",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AGla"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "thisSideHasShade",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "thisSideHasShade"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Convection model for shade",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -8,
+                          "y": -20
+                        },
+                        {
+                          "x": 12,
+                          "y": 0
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -8,
+                      "y": -20
+                    },
+                    {
+                      "x": 12,
+                      "y": 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/InteriorHeatTransferConvective.mo"
+    },
+    "conFra": {
+      "type_specifier": "BaseClasses.InteriorConvection",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InteriorHeatTransferConvective",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conFra",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AFra"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "til",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "til"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "conMod",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conMod"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "hFixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "hFixed"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Convective heat transfer between air and frame",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 50,
+                          "y": -98
+                        },
+                        {
+                          "x": 30,
+                          "y": -78
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 50,
+                      "y": -98
+                    },
+                    {
+                      "x": 30,
+                      "y": -78
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/InteriorHeatTransferConvective.mo"
+    },
+    "conWinUns": {
+      "type_specifier": "BaseClasses.InteriorConvection",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InteriorHeatTransferConvective",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conWinUns",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "A",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AGla"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "til",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "til"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "conMod",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conMod"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "hFixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "hFixed"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Convection from unshaded part of window to outside or room air",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": 0
+                        },
+                        {
+                          "x": 40,
+                          "y": 20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": 0
+                    },
+                    {
+                      "x": 40,
+                      "y": 20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/InteriorHeatTransferConvective.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "BaseClasses.PartialWindowBoundaryCondition",
+        "class_modification": [
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "thisSideHasShade",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "haveInteriorShade"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "long_class_specifier_identifier": "InteriorHeatTransferConvective",
+        "within": "Buildings.HeatTransfer.Windows",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "conCoeGla.GCon": [
+        "proSha.u1"
+      ],
+      "conSha.glass": [
+        "glaSha"
+      ],
+      "proSha.y": [
+        "conSha.Gc"
+      ],
+      "conSha.TSha": [
+        "TSha"
+      ],
+      "QRadAbs_flow": [
+        "conSha.QRadAbs_flow"
+      ],
+      "conFra.fluid": [
+        "air",
+        "air"
+      ],
+      "air": [
+        "conSha.air"
+      ],
+      "conWinUns.fluid": [
+        "air"
+      ],
+      "glaUns": [
+        "conWinUns.solid"
+      ],
+      "conFra.solid": [
+        "frame"
+      ],
+      "shaSig.yCom": [
+        "conWinUns.u",
+        "conFra.u"
+      ]
+    }
+  }
+}

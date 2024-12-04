@@ -1,0 +1,815 @@
+{
+  "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "WriteZoneSup",
+          "description_string": "Collection of zone supervisory overwrite points for BOPTEST",
+          "composition": {
+            "element_list": [
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TZonHeaSet_in"
+                      },
+                      "description": {
+                        "description_string": "Zone air temperature heating setpoint",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 60
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "String",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "zone",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"1\""
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Zone designation, required if KPIs is AirZoneTemperature,\n    RadiativeZoneTemperature, OperativeZoneTemperature, RelativeHumidity,\n    or CO2Concentration"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TZonCooSet_in"
+                      },
+                      "description": {
+                        "description_string": "Zone air temperature cooling setpoint",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": -60
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": -20
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.Utilities.IO.SignalExchange.Overwrite",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TZonHeaSet",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "description",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Zone air temperature heating setpoint for zone \" +zone"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "u",
+                                  "modification": {
+                                    "class_modification": [
+                                      {
+                                        "element_modification_or_replaceable": {
+                                          "element_modification": {
+                                            "name": "unit",
+                                            "modification": {
+                                              "equal": true,
+                                              "expression": {
+                                                "simple_expression": "\"K\""
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "element_modification_or_replaceable": {
+                                          "element_modification": {
+                                            "name": "min",
+                                            "modification": {
+                                              "equal": true,
+                                              "expression": {
+                                                "simple_expression": "285.15"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "element_modification_or_replaceable": {
+                                          "element_modification": {
+                                            "name": "max",
+                                            "modification": {
+                                              "equal": true,
+                                              "expression": {
+                                                "simple_expression": "313.15"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Zone air temperature heating setpoint",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "__Buildings",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "semantic",
+                                          "modification": {
+                                            "class_modification": [
+                                              {
+                                                "element_modification_or_replaceable": {
+                                                  "element_modification": {
+                                                    "name": "metadataLanguage",
+                                                    "modification": {
+                                                      "equal": true,
+                                                      "expression": {
+                                                        "simple_expression": "\"Brick 1.3 text/turtle\""
+                                                      }
+                                                    },
+                                                    "description_string": "bldg:<cdl_instance_name> a brick:Zone_Air_Heating_Temperature_Setpoint ;\n                          brick:hasLocation bldg:hvac_cor_zone ."
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 0,
+                                        "y": 30
+                                      },
+                                      {
+                                        "x": 20,
+                                        "y": 50
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.Utilities.IO.SignalExchange.Overwrite",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TZonCooSet",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "description",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Zone air temperature cooling setpoint for zone \" +zone"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "u",
+                                  "modification": {
+                                    "class_modification": [
+                                      {
+                                        "element_modification_or_replaceable": {
+                                          "element_modification": {
+                                            "name": "unit",
+                                            "modification": {
+                                              "equal": true,
+                                              "expression": {
+                                                "simple_expression": "\"K\""
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "element_modification_or_replaceable": {
+                                          "element_modification": {
+                                            "name": "min",
+                                            "modification": {
+                                              "equal": true,
+                                              "expression": {
+                                                "simple_expression": "285.15"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "element_modification_or_replaceable": {
+                                          "element_modification": {
+                                            "name": "max",
+                                            "modification": {
+                                              "equal": true,
+                                              "expression": {
+                                                "simple_expression": "313.15"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Zone air temperature cooling setpoint",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "__Buildings",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "semantic",
+                                          "modification": {
+                                            "class_modification": [
+                                              {
+                                                "element_modification_or_replaceable": {
+                                                  "element_modification": {
+                                                    "name": "metadataLanguage",
+                                                    "modification": {
+                                                      "equal": true,
+                                                      "expression": {
+                                                        "simple_expression": "\"Brick 1.3 text/turtle\""
+                                                      }
+                                                    },
+                                                    "description_string": "bldg:<cdl_instance_name> a brick:Zone_Air_Cooling_Temperature_Setpoint ;\n                          brick:hasLocation bldg:hvac_cor_zone ."
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 0,
+                                        "y": -50
+                                      },
+                                      {
+                                        "x": 20,
+                                        "y": -30
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TZonHeaSet_out"
+                      },
+                      "description": {
+                        "description_string": "Zone air temperature heating setpoint",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": 30
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": 50
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TZonCooSet_out"
+                      },
+                      "description": {
+                        "description_string": "Zone air temperature cooling setpoint",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": -50
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": -30
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "TZonHeaSet_in"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "TZonHeaSet"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -120,
+                                      "y": 40
+                                    },
+                                    {
+                                      "x": -62,
+                                      "y": 40
+                                    },
+                                    {
+                                      "x": -2,
+                                      "y": 40
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.Bezier"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "TZonCooSet_in"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "TZonCooSet"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "u"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -120,
+                                      "y": -40
+                                    },
+                                    {
+                                      "x": -62,
+                                      "y": -40
+                                    },
+                                    {
+                                      "x": -2,
+                                      "y": -40
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.Bezier"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "TZonHeaSet"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "TZonHeaSet_out"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 21,
+                                      "y": 40
+                                    },
+                                    {
+                                      "x": 110,
+                                      "y": 40
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.Bezier"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "TZonCooSet"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "y"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "TZonCooSet_out"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": 21,
+                                      "y": -40
+                                    },
+                                    {
+                                      "x": 110,
+                                      "y": -40
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 127
+                                  },
+                                  "smooth": "Smooth.Bezier"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "preserveAspectRatio": "false"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -100,
+                                        "y": 100
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": -100
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 170,
+                                      "b": 170
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -56,
+                                        "y": 134
+                                      },
+                                      {
+                                        "x": 52,
+                                        "y": 100
+                                      }
+                                    ],
+                                    "textString": "\"%name\"",
+                                    "lineColor": {
+                                      "r": 28,
+                                      "g": 108,
+                                      "b": 200
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 170,
+                                      "b": 170
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -34,
+                                        "y": 22
+                                      },
+                                      {
+                                        "x": 32,
+                                        "y": -18
+                                      }
+                                    ],
+                                    "textString": "\"Write\nZone\nSup\"",
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Diagram",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "preserveAspectRatio": "false"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "MultiZoneOfficeSimpleAir/BaseClasses/WriteZoneSup.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/WriteZoneSup.mo",
+  "checksum": "f2b10e2a8166d572be7f2bdbb314b781"
+}

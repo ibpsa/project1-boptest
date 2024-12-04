@@ -1,0 +1,1603 @@
+{
+  "instances": {
+    "SolarRadiationExchange": {
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "preferredView",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"info\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -240,
+                              "y": -240
+                            },
+                            {
+                              "x": 240,
+                              "y": 240
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -240,
+                              "y": -240
+                            },
+                            {
+                              "x": 240,
+                              "y": 240
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -144,
+                                  "y": -8
+                                },
+                                {
+                                  "x": 2,
+                                  "y": -200
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 128,
+                                "b": 0
+                              },
+                              "smooth": "Smooth.None"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 2,
+                                  "y": -200
+                                },
+                                {
+                                  "x": 2,
+                                  "y": 184
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 128,
+                                "b": 0
+                              },
+                              "smooth": "Smooth.None"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 2,
+                                  "y": -200
+                                },
+                                {
+                                  "x": 148,
+                                  "y": -8
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 128,
+                                "b": 0
+                              },
+                              "thickness": 1,
+                              "smooth": "Smooth.None"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 148,
+                                  "y": 74
+                                },
+                                {
+                                  "x": 174,
+                                  "y": -78
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 215,
+                                "g": 215,
+                                "b": 215
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 154,
+                                  "y": 74
+                                },
+                                {
+                                  "x": 158,
+                                  "y": -78
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 85,
+                                "g": 170,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 166,
+                                  "y": 74
+                                },
+                                {
+                                  "x": 170,
+                                  "y": -78
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 85,
+                                "g": 170,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis model computes the distribution of the solar radiation gain\nto the room surfaces.\nLet\n<i>N<sup>w</sup></i>\ndenote the number of windows,\n<i>N<sup>f</sup></i>\nthe number of floor elements and\n<i>N<sup>n</sup></i>\nthe number of non-floor elements such as ceiling, wall and window elements.\nInput to the model are the diffuse and direct solar radiosities\n<i>J<sup>i</sup><sub>dif</sub>, i &isin; {1, &hellip; , N<sup>w</sup>}</i>\nand\n<i>J<sup>i</sup><sub>dir</sub>, i &isin; {1, &hellip; , N<sup>w</sup>}</i>\nthat were transmitted through the window.\nThe total incoming solar radiation is therefore for the diffuse irradiation\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\nH<sub>dif</sub> = &sum;<sub>i=1</sub><sup>N<sup>w</sup></sup>\nJ<sub>dif</sub><sup>i</sup>\n</p>\n<p>\nand for the direct irradiation\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\nH<sub>dir</sub> = &sum;<sub>i=1</sub><sup>N<sup>w</sup></sup>\nJ<sub>dir</sub><sup>i</sup>.\n</p>\n<p>\nIt is assumed that the diffuse irradiation is distributed to all\nsurfaces proportionally to the product of surface emissivity plus transmissivity\n(which generally is zero except for windows) times the area.\nFor the direct irradiation, it is assumed that it\nfirst hits the floor where some of it is absorbed,\nand some of it is diffusely reflected to all other surfaces. Only the first\nreflection is taken into account and the location of the floor patch\nrelative to the window is neglected.\n</p>\n<p>\nHence, the diffuse radiation that is absorbed by each area is\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n Q<sup>i</sup><sub>dif</sub> = H<sub>dif</sub> &nbsp; (&epsilon;<sup>i</sup>+&tau;<sup>i</sup>) &nbsp; A<sup>i</sup>\n&frasl; &sum;<sub>j=1</sub><sup>N</sup> &nbsp; A<sup>j</sup>,\n</p>\n<p>\nwhere the sum is over all areas. Hence, this calculation treats the wall\nthat contains the window identical as any other construction, which is\na simplification.\n</p>\n\n<p>Similarly, the direct radiation that is\nabsorbed by each floor patch <i>i &isin; {1, &hellip;, N<sup>f</sup>}</i>,\nand may be partially transmitted in\nthe unusual case that the floor contains a window, is\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n Q<sup>i</sup><sub>dir</sub> = H<sub>dir</sub> &nbsp; (&epsilon;<sup>i</sup>+&tau;<sup>i</sup>) &nbsp; A<sup>i</sup>\n&frasl; &sum;<sub>j=1</sub><sup>N<sup>f</sup></sup> &nbsp; A<sup>j</sup>.\n</p>\n<p>\nThe sum of the direct radiation that is reflected by the floor is therefore\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n J<sup>f</sup> = H<sub>dir</sub> &nbsp;\n&sum;<sub>i=1</sub><sup>N<sup>f</sup></sup>\n(1-&epsilon;<sup>i</sup>-&tau;<sup>i</sup>) &nbsp; A<sup>i</sup>\n&frasl; &sum;<sub>j=1</sub><sup>N<sup>f</sup></sup> &nbsp; A<sup>j</sup>.\n</p>\n<p>\nThis reflected radiosity is then distributed to all non-floor areas\n<i>i &isin; {1, &hellip;, N<sup>n</sup>}</i>\nusing</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  Q<sup>i</sup><sub>dir</sub> = J<sup>f</sup> &nbsp;\nA<sup>i</sup> &nbsp; (&epsilon;<sup>i</sup>+&tau;<sup>i</sup>)\n&frasl;\n&sum;<sub>k=1</sub><sup>N<sup>n</sup></sup>\nA<sup>k</sup> &nbsp; (&epsilon;<sup>k</sup>+&tau;<sup>k</sup>)\n</p>\n<p>\nThe heat flow rate that is absorbed by each surface is\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\nQ<sup>i</sup> = Q<sup>i</sup><sub>dif</sub> + Q<sup>i</sup><sub>dir</sub>.\n</p>\n<p>\nFor opaque surfaces, the heat flow rate\n<i>Q<sup>i</sup></i>\nis set to be equal to the heat flow rate at the heat port.\nFor the glass of the windows, the heat flow rate\n<i>Q<sup>i</sup></i> is set to the radiosity\n<i>J<sub>out</sub><sup>i</sup></i>\nthat will strike the glass or the window shade as diffuse solar\nradiation.\n</p>\n<h4>Main assumptions</h4>\n<p>\nThe main assumptions or simplifications are that the shaded and unshaded part of the window\nhave the same solar absorbtance.\nFurthermore, if the room has electrochromic windows, the optical properties\nare taken from the state 1, which generally is\nthe uncontrolled state. The error should be small as in the controlled state,\nthere is little solar radiation entering the room, and with this simplification,\nthe main error is that the radiation that is reflected in the room and hits the\nwindow is larger than it otherwise would be.\nThis simplification allows lumping the solar distribution into\na parameter.\n</p>\n<p>\nThe model also assumes that all radiation first hits the floor from\nwhich it is diffusely distributed to the other surfaces.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nFebruary 11, 2022, by Michael Wetter:<br/>\nChange parameter <code>isFloor</code> to <code>is_floor</code>,\nand <code>isCeiling</code> to <code>is_ceiling</code>,\nfor consistency with naming convention.\n</li>\n<li>\nJune 7, 2016, by Michael Wetter:<br/>\nRemoved <code>HTot</code> as this is not needed, and refactored\nthe model so that the diffuse irradiation is treated separately\nfrom the direct irradiation.\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/451\\\">issue 451</a>.\n</li>\n<li>\nAugust 7, 2015, by Michael Wetter:<br/>\nRevised model to allow modeling of electrochromic windows.\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/445\\\">issue 445</a>.\n</li>\n<li>\nMarch 13, 2015, by Michael Wetter:<br/>\nChanged model to avoid a translation error\nin OpenModelica.\n</li>\n<li>\nJuly 16, 2013, by Michael Wetter:<br/>\nAdded assignment of heat port temperature instead of heat flow rate\nfor the cases where a construction has been conditionally removed.\nThis is required to avoid a singularity.\n</li>\n<li>\nNovember 6, 2011, by Michael Wetter:<br/>\nFixed bug as in the old version, the absorbtance and reflectance\nof the infrared spectrum has been used instead of the solar spectrum.\n</li>\n<li>\nDec. 1 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "is_floorConExt": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "is_floorConExt",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExt"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Flag to indicate if floor for exterior constructions"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "is_floorConExtWin": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "is_floorConExtWin",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Flag to indicate if floor for constructions"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "is_floorConPar_a": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "is_floorConPar_a",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConPar"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Flag to indicate if floor for constructions"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "is_floorConPar_b": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "is_floorConPar_b",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConPar"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Flag to indicate if floor for constructions"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "is_floorConBou": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "is_floorConBou",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConBou"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Flag to indicate if floor for constructions with exterior boundary conditions exposed to outside of room model"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "is_floorSurBou": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "is_floorSurBou",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NSurBou"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Flag to indicate if floor for constructions that are modeled outside of this room"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "tauGla": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Emissivity",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tauGla",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Transmissivity of window"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "JInDifConExtWin": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JInDifConExtWin",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Diffuse solar radiation transmitted by window per unit area",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 260,
+                          "y": 70
+                        },
+                        {
+                          "x": 240,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 260,
+                      "y": 70
+                    },
+                    {
+                      "x": 240,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "JInDirConExtWin": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JInDirConExtWin",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Direct solar radiation transmitted by window per unit area",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 260,
+                          "y": 30
+                        },
+                        {
+                          "x": 240,
+                          "y": 50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 260,
+                      "y": 30
+                    },
+                    {
+                      "x": 240,
+                      "y": 50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "HOutConExtWin": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HOutConExtWin",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/m2\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Outgoing solar radiation that strikes window per unit area",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 240,
+                          "y": 110
+                        },
+                        {
+                          "x": 260,
+                          "y": 130
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 240,
+                      "y": 110
+                    },
+                    {
+                      "x": 260,
+                      "y": 130
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "JOutConExtWin": {
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JOutConExtWin",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Outgoing solar radiation that strikes the window"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "kDir1": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "kDir1",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Intermediate variable for gain for direct solar radiation distribution"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "kDir2": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "kDir2",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Intermediate variable for gain for solar radiation distribution"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "Q_flow": {
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Q_flow",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NTot"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Total solar radiation that is absorbed by the surfaces (or transmitted back through the glass)"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "NOpa": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NOpa",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "NConExt +2*NConExtWin +2*NConPar +NConBou +NSurBou"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of opaque surfaces, including the window frame"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "NWin": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NWin",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "NConExtWin"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of window surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "NTot": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NTot",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "NOpa +NWin"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Total number of surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "is_flo": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "is_flo",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Flag, true if a surface is a floor"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "eps": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "eps",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Solar absorptivity"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "tau": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tau",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Solar transmissivity"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "AFlo": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "AFlo",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Total floor area"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "A": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "A",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Surface areas"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "kDif": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "kDif",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Gain for diffuse solar radiation distribution"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "kDir": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "kDir",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Gain for direct solar radiation distribution"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "epsTauA": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "epsTauA",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"m2\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Product (eps[i]+tau[i])*A[i] for all surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    },
+    "sumEpsTauA": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sumEpsTauA",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"m2\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Sum(epsTauA)"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/SolarRadiationExchange.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.ThermalZones.Detailed.BaseClasses.PartialSurfaceInterfaceRadiative",
+        "class_modification": [
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "epsConExt",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "datConExt.layers.absSol_b"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "epsConExtWinOpa",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "datConExtWin.layers.absSol_b"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "epsConExtWinUns",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": {
+                      "for_loop": {
+                        "expression": {
+                          "simple_expression": "(1 -datConExtWin[i].glaSys.glass[[object Object]].tauSol[1] -datConExtWin[i].glaSys.glass[[object Object]].rhoSol_b[1])"
+                        },
+                        "for_loop": [
+                          {
+                            "name": "i",
+                            "range": "1:NConExtWin"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "epsConExtWinSha",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": {
+                      "for_loop": {
+                        "expression": {
+                          "simple_expression": "(1 -datConExtWin[i].glaSys.glass[[object Object]].tauSol[1] -datConExtWin[i].glaSys.glass[[object Object]].rhoSol_b[1])"
+                        },
+                        "for_loop": [
+                          {
+                            "name": "i",
+                            "range": "1:NConExtWin"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "epsConExtWinFra",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "datConExtWin.glaSys.absSolFra"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "epsConPar_a",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "datConPar.layers.absSol_a"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "epsConPar_b",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "datConPar.layers.absSol_b"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "epsConBou",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "datConBou.layers.absSol_b"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "epsSurBou",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "surBou.absSol"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "long_class_specifier_identifier": "SolarRadiationExchange",
+        "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {}
+  }
+}
