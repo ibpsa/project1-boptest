@@ -660,11 +660,11 @@ bldg:oveMixValSup_u a brick:Point ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
-bldg:oveTSetPum_u a brick:Point ;
+bldg:oveTSetPumBoi_u a brick:Point ;
 	ref:hasExternalReference [
 		bacnet:object-identifier "analog-output,82" ;
 		bacnet:object-type "analog-output" ;
-		bacnet:object-name "oveTSetPum_u" ;
+		bacnet:object-name "oveTSetPumBoi_u" ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
