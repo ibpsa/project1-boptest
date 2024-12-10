@@ -8,6 +8,7 @@ Released on xx/xx/xxxx.
 
 - Add note to ``README.md`` about using environment variable ``BOPTEST_TIMEOUT`` to edit the timeout period for idle workers.  This is for [#715](https://github.com/ibpsa/project1-boptest/issues/715).
 - Add note to ``README.md`` about a Julia interface implemented by [BOPTestAPI.jl](https://terion-io.github.io/BOPTestAPI.jl/stable/).  This is for [#707](https://github.com/ibpsa/project1-boptest/issues/707).
+- Update Spawn version to ``light-0.4.3-7048a72798``, which is used in Modelica Buildings Library v11.0.0.  This is for [#718](https://github.com/ibpsa/project1-boptest/issues/718).
 
 
 ## BOPTEST v0.7.0
