@@ -91,9 +91,6 @@ parser_forecast_points.add_argument('point_names', type=list, action='append', r
 # Add required parameters
 parser_forecast_points.add_argument('horizon', required=True)
 parser_forecast_points.add_argument('interval', required=True)
-# Add optional uncertainty parameters
-parser_forecast_points.add_argument('temperature_uncertainty', required=False)
-parser_forecast_points.add_argument('solar_uncertainty', required=False)
 # ``results`` interface
 results_var = reqparse.RequestParser(argument_class=CustomArgument)
 results_var.add_argument('point_names', type=list, action='append', required=True)
@@ -206,14 +203,10 @@ class Forecast(Resource):
         args = parser_forecast_points.parse_args()
         horizon = args['horizon']
         interval = args['interval']
-        temperature_uncertainty = args.get('temperature_uncertainty', None)
-        solar_uncertainty = args.get('solar_uncertainty', None)
         point_names = []
         for point_name in args['point_names']:
             point_names.append(''.join(point_name))
-        status, message, payload = case.get_forecast(point_names, horizon, interval, 
-                                                     temperature_uncertainty,
-                                                     solar_uncertainty)
+        status, message, payload = case.get_forecast(point_names, horizon, interval)
 
         return construct(status, message, payload)
 
@@ -287,4 +280,3 @@ api.add_resource(Submit, '/submit')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
-

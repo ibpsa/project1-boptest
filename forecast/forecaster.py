@@ -5,12 +5,13 @@ Created on Apr 25, 2019
 
 This module contains the Forecaster class with methods to obtain
 forecast data for the test case. It relies on the data_manager object
-of the test case to provide a deterministic forecast, and the 
+of the test case to provide a deterministic forecast, and the
 error_emulator module to generate errors for uncertain forecasts.
 
 '''
 from .error_emulator import predict_temperature_error_AR1, predict_solar_error_AR1, mean_filter
 import numpy as np
+import json
 
 
 class Forecaster(object):
@@ -33,6 +34,8 @@ class Forecaster(object):
 
         # Point to the test case object
         self.case = testcase
+        # Load forecast uncertainty parameters
+        self.uncertainty_params = self.load_uncertainty_params()
 
     def get_forecast(self, point_names, horizon=24 * 3600, interval=3600,
                      wea_tem_dry_bul=None, wea_sol_glo_hor=None, seed=None):
@@ -47,16 +50,18 @@ class Forecaster(object):
             Forecast horizon in seconds (default is 86400 seconds, i.e., one day).
         interval : int, optional
             Time interval between forecast points in seconds (default is 3600 seconds, i.e., one hour).
-        wea_tem_dry_bul : dict, optional
-            Parameters for the AR1 model to simulate forecast error in dry bulb temperature:
-                - F0, K0, F, K, mu : parameters used in the AR1 model.
-            If None, defaults to a dictionary with all parameters set to zero, simulating no forecast error.
+        wea_tem_dry_bul : str, optional
+            Uncertainty level for outside air dry bulb temperature.  'low', 'medium', or 'high'
+            If None, defaults to no forecast error.
+            Default is None.
         wea_sol_glo_hor : dict, optional
-            Parameters for the AR1 model to simulate forecast error in global horizontal solar irradiation:
-                - ag0, bg0, phi, ag, bg : parameters used in the AR1 model.
-            If None, defaults to a dictionary with all parameters set to zero, simulating no forecast error.
+            Uncertainty level for outside solar radiation.  'low', 'medium', or 'high'
+            If None, defaults to no forecast error.
+            Default is None.
         seed : int, optional
             Seed for the random number generator to ensure reproducibility of the stochastic forecast error.
+            If None, no seed is used.
+            Default is None.
 
         Returns
         -------
@@ -66,32 +71,37 @@ class Forecaster(object):
         '''
 
         # Set uncertainty parameters to 0 if no forecast uncertainty
-        if wea_tem_dry_bul is None:
-            wea_tem_dry_bul = {
-                "F0": 0, "K0": 0, "F": 0, "K": 0, "mu": 0
-            }
+        temperature_params = {
+            "F0": 0, "K0": 0, "F": 0, "K": 0, "mu": 0
+        }
 
-        if wea_sol_glo_hor is None:
-            wea_sol_glo_hor = {
-                "ag0": 0, "bg0": 0, "phi": 0, "ag": 0, "bg": 0
-            }
+        solar_params = {
+            "ag0": 0, "bg0": 0, "phi": 0, "ag": 0, "bg": 0
+        }
+
+        if wea_tem_dry_bul is not None:
+            temperature_params.update(self.uncertainty_params['temperature'][wea_tem_dry_bul])
+
+        if wea_sol_glo_hor is not None:
+            solar_params.update(self.uncertainty_params['solar'][wea_sol_glo_hor])
+
         # Get the forecast
         forecast = self.case.data_manager.get_data(variables=point_names,
                                                    horizon=horizon,
                                                    interval=interval)
 
         # Add any outside dry bulb temperature error
-        if 'TDryBul' in point_names and any(wea_tem_dry_bul.values()):
+        if 'TDryBul' in point_names and any(temperature_params.values()):
             if seed is not None:
                 np.random.seed(seed)
             # error in the forecast
             error_forecast_temp = predict_temperature_error_AR1(
                 hp=int(horizon / interval + 1),
-                F0=wea_tem_dry_bul["F0"],
-                K0=wea_tem_dry_bul["K0"],
-                F=wea_tem_dry_bul["F"],
-                K=wea_tem_dry_bul["K"],
-                mu=wea_tem_dry_bul["mu"]
+                F0=temperature_params["F0"],
+                K0=temperature_params["K0"],
+                F=temperature_params["F"],
+                K=temperature_params["K"],
+                mu=temperature_params["mu"]
             )
 
             # forecast error just added to dry bulb temperature
@@ -99,7 +109,7 @@ class Forecaster(object):
             forecast['TDryBul'] = forecast['TDryBul'].tolist()
 
         # Add any outside global horizontal irradiation error
-        if 'HGloHor' in point_names and any(wea_sol_glo_hor.values()):
+        if 'HGloHor' in point_names and any(solar_params.values()):
 
             original_HGloHor = np.array(forecast['HGloHor']).copy()
             lower_bound = 0.2 * original_HGloHor
@@ -111,11 +121,11 @@ class Forecaster(object):
                     np.random.seed(seed+i*i)
                 error_forecast_solar = predict_solar_error_AR1(
                     int(horizon / interval + 1),
-                    wea_sol_glo_hor["ag0"],
-                    wea_sol_glo_hor["bg0"],
-                    wea_sol_glo_hor["phi"],
-                    wea_sol_glo_hor["ag"],
-                    wea_sol_glo_hor["bg"]
+                    solar_params["ag0"],
+                    solar_params["bg0"],
+                    solar_params["phi"],
+                    solar_params["ag"],
+                    solar_params["bg"]
                 )
 
                 forecast['HGloHor'] = original_HGloHor - error_forecast_solar
@@ -131,3 +141,24 @@ class Forecaster(object):
                     break
 
         return forecast
+
+    def load_uncertainty_params(self, filepath='forecast/forecast_uncertainty_params.json'):
+        '''Load the uncertainty parameters from a JSON file.
+
+        Parameters
+        ----------
+        filepath : str, optional
+            Path to the JSON file containing the uncertainty parameters.
+            Default is 'forecast_uncertainty_params.json'.
+
+        Returns
+        -------
+        dict
+            Uncertainty parameters loaded from the JSON file.
+
+        '''
+
+        with open(filepath, 'r') as f:
+            uncertainty_params = json.load(f)
+
+        return uncertainty_params
