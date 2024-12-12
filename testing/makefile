@@ -128,7 +128,7 @@ test_testcase1:
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
 	cd .. && TESTCASE=testcase1 docker-compose down
-# Remove julia image 
+# Remove julia image
 	cd ../examples/julia && make remove-image Script=testcase1
 # Report test results
 	if [ $(SINGLE) = true ]; then\
@@ -215,6 +215,18 @@ test_forecast:
 	if [ $(SINGLE) = true ]; then\
         	python report.py;\
 	fi
+
+test_forecast_uncertainty:
+# Build and deploy testcase image
+	cd .. && TESTCASE=testcase2 docker-compose up -d
+	python sleep10.py
+# Run test_forecast_uncertainty.py
+	cd .. && python testing/test_forecast_uncertainty.py $(ARG)
+# Stop testcase container and report results
+	cd .. && docker-compose down
+	if [ $(SINGLE) = true ]; then\
+	     python report.py;\
+	fi\
 
 test_kpis:
 # Compile testcase model
