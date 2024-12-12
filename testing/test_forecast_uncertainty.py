@@ -14,6 +14,8 @@ import json
 import requests
 import utilities
 from forecast.forecaster import Forecaster
+import statsmodels.api as sm
+from scipy.stats import laplace
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
@@ -159,8 +161,8 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         solar_error=self.determinstic_solar_forecasts.values-np.array(all_solar_forecasts)
 
         # Check parameters
-        F0, K0, F, K, mu=utilities.check_params_gaussain(temperature_error)
-        ag0, bg0, phi, ag, bg=utilities.check_params_laplace(solar_error)
+        F0, K0, F, K, mu=self.check_params_gaussain(temperature_error)
+        ag0, bg0, phi, ag, bg=self.check_params_laplace(solar_error)
 
         # Assert the forecast uncertainty parameters are within acceptable ranges
         self.assertAlmostEqual(F0, ref_F0, delta=0.2)
@@ -169,6 +171,26 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         self.assertAlmostEqual(K, ref_K, delta=0.01)
         self.assertAlmostEqual(mu, ref_mu, delta=0.01)
 
+    def check_params_gaussain(self, errors):
+        F0 = errors[:, 0].mean()
+        K0 = errors[:, 0].std()
+        X = errors[:, :-1].reshape((-1, 1))
+        y = errors[:, 1:].reshape((-1, 1))
+        model = sm.OLS(y, X, missing='drop').fit()
+        F = model.params.item()
+        K = model.resid.std()
+        mu = model.resid.mean()
+        return (F0,K0,F,K,mu)
+
+    def check_params_laplace(self, errors):
+        ag0,bg0=laplace.fit(errors[:, 0])
+        X = errors[:, :-1].reshape((-1, 1))
+        y = errors[:, 1:].reshape((-1, 1))
+        model = sm.OLS(y, X, missing='drop').fit()
+        phi = model.params.item()
+        h=model.resid
+        ag, bg = laplace.fit(h)
+        return (ag0, bg0, phi, ag, bg)
 
 if __name__ == '__main__':
 

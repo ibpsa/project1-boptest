@@ -14,8 +14,6 @@ import pandas as pd
 import re
 from datetime import datetime
 import sys
-import statsmodels.api as sm
-from scipy.stats import laplace
 
 def get_root_path():
     '''Returns the path to the root repository directory.
@@ -1068,27 +1066,3 @@ class partialTestSeason(partialChecks):
             df.index.name = 'keys'
             ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
             self.compare_ref_values_df(df, ref_filepath)
-
-def check_params_gaussain(errors):
-    F0 = errors[:, 0].mean()
-    K0 = errors[:, 0].std()
-
-    X = errors[:, :-1].reshape((-1, 1))
-    y = errors[:, 1:].reshape((-1, 1))
-    model = sm.OLS(y, X, missing='drop').fit()
-    F = model.params.item()
-    K = model.resid.std()
-    mu = model.resid.mean()
-    return (F0,K0,F,K,mu)
-
-
-def check_params_laplace(errors):
-    ag0,bg0=laplace.fit(errors[:, 0])
-
-    X = errors[:, :-1].reshape((-1, 1))
-    y = errors[:, 1:].reshape((-1, 1))
-    model = sm.OLS(y, X, missing='drop').fit()
-    phi = model.params.item()
-    h=model.resid
-    ag, bg = laplace.fit(h)
-    return (ag0, bg0, phi, ag, bg)
