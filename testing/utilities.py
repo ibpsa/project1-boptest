@@ -819,6 +819,33 @@ class partialTestAPI(partialChecks):
         payload = requests.put('{0}/scenario'.format(self.url), json=scenario)
         self.compare_error_code(payload,
                                "Invalid value for time_period in set_scenario request did not return 400 message.")
+        # Try setting invalid temperature forecast uncertainty
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'temperature_uncertainty': 'invalid_uncertainty'}
+        payload = requests.put('{0}/scenario'.format(self.url), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value for temperature_uncertainty in set_scenario request did not return 400 message.")
+        # Try setting invalid solar forecast uncertainty
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'solar_uncertainty': 'invalid_uncertainty'}
+        payload = requests.put('{0}/scenario'.format(self.url), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value for solar_uncertainty in set_scenario request did not return 400 message.")
+        # Try setting invalid uncertainty seed
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'seed': 'invalid_seed'}
+        payload = requests.put('{0}/scenario'.format(self.url), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value (string) for seed in set_scenario request did not return 400 message.")
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'seed': -1}
+        payload = requests.put('{0}/scenario'.format(self.url), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value (negative) for seed in set_scenario request did not return 400 message.")
         # Return scenario to original
         requests.put('{0}/scenario'.format(self.url), json=scenario_current)
 
