@@ -128,11 +128,11 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         ref_F0, ref_K0, ref_F, ref_K, ref_mu=self.ref_temperature_uncertainty_params[uncertain_level].values()
         ref_ag0, ref_bg0, ref_phi, ref_ag, ref_bg=self.ref_solar_uncertainty_params[uncertain_level].values()
 
-        # Initialize, set step (8 hours, so 1000 steps covers almost a year), and set scenario
+        # Initialize, set step, and set scenario
         requests.put('{0}/initialize'.format(self.url),
                      json={'start_time': int(0),
                            'warmup_period': int(0)})
-        requests.put('{0}/step'.format(self.url), json={'step': int(8*3600)})
+        requests.put('{0}/step'.format(self.url), json={'step': int(3600)})
         requests.put('{0}/scenario'.format(self.url), json={
             'electricity_price': 'constant',
             'solar_uncertainty': uncertain_level,
