@@ -616,6 +616,28 @@ class partialTestAPI(partialChecks):
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
+    def test_get_forecast_uncertain(self):
+        '''Check that the forecaster is able to GET uncertain forecasts.
+
+        'medium' temperature uncertainty tested with seed.
+        'low' solar uncertainty tested with seed.
+        'high' not tested for either. Forecaster tested in more detail in Forecaster unit tests.
+
+        '''
+
+        horizon = 86400
+        interval = 3600
+        # Initialize
+        requests.put('{0}/scenario'.format(self.url), json={'temperature_uncertainty':'medium', 'solar_uncertainty':'low', 'seed':1})
+        # Test case forecast
+        forecast_points = list(requests.get('{0}/forecast_points'.format(self.url)).json()['payload'].keys())
+        forecast = requests.put('{0}/forecast'.format(self.url), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain.csv')
+        # Check the forecast
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+
     def test_get_forecast_points(self):
         '''Check GET of forecast points.
 
@@ -1070,4 +1092,3 @@ def check_params_laplace(errors):
     h=model.resid
     ag, bg = laplace.fit(h)
     return (ag0, bg0, phi, ag, bg)
-
