@@ -222,6 +222,12 @@ class Job:
             params['electricity_price'] = None
         if not 'time_period' in params:
             params['time_period'] = None
+        if not 'temperature_uncertainty' in params:
+            params['temperature_uncertainty'] = None
+        if not 'solar_uncertainty' in params:
+            params['solar_uncertainty'] = None
+        if not 'seed' in params:
+            params['seed'] = None
         return self.package_response(self.tc.set_scenario(params))
 
     def get_forecast(self, params):
