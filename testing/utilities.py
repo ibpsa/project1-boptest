@@ -653,7 +653,10 @@ class partialTestAPI(partialChecks):
         # Set scenario
         scenario_current = requests.get('{0}/scenario'.format(self.url)).json()['payload']
         scenario = {'electricity_price':'highly_dynamic',
-                    'time_period':self.test_time_period}
+                    'time_period':self.test_time_period,
+                    'solar_uncertainty': None,
+                    'temperature_uncertainty': None,
+                    'seed': None}
         requests.put('{0}/scenario'.format(self.url), json=scenario)
         scenario_set = requests.get('{0}/scenario'.format(self.url)).json()['payload']
         self.assertEqual(scenario, scenario_set)
