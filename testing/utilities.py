@@ -630,10 +630,10 @@ class partialTestAPI(partialChecks):
         horizon = 86400
         interval = 3600
         # Initialize
-        requests.put('{0}/scenario'.format(self.url), json={'temperature_uncertainty':'medium', 'solar_uncertainty':'low', 'seed':1})
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={'temperature_uncertainty':'medium', 'solar_uncertainty':'low', 'seed':1})
         # Test case forecast
-        forecast_points = list(requests.get('{0}/forecast_points'.format(self.url)).json()['payload'].keys())
-        forecast = requests.put('{0}/forecast'.format(self.url), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        forecast_points = list(requests.get('{0}/forecast_points/{1}'.format(self.url,self.testid)).json()['payload'].keys())
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain.csv')
@@ -829,27 +829,27 @@ class partialTestAPI(partialChecks):
         scenario = {'electricity_price': 'highly_dynamic',
                     'time_period':  self.test_time_period,
                     'temperature_uncertainty': 'invalid_uncertainty'}
-        payload = requests.put('{0}/scenario'.format(self.url), json=scenario)
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
         self.compare_error_code(payload,
                                "Invalid value for temperature_uncertainty in set_scenario request did not return 400 message.")
         # Try setting invalid solar forecast uncertainty
         scenario = {'electricity_price': 'highly_dynamic',
                     'time_period':  self.test_time_period,
                     'solar_uncertainty': 'invalid_uncertainty'}
-        payload = requests.put('{0}/scenario'.format(self.url), json=scenario)
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
         self.compare_error_code(payload,
                                "Invalid value for solar_uncertainty in set_scenario request did not return 400 message.")
         # Try setting invalid uncertainty seed
         scenario = {'electricity_price': 'highly_dynamic',
                     'time_period':  self.test_time_period,
                     'seed': 'invalid_seed'}
-        payload = requests.put('{0}/scenario'.format(self.url), json=scenario)
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
         self.compare_error_code(payload,
                                "Invalid value (string) for seed in set_scenario request did not return 400 message.")
         scenario = {'electricity_price': 'highly_dynamic',
                     'time_period':  self.test_time_period,
                     'seed': -1}
-        payload = requests.put('{0}/scenario'.format(self.url), json=scenario)
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
         self.compare_error_code(payload,
                                "Invalid value (negative) for seed in set_scenario request did not return 400 message.")
         # Return scenario to original
