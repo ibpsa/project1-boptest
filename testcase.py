@@ -274,68 +274,57 @@ class TestCase(object):
         # Set control inputs if they exist and are written
         # Check if possible to overwrite
         if u.keys():
-            # If there are overwriting keys available
-            # Check that any are overwritten
-            written = False
+            # Create input object
+            u_list = []
+            u_trajectory = self.start_time
             for key in u.keys():
-                if u[key]:
-                    written = True
-                    break
-            # If there are, create input object
-            if written:
-                u_list = []
-                u_trajectory = self.start_time
-                for key in u.keys():
-                    if (key not in self.input_names):
-                        payload = None
-                        status = 400
-                        message = "Unexpected input variable: {}.".format(key)
-                        logging.error(message)
-                        return status, message, payload
-                    if (key != 'time' and (u[key] != None)):
-                        if '_activate' in key:
-                            try:
-                                if float(u[key]) == 1:
-                                    checked_value = 1
-                                elif  float(u[key]) == 0:
-                                    checked_value = 0
-                                else:
-                                    payload = None
-                                    status = 400
-                                    message = "Invalid value {} and/or type {} for input {}. Input must be a boolean, float, integer, string, or unicode able to be converted to a 1 or 0 (or 'T[t]rue' or 'F[f]alse').".format(u[key], type(u[key]), key)
-                                    logging.error(message)
-                                    return status, message, payload
-                            except ValueError:
-                                if (u[key] == 'True') or (u[key] == 'true'):
-                                    checked_value = 1
-                                elif  (u[key] == 'False') or (u[key] == 'false'):
-                                    checked_value = 0
-                                else:
-                                    payload = None
-                                    status = 400
-                                    message = "Invalid value {} and/or type {} for input {}. Input must be a boolean, float, integer, string, or unicode able to be converted to a 1 or 0 (or 'T[t]rue' or 'F[f]alse').".format(u[key], type(u[key]), key)
-                                    logging.error(message)
-                                    return status, message, payload
-                        else:
-                            try:
-                                value = float(u[key])
-                            except:
+                if (key not in self.input_names):
+                    payload = None
+                    status = 400
+                    message = "Unexpected input variable: {}.".format(key)
+                    logging.error(message)
+                    return status, message, payload
+                if (key != 'time' and (u[key] != None)):
+                    if '_activate' in key:
+                        try:
+                            if float(u[key]) == 1:
+                                checked_value = 1
+                            elif  float(u[key]) == 0:
+                                checked_value = 0
+                            else:
                                 payload = None
                                 status = 400
-                                message = "Invalid value {} for input {}. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(u[key], key, type(u[key]))
+                                message = "Invalid value {} and/or type {} for input {}. Input must be a boolean, float, integer, string, or unicode able to be converted to a 1 or 0 (or 'T[t]rue' or 'F[f]alse').".format(u[key], type(u[key]), key)
                                 logging.error(message)
                                 return status, message, payload
-                            # Check min/max if not activation input
-                            checked_value, message = self._check_value_min_max(key, value)
-                            if message is not None:
-                                logging.warning(message)
-                                alert_message = message + ';' + alert_message
-                        u_list.append(key)
-                        u_trajectory = np.vstack((u_trajectory, checked_value))
-                input_object = (u_list, np.transpose(u_trajectory))
-            # Otherwise, input object is None
-            else:
-                input_object = None
+                        except ValueError:
+                            if (u[key] == 'True') or (u[key] == 'true'):
+                                checked_value = 1
+                            elif  (u[key] == 'False') or (u[key] == 'false'):
+                                checked_value = 0
+                            else:
+                                payload = None
+                                status = 400
+                                message = "Invalid value {} and/or type {} for input {}. Input must be a boolean, float, integer, string, or unicode able to be converted to a 1 or 0 (or 'T[t]rue' or 'F[f]alse').".format(u[key], type(u[key]), key)
+                                logging.error(message)
+                                return status, message, payload
+                    else:
+                        try:
+                            value = float(u[key])
+                        except:
+                            payload = None
+                            status = 400
+                            message = "Invalid value {} for input {}. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(u[key], key, type(u[key]))
+                            logging.error(message)
+                            return status, message, payload
+                        # Check min/max if not activation input
+                        checked_value, message = self._check_value_min_max(key, value)
+                        if message is not None:
+                            logging.warning(message)
+                            alert_message = message + ';' + alert_message
+                    u_list.append(key)
+                    u_trajectory = np.vstack((u_trajectory, checked_value))
+            input_object = (u_list, np.transpose(u_trajectory))
         # Otherwise, input object is None
         else:
             input_object = None

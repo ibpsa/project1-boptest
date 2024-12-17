@@ -70,8 +70,8 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         subprocess.run("mv {0}_temp.ini {0}.ini".format(filepath), shell=True)
 
     def test_read_write(self):
-        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py 0 0", shell=True)
-        r = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:33 presentValue 293".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0", shell=True)
+        r = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:33 presentValue 294".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         with r.stdout:
             for line in iter(r.stdout.readline, b''):
                 print(str(line))
