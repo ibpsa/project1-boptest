@@ -48,6 +48,7 @@ class Job:
         self.simulate_dir = "/simulate"
         self.test_dir = os.path.join(self.simulate_dir, self.testid)
         self.fmu_path = os.path.join(self.test_dir, "model.fmu")
+        self.forecast_uncertainty_params_path='/boptest/lib/forecast/forecast_uncertainty_params.json'
 
         if not os.path.exists(self.test_dir):
             os.makedirs(self.test_dir)
@@ -64,7 +65,7 @@ class Job:
         self.s3_bucket = self.s3.Bucket(self.s3_bucket_name)
         self.s3_bucket.download_file(self.testcaseKey, self.fmu_path)
 
-        self.tc = TestCase(self.fmu_path)
+        self.tc = TestCase(self.fmu_path, self.forecast_uncertainty_params_path)
 
         # subscribe to messages related to this test
         self.message_handlers = {}

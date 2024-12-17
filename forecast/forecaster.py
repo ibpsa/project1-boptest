@@ -20,7 +20,7 @@ class Forecaster(object):
 
     '''
 
-    def __init__(self, testcase):
+    def __init__(self, testcase, forecast_uncertainty_params_path='forecast/forecast_uncertainty_params.json'):
         '''
         Constructor
 
@@ -29,13 +29,16 @@ class Forecaster(object):
         testcase: BOPTEST TestCase object
             object of an already deployed test case that
             contains the data stored from the test case run
+        forecast_uncertainty_params_path : str, optional
+            Path to the JSON file containing the uncertainty parameters.
+            Default is 'forecast/forecast_uncertainty_params.json'.
 
         '''
 
         # Point to the test case object
         self.case = testcase
         # Load forecast uncertainty parameters
-        self.uncertainty_params = self.load_uncertainty_params()
+        self.uncertainty_params = self.load_uncertainty_params(forecast_uncertainty_params_path)
 
     def get_forecast(self, point_names, horizon=24 * 3600, interval=3600,
                      wea_tem_dry_bul=None, wea_sol_glo_hor=None, seed=None):
@@ -142,14 +145,13 @@ class Forecaster(object):
 
         return forecast
 
-    def load_uncertainty_params(self, filepath='forecast/forecast_uncertainty_params.json'):
+    def load_uncertainty_params(self, filepath):
         '''Load the uncertainty parameters from a JSON file.
 
         Parameters
         ----------
-        filepath : str, optional
+        filepath : str
             Path to the JSON file containing the uncertainty parameters.
-            Default is 'forecast_uncertainty_params.json'.
 
         Returns
         -------

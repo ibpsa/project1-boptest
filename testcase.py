@@ -29,13 +29,18 @@ class TestCase(object):
 
     '''
 
-    def __init__(self, fmupath='models/wrapped.fmu'):
+    def __init__(self,
+                 fmupath='models/wrapped.fmu',
+                 forecast_uncertainty_params_path='forecast/forecast_uncertainty_params.json'):
         '''Constructor.
 
         Parameters
         ----------
         fmupath : str, optional
             Path to the test case fmu.
+            Default is assuming a particular directory structure.
+        forecast_uncertainty_params_path : str, optional
+            Path to the JSON file containing the uncertainty parameters.
             Default is assuming a particular directory structure.
 
         '''
@@ -52,7 +57,8 @@ class TestCase(object):
         # Load data and the kpis_json for the test case
         self.data_manager.load_data_and_jsons()
         # Instantiate a forecaster for this test case
-        self.forecaster = Forecaster(testcase=self)
+        self.forecaster = Forecaster(testcase=self,
+                                     forecast_uncertainty_params_path=forecast_uncertainty_params_path)
         # Define name
         self.name = self.config_json['name']
         # Load fmu
