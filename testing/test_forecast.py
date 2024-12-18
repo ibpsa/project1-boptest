@@ -95,10 +95,13 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
         # Change directory to testcase 2
         os.chdir(os.path.join(testing_root_dir,'testcase2'))
         from testcase2.testcase import TestCase
-        self.case=TestCase()
+        forecast_uncertainty_params_path = os.path.join(testing_root_dir,
+                                                        'forecast',
+                                                        'forecast_uncertainty_params.json')
+        self.case=TestCase(forecast_uncertainty_params_path=forecast_uncertainty_params_path)
 
         # Instantiate a forecaster
-        self.forecaster = Forecaster(self.case)
+        self.forecaster = Forecaster(self.case, forecast_uncertainty_params_path)
 
         # Specify forecast points to test
         self.forecast_points = list(self.case.get_forecast_points()[2].keys())
@@ -127,10 +130,13 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
         # Change directory to testcase 3
         os.chdir(os.path.join(testing_root_dir,'testcase3'))
         from testcase3.testcase import TestCase
-        self.case=TestCase()
+        forecast_uncertainty_params_path = os.path.join(testing_root_dir,
+                                                        'forecast',
+                                                        'forecast_uncertainty_params.json')
+        self.case=TestCase(forecast_uncertainty_params_path=forecast_uncertainty_params_path)
 
         # Instantiate a forecaster
-        self.forecaster = Forecaster(self.case)
+        self.forecaster = Forecaster(self.case, forecast_uncertainty_params_path)
 
         # Specify forecast points to test
         self.forecast_points = list(self.case.get_forecast_points()[2].keys())
