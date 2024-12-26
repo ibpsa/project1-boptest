@@ -46,13 +46,12 @@ jobs:
 
       - name: Run example
         run: |
-          cd service
           python --version
           pip install requests matplotlib numpy pandas
           PYTHONPATH=$GITHUB_WORKSPACE
           echo "PYTHONPATH=$PYTHONPATH" >> $GITHUB_ENV
           # Storing PYTHONPATH above doesn't work for python so setting it below at run 
-          cd boptest && PYTHONPATH=$PWD python examples/python/testcase1.py 
+          PYTHONPATH=$PWD python examples/python/testcase1.py 
 
       - name: Run tests
         run: |
