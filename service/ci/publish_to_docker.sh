@@ -8,7 +8,7 @@ export DOCKER_HUB_WORKER_REGISTRY_URI=nrel/boptest-worker
 if [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
     export VERSION_TAG="develop"
     echo "The docker tag is set to: ${VERSION_TAG}"
-elif [[ "${GITHUB_REF}" =~ ^refs/tags/v[0-9].* ]]; then
+elif [[ "${GITHUB_REF}" =~ ^refs/tags/v[0-9].*-service ]]; then
     export VERSION_TAG="${GITHUB_REF/refs\/tags\//}"
     echo "The docker tag is set to: ${VERSION_TAG}"
 elif [[ "${GITHUB_REF}" == "refs/heads/experimental" ]]; then

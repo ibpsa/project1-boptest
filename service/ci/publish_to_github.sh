@@ -6,7 +6,7 @@ export GITHUB_WORKER_REGISTRY_URI=ghcr.io/NREL/boptest-worker
 if [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
     export VERSION_TAG="develop"
     echo "The docker tag is set to: ${VERSION_TAG}"
-elif [[ "${GITHUB_REF}" =~ ^refs/tags/v[0-9].* ]]; then
+elif [[ "${GITHUB_REF}" =~ ^refs/tags/v[0-9].*-service ]]; then
     export VERSION_TAG="${GITHUB_REF/refs\/tags\//}"
     echo "The docker tag is set to: ${VERSION_TAG}"
 # use conditional below if you want to build a custom branch
