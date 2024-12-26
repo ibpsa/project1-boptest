@@ -92,4 +92,4 @@ jobs:
           github.ref == 'refs/heads/experimental' ||
           contains(github.ref, 'refs/tags') 
         shell: bash
-        run: ci/publish_to_docker.sh
+        run: service/ci/publish_to_docker.sh
