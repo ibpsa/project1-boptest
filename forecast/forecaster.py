@@ -31,7 +31,7 @@ class Forecaster(object):
         self.case = testcase
 
     def get_forecast(self,point_names, horizon=24*3600, interval=3600,
-                     category=None, plot=False):
+                     category=None):
         '''Returns forecast of the test case data
 
         Parameters
@@ -50,8 +50,6 @@ class Forecaster(object):
             data without filtering it by any category.
             Possible options are 'weather', 'prices',
             'emissions', 'occupancy', internalGains, 'setpoints'
-        plot : boolean, default is False
-            True if desired to plot the forecast
 
         Returns
         -------
@@ -68,7 +66,6 @@ class Forecaster(object):
         forecast = self.case.data_manager.get_data(variables=point_names,
                                                    horizon=horizon,
                                                    interval=interval,
-                                                   category=category,
-                                                   plot=plot)
+                                                   category=category)
 
         return forecast
