@@ -28,6 +28,14 @@ class PartialForecasterTest(object):
         Path to forecast reference with default parameters.
     ref_forecast_interval : path
         Path to forecast reference with specified interval parameters.
+    ref_forecast_over_year : path
+        Path to forecast reference over year's end
+    ref_forecast_uncertain_low : path
+        Path to forecast reference for including uncertainty low
+    ref_forecast_uncertain_medium : path
+        Path to forecast reference for including uncertainty medium
+    ref_forecast_uncertain_high : path
+        Path to forecast reference for including uncertainty high
 
     '''
 
@@ -81,6 +89,24 @@ class PartialForecasterTest(object):
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
+    def test_get_uncertain_forecast(self):
+        '''Check that the forecaster is able to retrieve uncertain forecasts
+
+        '''
+
+        for level in ['low','medium','high']:
+            self.case.initialize(0,0)
+            # Load the data into the test case
+            forecast = self.forecaster.get_forecast(self.forecast_points,
+                                                    horizon=24*3600,
+                                                    interval=3600,
+                                                    wea_tem_dry_bul=level,
+                                                    wea_sol_glo_hor=level,
+                                                    seed=1)
+            # Check the forecast
+            df_forecaster = pd.DataFrame(forecast).set_index('time')
+            self.compare_ref_timeseries_df(df_forecaster, '{0}_{1}.csv'.format(self.ref_forecast_uncertain[:-4],level))
+
 class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
                                PartialForecasterTest):
     '''Tests the Forecaster class in a single-zone example.
@@ -116,6 +142,9 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
         self.ref_forecast_over_year = os.path.join(utilities.get_root_path(),
             'testing', 'references', 'forecast', 'testcase2', 'tc2_forecast_over_year.csv')
 
+        self.ref_forecast_uncertain = os.path.join(utilities.get_root_path(),
+            'testing', 'references', 'forecast', 'testcase2', 'tc2_forecast_uncertain.csv')
+
 class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
                               PartialForecasterTest):
     '''Tests the Forecaster class in a multi-zone example.
@@ -150,6 +179,9 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
 
         self.ref_forecast_over_year = os.path.join(utilities.get_root_path(),
             'testing', 'references', 'forecast', 'testcase3', 'tc3_forecast_over_year.csv')
+
+        self.ref_forecast_uncertain = os.path.join(utilities.get_root_path(),
+            'testing', 'references', 'forecast', 'testcase3', 'tc3_forecast_uncertain.csv')
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
