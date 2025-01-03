@@ -9,7 +9,7 @@ Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for mor
 
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
-- ``/service`` contains code for deploying BOPTEST framework as a web-service.
+- ``/service`` contains code for deploying BOPTEST framework as a web-service, known as BOPTEST-Service.
 - ``/examples`` contains code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (3.9) and Julia (Version 1.0.3).
 - ``/parsing`` contains code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
@@ -20,20 +20,27 @@ Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for mor
 - ``/baselines`` contains scripts and data for baselining KPIs for test cases with their embedded control.
 - ``/bacnet`` contains code for a bacnet interface.
 
-## Quick-Start to Use BOPTEST on a Local Computer
+## Quick-Start to Deploy and Use BOPTEST on a Local Computer
+BOPTEST can be deployed and used on your own computing resource by following the steps below:
+
 1) Download or Clone this repository.
 
 2) Install [Docker](https://docs.docker.com/get-docker/).
 
-3) Use Docker to build and run BOPTEST.  In the root of this repository, run the following command.  Note that if you want to be able to deploy multiple test cases at the same time, append the argument ``--scale worker=n`` where ``n`` equals the number of test cases you want to be able to have running at the same time.
-  
+3) Use Docker to build and run BOPTEST.  In the root of this repository, run the following command:
+
 ``docker compose up web worker provision``
+
+- If you want to be able to deploy multiple test cases at the same time, append the argument ``--scale worker=n`` to the command above where ``n`` equals the number of test cases you want to be able to have running at the same time.
+- If no request is made to a running test case for some time, the test case will be automatically stopped and the associated worker will be freed up.  By default this timeout is 15 minutes.  If you would like to change this timeout period, you can edit the environment variable ``BOPTEST_TIMEOUT`` in the ``.env`` file before starting BOPTEST with the command above.
 
 4) In a separate process, use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``http://127.0.0.1:80/<request>``
 
-5) Shutdown BOPTEST by the command ``docker compose down`` executed in the root directory of this repository.
+5) Shutdown BOPTEST by the command ``docker compose down`` executed in the root directory of this repository.  NOTE: This is the best and most complete way to shutdown BOPTEST to prevent issues upon redeployment.
 
 ## Quick-Start to Use BOPTEST through the Public Online Web-Service
+
+BOPTEST is also available as a public web-service and can be used by following the step below:
 
 1) Use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``https://api.boptest.net/<request>``
 
@@ -76,6 +83,53 @@ API requests for more advanced test case management in the web-service architect
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Once either test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
 
+## BOPTEST-Service Deployment Architecture
+
+BOPTEST is deployed by a web service architecture, known as BOPTEST-Service and located in ``/service``, which enables support for multiple clients and multiple simultaneous tests at a large scale. This is a containerized design that can be deployed on a personal computer, however the software is targeted at commercial cloud computing environments such as AWS.
+
+BOPTEST-Service is a sibling of [Alfalfa](https://github.com/NREL/alfalfa), which follows the same architecture, but adopts a more general purpose API to support interactive building simulation, whereas the BOPTEST API is designed around predetermined test scenarios.
+
+```mermaid
+flowchart LR
+    A[API Client] <--> B[Web Frontend]
+    subgraph cloud [Cloud Deployment]
+            B <--> C[(Message Broker)]
+            C <--> D[Worker 1]
+            C <--> E[Worker 2]
+            C <--> F[Worker N]
+        subgraph workers [Worker Pool]
+            D
+            E
+            F
+        end
+    end
+```
+
+### BOPTEST-Service APIs
+
+The BOPTEST-Service offers a number of additional APIs in addition to those listed above for the purpose of managing test cases and running tests, some of which require authorization.
+
+| Description                                                                                                                 | Request                                                    |
+| --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------
+| List official BOPTEST test cases.                                                                                           | GET `testcases`                                            |
+| List unofficial test cases in a namespace.                                                                                  | GET `testcases/{namespace}`                                |
+| List private user test cases. (Auth required)                                                                               | GET `users/{username}/testcases/`                          |
+| Check if specific test case exists.                                                                                         | GET `testcases/{testcase_name}`                            |
+| Check if specific test case exists in the namespace.                                                                        | GET `testcases/{namespace}/{testcase_name}`                |
+| Check if specific private user test case exists.                                                                            | GET `users/{username}/testcases/{testcase_name}`           |
+| Select a test case and begin a new test. (Auth optional)                                                                    | POST ``testcases/{testcase_name}/select``                  |
+| Select a test case from the namespace and begin a new test. (Auth optional)                                                 | POST ``testcases/{namespace}/{testcase_name}/select``      |
+| Select a private user test case and begin a new test. (Auth required)                                                       | POST ``users/{username}/testcases/{testcase_name}/select`` |
+| Get test status as `Running` or `Queued`                                                                                    | GET ``status/{testid}``                                    |
+| Stop a queued or running test.                                                                                              | PUT ``stop/{testid}``                                      |
+| List tests for a user. (Auth required)                                                                                      | GET ``users/{username}/tests``                             |
+
+The family of the `select` APIs are used to choose a test case and begin a running test. Select returns a `testid` which is required by all APIs that interact with the test or provide test information.
+
+### Kubernetes Based Deployment
+
+NREL maintains a helm chart for Kubernetes based deployments of BOPTEST-Service.
+
 ## Development
 Community development is welcome through reporting [issues](https://github.com/ibpsa/project1-boptest/issues) and/or making pull requests. If making a pull request,
 make sure an issue is opened first, name the development branch according to the convention ``issue<issue#>_<descriptor>``, and cite in the pull request which issue is being addressed.
@@ -88,12 +142,16 @@ as a hook on all commits by calling `pre-commit install` in the root directory o
 
 ## Additional Software
 
-### OpenAI-Gym Environment
-An OpenAI-Gym environment for BOPTEST is implemented in [ibpsa/project1-boptest-gym](https://github.com/ibpsa/project1-boptest-gym).
+### OpenAI-Gym Environment Interface
+An OpenAI-Gym environment interface for BOPTEST is implemented in [ibpsa/project1-boptest-gym](https://github.com/ibpsa/project1-boptest-gym).
 See the documentation there for getting started.
 
 ### BACnet Interface
 A BACnet interface for BOPTEST is implemented in the ``/bacnet`` directory of this repository.  See the ``/bacnet/README.md`` there for getting started.
+
+### Julia Interface
+A Julia interface for BOPTEST is implemented as a Julia package in [BOPTestAPI.jl](https://terion-io.github.io/BOPTestAPI.jl/stable/).
+See the documentation there for getting started.
 
 ### Results Dashboard
 A proposed BOPTEST home page and dashboard for creating accounts and sharing results is published here https://xd.adobe.com/view/0e0c63d4-3916-40a9-5e5c-cc03f853f40a-783d/.

@@ -1,8 +1,23 @@
 # Release Notes
 
-## BOPTEST v0.6.0-dev
+## BOPTEST v0.7.0-dev
 
 Released on xx/xx/xxxx.
+
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Add note to ``README.md`` about using environment variable ``BOPTEST_TIMEOUT`` to edit the timeout period for idle workers.  This is for [#715](https://github.com/ibpsa/project1-boptest/issues/715).
+- Add note to ``README.md`` about a Julia interface implemented by [BOPTestAPI.jl](https://terion-io.github.io/BOPTestAPI.jl/stable/).  This is for [#707](https://github.com/ibpsa/project1-boptest/issues/707).
+- Remove scipy and matplotlib dependency from worker container. scipy.integrate.trapz was substitued with numpy.trapezoid in ``kpis/kpi_calculator.py``,
+scipy.interp1d linear with numpy.interp, and scipy.inter1d zero with custmo zero hold interpolation in ``data/data_manager.py``.
+Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3.
+Update worker Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64.
+This is for [#663](https://github.com/ibpsa/project1-boptest/issues/663).
+
+
+## BOPTEST v0.7.0
+
+Released on 11/25/2024.
 
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
@@ -14,8 +29,9 @@ Released on xx/xx/xxxx.
 - Remove javascript controller example.  This is for [#664](https://github.com/ibpsa/project1-boptest/issues/664).
 - Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
 - Add support to ``parsing/parser.py`` for test case compilation using [Modelon's OPTIMICA Compiler Toolkit (OCT)](https://help.modelon.com/latest/reference/oct/).  The parser can take arguments ``'JModelica'`` or ``'OCT'``, with ``'JModelica'`` as default.  A user still requires access to an OCT license and software on their set up.  This is for [#675](https://github.com/ibpsa/project1-boptest/issues/675).
-- Remove scipy and matplotlib dependency from worker container. scipy.integrate.trapz was substitued with numpy.trapezoid in ``kpis/kpi_calculator.py``, scipy.interp1d linear with numpy.interp, and scipy.inter1d zero with custmo zero hold interpolation in ``data/data_manager.py``. Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3. Update worker Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64. This is for [#663](https://github.com/ibpsa/project1-boptest/issues/663).
-
+- Changed ``bestest_hydronic`` and ``bestest_hydronic_heat_pump`` Modelica implementations in this repository to utilize the Modelica IDEAS Library as a dependency for component models, instead of serving as extensions from the Modelica IDEAS Library.  This is to simplify dependencies for maintaining the models, and is how other test cases are implemented.  It required duplication of the model implementations from the Modelica IDEAS Library into this repository.  This is for [#680](https://github.com/ibpsa/project1-boptest/issues/680).
+- Add ``activate`` control inputs that were missing in ``bestest_hydronic`` and ``bestest_hydronic_heat_pump`` Modelica documentation.  This is for [#625](https://github.com/ibpsa/project1-boptest/issues/625).
+- Updated ``examples/python/interface.py`` to print correct simulation time step, this is for [#686](https://github.com/ibpsa/project1-boptest/issues/686). Also removed clutter by printed custom KPI results, which is for [#692](https://github.com/ibpsa/project1-boptest/issues/692).
 
 **The following new test cases have been added:**
 
@@ -24,6 +40,7 @@ Released on xx/xx/xxxx.
 **The following changes are backwards-compatible, but might change benchmark results:**
 
 - Fix calculation of computational time ratio (``time_rat``) in the case of a test where the test case was initialized after a test or simulation (use of ``/advance``) had already been done using the same test case deployment (i.e. the docker container had not been shutdown first and newly deployed).  The wait time between the last ``/advance`` before the new initialization and first ``/advance`` of the new initialization was incorrectly incorporated into the calculation as a control step and has been fixed, resulting in a lower computational time ratio.  The extent of impact depends on wait time between tests and control step and number of steps taken in the new test.  This is for [#673](https://github.com/ibpsa/project1-boptest/issues/673).
+ - Update ``min`` and ``max`` parameters for heating (``oveTSetHea_u``) and cooling (``oveTSetCoo_u``) setpoints in ``bestest_air`` and ``bestest_hydronic`` test cases to ``min=278.15`` and ``max=308.15``.  This may change benchmark results as it expands the allowable min and max set points for these test cases from previous versions.  This is for [#658](https://github.com/ibpsa/project1-boptest/issues/658).
 
 **The following changes are not backwards-compatible, but do not change benchmark results:**
 
