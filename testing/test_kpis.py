@@ -303,7 +303,10 @@ class partialKpiCalculatorTest(utilities.partialChecks):
             from testcase3.testcase import TestCase
         else:
             raise ValueError('Testcase {0} unknown.'.format(testcase))
-        self.case=TestCase()
+        forecast_uncertainty_params_path = os.path.join(testing_root_dir,
+                                                        'forecast',
+                                                        'forecast_uncertainty_params.json')
+        self.case=TestCase(forecast_uncertainty_params_path=forecast_uncertainty_params_path)
 
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)

@@ -102,7 +102,7 @@ test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -116,7 +116,7 @@ test_%:
 # Generic test for all testcases that will not test with model compile to run locally with cleanup
 test_%_no_compile:
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -131,7 +131,7 @@ test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -141,7 +141,7 @@ test_testcase1:
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
 	cd .. && docker compose down
-# Remove julia image 
+# Remove julia image
 	cd ../examples/julia && make remove-image Script=testcase1
 # Report test results
 	if [ $(SINGLE) = true ]; then\
@@ -152,7 +152,7 @@ test_testcase2:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -230,6 +230,18 @@ test_forecast:
         	python report.py;\
 	fi
 
+test_forecast_uncertainty:
+# Build and deploy testcase image
+	cd .. && TESTCASE=testcase2 docker-compose up -d
+	python sleep10.py
+# Run test_forecast_uncertainty.py
+	cd .. && python testing/test_forecast_uncertainty.py $(ARG)
+# Stop testcase container and report results
+	cd .. && docker-compose down
+	if [ $(SINGLE) = true ]; then\
+	     python report.py;\
+	fi\
+
 test_kpis:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
@@ -257,7 +269,7 @@ test_bacnet:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -287,7 +299,7 @@ test_testcase:
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 	curl http://127.0.0.1:80/measurements
