@@ -8,6 +8,7 @@ Released on xx/xx/xxxx.
 
 - Add note to ``README.md`` about using environment variable ``BOPTEST_TIMEOUT`` to edit the timeout period for idle workers.  This is for [#715](https://github.com/ibpsa/project1-boptest/issues/715).
 - Add note to ``README.md`` about a Julia interface implemented by [BOPTestAPI.jl](https://terion-io.github.io/BOPTestAPI.jl/stable/).  This is for [#707](https://github.com/ibpsa/project1-boptest/issues/707).
+- Add weather forecast uncertainty as new scenario options for dry bulb temperature and global horizontal irradation.  The corresponding new scenario keys are ``temperature_uncertainty`` and ``solar_uncertainty``, which can take values ``low``, ``medium``, or ``high``.  A new scenario key ``seed`` is also added to set an integer seed for reproducible uncertainty generation.  This is for [#135](https://github.com/ibpsa/project1-boptest/issues/135).
 
 
 ## BOPTEST v0.7.0
