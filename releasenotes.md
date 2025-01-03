@@ -8,8 +8,8 @@ Released on xx/xx/xxxx.
 
 - Add note to ``README.md`` about using environment variable ``BOPTEST_TIMEOUT`` to edit the timeout period for idle workers.  This is for [#715](https://github.com/ibpsa/project1-boptest/issues/715).
 - Add note to ``README.md`` about a Julia interface implemented by [BOPTestAPI.jl](https://terion-io.github.io/BOPTestAPI.jl/stable/).  This is for [#707](https://github.com/ibpsa/project1-boptest/issues/707).
-- Remove scipy and matplotlib dependency from worker container. scipy.integrate.trapz was substitued with numpy.trapezoid in ``kpis/kpi_calculator.py``,
-scipy.interp1d linear with numpy.interp, and scipy.inter1d zero with custmo zero hold interpolation in ``data/data_manager.py``.
+- Remove scipy and matplotlib dependencies from worker container. scipy.integrate.trapz was substituted with numpy.trapezoid in ``kpis/kpi_calculator.py``,
+scipy.interp1d linear with numpy.interp, and scipy.inter1d zero with a custom zero hold interpolation in ``data/data_manager.py``.
 Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3.
 Update worker Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64.
 This is for [#663](https://github.com/ibpsa/project1-boptest/issues/663).
