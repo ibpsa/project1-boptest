@@ -673,6 +673,8 @@ The model forecasts are:
 <li>
 December, 2024, by Harald Taxt Walnum:<br/>
 Updated model according to Adrenalin changes.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/702>
+BOPTEST issue #702</a>.
 </li>
 <li>
 August 25, 2022, by David Blum:<br/>
