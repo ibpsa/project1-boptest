@@ -1,0 +1,78 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-LIC-LOCATION:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20250204T060000
+DTEND;TZID=America/Los_Angeles:20250204T070000
+DTSTAMP:20250109T054120Z
+ORGANIZER;CN=Ettore Zanetti:mailto:ezanetti@lbl.gov
+UID:1r88n96k7p84hcd8fadsrsv6r7@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=ettore.zanetti@polimi.it;X-NUM-GUESTS=0:mailto:ettore.zanetti@polim
+ i.it
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE
+ ;CN=Ettore Zanetti;X-NUM-GUESTS=0:mailto:ezanetti@lbl.gov
+X-MICROSOFT-CDO-OWNERAPPTID:2039632748
+CREATED:20241217T153508Z
+DESCRIPTION:Agenda: <br><a href="https://docs.google.com/document/d/1UBJmDk
+ 5g3htTs_W-s4Sig5iZjtqymZY_reiFq1TGb9I/edit#heading=h.zeo6imldwjwn" target="
+ _blank"><u>https://docs.google.com/document/d/1UBJmDk5g3htTs_W-s4Sig5iZjtqy
+ mZY_reiFq1TGb9I/edit#heading=h.zeo6imldwjwn</u></a><br><br>Ettore Zanetti i
+ s inviting you to a scheduled Zoom meeting.<br><br><br>Join Zoom Meeting<br
+ ><a href="https://lbnl.zoom.us/j/2197244139" target="_blank"><u><u>https://
+ lbnl.zoom.us/j/2197244139</u></u></a><br><br>Meeting ID: 219 724 4139<br><b
+ r>---<br><br>One tap mobile<br>+12133388477\,\,2197244139# US (Los Angeles)
+ <br>+16692192599\,\,2197244139# US (San Jose)<br><br>---<br><br>Dial by you
+ r location<br>• +1 213 338 8477 US (Los Angeles)<br>• +1 669 219 2599 US (S
+ an Jose)<br>• +1 669 900 6833 US (San Jose)<br>• +1 602 753 0140 US (Phoeni
+ x)<br>• +1 720 928 9299 US (Denver)<br>• +1 971 247 1195 US (Portland)<br>•
+  +1 206 337 9723 US (Seattle)<br>• +1 253 215 8782 US (Tacoma)<br>• +1 346 
+ 248 7799 US (Houston)<br>• +1 470 250 9358 US (Atlanta)<br>• +1 470 381 255
+ 2 US (Atlanta)<br>• +1 646 518 9805 US (New York)<br>• +1 646 558 8656 US (
+ New York)<br>• +1 651 372 8299 US (Minnesota)<br>• +1 786 635 1003 US (Miam
+ i)<br>• +1 267 831 0333 US (Philadelphia)<br>• +1 301 715 8592 US (Washingt
+ on DC)<br>• +1 312 626 6799 US (Chicago)<br><br>Meeting ID: 219 724 4139<br
+ ><br>Find your local number: <a href="https://lbnl.zoom.us/u/adAWvqLhbx" ta
+ rget="_blank"><u>https://lbnl.zoom.us/u/adAWvqLhbx</u></a><br><br>---<br><b
+ r>Join by SIP<br>• <a href="mailto:2197244139@zoomcrc.com" target="_blank">
+ <u>2197244139@zoomcrc.com</u></a><br><br>---<br><br>Join by H.323<br>• 162.
+ 255.37.11 (US West)<br>• 162.255.36.11 (US East)<br>• 115.114.131.7 (India 
+ Mumbai)<br>• 115.114.115.7 (India Hyderabad)<br>• 213.19.144.110 (Amsterdam
+  Netherlands)<br>• 213.244.140.110 (Germany)<br>• 103.122.166.55 (Australia
+  Sydney)<br>• 103.122.167.55 (Australia Melbourne)<br>• 64.211.144.160 (Bra
+ zil)<br>• 159.124.168.213 (Canada Toronto)<br>• 65.39.152.160 (Canada Vanco
+ uver)<br>• 207.226.132.110 (Japan Tokyo)<br>• 149.137.24.110 (Japan Osaka)<
+ br><br>Meeting ID: 219 724 4139
+LAST-MODIFIED:20250109T054120Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:[Task 3] (Test case Development) IBPSA project 2 monthly meeting
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:-P0DT0H10M0S
+END:VALARM
+END:VEVENT
+END:VCALENDAR
