@@ -2,13 +2,14 @@
 export $(egrep -v '^#' .env | xargs)
 export WEB_REGISTRY_URI=boptest_service-web
 export WORKER_REGISTRY_URI=boptest_service-worker
-export DOCKER_HUB_WEB_REGISTRY_URI=nrel/boptest-web
-export DOCKER_HUB_WORKER_REGISTRY_URI=nrel/boptest-worker
+export GITHUB_ORG=tijcolem
+export DOCKER_HUB_WEB_REGISTRY_URI=$GITHUB_ORG/boptest-web
+export DOCKER_HUB_WORKER_REGISTRY_URI=$GITHUB_ORG/boptest-worker
 
 if [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
     export VERSION_TAG="develop"
     echo "The docker tag is set to: ${VERSION_TAG}"
-elif [[ "${GITHUB_REF}" =~ ^refs/tags/v[0-9].*-service ]]; then
+elif [[ "${GITHUB_REF}" =~ ^refs/tags/v[0-9].* ]]; then
     export VERSION_TAG="${GITHUB_REF/refs\/tags\//}"
     echo "The docker tag is set to: ${VERSION_TAG}"
 elif [[ "${GITHUB_REF}" == "refs/heads/experimental" ]]; then

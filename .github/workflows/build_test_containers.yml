@@ -63,33 +63,33 @@ jobs:
         uses: jwalton/gh-docker-logs@v1
 
 #-------------------------  Push to GitHub registry (disabled) -----------------------------
-#
-#      - name: Log in to the GitHub container registry
-#        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-#        with:
-#          registry: ghcr.io
-#          username: ${{ github.actor }}
-#          password: ${{ secrets.GH_REGISTRY }}
-        
-#      - name: Publish docker images to GitHub Registry
-#        if: |
-#          github.ref == 'refs/heads/develop' ||
-#          contains(github.ref, 'refs/tags') 
-#        shell: bash
-#        run: ci/publish_to_github.sh
 
-#------------------  Push to docker hub (disabled) -------------------------------------
-
-      - name: Log in to Docker Hub
+      - name: Log in to the GitHub container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASS }}
-
-      - name: Publish docker images to Docker Hub
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_REGISTRY }}
+        
+      - name: Publish docker images to GitHub Registry
         if: |
           github.ref == 'refs/heads/develop' ||
-          github.ref == 'refs/heads/experimental' ||
           contains(github.ref, 'refs/tags') 
         shell: bash
-        run: service/ci/publish_to_docker.sh
+        run: ci/publish_to_github.sh
+
+#------------------  Push to docker hub (disabled) -------------------------------------
+#
+#      - name: Log in to Docker Hub
+#        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+#        with:
+#          username: ${{ secrets.DOCKER_USER }}
+#          password: ${{ secrets.DOCKER_PASS }}
+#
+#      - name: Publish docker images to Docker Hub
+#        if: |
+#          github.ref == 'refs/heads/develop' ||
+#          github.ref == 'refs/heads/experimental' ||
+#          contains(github.ref, 'refs/tags') 
+#        shell: bash
+#        run: service/ci/publish_to_docker.sh
