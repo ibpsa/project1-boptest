@@ -2,9 +2,9 @@
 export $(egrep -v '^#' .env | xargs)
 export WEB_REGISTRY_URI=boptest_service-web
 export WORKER_REGISTRY_URI=boptest_service-worker
-export GITHUB_ORG=tijcolem
-export DOCKER_HUB_WEB_REGISTRY_URI=$GITHUB_ORG/boptest-web
-export DOCKER_HUB_WORKER_REGISTRY_URI=$GITHUB_ORG/boptest-worker
+export DOCKER_ORG=nrel
+export DOCKER_HUB_WEB_REGISTRY_URI=$DOCKER_ORG/boptest-web
+export DOCKER_HUB_WORKER_REGISTRY_URI=$DOCKER_ORG/boptest-worker
 
 if [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
     export VERSION_TAG="develop"
