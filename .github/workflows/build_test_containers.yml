@@ -76,7 +76,7 @@ jobs:
           github.ref == 'refs/heads/develop' ||
           contains(github.ref, 'refs/tags') 
         shell: bash
-        run: ci/publish_to_github.sh
+        run: service/ci/publish_to_github.sh
 
 #------------------  Push to docker hub (disabled) -------------------------------------
 #
