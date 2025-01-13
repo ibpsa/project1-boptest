@@ -2,7 +2,7 @@
 export $(egrep -v '^#' .env | xargs)
 export WEB_REGISTRY_URI=boptest_service-web
 export WORKER_REGISTRY_URI=boptest_service-worker
-export GITHUB_ORG=tijcolem
+export GITHUB_ORG=ibpsa
 export GITHUB_WEB_REGISTRY_URI=ghcr.io/$GITHUB_ORG/boptest-web
 export GITHUB_WORKER_REGISTRY_URI=ghcr.io/$GITHUB_ORG/boptest-worker
 
