@@ -84,6 +84,16 @@ participants in this Project, and also comparison with CS developers external
 to the Project, using the framework developed in Task 2 and test cases
 developed in Task 3.
 
+### Publication Acknowledgement
+Publications resulting from IBPSA Project 2 should include the following acknowledgement text:
+
+*This work emerged from the IBPSA Project 2, an international
+project conducted under the umbrella of the International Building
+Performance Simulation Association (IBPSA) to develop and
+demonstrate the Building Optimization Testing Framework
+(BOPTEST) for the testing, evaluating, and benchmarking of
+building and community energy system controls.*
+
 ### References
 
 | [ASH11] | ANSI/ASHRAE (2011). ANSI/ASHRAE Standard 140-2011. Standard Method of Test for the Evaluation of Building Energy Analysis Computer Programs. ASHRAE, Atlanta, GA. |
