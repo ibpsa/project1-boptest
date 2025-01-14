@@ -14,18 +14,7 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Fan_Command;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasUnit qudt:UNITLESS.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:activate literal:<cdl_instance_name>_activate;
-          ref:name literal:<cdl_instance_name>_u;
-          ref:isWritable true;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipment;
-          ref:max literal:max;
-          ref:min literal:min;
-          ref:unit literal:1.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
           Placement(transformation(extent={{0,150},{20,170}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite yCoo(description=
@@ -37,18 +26,7 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Cooling_Command;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasUnit qudt:UNITLESS.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:activate literal:<cdl_instance_name>_activate;
-          ref:name literal:<cdl_instance_name>_u;
-          ref:isWritable true;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipment;
-          ref:max literal:max;
-          ref:min literal:min;
-          ref:unit literal:1.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
           Placement(transformation(extent={{0,70},{20,90}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite yHea(description=
@@ -60,18 +38,7 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Heating_Command;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasUnit qudt:UNITLESS.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:activate literal:<cdl_instance_name>_activate;
-          ref:name literal:<cdl_instance_name>_u;
-          ref:isWritable true;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipment;
-          ref:max literal:max;
-          ref:min literal:min;
-          ref:unit literal:1.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
           Placement(transformation(extent={{0,110},{20,130}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite TSupSet(description=
@@ -83,19 +50,8 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Supply_Air_Temperature_Setpoint;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:Temperature;
           qudt:hasUnit qudt:K.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:activate literal:<cdl_instance_name>_activate;
-          ref:name literal:<cdl_instance_name>_u;
-          ref:isWritable true;      \t
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipment;
-          ref:max literal:max;
-          ref:min literal:min;
-          ref:unit literal:K.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
           Placement(transformation(extent={{0,-50},{20,-30}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite dpSet(description=
@@ -107,19 +63,8 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Differential_Pressure_Setpoint;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:ForcePerArea;
           qudt:hasUnit qudt:PA.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:activate literal:<cdl_instance_name>_activate;
-          ref:name literal:<cdl_instance_name>_u;
-          ref:isWritable true;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:max literal:max;
-          ref:min literal:min;
-          ref:unit literal:Pa.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
           Placement(transformation(extent={{0,-90},{20,-70}})));
   Modelica.Blocks.Interfaces.RealInput dpSet_in "Supply duct pressure setpoint"
@@ -145,18 +90,7 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Damper_Position_Setpoint;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasUnit qudt:UNITLESS.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:activate literal:<cdl_instance_name>_activate;
-          ref:name literal:<cdl_instance_name>_u;
-          ref:isWritable true;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:max literal:max;
-          ref:min literal:min;
-          ref:unit literal:1.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
 Placement(transformation(extent={{0,-130},{20,-110}})));
   Modelica.Blocks.Interfaces.RealOutput yOA_out
@@ -177,18 +111,7 @@ Placement(transformation(extent={{0,-130},{20,-110}})));
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Damper_Position_Setpoint;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasUnit qudt:UNITLESS.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:activate literal:<cdl_instance_name>_activate;
-          ref:name literal:<cdl_instance_name>_u;
-          ref:isWritable true;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:max literal:max;
-          ref:min literal:min;
-          ref:unit literal:1.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
       Placement(transformation(extent={{0,-170},{20,-150}})));
   Modelica.Blocks.Interfaces.RealInput yRet_in
@@ -202,18 +125,7 @@ Placement(transformation(extent={{0,-130},{20,-110}})));
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Pump_Command;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasUnit qudt:UNITLESS.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:activate literal:<cdl_instance_name>_activate;
-          ref:name literal:<cdl_instance_name>_u;
-          ref:isWritable true;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipment;
-          ref:max literal:max;
-          ref:min literal:min;
-          ref:unit literal:1.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
           Placement(transformation(extent={{0,-10},{20,10}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite yPumHea(description=
@@ -224,18 +136,7 @@ Placement(transformation(extent={{0,-130},{20,-110}})));
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Pump_Command;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasUnit qudt:UNITLESS.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:activate literal:<cdl_instance_name>_activate;
-          ref:name literal:<cdl_instance_name>_u;
-          ref:isWritable true;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipment;
-          ref:max literal:max;
-          ref:min literal:min;
-          ref:unit literal:1.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
       Placement(transformation(extent={{0,30},{20,50}})));
   Modelica.Blocks.Interfaces.RealInput yPumHea_in

@@ -33,16 +33,9 @@ model AirToWaterHeatPump "Air to water heat pump model"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:ElectricPower;
-          qudt:hasUnit qudt:W.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-      ref:name literal:<cdl_instance_name>_y;
-      ref:description literal:description;
-      ref:zone literal:zone;
-      ref:equipment literal:equipement;
-      ref:unit literal:W;
-      ref:isWritable false.")),
+          qudt:hasUnit qudt:W
+          .")),
       Placement(transformation(extent={{76,90},{96,110}})));
   parameter Modelica.SIunits.Temperature TSetSup
   "Supply water temperature set point";
@@ -74,16 +67,8 @@ model AirToWaterHeatPump "Air to water heat pump model"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Hot_Water_Temperature_Sensor;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:Temperature;
-          qudt:hasUnit qudt:K.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:name literal:<cdl_instance_name>_y;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:unit literal:K;
-          ref:isWritable false.")),
+          qudt:hasUnit qudt:K.")),
           Placement(transformation(extent={{60,-60},{80,-40}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaFloSup(
@@ -93,16 +78,9 @@ model AirToWaterHeatPump "Air to water heat pump model"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Hot_Water_Flow_Sensor;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:VolumeFlowRate;
           qudt:hasUnit qudt:M3-PER-SEC.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:name literal:<cdl_instance_name>_y;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:unit literal:m3/s;
-          ref:isWritable false.")),
+          ")),
           Placement(transformation(extent={{-40,-80},{-20,-60}})));
 
   Buildings.Fluid.Movers.FlowControlled_dp pum(
@@ -131,16 +109,8 @@ model AirToWaterHeatPump "Air to water heat pump model"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Hot_Water_Temperature_Sensor;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:Temperature;
-          qudt:hasUnit qudt:K.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:name literal:<cdl_instance_name>_y;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:unit literal:K;
-          ref:isWritable false.")),
+          qudt:hasUnit qudt:K.")),
           Placement(transformation(extent={{60,-90},{80,-70}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaPPumDis(
@@ -150,16 +120,9 @@ model AirToWaterHeatPump "Air to water heat pump model"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:ElectricPower;
           qudt:hasUnit qudt:W.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:name literal:<cdl_instance_name>_y;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:unit literal:W;
-          ref:isWritable false.")),
+          ")),
       Placement(transformation(extent={{76,70},{96,90}})));
 
   Modelica.Blocks.Interfaces.RealOutput PPum

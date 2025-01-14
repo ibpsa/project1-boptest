@@ -37,17 +37,8 @@ model Thermostat_T
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle" 
       "bldg:<cdl_instance_name> a brick:Zone_Air_Cooling_Temperature_Setpoint ;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
           qudt:hasQuantityKind quantitykind:Temperature ;
           qudt:hasUnit qudt:K .
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-          ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name>_u ;
-          ref:isWritable true ;
-          ref:description literal:description ;
-          ref:max literal:max ;
-          ref:min literal:min ;
-          ref:unit literal:K .
           ")),
     Placement(transformation(extent={{-70,70},{-50,90}})));
   Modelica.Blocks.Sources.CombiTimeTable TSetCoo(
@@ -65,17 +56,8 @@ model Thermostat_T
       __Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle" 
       "bldg:<cdl_instance_name> a brick:Zone_Air_Heating_Temperature_Setpoint ;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
           qudt:hasQuantityKind quantitykind:Temperature ;
-          qudt:hasUnit qudt:K .
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-          ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name>_u ;
-          ref:isWritable true ;
-          ref:description literal:description ;
-          ref:max literal:max ;
-          ref:min literal:min ;
-          ref:unit literal:K .")),
+          qudt:hasUnit qudt:K .")),
           Placement(transformation(extent={{-70,30},{-50,50}})));
 
   Modelica.Blocks.Sources.CombiTimeTable TSetHea(
