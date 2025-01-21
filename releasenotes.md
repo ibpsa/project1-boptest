@@ -1,5 +1,15 @@
 # Release Notes
 
+## BOPTEST v0.7.1
+
+Released on 01/21/2025.
+
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Add note to ``README.md`` about using environment variable ``BOPTEST_TIMEOUT`` to edit the timeout period for idle workers.  This is for [#715](https://github.com/ibpsa/project1-boptest/issues/715).
+- Add note to ``README.md`` about a Julia interface implemented by [BOPTestAPI.jl](https://terion-io.github.io/BOPTestAPI.jl/stable/).  This is for [#707](https://github.com/ibpsa/project1-boptest/issues/707).
+- Add github actions to build docker images for web and worker and post them as packages in the ibpsa repository.  This is for [#712](https://github.com/ibpsa/project1-boptest/issues/712).
+
 ## BOPTEST v0.7.0
 
 Released on 11/25/2024.
