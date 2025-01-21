@@ -17,7 +17,7 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **David Blum (Lawrence Berkeley National Laboratory, USA)** for ibpsa project 2 co-operating agent, framework development, software implementation, test case development (bestest_air, multizone_office_simple_air, singlezone_commercial_air), test case review, tutorial and workshop development, website.
 - **Felix Bunning (ETH Zurich / EMPA, Switzerland)** for controller testing.
 - **Yan Chen (Pacific Northwest National Laboratory, USA)** for framework development.
-- **Tim Coleman (National Renewable Energy Laboratory, USA)** for web-service development.
+- **Tim Coleman (National Renewable Energy Laboratory, USA)** for web-service development and deployment.
 - **Iago Cupeiro Figueroa (Cupeiro Sinte, dnergy, Spain)** for framework development, test case implementation (multizone_office_simple_hybrid), tutorial and workshop development.
 - **Roel De Coninck (dnergy, Belgium)** for framework development.
 - **Jaap Neven (KU Leuven, VITO, Belgium)** for software implementation.

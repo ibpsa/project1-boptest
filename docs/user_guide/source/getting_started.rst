@@ -31,6 +31,7 @@ Use Docker to build and deploy BOPTEST.  In the root of the repository, run the 
 
 - ``docker compose up web worker provision``
 - If you want to be able to deploy multiple test cases at the same time, append the argument ``--scale worker=n`` where ``n`` equals the number of test cases you want to be able to have running at the same time.
+- If no request is made to a running test case for some time, the test case will be automatically stopped and the associated worker will be freed up. By default this timeout is 15 minutes. If you would like to change this timeout period, you can edit the environment variable ``BOPTEST_TIMEOUT`` in the ``.env`` file before starting BOPTEST with the command above.
 
 Then, send the following API request to url ``http://127.0.0.1:80``.
 
