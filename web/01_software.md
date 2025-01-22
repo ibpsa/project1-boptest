@@ -24,7 +24,7 @@ To access the latest development version or contribute to the project, go to the
 
 # Use Public Web-Service
 
-Use a publicly available web-hosted instance of BOPTEST that provides the functionality of BOPTEST ``v0.6.0`` as a web-service without the need to download or install anything locally.
+Use a publicly available web-hosted instance of BOPTEST that provides the functionality of BOPTEST ``v0.7.1`` as a web-service without the need to download or install anything locally.
 
 Get started with the [User Guide](/docs-userguide/index.html) and [Training](/project1-boptest/training/index.html).
 
