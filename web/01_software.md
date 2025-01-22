@@ -30,10 +30,6 @@ Get started with the [User Guide](/docs-userguide/index.html) and [Training](/pr
 
 Then, check out the available [Test Cases](/project1-boptest/testcases/index.html).
 
-For more information, to access the latest development version of the web-service software, or contribute, go to the GitHub repository.
-
-<a class="button is-info" href="https://github.com/NREL/boptest-service"><b>GitHub BOPTEST-Service</b></a>
-
 # Use BOPTEST-Gym
 
 Control BOPTEST test cases using OpenAI-Gym, the popular interface for reinforcement learning (RL) algorithms.
