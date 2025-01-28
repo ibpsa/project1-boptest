@@ -26,7 +26,7 @@ There are currently no meetings planned for Task 1.
 
 - [Minutes](/ibpsa_project/meetings/task1/20250123_BOPTEST_Task1_Outreach.pdf)
 
-- [Presentation](/ibpsa_project/meetings/task1/20250123_BOPTEST_Task1_presentation.pdf)
+- [Presentation](/ibpsa_project/meetings/task1/20250123_BOPTEST_Task1_Outreach_presentation.pdf)
 
 ### November 21, 2024 (In-Person Expert Meeting)
 
