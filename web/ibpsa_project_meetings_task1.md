@@ -24,7 +24,7 @@ There are currently no meetings planned for Task 1.
 
 **Notes:**
 
-- [Minutes](/ibpsa_project/meetings/task1/20251121_Task1_Outreach_Expert_Meeting_DTU.pdf)
+- [Minutes](/ibpsa_project/meetings/task1/20241121_Task1_Outreach_Expert_Meeting_DTU.pdf)
 
 ### September 19, 2024
 
