@@ -16,10 +16,10 @@ The approved proposal can be found here: [PDF](/ibpsa_project/workplan/IBPSA_Pro
 
 Summaries of the Project and tasks are described below.
 
-### Overview (from proposal)
+### Overview
 Needs for advanced and improved control strategies (CS) in building and
-district energy systems are growing due to requirements for reducing energy use,
-greenhouse gas emissions, and operating costs, providing flexibility to the
+district energy systems are growing due to requirements for reducing energy costs,
+providing flexibility and reliability to the
 electrical grid, as well as ensuring performance of novel hybrid and collective
 system architectures. Examples of such CS are advanced rule-based control,
 Model Predictive Control (MPC) [Drg20], and Reinforcement Learning [Wan20].
