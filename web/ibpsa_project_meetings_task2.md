@@ -36,7 +36,7 @@ permalink: /ibpsa/project/meetings/task2/
 
 **Time:** 6:00 AM - 7:00 AM U.S. Pacific
 
-**Zoom:** [Link](https://lbnl.zoom.us/j/96200221708?pwd=gM1RgjYgWdN9V3ugQ8y1E3UWxjjcWt.1)
+Cancelled.
 
 
 # Past Meetings
