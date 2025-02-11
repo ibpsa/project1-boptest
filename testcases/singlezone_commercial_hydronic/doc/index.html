@@ -172,7 +172,7 @@
     <li>The valve on the hydronic heating battery is controlled to reach the supply temperature setpoint temperature.
     </li>
 </ul>
-<p>Figure 2 shows the fan characteristics. The grey line shows the operational point at nominal speed.</p>
+<p>Figure 2 shows the fan characteristics. The grey line shows the operational point at nominal speed. Same fan model is use for both supply and extract fans.</p>
 <p><b>Fig. 1:</b> Principle ventilation flow sheet.</p>
 <p><img src="images/bms_ahu.png" /> </p>
 <p><b>Fig. 2:</b> Fan characteristics.</p>
@@ -182,7 +182,8 @@
 <h4>Hydronic heating system</h4>
 </p>
 <p>The layout of the hydronic heating system is shown in Figure 3. Piping segments are modelled between the main
-    distribution pipes and the control valves for both the ventilation and radiator circuits.</p>
+    distribution pipes and the control valves for both the ventilation and radiator circuits. Piping segments includes 
+  heat loss to a fixed external temperature of 20 °C.</p>
 <p>Heat is supplied by a district heating system. The temperature of the district heating is fixed to 65 °C. The supply
     temperature of the hydronic heating system is controlled by the flow on the primary side of the district heating
     heat exchanger. The setpoint follows the outdoor temperature compensation curve shown in Figure 4.</p>
@@ -264,7 +265,7 @@ The model inputs are:
         dh_oveTSupSetHea_u where 1 activates, 0 deactivates (default value)
     </li>
     <li>
-        <code>dh_oveTSupSetHea_u</code> [K] [min=283.15, max=333.15]: Supply temperature set point for heating
+        <code>dh_oveTSupSetHea_u</code> [K] [min=283.15, max=333.15]: Supply temperature set point for hydronic heating system
     </li>
     <li>
         <code>oveCO2ZonSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveCO2ZonSet_u where
@@ -278,7 +279,7 @@ The model inputs are:
         activates, 0 deactivates (default value)
     </li>
     <li>
-        <code>ovePum_u</code> [1] [min=0.0, max=50000.0]: Pump dP control signal for heating distribution system
+        <code>ovePum_u</code> [Pa] [min=0.0, max=50000.0]: Pump dP control signal for heating distribution system
     </li>
     <li>
         <code>oveTSupSetAir_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSupSetAir_u
@@ -319,6 +320,12 @@ The model outputs are:
         <code>ahu_reaFloSupAir_y</code> [m3/s] [min=None, max=None]: AHU supply air volume flowrate
     </li>
     <li>
+        <code>ahu_reaPFanExt_y</code> [W] [min=None, max=None]: Electrical power consumption of AHU extract fan
+    </li>
+    <li>
+        <code>ahu_reaPFanSup_y</code> [W] [min=None, max=None]: Electrical power consumption of AHU supply fan
+    </li>
+    <li>
         <code>ahu_reaTCoiSup_y</code> [K] [min=None, max=None]: AHU heating coil supply water temperature
     </li>
     <li>
@@ -330,6 +337,12 @@ The model outputs are:
     </li>
     <li>
         <code>ahu_reaTSupAir_y</code> [K] [min=None, max=None]: AHU supply air temperature
+    </li>
+    <li>
+        <code>dh_reaTRetHyd_y</code> [K] [min=None, max=None]: Hydronic heating system return temperature
+    </li>
+    <li>
+        <code>dh_reaTSupHyd_y</code> [K] [min=None, max=None]: Hydronic heating system supply temperature
     </li>
     <li>
         <code>reaCO2Zon_y</code> [ppm] [min=None, max=None]: Zone CO2 concentration
@@ -575,7 +588,7 @@ The model forecasts are:
     building operation.
 </p>
 <p>
-<h4>Important Model Implementation Assumption<h4>
+<h4>Important Model Implementation Assumption</h4>
         </p>
         <p>The major assumptions are as follows: </p>
         <ul>
@@ -586,6 +599,7 @@ The model forecasts are:
             <li>Constant infiltration rate of 0.2 air changes per hour. Mismatch between supply and extract flow rates
                 in the AHU will can lead to additional infiltration.</li>
             <li>Constant ground temperature 10 degC. </li>
+            <li>Distribution pipe model include heat loss to a fixed external temperature of 20 °C. </li>
             <li>Constant efficiency of heat exchangers. </li>
             <li>Internal heat gains (100&percnt;) are divided into radiative (40&percnt;), convective (40&percnt;), and
                 latent gains (20&percnt;). These proportions are constant. </li>
@@ -626,7 +640,7 @@ The model forecasts are:
         </ul>
         </p>
         <p>
-        <h4>Energy pricing<h4>
+        <h4>Energy pricing</h4>
                 </p>
                 <p>Energy Price consists of electric power price and district heating price.</p>
                 <p>Electric power price:</p>

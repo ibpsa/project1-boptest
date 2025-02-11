@@ -245,6 +245,20 @@ model AirHandlingUnit
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     reverseActing=true)
     annotation (Placement(transformation(extent={{22,70},{2,90}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaPFanExt(
+    y(unit="W"),
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+
+    description="Electrical power consumption of AHU extract fan")
+    "Read electrical power consumption of AHU extract fan"
+    annotation (Placement(transformation(extent={{-144,60},{-160,76}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaPFanSup(
+    y(unit="W"),
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+
+    description="Electrical power consumption of AHU supply fan")
+    "Read electrical power consumption of AHU supply fan"
+    annotation (Placement(transformation(extent={{-12,-88},{-28,-72}})));
 equation
     connect(fanSu.port_a, senTemIn2.port_b)
       annotation (Line(points={{-10,-40},{-16,-40}}, color={0,127,255}));
@@ -342,8 +356,12 @@ equation
           100,80},{100,8},{88,8},{88,-29}}, color={0,0,127}));
   connect(add.u1, fanEx.P) annotation (Line(points={{-70,-68},{-64,-68},{-64,
           -26},{-84,-26},{-84,26},{-92,26},{-92,49},{-89,49}}, color={0,0,127}));
-  connect(fanSu.P, add.u2) annotation (Line(points={{11,-31},{22,-31},{22,-80},
-          {-70,-80}}, color={0,0,127}));
+  connect(fanEx.P, reaPFanExt.u)
+    annotation (Line(points={{-89,49},{-89,68},{-142.4,68}}, color={0,0,127}));
+  connect(fanSu.P, reaPFanSup.u) annotation (Line(points={{11,-31},{22,-31},{22,
+          -80},{-10.4,-80}}, color={0,0,127}));
+  connect(reaPFanSup.y, add.u2)
+    annotation (Line(points={{-28.8,-80},{-70,-80}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,
               -100},{160,100}}), graphics={
           Rectangle(

@@ -74,7 +74,7 @@ model BuildingControl
       u(
       min=0,
       max=50000,
-      unit="1")) "Overwrite pump speed serving heating distribution system"
+      unit="Pa")) "Overwrite pump speed serving heating distribution system"
     annotation (Placement(transformation(extent={{-186,-228},{-166,-208}})));
   Modelica.Blocks.Sources.Constant Pump_dp(k=50000)
     "dP signal for pump in district heating"

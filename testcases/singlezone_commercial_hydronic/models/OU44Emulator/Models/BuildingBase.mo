@@ -327,12 +327,6 @@ Modelica.Thermal.HeatTransfer.Sources.FixedTemperature tPipHeaLoss(T(
     annotation (Placement(transformation(extent={{-224,24},{-240,40}})));
   Modelica.Blocks.Continuous.Integrator Qel_pmp(k=2.7778E-7) "Output in kWh"
     annotation (Placement(transformation(extent={{-224,-184},{-240,-168}})));
-  Buildings.Utilities.IO.SignalExchange.Read reaPFan(
-    y(unit="W"),
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-    description="Electrical power consumption of AHU supply and return fans")
-    "Read electrical power consumption of AHU fans"
-    annotation (Placement(transformation(extent={{-200,24},{-216,40}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaPPum(
     y(unit="W"),
@@ -539,10 +533,6 @@ connect(matrixGain.u[1], metHeat.y)
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(ahu.qel, reaPFan.u) annotation (Line(points={{-146,33.4},{-146,32},{
-          -198.4,32}}, color={0,0,127}));
-  connect(reaPFan.y, Qel_fan.u)
-    annotation (Line(points={{-216.8,32},{-222.4,32}}, color={0,0,127}));
   connect(dh.qel, reaPPum.u) annotation (Line(points={{-121.4,-196},{-108,-196},
           {-108,-176},{-198.4,-176}}, color={0,0,127}));
   connect(reaPPum.y, Qel_pmp.u)
@@ -572,6 +562,8 @@ connect(matrixGain.u[1], metHeat.y)
           {-110,144},{-105.6,144}}, color={0,0,127}));
   connect(gaiOcc.y, gaiCO2.u) annotation (Line(points={{-129.2,130},{-112,130},
           {-112,112},{-107.6,112}}, color={0,0,127}));
+  connect(ahu.qel, Qel_fan.u) annotation (Line(points={{-146,33.4},{-146,32},{
+          -222.4,32}}, color={0,0,127}));
 annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-240,-240},
             {240,220}}),     graphics={Bitmap(
         extent={{-160,-162},{178,180}}, fileName=

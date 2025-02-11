@@ -124,7 +124,8 @@ model DistrictHeating
   Buildings.BoundaryConditions.WeatherData.Bus weaBus annotation (Placement(
         transformation(extent={{70,68},{110,108}}), iconTransformation(extent={
             {76,80},{96,100}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSupSetHea(description="Supply temperature set point for heating",
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSupSetHea(description=
+        "Supply temperature set point for hydronic heating system",
       u(
       unit="K",
       min=273.15 + 10,
@@ -134,6 +135,27 @@ model DistrictHeating
         extent={{-5,5},{5,-5}},
         rotation=180,
         origin={87,-73})));
+  Buildings.Utilities.IO.SignalExchange.Read reaTRetHyd(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+    y(unit="K"),
+    description="Hydronic heating system return temperature")
+    "Read hydronic heating system return temperature"
+                                                 annotation (Placement(
+        transformation(
+        extent={{-6,6},{6,-6}},
+        rotation=180,
+        origin={-94,86})));
+  Buildings.Utilities.IO.SignalExchange.Read reaTSupHyd(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+    y(unit="K"),
+    description="Hydronic heating system supply temperature")
+    "Read hydronic heating system supply temperature" annotation (Placement(
+        transformation(
+        extent={{6,6},{-6,-6}},
+        rotation=180,
+        origin={94,22})));
 equation
     connect(dhHX.port_b2, tDHRe.port_a)
       annotation (Line(points={{-10,-6},{-26,-6}}, color={0,127,255}));
@@ -192,6 +214,10 @@ equation
           {95,-73},{93,-73}}, color={0,0,127}));
   connect(oveTSupSetHea.y, conPIDdh.u_s) annotation (Line(points={{81.5,-73},{79.55,
           -73},{79.55,-72},{77.6,-72}}, color={0,0,127}));
+  connect(tRe.T, reaTRetHyd.u) annotation (Line(points={{-49,64},{-44,64},{-44,
+          72},{-76,72},{-76,86},{-86.8,86}}, color={0,0,127}));
+  connect(tSu.T, reaTSupHyd.u)
+    annotation (Line(points={{44,17},{44,22},{86.8,22}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
             extent={{-100,100},{100,-100}},
