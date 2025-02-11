@@ -27,9 +27,12 @@ BOPTEST can be deployed and used on your own computing resource by following the
 
 2) Install [Docker](https://docs.docker.com/get-docker/).
 
-3) Use Docker to build and run BOPTEST.  In the root of this repository, run the following command.  Note that if you want to be able to deploy multiple test cases at the same time, append the argument ``--scale worker=n`` where ``n`` equals the number of test cases you want to be able to have running at the same time.
+3) Use Docker to build and run BOPTEST.  In the root of this repository, run the following command:
 
 ``docker compose up web worker provision``
+
+- If you want to be able to deploy multiple test cases at the same time, append the argument ``--scale worker=n`` to the command above where ``n`` equals the number of test cases you want to be able to have running at the same time.
+- If no request is made to a running test case for some time, the test case will be automatically stopped and the associated worker will be freed up.  By default this timeout is 15 minutes.  If you would like to change this timeout period, you can edit the environment variable ``BOPTEST_TIMEOUT`` in the ``.env`` file before starting BOPTEST with the command above.
 
 4) In a separate process, use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``http://127.0.0.1:80/<request>``
 
@@ -139,12 +142,16 @@ as a hook on all commits by calling `pre-commit install` in the root directory o
 
 ## Additional Software
 
-### OpenAI-Gym Environment
-An OpenAI-Gym environment for BOPTEST is implemented in [ibpsa/project1-boptest-gym](https://github.com/ibpsa/project1-boptest-gym).
+### OpenAI-Gym Environment Interface
+An OpenAI-Gym environment interface for BOPTEST is implemented in [ibpsa/project1-boptest-gym](https://github.com/ibpsa/project1-boptest-gym).
 See the documentation there for getting started.
 
 ### BACnet Interface
 A BACnet interface for BOPTEST is implemented in the ``/bacnet`` directory of this repository.  See the ``/bacnet/README.md`` there for getting started.
+
+### Julia Interface
+A Julia interface for BOPTEST is implemented as a Julia package in [BOPTestAPI.jl](https://terion-io.github.io/BOPTestAPI.jl/stable/).
+See the documentation there for getting started.
 
 ### Results Dashboard
 A proposed BOPTEST home page and dashboard for creating accounts and sharing results is published here https://xd.adobe.com/view/0e0c63d4-3916-40a9-5e5c-cc03f853f40a-783d/.
