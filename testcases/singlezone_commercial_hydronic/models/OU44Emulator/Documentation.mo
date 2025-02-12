@@ -1,4 +1,4 @@
-﻿within OU44Emulator;
+within OU44Emulator;
 package Documentation "Documentation"
   extends Modelica.Icons.Information;
 
@@ -177,7 +177,7 @@ package Documentation "Documentation"
     <li>The valve on the hydronic heating battery is controlled to reach the supply temperature setpoint temperature.
     </li>
 </ul>
-<p>Figure 2 shows the fan characteristics. The grey line shows the operational point at nominal speed. Same fan model is use for both supply and extract fans.</p>
+<p>Figure 2 shows the fan characteristics. The grey line shows the operational point at nominal speed. Same fan model is used for both supply and extract fans.</p>
 <p><b>Fig. 1:</b> Principle ventilation flow sheet.</p>
 <p><img src=\"modelica://OU44Emulator/Resources/Images/bms_ahu.png\" alt=\"AHU\"/> </p>
 <p><b>Fig. 2:</b> Fan characteristics.</p>
@@ -187,7 +187,7 @@ package Documentation "Documentation"
 <h4>Hydronic heating system</h4>
 </p>
 <p>The layout of the hydronic heating system is shown in Figure 3. Piping segments are modelled between the main
-  distribution pipes and the control valves for both the ventilation and radiator circuits. Piping segments includes 
+  distribution pipes and the control valves for both the ventilation and radiator circuits. Piping segments includes
   heat loss to a fixed external temperature of 20 °C.</p>
 <p>Heat is supplied by a district heating system. The temperature of the district heating is fixed to 65 °C. The supply
     temperature of the hydronic heating system is controlled by the flow on the primary side of the district heating
