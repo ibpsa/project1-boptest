@@ -4,6 +4,54 @@
 
 Released on xx/xx/xxxx.
 
+**The following changes are not backwards-compatible and significantly change benchmark results:**
+
+- Update ``singlezone_commercial_hydronic`` test case according to changes made for the Adrenalin competition and various issues. This is for [#702](https://github.com/ibpsa/project1-boptest/issues/702),
+[#635](https://github.com/ibpsa/project1-boptest/issues/635),
+[#432](https://github.com/ibpsa/project1-boptest/issues/432), and
+[#733](https://github.com/ibpsa/project1-boptest/issues/733).
+The changes are summarized as follows:
+  - Hydronic system:
+    - Added piping segments in hydronic system to increase thermal delay
+    -	Resized valves and switched to two-way valves
+    -	Switched to pressure driven pump in hydronic system
+    -	Switched DH heat exchanger from constant effectiveness to plate HX model
+  -	Ventilation:
+    -	Added internal control of rotary heat exchanger
+    -	Linked control of supply and extract fan for baseline controller
+  -	Occupancy profile:
+    -	Fixed missing data that resulted in day of week mismatch
+  - Control I/O:
+    - Changes to input and measurement names
+    - Added new measurement points
+
+  Impacts on KPIs calculated compared to v0.7.1 for indicated scenarios are as follows:
+
+  **Peak Heat Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+3.26%  |
+  |emis_tot               |+3.16%  |
+  |tdis_tot               |-98.5%  |
+  |idis_tot               |-99.5%  |
+  |pele_tot               |-37.2%  |
+  |pdih_tot               |-60.5%  |
+  |cost_tot_constant      |+3.32%  |
+  |cost_tot_dynamic       |+3.26%  |
+  |cost_tot_highly_dynamic|+3.16%  |
+
+  **Typical Heat Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |-57.0%  |
+  |emis_tot               |-60.2%  |
+  |tdis_tot               |-100%   |
+  |idis_tot               |-100%   |
+  |pele_tot               |-55.6%  |
+  |pdih_tot               |-66.9%  |
+  |cost_tot_constant      |-54.5%  |
+  |cost_tot_dynamic       |-54.9%  |
+  |cost_tot_highly_dynamic|-55.2%  |
 
 ## BOPTEST v0.7.1
 
