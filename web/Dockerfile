@@ -10,7 +10,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN apt update && \
     apt install -y --no-install-recommends\
     git \
-    python3.9 \
+    python3.10 \
     python3-pip  \
     build-essential \
     ruby-dev \
