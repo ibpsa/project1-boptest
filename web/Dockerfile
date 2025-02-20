@@ -1,5 +1,5 @@
 # Start with a base Ubuntu image
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 # Avoid warnings while installing ubuntu
 # debconf: unable to initialize frontend: Dialog
