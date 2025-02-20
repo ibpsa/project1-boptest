@@ -35,6 +35,8 @@ jobs:
       run: cd web && make build-env
     - name: Build docs and website in container
       run: cd web && make run-build-docs-and-build-web
+    - name: Verify build output
+      run: ls -la ./web/_site
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
