@@ -24,6 +24,9 @@ The changes are summarized as follows:
   - Control I/O:
     - Changes to input and measurement names
     - Added new measurement points
+  - Scenario changes for time periods
+    - Peak Heat Day now centered around day 42
+    - Typical Heat Day now centered around day 308
 
   Impacts on KPIs calculated compared to v0.7.1 for indicated scenarios are as follows:
 
@@ -43,15 +46,15 @@ The changes are summarized as follows:
   **Typical Heat Day**
   |KPI                    |% Change|
   |-----------------------|--------|
-  |ener_tot               |-57.0%  |
-  |emis_tot               |-60.2%  |
-  |tdis_tot               |-100%   |
+  |ener_tot               |+8.01%  |
+  |emis_tot               |-2.86%  |
+  |tdis_tot               |-99.8%  |
   |idis_tot               |-100%   |
-  |pele_tot               |-55.6%  |
-  |pdih_tot               |-66.9%  |
-  |cost_tot_constant      |-54.5%  |
-  |cost_tot_dynamic       |-54.9%  |
-  |cost_tot_highly_dynamic|-55.2%  |
+  |pele_tot               |-12.7%  |
+  |pdih_tot               |-59.0%  |
+  |cost_tot_constant      |+16.6%  |
+  |cost_tot_dynamic       |+15.3%  |
+  |cost_tot_highly_dynamic|+14.6%  |
 
 ## BOPTEST v0.7.1
 
