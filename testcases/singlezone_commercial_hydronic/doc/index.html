@@ -262,7 +262,7 @@ The model inputs are:
 <code>dh_oveTSupSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input dh_oveTSupSetHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>dh_oveTSupSetHea_u</code> [K] [min=283.15, max=333.15]: Supply temperature set point for heating
+<code>dh_oveTSupSetHea_u</code> [K] [min=283.15, max=333.15]: Supply temperature set point for hydronic heating system
 </li>
 <li>
 <code>oveCO2ZonSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveCO2ZonSet_u where 1 activates, 0 deactivates (default value)
@@ -327,6 +327,12 @@ The model outputs are:
 </li>
 <li>
 <code>ahu_reaTSupAir_y</code> [K] [min=None, max=None]: AHU supply air temperature
+</li>
+<li>
+<code>dh_reaTRetHyd_y</code> [K] [min=None, max=None]: Hydronic heating system return temperature
+</li>
+<li>
+<code>dh_reaTSupHyd_y</code> [K] [min=None, max=None]: Hydronic heating system supply temperature
 </li>
 <li>
 <code>reaCO2Zon_y</code> [ppm] [min=None, max=None]: Zone CO2 concentration
@@ -610,10 +616,10 @@ The model forecasts are:
             median of all 15-minute maximum heating loads of all days in the year.
         </ul>
         <ul>
-            Start Time: Day 92.
+            Start Time: Day 301.
         </ul>
         <ul>
-            End Time: Day 106.
+            End Time: Day 315.
         </ul>
         </p>
         <p>

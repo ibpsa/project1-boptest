@@ -267,7 +267,7 @@ The model inputs are:
 <code>dh_oveTSupSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input dh_oveTSupSetHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>dh_oveTSupSetHea_u</code> [K] [min=283.15, max=333.15]: Supply temperature set point for heating
+<code>dh_oveTSupSetHea_u</code> [K] [min=283.15, max=333.15]: Supply temperature set point for hydronic heating system
 </li>
 <li>
 <code>oveCO2ZonSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveCO2ZonSet_u where 1 activates, 0 deactivates (default value)
@@ -332,6 +332,12 @@ The model outputs are:
 </li>
 <li>
 <code>ahu_reaTSupAir_y</code> [K] [min=None, max=None]: AHU supply air temperature
+</li>
+<li>
+<code>dh_reaTRetHyd_y</code> [K] [min=None, max=None]: Hydronic heating system return temperature
+</li>
+<li>
+<code>dh_reaTSupHyd_y</code> [K] [min=None, max=None]: Hydronic heating system supply temperature
 </li>
 <li>
 <code>reaCO2Zon_y</code> [ppm] [min=None, max=None]: Zone CO2 concentration
@@ -539,130 +545,6 @@ The model forecasts are:
 <code>winSpe</code> [m/s]: Wind speed
 </li>
 </ul>
-<h4>Forecasts</h4>
-The model forecasts are:
-<ul>
-    <li>
-        <code>EmissionsBiomassPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from
-        biomass
-    </li>
-    <li>
-        <code>EmissionsDistrictHeatingPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal
-        district heating
-    </li>
-    <li>
-        <code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity
-    </li>
-    <li>
-        <code>EmissionsGasPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from gas
-    </li>
-    <li>
-        <code>EmissionsSolarThermalPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from
-        solar irradiation
-    </li>
-    <li>
-        <code>HDifHor</code> [W/m2]: Horizontal diffuse solar radiation
-    </li>
-    <li>
-        <code>HDirNor</code> [W/m2]: Direct normal radiation
-    </li>
-    <li>
-        <code>HGloHor</code> [W/m2]: Horizontal global radiation
-    </li>
-    <li>
-        <code>HHorIR</code> [W/m2]: Horizontal infrared irradiation
-    </li>
-    <li>
-        <code>InternalGainsCon[1]</code> [W]: Convective internal gains of zone
-    </li>
-    <li>
-        <code>InternalGainsLat[1]</code> [W]: Latent internal gains of zone
-    </li>
-    <li>
-        <code>InternalGainsRad[1]</code> [W]: Radiative internal gains of zone
-    </li>
-    <li>
-        <code>LowerSetp[1]</code> [K]: Lower temperature set point for thermal comfort of zone
-    </li>
-    <li>
-        <code>Occupancy[1]</code> [number of people]: Number of occupants of zone
-    </li>
-    <li>
-        <code>PriceDistrictHeatingPower</code> [($/Euro)/kWh]: Price of 1 kWh thermal from district heating
-    </li>
-    <li>
-        <code>PriceElectricPowerConstant</code> [($/Euro)/kWh]: Completely constant electricity price
-    </li>
-    <li>
-        <code>PriceElectricPowerDynamic</code> [($/Euro)/kWh]: Electricity price for a day/night tariff
-    </li>
-    <li>
-        <code>PriceElectricPowerHighlyDynamic</code> [($/Euro)/kWh]: Spot electricity price
-    </li>
-    <li>
-        <code>TBlaSky</code> [K]: Black Sky temperature
-    </li>
-    <li>
-        <code>TDewPoi</code> [K]: Dew point temperature
-    </li>
-    <li>
-        <code>TDryBul</code> [K]: Dry bulb temperature at ground level
-    </li>
-    <li>
-        <code>TWetBul</code> [K]: Wet bulb temperature
-    </li>
-    <li>
-        <code>UpperCO2[1]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
-    </li>
-    <li>
-        <code>UpperSetp[1]</code> [K]: Upper temperature set point for thermal comfort of zone
-    </li>
-    <li>
-        <code>ceiHei</code> [m]: Ceiling height
-    </li>
-    <li>
-        <code>cloTim</code> [s]: One-based day number in seconds
-    </li>
-    <li>
-        <code>lat</code> [rad]: Latitude of the location
-    </li>
-    <li>
-        <code>lon</code> [rad]: Longitude of the location
-    </li>
-    <li>
-        <code>nOpa</code> [1]: Opaque sky cover [0, 1]
-    </li>
-    <li>
-        <code>nTot</code> [1]: Total sky Cover [0, 1]
-    </li>
-    <li>
-        <code>pAtm</code> [Pa]: Atmospheric pressure
-    </li>
-    <li>
-        <code>relHum</code> [1]: Relative Humidity
-    </li>
-    <li>
-        <code>solAlt</code> [rad]: Altitude angel
-    </li>
-    <li>
-        <code>solDec</code> [rad]: Declination angle
-    </li>
-    <li>
-        <code>solHouAng</code> [rad]: Solar hour angle.
-    </li>
-    <li>
-        <code>solTim</code> [s]: Solar time
-    </li>
-    <li>
-        <code>solZen</code> [rad]: Zenith angle
-    </li>
-    <li>
-        <code>winDir</code> [rad]: Wind direction
-    </li>
-    <li>
-        <code>winSpe</code> [m/s]: Wind speed
-    </li>
-</ul>
 <p>
 <h3>Additional System Design</h3>
 </p>
@@ -739,10 +621,10 @@ The model forecasts are:
             median of all 15-minute maximum heating loads of all days in the year.
         </ul>
         <ul>
-            Start Time: Day 92.
+            Start Time: Day 301.
         </ul>
         <ul>
-            End Time: Day 106.
+            End Time: Day 315.
         </ul>
         </p>
         <p>
