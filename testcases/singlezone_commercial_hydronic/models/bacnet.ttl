@@ -12,25 +12,33 @@
 bldg:boptest-proxy-device a bacnet:BACnetDevice ;
 	bacnet:device-instance 599 .
 
-bldg:ahu_reaFloSupAir_y a brick:Point ;
+bldg:ahu_reaFloExtAir_y a brick:Point ;
 	ref:hasExternalReference [
 		bacnet:object-identifier "analog-input,1" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "ahu_reaFloExtAir_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:ahu_reaFloSupAir_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,2" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "ahu_reaFloSupAir_y" ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
-bldg:ahu_reaPFanRet_y a brick:Point ;
+bldg:ahu_reaPFanExt_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,2" ;
+		bacnet:object-identifier "analog-input,3" ;
 		bacnet:object-type "analog-input" ;
-		bacnet:object-name "ahu_reaPFanRet_y" ;
+		bacnet:object-name "ahu_reaPFanExt_y" ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
 bldg:ahu_reaPFanSup_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,3" ;
+		bacnet:object-identifier "analog-input,4" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "ahu_reaPFanSup_y" ;
 		bacnet:objectOf bldg:boptest-proxy-device
@@ -38,7 +46,7 @@ bldg:ahu_reaPFanSup_y a brick:Point ;
 
 bldg:ahu_reaTCoiSup_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,4" ;
+		bacnet:object-identifier "analog-input,5" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "ahu_reaTCoiSup_y" ;
 		bacnet:objectOf bldg:boptest-proxy-device
@@ -46,7 +54,7 @@ bldg:ahu_reaTCoiSup_y a brick:Point ;
 
 bldg:ahu_reaTHeaRec_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,5" ;
+		bacnet:object-identifier "analog-input,6" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "ahu_reaTHeaRec_y" ;
 		bacnet:objectOf bldg:boptest-proxy-device
@@ -54,7 +62,7 @@ bldg:ahu_reaTHeaRec_y a brick:Point ;
 
 bldg:ahu_reaTRetAir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,6" ;
+		bacnet:object-identifier "analog-input,7" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "ahu_reaTRetAir_y" ;
 		bacnet:objectOf bldg:boptest-proxy-device
@@ -62,41 +70,33 @@ bldg:ahu_reaTRetAir_y a brick:Point ;
 
 bldg:ahu_reaTSupAir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,7" ;
+		bacnet:object-identifier "analog-input,8" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "ahu_reaTSupAir_y" ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
-bldg:reaCO2Zon_y a brick:Point ;
-	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,8" ;
-		bacnet:object-type "analog-input" ;
-		bacnet:object-name "reaCO2Zon_y" ;
-		bacnet:objectOf bldg:boptest-proxy-device
-	] .
-
-bldg:reaOcc_y a brick:Point ;
+bldg:dh_reaTRetHyd_y a brick:Point ;
 	ref:hasExternalReference [
 		bacnet:object-identifier "analog-input,9" ;
 		bacnet:object-type "analog-input" ;
-		bacnet:object-name "reaOcc_y" ;
+		bacnet:object-name "dh_reaTRetHyd_y" ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
-bldg:reaPEle_y a brick:Point ;
+bldg:dh_reaTSupHyd_y a brick:Point ;
 	ref:hasExternalReference [
 		bacnet:object-identifier "analog-input,10" ;
 		bacnet:object-type "analog-input" ;
-		bacnet:object-name "reaPEle_y" ;
+		bacnet:object-name "dh_reaTSupHyd_y" ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
-bldg:reaPFan_y a brick:Point ;
+bldg:reaCO2Zon_y a brick:Point ;
 	ref:hasExternalReference [
 		bacnet:object-identifier "analog-input,11" ;
 		bacnet:object-type "analog-input" ;
-		bacnet:object-name "reaPFan_y" ;
+		bacnet:object-name "reaCO2Zon_y" ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
@@ -332,9 +332,17 @@ bldg:ahu_oveFanSup_u a brick:Point ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
-bldg:oveCO2ZonSet_u a brick:Point ;
+bldg:dh_oveTSupSetHea_u a brick:Point ;
 	ref:hasExternalReference [
 		bacnet:object-identifier "analog-output,41" ;
+		bacnet:object-type "analog-output" ;
+		bacnet:object-name "dh_oveTSupSetHea_u" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:oveCO2ZonSet_u a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-output,42" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "oveCO2ZonSet_u" ;
 		bacnet:objectOf bldg:boptest-proxy-device
@@ -342,23 +350,23 @@ bldg:oveCO2ZonSet_u a brick:Point ;
 
 bldg:ovePum_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,42" ;
+		bacnet:object-identifier "analog-output,43" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "ovePum_u" ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
-bldg:oveTSupSet_u a brick:Point ;
+bldg:oveTSupSetAir_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,43" ;
+		bacnet:object-identifier "analog-output,44" ;
 		bacnet:object-type "analog-output" ;
-		bacnet:object-name "oveTSupSet_u" ;
+		bacnet:object-name "oveTSupSetAir_u" ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
 bldg:oveTZonSet_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,44" ;
+		bacnet:object-identifier "analog-output,45" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "oveTZonSet_u" ;
 		bacnet:objectOf bldg:boptest-proxy-device
@@ -366,7 +374,7 @@ bldg:oveTZonSet_u a brick:Point ;
 
 bldg:oveValCoi_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,45" ;
+		bacnet:object-identifier "analog-output,46" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "oveValCoi_u" ;
 		bacnet:objectOf bldg:boptest-proxy-device
@@ -374,7 +382,7 @@ bldg:oveValCoi_u a brick:Point ;
 
 bldg:oveValRad_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,46" ;
+		bacnet:object-identifier "analog-output,47" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "oveValRad_u" ;
 		bacnet:objectOf bldg:boptest-proxy-device
