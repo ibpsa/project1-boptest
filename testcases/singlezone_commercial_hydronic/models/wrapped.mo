@@ -12,8 +12,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput ovePum_activate "Activation for Pump dP control signal for heating distribution system";
 	Modelica.Blocks.Interfaces.RealInput ahu_oveFanSup_u(unit="1", min=0.0, max=1.0) "AHU supply fan speed control signal";
 	Modelica.Blocks.Interfaces.BooleanInput ahu_oveFanSup_activate "Activation for AHU supply fan speed control signal";
-	Modelica.Blocks.Interfaces.RealInput dh_oveTSupSetHea_u(unit="K", min=283.15, max=333.15) "Supply temperature set point for heating";
-	Modelica.Blocks.Interfaces.BooleanInput dh_oveTSupSetHea_activate "Activation for Supply temperature set point for heating";
+	Modelica.Blocks.Interfaces.RealInput dh_oveTSupSetHea_u(unit="K", min=283.15, max=333.15) "Supply temperature set point for hydronic heating system";
+	Modelica.Blocks.Interfaces.BooleanInput dh_oveTSupSetHea_activate "Activation for Supply temperature set point for hydronic heating system";
 	Modelica.Blocks.Interfaces.RealInput oveValCoi_u(unit="1", min=0.0, max=1.0) "AHU heating coil valve control signal";
 	Modelica.Blocks.Interfaces.BooleanInput oveValCoi_activate "Activation for AHU heating coil valve control signal";
 	Modelica.Blocks.Interfaces.RealInput oveTZonSet_u(unit="K", min=283.15, max=303.15) "Zone temperature set point for heating";
@@ -21,7 +21,7 @@ model wrapped "Wrapped model"
 	// Out read
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolHouAng_y(unit="rad") = mod.weaSta.reaWeaSolHouAng.y "Solar hour angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaWinDir_y(unit="rad") = mod.weaSta.reaWeaWinDir.y "Wind direction measurement";
-	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaCeiHei_y(unit="m") = mod.weaSta.reaWeaCeiHei.y "Cloud cover ceiling height measurement";
+	Modelica.Blocks.Interfaces.RealOutput reaTZon_y(unit="K") = mod.reaTZon.y "Zone air temperature";
 	Modelica.Blocks.Interfaces.RealOutput ahu_reaFloExtAir_y(unit="m3/s") = mod.ahu.reaFloExtAir.y "AHU extract air volume flowrate";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaNTot_y(unit="1") = mod.weaSta.reaWeaNTot.y "Sky cover measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaWinSpe_y(unit="m/s") = mod.weaSta.reaWeaWinSpe.y "Wind speed measurement";
@@ -33,8 +33,10 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput ahu_reaTSupAir_y(unit="K") = mod.ahu.reaTSupAir.y "AHU supply air temperature";
 	Modelica.Blocks.Interfaces.RealOutput ahu_reaPFanSup_y(unit="W") = mod.ahu.reaPFanSup.y "Electrical power consumption of AHU supply fan";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolAlt_y(unit="rad") = mod.weaSta.reaWeaSolAlt.y "Solar altitude angle measurement";
-	Modelica.Blocks.Interfaces.RealOutput reaTZon_y(unit="K") = mod.reaTZon.y "Zone air temperature";
+	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaCeiHei_y(unit="m") = mod.weaSta.reaWeaCeiHei.y "Cloud cover ceiling height measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHHorIR_y(unit="W/m2") = mod.weaSta.reaWeaHHorIR.y "Horizontal infrared irradiation measurement";
+	Modelica.Blocks.Interfaces.RealOutput dh_reaTSupHyd_y(unit="K") = mod.dh.reaTSupHyd.y "Hydronic heating system supply temperature";
+	Modelica.Blocks.Interfaces.RealOutput dh_reaTRetHyd_y(unit="K") = mod.dh.reaTRetHyd.y "Hydronic heating system return temperature";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolZen_y(unit="rad") = mod.weaSta.reaWeaSolZen.y "Solar zenith angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHDifHor_y(unit="W/m2") = mod.weaSta.reaWeaHDifHor.y "Horizontal diffuse solar radiation measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTDewPoi_y(unit="K") = mod.weaSta.reaWeaTDewPoi.y "Dew point temperature measurement";
@@ -61,7 +63,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput oveCO2ZonSet_y(unit="ppm") = mod.oveCO2ZonSet.y "Zone CO2 concentration setpoint";
 	Modelica.Blocks.Interfaces.RealOutput ovePum_y(unit="Pa") = mod.ovePum.y "Pump dP control signal for heating distribution system";
 	Modelica.Blocks.Interfaces.RealOutput ahu_oveFanSup_y(unit="1") = mod.ahu.oveFanSup.y "AHU supply fan speed control signal";
-	Modelica.Blocks.Interfaces.RealOutput dh_oveTSupSetHea_y(unit="K") = mod.dh.oveTSupSetHea.y "Supply temperature set point for heating";
+	Modelica.Blocks.Interfaces.RealOutput dh_oveTSupSetHea_y(unit="K") = mod.dh.oveTSupSetHea.y "Supply temperature set point for hydronic heating system";
 	Modelica.Blocks.Interfaces.RealOutput oveValCoi_y(unit="1") = mod.oveValCoi.y "AHU heating coil valve control signal";
 	Modelica.Blocks.Interfaces.RealOutput oveTZonSet_y(unit="K") = mod.oveTZonSet.y "Zone temperature set point for heating";
 	// Original model
