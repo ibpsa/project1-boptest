@@ -27,7 +27,9 @@ permalink: /ibpsa/project/meetings/task2/
 
 **Time:** 6:00 AM - 7:00 AM U.S. Pacific
 
-**Zoom:** [Link](https://lbnl.zoom.us/j/92955703569?pwd=7op9YvZ1LqdC8EDb2VKpAPDbLkpctO.1)
+**Notes:**
+
+- [Minutes](/ibpsa_project/meetings/task2/20250227_Progress/20250227_IBPSA-BOPTEST_Task2_Minutes.pdf)
 
 
 ### January 30, 2025
