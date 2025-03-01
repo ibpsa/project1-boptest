@@ -21,6 +21,8 @@ permalink: /ibpsa/project/meetings/task2/
 **Zoom:** [Link](https://lbnl.zoom.us/j/91953736197?pwd=NnhRmRrjfDzL6guBDnpglXWlIsl6ZS.1)
 
 
+# Past Meetings
+
 ### February 27, 2025
 
 **Location:** Online
@@ -31,7 +33,6 @@ permalink: /ibpsa/project/meetings/task2/
 
 - [Minutes](/ibpsa_project/meetings/task2/20250227_Progress/20250227_IBPSA-BOPTEST_Task2_Minutes.pdf)
 
-
 ### January 30, 2025
 
 **Location:** Online
@@ -39,9 +40,6 @@ permalink: /ibpsa/project/meetings/task2/
 **Time:** 6:00 AM - 7:00 AM U.S. Pacific
 
 Cancelled.
-
-
-# Past Meetings
 
 ### November 7, 2024
 
