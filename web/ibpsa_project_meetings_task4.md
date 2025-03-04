@@ -26,7 +26,7 @@ We are excited to host the BOPTEST webinar series! These sessions highlight the 
 
 *<u>Lucas Bex </u>* (KU Leuven) will discuss simulation-based testing of control strategies for districts, introducing Yards, a simulation framework based on DOPTEST.
 
-- [Register here](https://lnkd.in/e8TWVjEE)
+- [Register here](https://ucl.zoom.us/webinar/register/WN_4GC9SyR5Skadjo2qFbVlbg#/registration)
 
 ### Webinar 2: BOPTEST in action
 
