@@ -12,7 +12,13 @@ permalink: /ibpsa/project/meetings/task1/
 
 # Upcoming Meetings
 
-There are currently no meetings planned for Task 1.
+### March 13, 2025
+
+**Location:** Online
+
+**Time:** 17:00 PM - 18:00 PM CET.
+
+- [Meeting announcement and link](https://groups.google.com/g/ibpsa-boptest/c/V1slDWpwuf4)
 
 # Past Meetings
 
