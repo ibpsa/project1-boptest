@@ -4,6 +4,10 @@
 
 Released on xx/xx/xxxx.
 
+**The following changes are backwards compatible and do not significantly change benchmark resulsts:**
+
+- Add Heat pump documentation to BESTEST Hydronic Heat Pump testcase. This is for [#704](https://github.com/ibpsa/project1-boptest/issues/704)
+
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 
 - Update ``singlezone_commercial_hydronic`` test case according to changes made for the Adrenalin competition and various issues. This is for [#702](https://github.com/ibpsa/project1-boptest/issues/702),
