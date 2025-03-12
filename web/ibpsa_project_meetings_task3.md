@@ -20,17 +20,19 @@ If you want to submit a new test case application here is the [**form**](https:/
 # Upcoming Meetings
 
 
+
+
+
+
+# Past Meetings
+
 ### March 11, 2025
 
 **Location:** Online
 
 **Time:** 6:00-7:00 pacific
-[**Link to join the meeting**](https://lbnl.zoom.us/j/2197244139),
-[**Calendar Invite**](/ibpsa_project/meetings/task3/20250311_Progress/20250311_invite.ics)
+- [Minutes](/ibpsa_project/meetings/task3/20250204_Progress/20250311_IBPSA-BOPTEST_Task3_minutes.pdf)
 
-
-
-# Past Meetings
 
 ### February 4, 2025
 
