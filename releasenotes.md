@@ -7,6 +7,7 @@ Released on xx/xx/xxxx.
 **The following changes are backwards compatible and do not significantly change benchmark results:**
 
 - Update heat pump documentation to BESTEST Hydronic Heat Pump testcase. This is for [#704](https://github.com/ibpsa/project1-boptest/issues/704)
+- Remove the ``scenario`` field from the test case ``config.json``. This is for [#719](https://github.com/ibpsa/project1-boptest/issues/719).
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 
