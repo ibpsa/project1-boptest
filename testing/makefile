@@ -274,16 +274,21 @@ test_bacnet:
 	fi
 
 test_testcase:
-# Run jm docker container
-	make run_jm
-# Copy the required files and folders for the test
-	make copy_framework_with_testcase_to_jm TESTCASE=bestest_air
-# Run test_kpis.py
-	make exec_jm ARGS="python test_testcase.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/testcase ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_testcase.log ./test_testcase.log
-# Stop jm docker container
-	make stop_jm
+# Build and deploy testcase image
+	cd .. && docker compose build -q web worker provision
+	cd .. && docker compose up -d --quiet-pull web worker provision
+	python sleep10.py
+# Copy the required files and folders for testing
+	docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
+	docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
+	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
+	docker cp ../testcases/bestest_air project1-boptest-worker-1:/boptest/lib/testcases
+# Run test_testcase.py
+	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_testcase.py && exit"
+	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/testcase ./references
+	docker cp project1-boptest-worker-1:/boptest/lib/testing/test_testcase.log ./test_testcase.log
+# Stop testcase container
+	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
         	python report.py;\
