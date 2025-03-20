@@ -23,9 +23,9 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
 
         self.name = 'singlezone_commercial_hydronic'
         self.url = 'http://127.0.0.1:80'
-        self.points_check = ['oveTZonSet_u','oveTSupSet_u',
+        self.points_check = ['oveTZonSet_u','oveTSupSetAir_u',
                              'reaCO2Zon_y','reaTZon_y',
-                             'reaPFan_y','reaPPum_y',
+                             'ahu_reaPFanSup_y','reaPPum_y',
                              'reaQHea_y','ahu_reaTSupAir_y',
                              'ahu_reaTRetAir_y']
         self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
@@ -95,8 +95,8 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
-        self.input = {'oveTSupSet_activate':0,
-                      'oveTSupSet_u':273.15+25,
+        self.input = {'oveTSupSetAir_activate':0,
+                      'oveTSupSetAir_u':273.15+25,
                       'oveTZonSet_activate':0,
                       'oveTZonSet_u':273.15+25}
         self.measurement = 'ahu_reaTRetAir_y'
