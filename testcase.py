@@ -90,7 +90,9 @@ class TestCase(object):
         # Initialize test case
         self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
         # Set default scenario
-        self.set_scenario(self.config_json['scenario'])
+        scenario_default = {'electricity_price':'constant',
+                            'time_period': None}
+        self.set_scenario(scenario_default)
 
     def __initilize_data(self):
         '''Initializes objects for simulation data storage.
