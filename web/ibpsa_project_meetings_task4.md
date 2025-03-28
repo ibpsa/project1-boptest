@@ -16,17 +16,24 @@ We are excited to host the BOPTEST webinar series! These sessions highlight the 
 
 **Webinar Format:** Each session features two speakers, one from academia and one from industry, each presenting for 20 minutes, followed by a 10-minute Q&A.
 
+### Webinar 4
+
+**Date and time:** April 16, 2025 - 15:00 UTC
+
+- [Register here](https://ucl.zoom.us/webinar/register/WN_Sh9Kys6nQW2QUc0ZzGRVng)
+
+
 ### Webinar 3: Grid-interactive buildings
 
 **Date and time:** March 26, 2025 - 15:00 UTC
 
 **Presentations:**
 
-*<u>Flavia de Andrade Pereira</u>* (University College London) will explore how demand flexibility controls can be made generalisable and portable across BOPTEST test cases and real-world buildings.
+*<u>Flavia de Andrade Pereira</u>* (University College London) explores how demand flexibility controls can be made generalisable and portable across BOPTEST test cases and real-world buildings.
 
-*<u>Lucas Bex </u>* (KU Leuven) will discuss simulation-based testing of control strategies for districts, introducing Yards, a simulation framework based on DOPTEST.
+*<u>Lucas Bex </u>* (KU Leuven) discusses simulation-based testing of control strategies for districts, introducing Yards, a simulation framework based on DOPTEST.
 
-- [Register here](https://ucl.zoom.us/webinar/register/WN_4GC9SyR5Skadjo2qFbVlbg#/registration)
+- [Webinar recording here](https://www.youtube.com/watch?v=5gdibxDrtog&ab_channel=IBPSAUniversity)
 
 ### Webinar 2: BOPTEST in action
 
