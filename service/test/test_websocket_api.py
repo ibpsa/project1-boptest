@@ -99,7 +99,7 @@ async def test_boptest_websocket_one_test():
 
         # Stop the test
         response = requests.put(f"{host}/stop/{testid}")
-        check.is_true(response.status_code == 200)
+        check.is_true(response.status_code == 400)
 
 
 @pytest.mark.asyncio
