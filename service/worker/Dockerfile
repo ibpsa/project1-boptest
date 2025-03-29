@@ -18,13 +18,13 @@ RUN wget https://spawn.s3.amazonaws.com/custom/Spawn-$SPAWN_VERSION-Linux.tar.gz
 COPY service/worker/requirements/production.txt /boptest/
 
 # Download and install miniconda, pyfmi, and remaining python requirements
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.3.0-0-Linux-x86_64.sh -O /miniconda.sh \
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py311_24.7.1-0-Linux-x86_64.sh -O /miniconda.sh \
 	&& /bin/bash /miniconda.sh -b -p /miniconda \
 	&& . miniconda/bin/activate \
 	&& conda update -n base -c defaults conda \
-	&& conda create --name pyfmi3 python=3.10 -y \
+	&& conda create --name pyfmi3 python=3.11 -y \
 	&& conda activate pyfmi3 \
-	&& conda install -c conda-forge pyfmi=2.12 -y \
+	&& conda install -c conda-forge pyfmi=2.14 -y \
 	&& pip install -U pip setuptools \
   && python -m pip install -r /boptest/production.txt
 
