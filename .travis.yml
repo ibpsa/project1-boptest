@@ -28,7 +28,7 @@ before_script:
 
 jobs:
   include:
-  - script: docker compose up -d web worker provision && sleep 10 && docker compose run --no-deps test pytest test_websocket_api.py && docker compose run --no-deps test pytest test_testcase_api.py
+  - script: docker compose up -d web worker provision && sleep 10 && docker compose up test --no-deps --exit-code-from test
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_parser
