@@ -10,6 +10,8 @@ import pandas as pd
 import testcase
 import utilities
 
+testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
+
 reference_result_directory = 'testcase'
 
 class Advance(unittest.TestCase, utilities.partialChecks):
@@ -36,7 +38,7 @@ class Advance(unittest.TestCase, utilities.partialChecks):
                                                              payload['time'])
         # Test results
         df = pd.DataFrame(payload).set_index('time')
-        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', reference_result_directory, 'check_input_for_zero.csv')
+        ref_filepath = os.path.join(testing_root_dir, 'references', reference_result_directory, 'check_input_for_zero.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)
 
     def setUp(self):
@@ -44,7 +46,10 @@ class Advance(unittest.TestCase, utilities.partialChecks):
 
         '''
 
-        self.testcase = testcase.TestCase(fmupath='testcases/bestest_air/models/wrapped.fmu')
+        os.chdir(os.path.join(testing_root_dir))
+        os.chdir('..')
+        from testcase import TestCase
+        self.testcase = TestCase(fmupath='testcases/bestest_air/models/wrapped.fmu')
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

@@ -296,14 +296,10 @@ class partialKpiCalculatorTest(utilities.partialChecks):
 
         '''
         # Change directory to specific testcase folder
-        os.chdir(os.path.join(testing_root_dir,testcase))
-        if testcase == 'testcase2':
-            from testcase2.testcase import TestCase
-        elif testcase=='testcase3':
-            from testcase3.testcase import TestCase
-        else:
-            raise ValueError('Testcase {0} unknown.'.format(testcase))
-        self.case=TestCase()
+        os.chdir(os.path.join(testing_root_dir))
+        os.chdir('..')
+        from testcase import TestCase
+        self.case=TestCase(fmupath='testcases/{0}/models/wrapped.fmu'.format(testcase))
 
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)
