@@ -92,10 +92,11 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
 
         '''
 
-        # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
-        self.case=TestCase()
+        # Change directory to specific testcase2 folder
+        os.chdir(os.path.join(testing_root_dir))
+        os.chdir('..')
+        from testcase import TestCase
+        self.case=TestCase(fmupath='testcases/testcase2/models/wrapped.fmu')
 
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case)
@@ -124,10 +125,11 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
 
         '''
 
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
-        self.case=TestCase()
+        # Change directory to specific testcase3 folder
+        os.chdir(os.path.join(testing_root_dir))
+        os.chdir('..')
+        from testcase import TestCase
+        self.case=TestCase(fmupath='testcases/testcase3/models/wrapped.fmu')
 
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case)

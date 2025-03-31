@@ -9,6 +9,12 @@ Released on xx/xx/xxxx.
 - Update heat pump documentation to BESTEST Hydronic Heat Pump testcase. This is for [#704](https://github.com/ibpsa/project1-boptest/issues/704).
 - Enable BACnet interface to work with test case ``multizone_hydronic_simple_hydronic`` by creating the ``bacnet.ttl``. This is for [#735](https://github.com/ibpsa/project1-boptest/issues/735).
 - Remove the ``scenario`` field from the test case ``config.json``. This is for [#719](https://github.com/ibpsa/project1-boptest/issues/719).
+- Update dependencies and environment of ``worker`` container.  This is for [#663](https://github.com/ibpsa/project1-boptest/issues/663).  Changes are summarized as follows:
+  - Remove scipy and matplotlib dependencies from ``worker`` container.
+  - Substitute scipy.integrate.trapz with numpy.trapezoid in ``kpis/kpi_calculator.py``, scipy.interp1d linear with numpy.interp, and scipy.inter1d zero with a custom zero hold interpolation in ``data/data_manager.py``.
+  - Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3.
+  - Update Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64.
+  - Update unit tests such that ``test_kpis.py``, ``test_forecast.py``, and ``test_testcase.py`` are run in the ``worker`` container, instead of the ``jm`` container.
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 
@@ -61,6 +67,7 @@ The changes are summarized as follows:
   |cost_tot_constant      |+16.6%  |
   |cost_tot_dynamic       |+15.3%  |
   |cost_tot_highly_dynamic|+14.6%  |
+
 
 ## BOPTEST v0.7.1
 
