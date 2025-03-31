@@ -10,7 +10,7 @@ RUN apt-get update -y && apt-get install -y \
     && apt-get install -y git
 
 # Install commands for Spawn
-ENV SPAWN_VERSION light-0.4.3-7048a72798
+ENV SPAWN_VERSION light-0.3.0-0fa49be497
 RUN wget https://spawn.s3.amazonaws.com/builds/Spawn-$SPAWN_VERSION-Linux.tar.gz \
     && tar -xzf Spawn-$SPAWN_VERSION-Linux.tar.gz
 ENV PATH ${PATH}:/Spawn-$SPAWN_VERSION-Linux/bin

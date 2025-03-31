@@ -9,7 +9,7 @@ Released on xx/xx/xxxx.
 - Update heat pump documentation to BESTEST Hydronic Heat Pump testcase. This is for [#704](https://github.com/ibpsa/project1-boptest/issues/704).
 - Enable BACnet interface to work with test case ``multizone_hydronic_simple_hydronic`` by creating the ``bacnet.ttl``. This is for [#735](https://github.com/ibpsa/project1-boptest/issues/735).
 - Remove the ``scenario`` field from the test case ``config.json``. This is for [#719](https://github.com/ibpsa/project1-boptest/issues/719).
-- Update Spawn version to ``light-0.4.3-7048a72798``, which is used in Modelica Buildings Library v11.0.0.  This is for [#718](https://github.com/ibpsa/project1-boptest/issues/718).
+- Update Spawn version to ``light-0.3.0-0fa49be497``, which is used in Modelica Buildings Library v9.1.0.  This is for [#718](https://github.com/ibpsa/project1-boptest/issues/718).
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 
