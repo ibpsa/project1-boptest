@@ -11,7 +11,6 @@ performance indicators.
 
 import numpy as np
 import pandas as pd
-from scipy.integrate import trapz
 from collections import OrderedDict
 
 class KPI_Calculator(object):
@@ -252,9 +251,9 @@ class KPI_Calculator(object):
                 dT_upper = data - UpperSetp
                 dT_upper[dT_upper<0]=0
                 self.tdis_dict[signal[:-1]+'dTlower_y'] += \
-                    trapz(dT_lower,self._get_data_from_last_index('time',self.i_last_tdis))/3600.
+                    np.trapezoid(dT_lower,self._get_data_from_last_index('time',self.i_last_tdis))/3600.
                 self.tdis_dict[signal[:-1]+'dTupper_y'] += \
-                    trapz(dT_upper,self._get_data_from_last_index('time',self.i_last_tdis))/3600.
+                    np.trapezoid(dT_upper,self._get_data_from_last_index('time',self.i_last_tdis))/3600.
                 self.tdis_tot = self.tdis_tot + \
                     self.tdis_dict[signal[:-1]+'dTlower_y']/len(self.sources_tdis) + \
                     self.tdis_dict[signal[:-1]+'dTupper_y']/len(self.sources_tdis) # Normalize total by number of sources
@@ -299,7 +298,7 @@ class KPI_Calculator(object):
                 dI_upper = data - UpperSetp
                 dI_upper[dI_upper<0]=0
                 self.idis_dict[signal[:-1]+'dIupper_y'] += \
-                    trapz(dI_upper, self._get_data_from_last_index('time',self.i_last_idis))/3600.
+                    np.trapezoid(dI_upper, self._get_data_from_last_index('time',self.i_last_idis))/3600.
                 self.idis_tot = self.idis_tot + \
                           self.idis_dict[signal[:-1]+'dIupper_y']/len(self.sources_idis) # Normalize total by number of sources
 
@@ -334,7 +333,7 @@ class KPI_Calculator(object):
                 for signal in self.case.kpi_json[source]:
                     pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_ener))
                     self.ener_dict[signal] += \
-                        trapz(pow_data,
+                        np.trapezoid(pow_data,
                               self._get_data_from_last_index('time',self.i_last_ener))*2.77778e-7 # Convert to kWh
                     self.ener_dict_by_source[source+'_'+signal] += \
                         self.ener_dict[signal]
@@ -542,7 +541,7 @@ class KPI_Calculator(object):
             for signal in self.case.kpi_json[source]:
                 pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_cost))
                 self.cost_dict[signal] += \
-                    trapz(np.multiply(source_price_data,pow_data),
+                    np.trapezoid(np.multiply(source_price_data,pow_data),
                           self._get_data_from_last_index('time',self.i_last_cost))*factor
                 self.cost_dict_by_source[source+'_'+signal] += \
                     self.cost_dict[signal]
@@ -586,7 +585,7 @@ class KPI_Calculator(object):
                 for signal in self.case.kpi_json[source]:
                     pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_emis))
                     self.emis_dict[signal] += \
-                        trapz(np.multiply(source_emissions_data,pow_data),
+                        np.trapezoid(np.multiply(source_emissions_data,pow_data),
                               self._get_data_from_last_index('time',self.i_last_emis))*2.77778e-7 # Convert to kWh
                     self.emis_dict_by_source[source+'_'+signal] += \
                         self.emis_dict[signal]
