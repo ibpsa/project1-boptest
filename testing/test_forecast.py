@@ -118,13 +118,15 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
 
         '''
 
-        # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
+        # Change directory to specific testcase2 folder
+        os.chdir(os.path.join(testing_root_dir))
+        os.chdir('..')
+        from testcase import TestCase
         forecast_uncertainty_params_path = os.path.join(testing_root_dir,
                                                         'forecast',
                                                         'forecast_uncertainty_params.json')
-        self.case=TestCase(forecast_uncertainty_params_path=forecast_uncertainty_params_path)
+        self.case=TestCase(fmupath='testcases/testcase2/models/wrapped.fmu',
+                           forecast_uncertainty_params_path=forecast_uncertainty_params_path)
 
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case, forecast_uncertainty_params_path)
@@ -156,13 +158,15 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
 
         '''
 
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
+        # Change directory to specific testcase3 folder
+        os.chdir(os.path.join(testing_root_dir))
+        os.chdir('..')
+        from testcase import TestCase
         forecast_uncertainty_params_path = os.path.join(testing_root_dir,
                                                         'forecast',
                                                         'forecast_uncertainty_params.json')
-        self.case=TestCase(forecast_uncertainty_params_path=forecast_uncertainty_params_path)
+        self.case=TestCase(fmupath='testcases/testcase3/models/wrapped.fmu',
+                           forecast_uncertainty_params_path=forecast_uncertainty_params_path)
 
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case, forecast_uncertainty_params_path)

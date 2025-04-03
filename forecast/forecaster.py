@@ -40,8 +40,9 @@ class Forecaster(object):
         # Load forecast uncertainty parameters
         self.uncertainty_params = self.load_uncertainty_params(forecast_uncertainty_params_path)
 
-    def get_forecast(self, point_names, horizon=24 * 3600, interval=3600,
-                     wea_tem_dry_bul=None, wea_sol_glo_hor=None, seed=None):
+    def get_forecast(self, point_names, horizon=24*3600, interval=3600,
+                     wea_tem_dry_bul=None, wea_sol_glo_hor=None, seed=None,
+                     category=None):
         '''
         Retrieves forecast data for specified points over a given horizon and interval.
 
@@ -50,9 +51,11 @@ class Forecaster(object):
         point_names : list of str
             List of data point names for which the forecast is to be retrieved.
         horizon : int, optional
-            Forecast horizon in seconds (default is 86400 seconds, i.e., one day).
+            Forecast horizon in seconds.
+            Default is 86400 seconds (24 hours).
         interval : int, optional
-            Time interval between forecast points in seconds (default is 3600 seconds, i.e., one hour).
+            Time interval between forecast points in seconds.
+            Default is 3600 seconds (one hour).
         wea_tem_dry_bul : str, optional
             Uncertainty level for outside air dry bulb temperature.  'low', 'medium', or 'high'
             If None, defaults to no forecast error.
@@ -65,6 +68,12 @@ class Forecaster(object):
             Seed for the random number generator to ensure reproducibility of the stochastic forecast error.
             If None, no seed is used.
             Default is None.
+        category : string, optional
+            Type of data to retrieve from the test case.
+            If None it will return all available test case
+            data without filtering it by any category.
+            Possible options are 'weather', 'prices',
+            'emissions', 'occupancy', internalGains, 'setpoints'.
 
         Returns
         -------
@@ -74,13 +83,9 @@ class Forecaster(object):
         '''
 
         # Set uncertainty parameters to 0 if no forecast uncertainty
-        temperature_params = {
-            "F0": 0, "K0": 0, "F": 0, "K": 0, "mu": 0
-        }
+        temperature_params = {"F0": 0, "K0": 0, "F": 0, "K": 0, "mu": 0}
 
-        solar_params = {
-            "ag0": 0, "bg0": 0, "phi": 0, "ag": 0, "bg": 0
-        }
+        solar_params = {"ag0": 0, "bg0": 0, "phi": 0, "ag": 0, "bg": 0}
 
         if wea_tem_dry_bul is not None:
             temperature_params.update(self.uncertainty_params['temperature'][wea_tem_dry_bul])
@@ -91,7 +96,8 @@ class Forecaster(object):
         # Get the forecast
         forecast = self.case.data_manager.get_data(variables=point_names,
                                                    horizon=horizon,
-                                                   interval=interval)
+                                                   interval=interval,
+                                                   category=category)
 
         # Add any outside dry bulb temperature error
         if 'TDryBul' in point_names and any(temperature_params.values()):

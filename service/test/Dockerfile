@@ -16,4 +16,4 @@ WORKDIR /test
 
 ENV PYTHONPATH=/provision:/boptest
 
-CMD [ "pytest", "." ]
+CMD [ "pytest", "test_websocket_api.py", "test_testcase_api.py"]

@@ -18,7 +18,7 @@ import requests
 baseurl = 'http://127.0.0.1:80'
 
 # Instatiate test case
-test_case_name = 'bestest_air'
+test_case_name = 'multizone_office_simple_hydronic'
 testid = requests.post("{0}/testcases/{1}/select".format(baseurl, test_case_name)).json()["testid"]
 
 # Write the file prefix

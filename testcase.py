@@ -96,10 +96,12 @@ class TestCase(object):
         # Initialize test case
         self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
         # Set default scenario
-        self.config_json['scenario']['solar_uncertainty']=None #todo issue719
-        self.config_json['scenario']['temperature_uncertainty']=None #todo issue719
-        self.config_json['scenario']['seed'] = None #todo issue719
-        self.set_scenario(self.config_json['scenario']) #todo issue719
+        scenario_default = {'electricity_price':'constant',
+                            'time_period': None,
+                            'temperature_uncertainty': None,
+                            'solar_uncertainty': None,
+                            'seed': None}
+        self.set_scenario(scenario_default)
 
     def __initilize_data(self):
         '''Initializes objects for simulation data storage.
