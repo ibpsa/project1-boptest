@@ -902,20 +902,46 @@ class TestCase(object):
             message = "Invalid point name(s) {} in parameter point_names.  Check list of available forecast points.".format(wrong_points)
             logging.error(message)
             return status, message, payload
+        # Check that horizon and interval ok if variable under forecast uncertainty scenario
+        _,_,scenario = self.get_scenario()
+        if (scenario['temperature_uncertainty']) and ('TDryBul' in point_names):
+            if horizon > 48*3600:
+                payload = None
+                status = 400
+                message = "Invalid value {} for parameter horizon. Value must <= 48 hours in a temperature_uncertainty scenario.".format(horizon)
+                logging.error(message)
+                return status, message, payload
+            if interval != 3600:
+                payload = None
+                status = 400
+                message = "Invalid value {} for parameter interval. Value must = 1 hour in a temperature_uncertainty scenario.".format(interval)
+                logging.error(message)
+                return status, message, payload
+        if (scenario['solar_uncertainty']) and ('HGloHor' in point_names):
+            if horizon > 48*3600:
+                payload = None
+                status = 400
+                message = "Invalid value {} for parameter horizon. Value must <= 48 hours in a solar_uncertainty scenario.".format(horizon)
+                logging.error(message)
+                return status, message, payload
+            if interval != 3600:
+                payload = None
+                status = 400
+                message = "Invalid value {} for parameter interval. Value must = 1 hour in a solar_uncertainty scenario.".format(interval)
+                logging.error(message)
+                return status, message, payload
         # Get forecast
         try:
-            if self.scenario['seed'] is not None :
-                applied_seed=int(self.scenario['seed']+self.start_time)
+            if scenario['seed'] is not None:
+                applied_seed = int(scenario['seed']+self.start_time)
             else:
-                applied_seed=None
-            payload = self.forecaster.get_forecast(
-                point_names,
-                horizon=horizon,
-                interval=interval,
-                wea_tem_dry_bul=self.scenario['temperature_uncertainty'],
-                wea_sol_glo_hor=self.scenario['solar_uncertainty'],
-                seed=applied_seed
-            )
+                applied_seed = None
+            payload = self.forecaster.get_forecast(point_names,
+                                                   horizon=horizon,
+                                                   interval=interval,
+                                                   wea_tem_dry_bul=scenario['temperature_uncertainty'],
+                                                   wea_sol_glo_hor=scenario['solar_uncertainty'],
+                                                   seed=applied_seed)
         except:
             status = 500
             message = "Failed to query the test case forecast data: {}".format(traceback.format_exc())

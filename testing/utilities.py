@@ -639,6 +639,29 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain.csv')
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        # Test invalid horizon (<= 48 hours ) and internval (= 1 hour) parameters
+        # Test temperature_uncertainty
+        point_names = ['TDryBul']
+        horizon = 50*3600
+        interval = 3600
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':point_names, 'horizon':horizon, 'interval':interval})
+        self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
+        point_names = ['TDryBul']
+        horizon = 48*3600
+        interval = 1800
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':point_names, 'horizon':horizon, 'interval':interval})
+        self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
+        # Test solar_uncertainty
+        point_names = ['HGloHor']
+        horizon = 50*3600
+        interval = 3600
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':point_names, 'horizon':horizon, 'interval':interval})
+        self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
+        point_names = ['HGloHor']
+        horizon = 48*3600
+        interval = 1800
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':point_names, 'horizon':horizon, 'interval':interval})
+        self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
 
     def test_get_forecast_points(self):
         '''Check GET of forecast points.
