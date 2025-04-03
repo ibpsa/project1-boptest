@@ -299,8 +299,7 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         os.chdir(os.path.join(testing_root_dir))
         os.chdir('..')
         from testcase import TestCase
-        forecast_uncertainty_params_path = os.path.join(testing_root_dir,
-                                                        'forecast',
+        forecast_uncertainty_params_path = os.path.join('forecast',
                                                         'forecast_uncertainty_params.json')
         self.case=TestCase(fmupath='testcases/{0}/models/wrapped.fmu'.format(testcase),
                            forecast_uncertainty_params_path=forecast_uncertainty_params_path)

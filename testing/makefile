@@ -221,6 +221,7 @@ test_forecast:
 	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
 	docker cp ../testcases/testcase2 project1-boptest-worker-1:/boptest/lib/testcases
 	docker cp ../testcases/testcase3 project1-boptest-worker-1:/boptest/lib/testcases
+	docker cp ../forecast project1-boptest-worker-1:/boptest/lib/forecast
 # Run test_forecast.py
 	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_forecast.py && exit"
 	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/forecast ./references
@@ -258,6 +259,7 @@ test_kpis:
 	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
 	docker cp ../testcases/testcase2 project1-boptest-worker-1:/boptest/lib/testcases
 	docker cp ../testcases/testcase3 project1-boptest-worker-1:/boptest/lib/testcases
+	docker cp ../forecast project1-boptest-worker-1:/boptest/lib/forecast
 # Run test_kpis.py
 	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_kpis.py && exit"
 	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/kpis ./references

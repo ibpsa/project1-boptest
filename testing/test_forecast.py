@@ -122,8 +122,7 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
         os.chdir(os.path.join(testing_root_dir))
         os.chdir('..')
         from testcase import TestCase
-        forecast_uncertainty_params_path = os.path.join(testing_root_dir,
-                                                        'forecast',
+        forecast_uncertainty_params_path = os.path.join('forecast',
                                                         'forecast_uncertainty_params.json')
         self.case=TestCase(fmupath='testcases/testcase2/models/wrapped.fmu',
                            forecast_uncertainty_params_path=forecast_uncertainty_params_path)
@@ -162,8 +161,7 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
         os.chdir(os.path.join(testing_root_dir))
         os.chdir('..')
         from testcase import TestCase
-        forecast_uncertainty_params_path = os.path.join(testing_root_dir,
-                                                        'forecast',
+        forecast_uncertainty_params_path = os.path.join('forecast',
                                                         'forecast_uncertainty_params.json')
         self.case=TestCase(fmupath='testcases/testcase3/models/wrapped.fmu',
                            forecast_uncertainty_params_path=forecast_uncertainty_params_path)
