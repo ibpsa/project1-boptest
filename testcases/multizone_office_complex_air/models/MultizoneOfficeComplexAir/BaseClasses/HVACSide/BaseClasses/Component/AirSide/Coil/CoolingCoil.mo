@@ -21,7 +21,7 @@ equation
       color={0,127,255},
       thickness=1));
   connect(coi.port_b_Wat, val.port_a) annotation (Line(
-      points={{20,-0.4},{80,-0.4},{80,36}},
+      points={{20,-0.4},{80,-0.4},{80,40}},
       color={0,127,255},
       thickness=1));
   connect(coi.port_a_Air, port_a_Air) annotation (Line(
@@ -33,7 +33,7 @@ equation
       color={0,127,255},
       thickness=1));
   connect(coi.TAirLea,pI.mea)  annotation (Line(
-      points={{21.9,-17.2},{58,-17.2},{58,-60},{-52,-60},{-52,14},{-42,14}},
+      points={{21.9,-17.2},{58,-17.2},{58,-60},{-90,-60},{-90,14},{-82,14}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   annotation (Icon(graphics={

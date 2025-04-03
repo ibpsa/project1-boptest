@@ -18,7 +18,9 @@ model MixingBoxWithControl "The model of the mixing box"
     redeclare package Medium = Medium,
     PreDro=PreDro,
     mFreAirFloRat=mFreAirFloRat,
-    mTotAirFloRat=mTotAirFloRat)
+    mTotAirFloRat=mTotAirFloRat,
+    jun(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial),
+    jun1(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial))
     annotation (Placement(transformation(extent={{-10,-24},{26,0}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_Exh(redeclare package Medium = Medium)
                                                  "Fluid connector b (positive design flow direction is from port_a to port_b)"
@@ -66,7 +68,7 @@ equation
       thickness=0.5));
   connect(mixBox.T, ecoCon.Mea)
     annotation (Line(
-      points={{27.8,-17.04},{38,-17.04},{38,22},{-78,22},{-78,32},{-72,32}},
+      points={{27.8,-17.04},{40,-17.04},{40,22},{-78,22},{-78,32},{-72,32}},
       color={0,0,127}));
   connect(ecoCon.TMix, TMix) annotation (Line(
       points={{-72,40},{-92,40},{-92,0},{-120,0}},

@@ -265,21 +265,22 @@ model AirsideFloor
   Modelica.Blocks.Sources.Constant nPeo[5](k=20)
     annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
 equation
-  connect(airsideFloor.port_Fre_Air, sou.ports[1]) annotation (Line(points={{-24,
-          4.5},{-56,4.5},{-56,-1},{-80,-1}}, color={0,127,255}));
+  connect(airsideFloor.port_Fre_Air, sou.ports[1]) annotation (Line(points={{-24,4.5},
+          {-56,4.5},{-56,2},{-80,2}},        color={0,127,255}));
   connect(airsideFloor.port_Exh_Air, sou.ports[2]) annotation (Line(points={{-24.625,
-          -9.5},{-80,-9.5},{-80,1}}, color={0,127,255}));
+          -9.5},{-80,-9.5},{-80,-2}},color={0,127,255}));
   connect(sinCooWat.ports[1], airsideFloor.port_b_CooWat) annotation (Line(
-        points={{-60,70},{-52,70},{-52,40},{-8.375,40},{-8.375,-20}},   color={0,
+        points={{-60,70},{-52,70},{-52,-30},{-8.375,-30},{-8.375,-20}}, color={0,
           127,255}));
   connect(airsideFloor.port_a_CooWat, souCooWat.ports[1]) annotation (Line(
-        points={{-3.6875,-20},{-3.6875,46},{-48,46},{-48,70},{-42,70}}, color={0,
+        points={{-3.6875,-20},{-3.6875,-28},{-4,-28},{-4,-34},{-48,-34},{-48,70},
+          {-42,70}},                                                    color={0,
           127,255}));
   connect(airsideFloor.port_a_HeaWat, souHeaWat.ports[1]) annotation (Line(
-        points={{7.25,-20},{7.25,-20},{7.25,46},{24,46},{24,70},{20,70}}, color
-        ={0,127,255}));
+        points={{7.25,-20},{7.25,-30},{30,-30},{30,70},{20,70}},          color=
+         {0,127,255}));
   connect(airsideFloor.port_b_HeaWat, sinHeaWat.ports[1]) annotation (Line(
-        points={{11.9375,-20},{11.9375,36},{34,36},{34,70},{40,70}},
+        points={{11.9375,-20},{11.9375,-34},{34,-34},{34,70},{40,70}},
                                                                color={0,127,255}));
   connect(loa.y, airsideFloor.Q_flow) annotation (Line(
       points={{19,-50},{3.5,-50},{3.5,-21.75}},

@@ -11,7 +11,17 @@ model TestCase "Complex office building model that includes air side systems, wa
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
                 use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0)))),
+        cooCoi(val(use_inputFilter=true, y_start=0))),
+          fivZonVAV(ReheatWatNet(
+          PreDroMai1=0,
+          PreDroMai2=0,
+          PreDroMai3=0,
+          PreDroMai4=0,
+          PreDroBra1=0,
+          PreDroBra2=0,
+          PreDroBra3=0,
+          PreDroBra4=0,
+          PreDroBra5=0))),
     floor2(duaFanAirHanUni(
         mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
@@ -20,7 +30,17 @@ model TestCase "Complex office building model that includes air side systems, wa
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
                 use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0)))),
+        cooCoi(val(use_inputFilter=true, y_start=0))),
+          fivZonVAV(ReheatWatNet(
+          PreDroMai1=0,
+          PreDroMai2=0,
+          PreDroMai3=0,
+          PreDroMai4=0,
+          PreDroBra1=0,
+          PreDroBra2=0,
+          PreDroBra3=0,
+          PreDroBra4=0,
+          PreDroBra5=0))),
     floor3(duaFanAirHanUni(
         mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
@@ -29,9 +49,19 @@ model TestCase "Complex office building model that includes air side systems, wa
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
                 use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0)))))
+        cooCoi(val(use_inputFilter=true, y_start=0))), fivZonVAV(ReheatWatNet(
+          PreDroMai1=0,
+          PreDroMai2=0,
+          PreDroMai3=0,
+          PreDroMai4=0,
+          PreDroBra1=0,
+          PreDroBra2=0,
+          PreDroBra3=0,
+          PreDroBra4=0,
+          PreDroBra5=0))))
     "Full HVAC system that contains the airside and waterside systems and controls"
     annotation (Placement(transformation(extent={{20,20},{-20,60}})));
+
 
   MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper loaEnePlu(building(
         spawnExe="spawn-0.3.0-0fa49be497"))
@@ -58,7 +88,7 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
       StopTime=31536000,
-      Interval=60,
+      Interval=600,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Documentation(info="<html>

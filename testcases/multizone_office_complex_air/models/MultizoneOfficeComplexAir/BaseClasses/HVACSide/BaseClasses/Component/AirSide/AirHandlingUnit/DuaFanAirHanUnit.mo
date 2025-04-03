@@ -112,12 +112,12 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
                MediumWat)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium
-      =         MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium =
+                MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium
-      =        MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium =
+               MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
@@ -301,8 +301,8 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     annotation (Placement(transformation(extent={{52,-88},{68,-72}})));
   Modelica.Blocks.Interfaces.RealOutput phiRetAir(final unit="1", min=0)
     "Relative humidity in return air" annotation (Placement(transformation(
-          extent={{100,-152},{120,-132}}), iconTransformation(extent={{100,-152},
-            {120,-132}})));
+          extent={{100,-160},{120,-140}}), iconTransformation(extent={{100,-160},
+            {120,-140}})));
   Modelica.Blocks.Interfaces.RealOutput phiSupAir(final unit="1", min=0)
     "Relative humidity in supply air" annotation (Placement(transformation(
           extent={{100,-170},{120,-150}}), iconTransformation(extent={{100,-170},
@@ -461,7 +461,7 @@ equation
   connect(senRelHumRetAir.port_a, senVolFloRetAir.port_a)
     annotation (Line(points={{52,-80},{46,-80}}, color={0,127,255}));
   connect(senRelHumRetAir.phi, phiRetAir) annotation (Line(
-      points={{60.08,-71.2},{60.08,-68},{80,-68},{80,-142},{110,-142}},
+      points={{60.08,-71.2},{60.08,-68},{80,-68},{80,-150},{110,-150}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senCO2SupAir.port_b, senRelHumSupAir.port_a)
