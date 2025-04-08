@@ -61,7 +61,7 @@ def run(plot=False):
     # --------------------
     time = df_res.index.values/3600  # convert s --> hr
     zone_temperature = df_res['TRooAir_y'].values - 273.15  # convert K --> C
-    heating_power = df_res['PHea_y'].values
+    heating_power = df_res['PHeaCoo_y'].values
     # Plot results if needed
     if plot:
         try:

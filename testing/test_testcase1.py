@@ -139,7 +139,7 @@ class MinMax(unittest.TestCase):
         requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json={"oveAct_activate":1,"oveAct_u":-500000}).json()['payload']
         # Check kpis
-        value = float(y['PHea_y'])
+        value = float(y['PHeaCoo_y'])
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
 
     def test_max(self):
@@ -151,7 +151,7 @@ class MinMax(unittest.TestCase):
         requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json={"oveAct_activate":1,"oveAct_u":500000}).json()['payload']
         # Check kpis
-        value = float(y['PHea_y'])
+        value = float(y['PHeaCoo_y'])
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
 
 class Scenario(unittest.TestCase, utilities.partialChecks):
@@ -325,7 +325,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.test_time_period = 'test_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
         self.input = {'oveAct_activate': 0, 'oveAct_u': 1500}
-        self.measurement = 'PHea_y'
+        self.measurement = 'PHeaCoo_y'
         self.forecast_point = 'EmissionsBiomassPower'
         self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
         requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': self.step_ref})

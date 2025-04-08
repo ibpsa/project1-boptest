@@ -126,8 +126,8 @@ time = [x/3600 for x in res["time"]] # convert s --> hr
 TZone = [x-273.15 for x in res["TRooAir_y"]] # convert K --> C
 res = JSON.parse(String(HTTP.put("$url/results/$testid", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_names" => ["CO2RooAir_y"],"start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 CO2Zone = [x for x in res["CO2RooAir_y"]]
-res = JSON.parse(String(HTTP.put("$url/results/$testid", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_names" => ["PHea_y"],"start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
-PHeat = res["PHea_y"]
+res = JSON.parse(String(HTTP.put("$url/results/$testid", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_names" => ["PHeaCoo_y"],"start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
+PHeat = res["PHeaCoo_y"]
 res = JSON.parse(String(HTTP.put("$url/results/$testid", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_names" => ["oveAct_u"],"start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 QHeat = res["oveAct_u"]
 res = JSON.parse(String(HTTP.put("$url/results/$testid", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_names" => ["oveAct_activate"],"start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
