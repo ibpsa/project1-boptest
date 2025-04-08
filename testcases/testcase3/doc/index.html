@@ -71,10 +71,10 @@ The setpoint for the P-controllers for both zones are not identical. For the nor
 <h4>Inputs</h4>
 The model inputs are:
 <ul>
-<li><code>oveActNor_activate</code> [None]: Activation for Heater thermal power of north zone</li>
-<li><code>oveActNor_u</code> [W]: Heater thermal power of north zone (Maximum: 10000.0, Minimum: -10000.0)</li>
-<li><code>oveActSou_activate</code> [None]: Activation for Heater thermal power of south zone</li>
-<li><code>oveActSou_u</code> [W]: Heater thermal power of south zone (Maximum: 10000.0, Minimum: -10000.0)</li>
+<li><code>oveActNor_activate</code> [None]: Activation for Heater / Cooler thermal power of north zone</li>
+<li><code>oveActNor_u</code> [W]: Heater / Cooler thermal power of north zone (Maximum: 10000.0, Minimum: -10000.0)</li>
+<li><code>oveActSou_activate</code> [None]: Activation for Heater / Cooler thermal power of south zone</li>
+<li><code>oveActSou_u</code> [W]: Heater / Cooler thermal power of south zone (Maximum: 10000.0, Minimum: -10000.0)</li>
 </ul>
 
 <h4>Outputs</h4>
@@ -82,8 +82,8 @@ The model outputs are:
 <ul>
   <li><code>CO2RooAirNor_y</code> [ppm]: Zone air CO2 concentration of north zone</li>
   <li><code>CO2RooAirSou_y</code> [ppm]: Zone air CO2 concentration of south zone</li>
-  <li><code>PHeaNor_y</code> [W]: Heater power of north zone</li>
-  <li><code>PHeaSou_y</code> [W]: Heater power of south zone</li>
+  <li><code>PHeaCooNor_y</code> [W]: Heater / Cooler power of north zone</li>
+  <li><code>PHeaCooSou_y</code> [W]: Heater / Cooler power of south zone</li>
   <li><code>TRooAirNor_y</code> [K]: Zone air temperature of north zone</li>
   <li><code>TRooAirSou_y</code> [K]: Operative zone temperature of south zone</li>
 </ul>
