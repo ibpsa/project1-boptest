@@ -54,12 +54,11 @@ model TwoZones
     "Read the room air temperature of south zone. In this case it is assumed that the operative zone temperature is being read. "
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
 
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         PHeaSou(
+  Buildings.Utilities.IO.SignalExchange.Read PHeaCooSou(
     y(unit="W"),
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-    description="Heater power of south zone")
-                                "Read the heater power consumed in south zone"
+    description="Heater / Cooler power of south zone")
+    "Read the heater power consumed in south zone"
     annotation (Placement(transformation(extent={{80,-90},{100,-70}})));
 
   Modelica.Blocks.Math.Abs absSou
@@ -118,12 +117,11 @@ model TwoZones
     zone=zonNorName)   "Read the room air temperature of north zone"
     annotation (Placement(transformation(extent={{80,120},{60,140}})));
 
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         PHeaNor(
+  Buildings.Utilities.IO.SignalExchange.Read PHeaCooNor(
     y(unit="W"),
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-    description="Heater power of north zone")
-                                "Read the heater power consumed in north zone"
+    description="Heater / Cooler power of north zone")
+    "Read the heater power consumed in north zone"
     annotation (Placement(transformation(extent={{80,150},{100,170}})));
 
   Modelica.Blocks.Math.Abs absNor
@@ -167,7 +165,7 @@ equation
     annotation (Line(points={{59,-50},{-60,-50},{-60,-42}}, color={0,0,127}));
   connect(effSou.y, absSou.u)
     annotation (Line(points={{21,-80},{28,-80}}, color={0,0,127}));
-  connect(absSou.y, PHeaSou.u)
+  connect(absSou.y, PHeaCooSou.u)
     annotation (Line(points={{51,-80},{78,-80}}, color={0,0,127}));
   connect(conCO2Sou.y, CO2RooAirSou.u)
     annotation (Line(points={{141,-30},{158,-30}}, color={0,0,127}));
@@ -185,7 +183,7 @@ equation
     annotation (Line(points={{-79,100},{-72,100}}, color={0,0,127}));
   connect(effNor.y, absNor.u)
     annotation (Line(points={{21,160},{28,160}}, color={0,0,127}));
-  connect(absNor.y, PHeaNor.u)
+  connect(absNor.y, PHeaCooNor.u)
     annotation (Line(points={{51,160},{78,160}}, color={0,0,127}));
   connect(conCO2Nor.y, CO2RooAirNor.u)
     annotation (Line(points={{141,90},{158,90}}, color={0,0,127}));
@@ -277,10 +275,10 @@ The setpoint for the P-controllers for both zones are not identical. For the nor
 <h4>Inputs</h4>
 The model inputs are:
 <ul>
-<li><code>oveActNor_activate</code> [None]: Activation for Heater thermal power of north zone</li>
-<li><code>oveActNor_u</code> [W]: Heater thermal power of north zone (Maximum: 10000.0, Minimum: -10000.0)</li>
-<li><code>oveActSou_activate</code> [None]: Activation for Heater thermal power of south zone</li>
-<li><code>oveActSou_u</code> [W]: Heater thermal power of south zone (Maximum: 10000.0, Minimum: -10000.0)</li>
+<li><code>oveActNor_activate</code> [None]: Activation for Heater / Cooler thermal power of north zone</li>
+<li><code>oveActNor_u</code> [W]: Heater / Cooler thermal power of north zone (Maximum: 10000.0, Minimum: -10000.0)</li>
+<li><code>oveActSou_activate</code> [None]: Activation for Heater / Cooler thermal power of south zone</li>
+<li><code>oveActSou_u</code> [W]: Heater / Cooler thermal power of south zone (Maximum: 10000.0, Minimum: -10000.0)</li>
 </ul>
 
 <h4>Outputs</h4>
@@ -288,8 +286,8 @@ The model outputs are:
 <ul>
   <li><code>CO2RooAirNor_y</code> [ppm]: Zone air CO2 concentration of north zone</li>
   <li><code>CO2RooAirSou_y</code> [ppm]: Zone air CO2 concentration of south zone</li>
-  <li><code>PHeaNor_y</code> [W]: Heater power of north zone</li>
-  <li><code>PHeaSou_y</code> [W]: Heater power of south zone</li>
+  <li><code>PHeaCooNor_y</code> [W]: Heater / Cooler power of north zone</li>
+  <li><code>PHeaCooSou_y</code> [W]: Heater / Cooler power of south zone</li>
   <li><code>TRooAirNor_y</code> [K]: Zone air temperature of north zone</li>
   <li><code>TRooAirSou_y</code> [K]: Operative zone temperature of south zone</li>
 </ul>
@@ -497,6 +495,12 @@ see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 <li>
 March 6th, 2025, by Jaap Neven:<br/>
 Initial version.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/582>
+BOPTEST issue #582</a>.
+</li>
+<li>
+April 7th, 2025, by Jaap Neven:<br/>
+Changed naming convention of thermal power to reflect both heating and cooling regime.
 This is for <a href=https://github.com/ibpsa/project1-boptest/issues/582>
 BOPTEST issue #582</a>.
 </li>
