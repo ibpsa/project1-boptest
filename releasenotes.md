@@ -16,6 +16,12 @@ Released on xx/xx/xxxx.
   - Update Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64.
   - Update unit tests such that ``test_kpis.py``, ``test_forecast.py``, and ``test_testcase.py`` are run in the ``worker`` container, instead of the ``jm`` container.
 
+**The following changes are not backwards compatible but do not change benchmark results:**
+
+- Written initial testcase1 and testcase3 documentation.
+  - For testcase1, changed naming of ``PHea`` to ``PHeaCoo`` for clarity regarding allowed heating and cooling regimes.
+  - Similarly for testcase3, changed ``PHeaNor`` and ``PHeaSou`` to ``PHeaCooNor`` and ``PHeaCooSou`` respectively.
+
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 
 - Update ``singlezone_commercial_hydronic`` test case according to changes made for the Adrenalin competition and various issues. This is for [#702](https://github.com/ibpsa/project1-boptest/issues/702),
