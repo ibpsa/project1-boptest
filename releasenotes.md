@@ -18,7 +18,7 @@ Released on xx/xx/xxxx.
 
 **The following changes are not backwards compatible but do not change benchmark results:**
 
-- Written initial testcase1 and testcase3 documentation.
+- Written initial testcase1 and testcase3 documentation. This is for [#582](https://github.com/ibpsa/project1-boptest/issues/582).
   - For testcase1, changed naming of ``PHea`` to ``PHeaCoo`` for clarity regarding allowed heating and cooling regimes.
   - Similarly for testcase3, changed ``PHeaNor`` and ``PHeaSou`` to ``PHeaCooNor`` and ``PHeaCooSou`` respectively.
 
