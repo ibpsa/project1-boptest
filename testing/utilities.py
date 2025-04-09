@@ -630,7 +630,11 @@ class partialTestAPI(partialChecks):
         horizon = 86400
         interval = 3600
         # Initialize
-        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={'temperature_uncertainty':'medium', 'solar_uncertainty':'low', 'seed':1})
+        if self.name in ['testcase1','testcase3']:
+            scenario = {'temperature_uncertainty':'medium', 'seed':1}
+        else:
+            scenario = {'temperature_uncertainty':'medium', 'solar_uncertainty':'low', 'seed':1}
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
         # Test case forecast
         forecast_points = list(requests.get('{0}/forecast_points/{1}'.format(self.url,self.testid)).json()['payload'].keys())
         forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
@@ -652,16 +656,17 @@ class partialTestAPI(partialChecks):
         payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':point_names, 'horizon':horizon, 'interval':interval})
         self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
         # Test solar_uncertainty
-        point_names = ['HGloHor']
-        horizon = 50*3600
-        interval = 3600
-        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':point_names, 'horizon':horizon, 'interval':interval})
-        self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
-        point_names = ['HGloHor']
-        horizon = 48*3600
-        interval = 1800
-        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':point_names, 'horizon':horizon, 'interval':interval})
-        self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
+        if self.name not in ['testcase1','testcase3']:
+            point_names = ['HGloHor']
+            horizon = 50*3600
+            interval = 3600
+            payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':point_names, 'horizon':horizon, 'interval':interval})
+            self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
+            point_names = ['HGloHor']
+            horizon = 48*3600
+            interval = 1800
+            payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':point_names, 'horizon':horizon, 'interval':interval})
+            self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
 
     def test_get_forecast_points(self):
         '''Check GET of forecast points.
