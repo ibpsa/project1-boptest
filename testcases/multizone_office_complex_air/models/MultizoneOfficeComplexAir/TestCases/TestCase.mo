@@ -59,7 +59,7 @@ model TestCase "Complex office building model that includes air side systems, wa
 
 
   MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper loaEnePlu(building(
-        spawnExe="spawn-0.3.0-0fa49be497"))
+        spawnExe="spawn-0.3.0-8d93151657"))
     "Load calculation in EnergyPlus using Spawn, note this version spawn-0.3.0-8d93151657 is specified for BOPTEST environment; Use spawn-0.3.0-0fa49be497 for Buildings library version"
     annotation (Placement(transformation(extent={{-20,-60},{20,-20}})));
 
