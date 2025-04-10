@@ -28,29 +28,26 @@ model conPI "PI Controller with ON/OFF Signal"
   Modelica.Blocks.Interfaces.RealInput mea
     "Connector of measurement input signal"
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-  Buildings.Controls.OBC.CDL.Continuous.Switch swi
-    annotation (Placement(transformation(extent={{40,10},{60,-10}})));
 
-  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant zerSpe(k=0)
-    "Zero fan speed when it becomes OFF"
-    annotation (Placement(transformation(extent={{-10,26},{10,46}})));
+  Buildings.Controls.OBC.CDL.Continuous.Multiply mul
+    annotation (Placement(transformation(extent={{40,-10},{60,10}})));
+  Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea
+    annotation (Placement(transformation(extent={{-10,50},{10,70}})));
 equation
   connect(conPID.u_s, set) annotation (Line(points={{-10,-20},{-66,-20},{
           -66,0},{-120,0}}, color={0,0,127}));
-  connect(swi.y, y) annotation (Line(
-      points={{62,0},{110,0}},
-      color={0,0,127}));
   connect(mea, conPID.u_m) annotation (Line(
       points={{-120,-60},{-60,-60},{2,-60},{2,-32}},
       color={0,0,127}));
-  connect(On, swi.u2) annotation (Line(points={{-120,60},{-40,60},{-40,0},{38,0}},
-        color={255,0,255}));
-  connect(conPID.y, swi.u1) annotation (Line(points={{14,-20},{20,-20},{20,-8},{
-          38,-8}}, color={0,0,127}));
-  connect(zerSpe.y, swi.u3)
-    annotation (Line(points={{12,36},{30,36},{30,8},{38,8}}, color={0,0,127}));
   connect(On, conPID.trigger) annotation (Line(points={{-120,60},{-60,60},{-60,-40},
           {-4,-40},{-4,-32}}, color={255,0,255}));
+  connect(mul.y, y) annotation (Line(points={{62,0},{110,0}}, color={0,0,127}));
+  connect(conPID.y, mul.u2) annotation (Line(points={{14,-20},{26,-20},{26,-6},
+          {38,-6}}, color={0,0,127}));
+  connect(On, booToRea.u) annotation (Line(points={{-120,60},{-66,60},{-66,60},
+          {-12,60}}, color={255,0,255}));
+  connect(booToRea.y, mul.u1)
+    annotation (Line(points={{12,60},{26,60},{26,6},{38,6}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},

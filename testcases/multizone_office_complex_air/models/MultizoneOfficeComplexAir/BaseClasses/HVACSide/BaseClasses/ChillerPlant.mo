@@ -103,7 +103,7 @@ model ChillerPlant
       m,
       m)},
     pum(varSpeFloMov(use_inputFilter=true)))
-           annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
+           annotation (Placement(transformation(extent={{40,-100},{60,-80}})));
   Component.FlowMover.Pump.SimPumpSystem pumPriCHW(
     redeclare package Medium = MediumCHW,
     m_flow_nominal=mCHW_flow_nominal,
@@ -125,7 +125,7 @@ model ChillerPlant
                             annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={0,-10})));
+        origin={10,-10})));
   Buildings.Fluid.Storage.ExpansionVessel expVesCHW(
       redeclare package Medium = MediumCHW, V_start=1)
     annotation (Placement(transformation(extent={{-44,-78},{-36,-70}})));
@@ -133,10 +133,9 @@ model ChillerPlant
                        MediumCHW) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=-90,
-        origin={0,-52})));
-  Modelica.Blocks.Math.RealToBoolean reaToBoo
-    annotation (Placement(transformation(extent={{-160,86},{-140,106}})));
-  Modelica.Blocks.Sources.Constant On(k=1)
+        origin={10,-52})));
+  Modelica.Blocks.Sources.BooleanExpression
+                                   On(y=true)
     annotation (Placement(transformation(extent={{-240,86},{-220,106}})));
   Component.WaterSide.CoolingTower.CoolingTowersWithBypass cooTowWithByp(
     redeclare package MediumCW = MediumCW,
@@ -273,31 +272,38 @@ model ChillerPlant
           extent={{240,-10},{260,10}}), iconTransformation(extent={{100,10},{
             120,30}})));
   Modelica.Blocks.Interfaces.RealOutput mCHW_tot annotation (Placement(
-        transformation(extent={{240,-70},{260,-50}}), iconTransformation(extent
-          ={{100,-80},{120,-60}})));
+        transformation(extent={{240,-70},{260,-50}}), iconTransformation(extent=
+           {{100,-80},{120,-60}})));
+  Modelica.Blocks.Interfaces.RealInput TDryBul
+    "Entering air dry bulb temperature" annotation (Placement(transformation(
+          extent={{-312,-148},{-280,-116}}), iconTransformation(extent={{-132,-96},
+            {-100,-64}})));
+  Modelica.Blocks.Sources.BooleanExpression
+                                   On1(y=true)
+    annotation (Placement(transformation(extent={{-180,102},{-160,122}})));
+  Buildings.Fluid.FixedResistances.Junction junRet(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    m_flow_nominal={-sum(mCHW_flow_nominal),0.5*sum(mCHW_flow_nominal),0.5*sum(
+        mCHW_flow_nominal)},
+    redeclare package Medium = MediumCHW,
+    dp_nominal={0,0,0})
+    annotation (Placement(transformation(extent={{0,8},{20,28}})));
+  Buildings.Fluid.FixedResistances.Junction junSup(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    m_flow_nominal={sum(mCHW_flow_nominal),-0.5*sum(mCHW_flow_nominal),-0.5*sum(
+        mCHW_flow_nominal)},
+    redeclare package Medium = MediumCHW,
+    dp_nominal={0,0,0})
+    annotation (Placement(transformation(extent={{0,-80},{20,-100}})));
 equation
   connect(senTCHWByp.port_a, senMasFloByp.port_b) annotation (Line(
-      points={{-4.44089e-016,-20},{-4.44089e-016,-32},{0,-32},{0,-42}},
-      color={0,127,255},
-      thickness=1));
-  connect(senTCHWByp.port_b, pumPriCHW.port_a) annotation (Line(
-      points={{6.66134e-016,0},{6.66134e-016,18},{-12,18}},
+      points={{10,-20},{10,-42}},
       color={0,127,255},
       thickness=1));
   connect(mulChiSys.port_a_CHW, pumPriCHW.port_b) annotation (Line(
       points={{-74,-3.4},{-54,-3.4},{-54,18},{-48,18}},
       color={0,127,255},
       thickness=1));
-  connect(mulChiSys.port_b_CHW, senMasFloByp.port_a) annotation (Line(
-      points={{-74,-14.6},{-74,-90},{0,-90},{0,-62}},
-      color={0,127,255},
-      thickness=1));
-  connect(expVesCHW.port_a, senMasFloByp.port_a) annotation (Line(
-      points={{-40,-78},{-40,-90},{-1.77636e-015,-90},{-1.77636e-015,-62}},
-      color={0,127,255},
-      thickness=1));
-  connect(On.y, reaToBoo.u)
-    annotation (Line(points={{-219,96},{-162,96}}, color={0,0,127}));
   connect(cooTowWithByp.port_a, mulChiSys.port_b_CW) annotation (Line(
       points={{-162,-21.6},{-162,18},{-100,18},{-100,-3.4},{-88,-3.4}},
       color={0,127,255},
@@ -315,10 +321,6 @@ equation
       color={0,127,255},
       thickness=1));
 
-  connect(pumSecCHW.port_a, senMasFloByp.port_a) annotation (Line(
-      points={{40,-70},{0,-70},{0,-62},{-1.83187e-15,-62}},
-      color={0,127,255},
-      thickness=1));
   connect(chiSta.y, mulChiSys.On) annotation (Line(points={{-61.2,65},{-40,65},{
           -40,40},{-120,40},{-120,-11.8},{-88.63,-11.8}}, color={0,0,127}));
 
@@ -330,22 +332,18 @@ equation
       points={{-191.26,-21.6},{-200,-21.6},{-200,-8},{-120,-8},{-120,-11.8},
           {-88.63,-11.8}},
       color={0,0,127}));
-  connect(chiSta.On, reaToBoo.y) annotation (Line(points={{-79.6,70.6},{-120,70.6},
-          {-120,96},{-139,96}}, color={255,0,255}));
   connect(chiSta.sta, mulChiSys.Rat) annotation (Line(points={{-79.6,59.4},
           {-90,59.4},{-90,36},{-44,36},{-44,-11.8},{-73.3,-11.8}}, color={0,
           0,127}));
   connect(pumPriCHW.On, mulChiSys.On) annotation (Line(
-      points={{-10.38,28.8},{10,28.8},{10,52},{-120,52},{-120,-11.8},{-88.63,-11.8}},
+      points={{-10.38,28.8},{-8,28.8},{-8,30},{-2,30},{-2,56},{-120,56},{-120,
+          -11.8},{-88.63,-11.8}},
       color={0,0,127}));
-  connect(secPumCon.On, reaToBoo.y) annotation (Line(points={{58,56},{40,56},
-          {40,96},{-139,96}},
-                          color={255,0,255}));
-  connect(pumSecCHW.speRat, secPumCon.sta) annotation (Line(points={{61,
-          -63.8},{88,-63.8},{88,-14},{30,-14},{30,40},{58,40}}, color={0,0,
+  connect(pumSecCHW.speRat, secPumCon.sta) annotation (Line(points={{61,-83.8},
+          {88,-83.8},{88,-14},{30,-14},{30,40},{58,40}},        color={0,0,
           127}));
   connect(pumSecCHW.port_b, senTCHWBuiEnt.port_a) annotation (Line(
-      points={{60,-70},{84,-70},{84,-90},{88,-90}},
+      points={{60,-90},{88,-90}},
       color={0,127,255},
       thickness=1));
 
@@ -379,14 +377,10 @@ equation
       points={{-88.63,-6.2},{-260,-6.2},{-260,-6},{-296,-6}},
       color={0,0,127}));
   connect(pumSecCHW.speSig, secPumCon.y) annotation (Line(
-      points={{39.1,-62},{18,-62},{18,0},{88,0},{88,48},{81,48}},
+      points={{39.1,-82},{32,-82},{32,0},{90,0},{90,48},{81,48}},
       color={0,0,127}));
   connect(senTCHWBuiEnt.T, TCHW_sup) annotation (Line(points={{96,-81.2},{96,-8},
           {234,-8},{234,-20},{250,-20}}, color={0,0,127}));
-  connect(pumPriCHW.port_a, senTCHWBuiLea.port_b) annotation (Line(
-      points={{-12,18},{60,18}},
-      color={0,127,255},
-      thickness=1));
   connect(senTCHWBuiLea.port_a, port_a) annotation (Line(
       points={{80,18},{100,18},{100,60},{240,60}},
       color={0,127,255},
@@ -405,6 +399,36 @@ equation
           {134,0},{250,0}}, color={0,0,127}));
   connect(senMasFloSecCHW.m_flow, mCHW_tot) annotation (Line(points={{130,-81.2},
           {130,-60},{250,-60}}, color={0,0,127}));
+  connect(On.y, chiSta.On) annotation (Line(points={{-219,96},{-150,96},{-150,
+          70.6},{-79.6,70.6}}, color={255,0,255}));
+  connect(On1.y, secPumCon.On) annotation (Line(points={{-159,112},{34,112},{34,
+          56},{58,56}}, color={255,0,255}));
+  connect(junRet.port_2, senTCHWBuiLea.port_b) annotation (Line(
+      points={{20,18},{60,18}},
+      color={0,127,255},
+      thickness=1));
+  connect(junRet.port_1, pumPriCHW.port_a) annotation (Line(
+      points={{0,18},{-12,18}},
+      color={0,127,255},
+      thickness=1));
+  connect(junRet.port_3, senTCHWByp.port_b) annotation (Line(
+      points={{10,8},{10,0}},
+      color={0,127,255},
+      thickness=1));
+  connect(senMasFloByp.port_a, junSup.port_3) annotation (Line(
+      points={{10,-62},{10,-80}},
+      color={0,127,255},
+      thickness=1));
+  connect(junSup.port_2, pumSecCHW.port_a) annotation (Line(
+      points={{20,-90},{40,-90}},
+      color={0,127,255},
+      thickness=1));
+  connect(junSup.port_1, expVesCHW.port_a)
+    annotation (Line(points={{0,-90},{-40,-90},{-40,-78}}, color={0,127,255}));
+  connect(junSup.port_1, mulChiSys.port_b_CHW) annotation (Line(
+      points={{0,-90},{-58,-90},{-58,-14.6},{-74,-14.6}},
+      color={0,127,255},
+      thickness=1));
   annotation (__Dymola_Commands(file=
           "modelica://ChillerPlantSystem/Resources/Scripts/Dymola/LejeunePlant/ChillerPlantSystem.mos"
         "Simulate and plot"),

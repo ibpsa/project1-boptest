@@ -9,10 +9,8 @@ model TestCase "Complex office building model that includes air side systems, wa
             valExh(riseTime=15, y_start=1),
             valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
-        supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
-                use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0))),
-          fivZonVAV(ReheatWatNet(
+        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
+        cooCoi(val(use_inputFilter=true, y_start=0))), fivZonVAV(ReheatWatNet(
           PreDroMai1=0,
           PreDroMai2=0,
           PreDroMai3=0,
@@ -28,10 +26,8 @@ model TestCase "Complex office building model that includes air side systems, wa
             valExh(riseTime=15, y_start=0),
             valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
-        supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
-                use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0))),
-          fivZonVAV(ReheatWatNet(
+        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
+        cooCoi(val(use_inputFilter=true, y_start=0))), fivZonVAV(ReheatWatNet(
           PreDroMai1=0,
           PreDroMai2=0,
           PreDroMai3=0,
@@ -47,8 +43,7 @@ model TestCase "Complex office building model that includes air side systems, wa
             valExh(riseTime=15, y_start=0),
             valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
-        supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
-                use_inputFilter=true, y_start=0))),
+        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0))), fivZonVAV(ReheatWatNet(
           PreDroMai1=0,
           PreDroMai2=0,
@@ -87,8 +82,9 @@ equation
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
-      StopTime=31536000,
-      Interval=600,
+      StartTime=86400,
+      StopTime=259200,
+      Interval=599.999616,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Documentation(info="<html>

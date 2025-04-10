@@ -11,8 +11,7 @@ model HVAC
             valExh(riseTime=15, y_start=0),
             valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
-        supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
-                use_inputFilter=true, y_start=0))),
+        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0)))),
     floor2(duaFanAirHanUni(
         mixBox(mixBox(
@@ -20,8 +19,7 @@ model HVAC
             valExh(riseTime=15, y_start=0),
             valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
-        supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
-                use_inputFilter=true, y_start=0))),
+        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0)))),
     floor3(duaFanAirHanUni(
         mixBox(mixBox(
@@ -29,8 +27,7 @@ model HVAC
             valExh(riseTime=15, y_start=0),
             valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
-        supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
-                use_inputFilter=true, y_start=0))),
+        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0)))))
     annotation (Placement(transformation(extent={{0,-20},{40,20}})));
 

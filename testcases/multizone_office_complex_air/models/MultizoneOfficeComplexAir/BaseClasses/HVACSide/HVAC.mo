@@ -97,7 +97,9 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     Cap={-datChi[1].QEva_flow_nominal,-datChi[2].QEva_flow_nominal,-datChi[3].QEva_flow_nominal},
     mCHW_flow_nominal=mCHW_flow_nominal,
     mCW_flow_nominal=mCW_flow_nominal,
-    secPumCon(conPI(k=0.000001, Ti=240))) "Chilled water plant"
+    secPumCon(conPI(k=0.000001, Ti=240)),
+    On(y=if (chiWatPla.TDryBul < 283.15 and not reaToBooOcc.y) then false else
+          true))                          "Chilled water plant"
     annotation (Placement(transformation(extent={{-10,-108},{10,-88}})));
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Network.PipeNetwork
@@ -181,12 +183,12 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
 
 equation
   connect(chiWatNet.ports_a[1], floor1.port_b_CooWat) annotation (Line(
-      points={{40,-90.4667},{40,-94},{104,-94},{104,6},{129.625,6},{129.625,20}},
+      points={{40,-89.1333},{40,-94},{104,-94},{104,6},{129.625,6},{129.625,20}},
       color={0,127,225},
       thickness=1));
   connect(floor1.port_a_CooWat, chiWatNet.ports_b[1]) annotation (Line(
-      points={{134.312,20},{134.312,2},{108,2},{108,-102},{72,-102},{72,
-          -101.267},{40,-101.267}},
+      points={{134.313,20},{134.313,2},{108,2},{108,-102},{72,-102},{72,
+          -99.9333},{40,-99.9333}},
       color={0,127,225},
       thickness=1));
 
@@ -195,13 +197,13 @@ equation
   connect(chiWatNet.ports_a[3], floor3.port_b_CooWat);
   connect(floor3.port_a_CooWat, chiWatNet.ports_b[3]);
   connect(boiWatNet.ports_a[1], floor1.port_b_HeaWat) annotation (Line(
-      points={{176,-94.4667},{196,-94.4667},{196,6},{154,6},{154,20},{149.938,
+      points={{176,-93.1333},{196,-93.1333},{196,6},{154,6},{154,20},{149.938,
           20}},
       color={238,46,47},
       thickness=1));
 
   connect(boiWatNet.ports_b[1], floor1.port_a_HeaWat) annotation (Line(
-      points={{176,-105.267},{192,-105.267},{192,0},{150,0},{150,20},{145.25,20}},
+      points={{176,-103.933},{192,-103.933},{192,0},{150,0},{150,20},{145.25,20}},
       color={238,46,47},
       thickness=1));
 
@@ -321,8 +323,8 @@ equation
           {182,-102},{182,-60},{154,-60},{154,-31.5},{158,-31.5}}, color={0,0,
           127}));
   connect(chiWatPla.TCHW_ret, reaChiWatSys.TCHW_ret_in) annotation (Line(points={{11,-96},
-          {16,-96},{16,-62},{6,-62},{6,-33.6154},{16,-33.6154}},          color
-        ={0,0,127}));
+          {16,-96},{16,-62},{6,-62},{6,-33.6154},{16,-33.6154}},          color=
+         {0,0,127}));
   connect(chiWatPla.TCHW_sup, reaChiWatSys.TCHW_sup_in) annotation (Line(points={{11,-99},
           {18,-99},{18,-60},{8,-60},{8,-37},{16,-37}},          color={0,0,127}));
   connect(boiWatPla.THW_ret, reaHotWatSys.THW_ret_in) annotation (Line(points={{137,
@@ -334,6 +336,14 @@ equation
   connect(chiWatPla.mCHW_tot, reaChiWatSys.mCHW_tot_in) annotation (Line(points={{11,-105},
           {12,-105},{12,-28},{14,-28},{14,-27.6923},{16,-27.6923}},
         color={0,0,127}));
+  connect(weaBus.TDryBul, chiWatPla.TDryBul) annotation (Line(
+      points={{40,-120},{-20,-120},{-20,-106},{-11.6,-106}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
   annotation (experiment(
       StartTime=17280000,
       StopTime=17452800,

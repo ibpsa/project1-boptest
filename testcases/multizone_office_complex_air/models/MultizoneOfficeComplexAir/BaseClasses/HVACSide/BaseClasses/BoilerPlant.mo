@@ -44,9 +44,8 @@ model BoilerPlant "Boiler hot water plant"
         m)},
     pum(varSpeFloMov(use_inputFilter=true)))
              annotation (Placement(transformation(extent={{10,20},{-10,40}})));
-  Modelica.Blocks.Math.RealToBoolean reaToBoolea
-    annotation (Placement(transformation(extent={{-160,80},{-140,100}})));
-  Modelica.Blocks.Sources.Constant On(k=1)
+  Modelica.Blocks.Sources.BooleanExpression
+                                   On(y=true)
     annotation (Placement(transformation(extent={{-260,80},{-240,100}})));
   Component.FlowMover.Pump.Control.SecPumCon secPumCon(tWai=1800, n=m)
     annotation (Placement(transformation(extent={{60,46},{80,66}})));
@@ -129,11 +128,7 @@ model BoilerPlant "Boiler hot water plant"
         transformation(extent={{240,50},{260,70}}), iconTransformation(extent={
             {100,60},{120,80}})));
 equation
-  connect(On.y, reaToBoolea.u)
-    annotation (Line(points={{-239,90},{-162,90}}, color={0,0,127}));
 
-  connect(secPumCon.On, reaToBoolea.y) annotation (Line(points={{58,64},{40,64},
-          {40,90},{-139,90}}, color={255,0,255}));
   connect(mulBoi.port_a_HW, pumSecHW.port_b) annotation (Line(
       points={{-62,-18.8},{-62,30},{-10,30}},
       color={255,0,0},
@@ -149,8 +144,6 @@ equation
       points={{74,-96},{106,-96},{106,-60},{240,-60}},
       color={255,0,0},
       thickness=1));
-  connect(boiSta.On, reaToBoolea.y) annotation (Line(points={{-82,78},{-120,78},
-          {-120,90},{-139,90}}, color={255,0,255}));
   connect(secPumCon.dpMea, dp) annotation (Line(points={{58,56},{-180,56},{
           -180,0},{-300,0}}, color={0,0,127}));
   connect(senTHWBuiEnt.T, THW_sup) annotation (Line(points={{64,-85},{64,-56},{
@@ -191,6 +184,10 @@ equation
           220,36},{220,0},{250,0}}, color={0,0,127}));
   connect(senMasFlo.m_flow, mHW_tot) annotation (Line(points={{82,35.2},{100,
           35.2},{100,60},{250,60}}, color={0,0,127}));
+  connect(On.y, boiSta.On) annotation (Line(points={{-239,90},{-130,90},{-130,
+          78},{-82,78}}, color={255,0,255}));
+  connect(On.y, secPumCon.On) annotation (Line(points={{-239,90},{-2,90},{-2,64},
+          {58,64}}, color={255,0,255}));
   annotation (__Dymola_Commands(file=
           "modelica://ChillerPlantSystem/Resources/Scripts/Dymola/LejeunePlant/ChillerPlantSystem.mos"
         "Simulate and plot"),

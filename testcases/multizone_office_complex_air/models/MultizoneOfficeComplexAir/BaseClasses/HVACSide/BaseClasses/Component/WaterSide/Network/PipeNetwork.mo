@@ -95,7 +95,7 @@ equation
       thickness=1));
   connect(junSup1.port_3, ports_b[1])
     annotation (Line(
-      points={{-80,30},{-80,30},{-80,0},{90,0},{90,32.6667},{100,32.6667}},
+      points={{-80,30},{-80,30},{-80,0},{90,0},{90,19.3333},{100,19.3333}},
       color={0,127,255},
       thickness=1));
   connect(junRet2.port_3, ports_a[2])
@@ -105,17 +105,17 @@ equation
       thickness=1));
   connect(junRet1.port_3, ports_a[1])
     annotation (Line(
-      points={{-80,-70},{-80,-70},{-80,-94},{100,-94},{100,-75.3333}},
+      points={{-80,-70},{-80,-70},{-80,-94},{100,-94},{100,-88.6667}},
       color={0,127,255},
       thickness=1));
   connect(junSup2.port_2, ports_b[3])
     annotation (Line(
-      points={{10,40},{100,40},{100,59.3333}},
+      points={{10,40},{100,40},{100,72.6667}},
       color={0,127,255},
       thickness=1));
   connect(junRet2.port_1, ports_a[3])
     annotation (Line(
-      points={{10,-60},{100,-60},{100,-48.6667}},
+      points={{10,-60},{100,-60},{100,-35.3333}},
       color={0,127,255},
       thickness=1));
   connect(senRelPre.port_a, port_a) annotation (Line(points={{-80,-16},{-94,-16},{-94,40},{-100,40}}, color={0,127,
