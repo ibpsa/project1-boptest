@@ -2,12 +2,13 @@ within MultizoneOfficeComplexAir.BaseClasses.LoadSide;
 model LoadWrapper "Load calculation in EnergyPlus using Spawn"
   MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus
     whoBui annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-  Modelica.Blocks.Interfaces.RealInput T[15] "temperature vector"
+  Modelica.Blocks.Interfaces.RealInput TZonAir[15] "Zone air temperatures (\"Core_bot\",\"Perimeter_bot_ZN_1\",\"Perimeter_bot_ZN_2\",\"Perimeter_bot_ZN_3\",\"Perimeter_bot_ZN_4\", \"Core_mid\",\"Perimeter_mid_ZN_1\",\"Perimeter_mid_ZN_2\",\"Perimeter_mid_ZN_3\",\"Perimeter_mid_ZN_4\", \"Core_top\",\"Perimeter_top_ZN_1\",\"Perimeter_top_ZN_2\",\"Perimeter_top_ZN_3\",
+  \"Perimeter_top_ZN_4\")"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-  Modelica.Blocks.Interfaces.RealOutput wetBul "wet bulb temperature"
+  Modelica.Blocks.Interfaces.RealOutput TWetBul "wet bulb temperature"
     annotation (Placement(transformation(extent={{100,80},{120,100}}),
         iconTransformation(extent={{100,80},{120,100}})));
-  Modelica.Blocks.Interfaces.RealOutput dryBul "dry bulb temperature"
+  Modelica.Blocks.Interfaces.RealOutput TDryBul "Dry bulb temperature"
     annotation (Placement(transformation(extent={{100,50},{120,70}}),
         iconTransformation(extent={{100,50},{120,70}})));
   Modelica.Blocks.Interfaces.RealOutput relHum "relative humidity"
@@ -17,13 +18,13 @@ model LoadWrapper "Load calculation in EnergyPlus using Spawn"
     annotation (Placement(transformation(extent={{100,-10},{120,10}}),
         iconTransformation(extent={{100,10},{120,30}})));
 
-  Modelica.Blocks.Interfaces.RealOutput loa[15] "total load"
-    annotation (Placement(transformation(extent={{100,-30},{120,-10}}),
+  Modelica.Blocks.Interfaces.RealOutput QLoa[15] "Zone load" annotation (
+      Placement(transformation(extent={{100,-30},{120,-10}}),
         iconTransformation(extent={{100,-30},{120,-10}})));
   Modelica.Blocks.Math.Add3 add[15](each k3=-1)
     annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
-  Modelica.Blocks.Interfaces.RealOutput occ "relative humidity" annotation (
-      Placement(transformation(
+  Modelica.Blocks.Interfaces.RealOutput yHvaOpe "HVAC operation signal"
+    annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={110,-84})));
@@ -46,22 +47,22 @@ model LoadWrapper "Load calculation in EnergyPlus using Spawn"
 equation
   connect(whoBui.Outdoor_Humidity, relHum) annotation (Line(points={{-38,0},{40,
           0},{40,-50},{110,-50}}, color={0,0,127}));
-  connect(T[1], whoBui.Temp1_bot);
-  connect(T[2], whoBui.Temp2_bot);
-  connect(T[3], whoBui.Temp3_bot);
-  connect(T[4], whoBui.Temp4_bot);
-  connect(T[5], whoBui.Temp5_bot);
-  connect(T[6], whoBui.Temp1);
-  connect(T[7], whoBui.Temp2);
-  connect(T[8], whoBui.Temp3) annotation (Line(points={{-120,-2.66454e-15},{-120,
-          0},{-62,0}}, color={0,0,127}));
-  connect(T[9], whoBui.Temp4);
-  connect(T[10], whoBui.Temp5);
-  connect(T[11], whoBui.Temp1_top);
-  connect(T[12], whoBui.Temp2_top);
-  connect(T[13], whoBui.Temp3_top);
-  connect(T[14], whoBui.Temp4_top);
-  connect(T[15], whoBui.Temp5_top);
+  connect(TZonAir[1], whoBui.Temp1_bot);
+  connect(TZonAir[2], whoBui.Temp2_bot);
+  connect(TZonAir[3], whoBui.Temp3_bot);
+  connect(TZonAir[4], whoBui.Temp4_bot);
+  connect(TZonAir[5], whoBui.Temp5_bot);
+  connect(TZonAir[6], whoBui.Temp1);
+  connect(TZonAir[7], whoBui.Temp2);
+  connect(TZonAir[8], whoBui.Temp3) annotation (Line(points={{-120,-2.66454e-15},
+          {-120,0},{-62,0}}, color={0,0,127}));
+  connect(TZonAir[9], whoBui.Temp4);
+  connect(TZonAir[10], whoBui.Temp5);
+  connect(TZonAir[11], whoBui.Temp1_top);
+  connect(TZonAir[12], whoBui.Temp2_top);
+  connect(TZonAir[13], whoBui.Temp3_top);
+  connect(TZonAir[14], whoBui.Temp4_top);
+  connect(TZonAir[15], whoBui.Temp5_top);
   connect(numOcc[1], whoBui.Zone1_bot_People);
   connect(numOcc[2], whoBui.Zone2_bot_People);
   connect(numOcc[3], whoBui.Zone3_bot_People);
@@ -130,15 +131,14 @@ equation
   connect(add[15].u2, whoBui.Zone5_top_Latent_COOLING_LOAD);
   connect(add[15].u3, whoBui.Zone5_top_HEATING_LOAD);
 
-  connect(whoBui.Occ, occ) annotation (Line(points={{-38,0},{30,0},{30,-84},{
-          110,-84}}, color={0,0,127}));
-  connect(dryBul, whoBui.Outdoor_Temperature) annotation (Line(points={{110,60},
+  connect(whoBui.Occ, yHvaOpe) annotation (Line(points={{-38,0},{30,0},{30,-84},
+          {110,-84}}, color={0,0,127}));
+  connect(TDryBul, whoBui.Outdoor_Temperature) annotation (Line(points={{110,60},
           {50,60},{50,0},{-38,0}}, color={0,0,127}));
-  connect(wetBul, whoBui.Wetbulb) annotation (Line(points={{110,90},{-10,90},{-10,
-          0},{-38,0}}, color={0,0,127}));
-  connect(add.y,loa)  annotation (Line(
-      points={{81,-20},{110,-20}},
-      color={0,0,127}));
+  connect(TWetBul, whoBui.Wetbulb) annotation (Line(points={{110,90},{-10,90},{
+          -10,0},{-38,0}}, color={0,0,127}));
+  connect(add.y, QLoa)
+    annotation (Line(points={{81,-20},{110,-20}}, color={0,0,127}));
   connect(weaSta.weaBus, whoBui.weaBus) annotation (Line(
       points={{-39.9,49.9},{-50,49.9},{-50,10}},
       color={255,204,51},

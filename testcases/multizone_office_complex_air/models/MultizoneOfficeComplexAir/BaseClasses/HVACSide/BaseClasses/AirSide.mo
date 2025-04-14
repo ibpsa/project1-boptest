@@ -137,7 +137,7 @@ model Airside "Air side system"
   package MediumCHW = Buildings.Media.Water "Medium model for chilled water";
   package MediumHeaWat = Buildings.Media.Water "Medium model for heating water";
 
-  Modelica.Blocks.Interfaces.RealInput loa[15] "Load from external calculator"
+  Modelica.Blocks.Interfaces.RealInput QLoa[15] "Load from external calculator"
     annotation (Placement(transformation(extent={{-128,46},{-100,74}}),
         iconTransformation(extent={{-128,36},{-100,64}})));
   Modelica.Blocks.Interfaces.RealOutput TZon[15] "Zone air temperature"
@@ -421,7 +421,7 @@ model Airside "Air side system"
 
 equation
   connect(floor1.port_Exh_Air, sou[1].ports[1]) annotation (Line(
-      points={{113.375,30.5},{90,30.5},{90,38.6667},{60,38.6667}},
+      points={{113.375,30.5},{90,30.5},{90,42.6667},{60,42.6667}},
       color={0,140,72},
       thickness=0.5));
   connect(floor1.port_Fre_Air, sou[1].ports[2]) annotation (Line(
@@ -439,19 +439,18 @@ equation
           104,21.75},{104,76},{61,76}},               color={255,0,255}));
 
    for j in 1:5 loop
-    connect(loa[(1 - 1)*5 + j], floor1.Q_flow[j]);
+    connect(QLoa[(1 - 1)*5 + j], floor1.Q_flow[j]);
     connect(floor1.TZon[j], TZon[(1-1)*5+j]);
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[1], floor1.zonCooTSet[j])
-      annotation (Line(points={{20,99.5},{96,99.5},{96,55},{112.438,55}},
-                                                                      color={0,
+      annotation (Line(points={{20,99},{96,99},{96,55},{112.438,55}}, color={0,
             0,127}));
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[2], floor1.zonHeaTSet[j])
-      annotation (Line(points={{20,100.5},{96,100.5},{96,51.5},{112.438,51.5}},
+      annotation (Line(points={{20,101},{96,101},{96,51.5},{112.438,51.5}},
           color={0,0,127}));
    end for;
 
    for i in 1:5 loop
-    connect(loa[(2 - 1)*5 + i], loaMulMidFlo[i].u)
+    connect(QLoa[(2 - 1)*5 + i], loaMulMidFlo[i].u)
       annotation (Line(points={{-114,60},{-95.2,60}}, color={0,0,127}));
    end for;
 
@@ -479,7 +478,7 @@ equation
   connect(floor3.onZon, onZon[3].y);
 
    for j in 1:5 loop
-    connect(loa[(3 - 1)*5 + j], floor3.Q_flow[j]);
+    connect(QLoa[(3 - 1)*5 + j], floor3.Q_flow[j]);
     connect(floor3.TZon[j], TZon[(3-1)*5+j]);
     connect(TZonAirSet[(3 - 1)*5 + j].SetPoi[1], floor3.zonCooTSet[j]);
     connect(TZonAirSet[(3 - 1)*5 + j].SetPoi[2], floor3.zonHeaTSet[j]);
@@ -489,14 +488,14 @@ equation
     annotation (Line(points={{-9,100},{-4,100}}, color={255,0,255}));
   connect(reaToBooOcc.y, booRep.u)
     annotation (Line(points={{-39,100},{-32,100}}, color={255,0,255}));
-  connect(numOcc[1:5], floor1.nPeo) annotation (Line(points={{-114,17.2},{-114,
+  connect(numOcc[1:5], floor1.nPeo) annotation (Line(points={{-114,14.4},{-114,
           20},{-100,20},{-100,8},{92,8},{92,35.75},{112.438,35.75}},
                                                         color={0,0,127}));
-  connect(numOcc[11:15], floor3.nPeo) annotation (Line(points={{-114,26.5333},{
+  connect(numOcc[11:15], floor3.nPeo) annotation (Line(points={{-114,33.0667},{
           -114,20},{-100,20},{-100,10},{92,10},{92,35.75},{112.438,35.75}},
                                                                  color={0,0,127}));
   connect(numOcc[6:10], numOCCMulMidFlo.u) annotation (Line(points={{-114,
-          21.8667},{-114,20},{-95.2,20}},
+          23.7333},{-114,20},{-95.2,20}},
                                  color={0,0,127}));
   connect(numOCCMulMidFlo.y, floor2.nPeo) annotation (Line(points={{-81.4,20},{
           92,20},{92,35.75},{112.438,35.75}},

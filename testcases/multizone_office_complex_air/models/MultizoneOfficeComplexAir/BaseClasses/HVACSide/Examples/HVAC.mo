@@ -43,7 +43,7 @@ model HVAC
   Modelica.Blocks.Sources.Constant numOcc[15](k=10)
     annotation (Placement(transformation(extent={{-80,-20},{-60,0}})));
 equation
-  connect(loa.y, hva.loa) annotation (Line(points={{-59,30},{-20,30},{-20,10},
+  connect(loa.y, hva.QLoa) annotation (Line(points={{-59,30},{-20,30},{-20,10},
           {-2.8,10}}, color={0,0,127}));
   connect(occ.y, hva.occ) annotation (Line(points={{-59,70},{-14,70},{-14,16},
           {-2.8,16}}, color={0,0,127}));

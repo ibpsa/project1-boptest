@@ -289,10 +289,10 @@ model WholeBuildingEnergyPlus "EnergyPlusFMU"
   Modelica.Icons.SignalBus weaBus
     annotation (Placement(transformation(extent={{-8,92},{8,108}}),
         iconTransformation(extent={{-8,92},{8,108}})));
-  Modelica.Blocks.Sources.RealExpression temDryBul(y=TDryBul.y)
+  Modelica.Blocks.Sources.RealExpression TDryBulRea(y=TDryBul.y)
     "Dry bulb temperature in K"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
-  Modelica.Blocks.Sources.RealExpression temWetBul(y=TWetBul.y)
+  Modelica.Blocks.Sources.RealExpression TWetBulRea(y=TWetBul.y)
     "Wet bulb temperature in K"
     annotation (Placement(transformation(extent={{60,32},{80,52}})));
 equation
@@ -456,12 +456,10 @@ equation
   connect(weaBus.relHum, relHum.u)
   annotation (Line(points={{0,100},{68,100},{68,80},{78,80}},
                                         color={255,204,51}));
-  connect(Outdoor_Temperature, temDryBul.y)
-  annotation (Line(points={{120,0},{86,0},{86,60},{81,60}},
-                                        color={0,0,127}));
-  connect(Wetbulb, temWetBul.y)
-  annotation (Line(points={{120,0},{86,0},{86,42},{81,42}},
-                                        color={0,0,127}));
+  connect(Outdoor_Temperature, TDryBulRea.y) annotation (Line(points={{120,0},{
+          86,0},{86,60},{81,60}}, color={0,0,127}));
+  connect(Wetbulb, TWetBulRea.y) annotation (Line(points={{120,0},{86,0},{86,42},
+          {81,42}}, color={0,0,127}));
   connect(Outdoor_Humidity, relHum.y);
   connect(OccSch.y, Occ)
     annotation (Line(points={{-39,-90},{50,-90},{50,0},{120,0}},

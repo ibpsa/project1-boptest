@@ -68,15 +68,12 @@ model TestCase "Complex office building model that includes air side systems, wa
     annotation (Placement(transformation(extent={{-20,-60},{20,-20}})));
 
 equation
-  connect(loaEnePlu.occ, hva.occ) annotation (Line(points={{22,-56.8},{22,-56},
-          {46,-56},{46,56},{22.8,56}},
-                              color={0,0,127}));
-  connect(loaEnePlu.loa, hva.loa) annotation (Line(points={{22,-44},{40,-44},{
-          40,50},{22.8,50}},
-                           color={0,0,127}));
-  connect(hva.TZon, loaEnePlu.T) annotation (Line(points={{-22,40},{-40,40},{
-          -40,-40},{-24,-40}},
-                           color={0,0,127}));
+  connect(loaEnePlu.yHvaOpe, hva.occ) annotation (Line(points={{22,-56.8},{22,-56},
+          {46,-56},{46,56},{22.8,56}}, color={0,0,127}));
+  connect(loaEnePlu.QLoa, hva.QLoa) annotation (Line(points={{22,-44},{40,-44},
+          {40,50},{22.8,50}}, color={0,0,127}));
+  connect(hva.TZon, loaEnePlu.TZonAir) annotation (Line(points={{-22,40},{-40,
+          40},{-40,-40},{-24,-40}}, color={0,0,127}));
   connect(loaEnePlu.numOcc, hva.numOcc) annotation (Line(points={{22,-36},{34,
           -36},{34,44},{22.8,44}},   color={0,0,127}));
   connect(loaEnePlu.weaBus, hva.weaBus) annotation (Line(

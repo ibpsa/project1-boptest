@@ -11,7 +11,7 @@ model LoadWrapper
     startTime=3600*12)
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
 equation
-  connect(Tzon.y, loadWrapper.T)
+  connect(Tzon.y, loadWrapper.TZonAir)
     annotation (Line(points={{-59,0},{-24,0}}, color={0,0,127}));
   annotation (experiment(StopTime=86400, __Dymola_Algorithm="Cvode"));
 end LoadWrapper;
