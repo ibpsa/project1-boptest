@@ -145,7 +145,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
   Buildings.Fluid.Sensors.TemperatureTwoPort senTDisAir(redeclare package
       Medium =         MediumAir, m_flow_nominal=mAirFloRat)
     annotation (Placement(transformation(extent={{76,-6},{88,6}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=100000)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=101325)
     annotation (Placement(transformation(extent={{40,66},{60,86}})));
   Modelica.Blocks.Math.Add add(k2=-1)
     annotation (Placement(transformation(extent={{50,40},{30,60}})));

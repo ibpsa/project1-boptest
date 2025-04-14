@@ -166,9 +166,6 @@ model Airside "Air side system"
   Modelica.Blocks.Math.RealToBoolean reaToBooOcc
     "Convert real signal to boolean signal for occupancy signal"
     annotation (Placement(transformation(extent={{-60,90},{-40,110}})));
-  Modelica.Blocks.Continuous.FirstOrder firOrd(T=1)
-    "First order to smooth the occupancy signal"
-    annotation (Placement(transformation(extent={{-90,90},{-70,110}})));
   Modelica.Blocks.Math.Gain loaMulMidFlo[5](k=10)
     "Load multiplier for ten floors modelled as one middle floor"
     annotation (Placement(transformation(extent={{-94,54},{-82,66}})));
@@ -424,7 +421,7 @@ model Airside "Air side system"
 
 equation
   connect(floor1.port_Exh_Air, sou[1].ports[1]) annotation (Line(
-      points={{113.375,30.5},{90,30.5},{90,42.6667},{60,42.6667}},
+      points={{113.375,30.5},{90,30.5},{90,38.6667},{60,38.6667}},
       color={0,140,72},
       thickness=0.5));
   connect(floor1.port_Fre_Air, sou[1].ports[2]) annotation (Line(
@@ -445,10 +442,11 @@ equation
     connect(loa[(1 - 1)*5 + j], floor1.Q_flow[j]);
     connect(floor1.TZon[j], TZon[(1-1)*5+j]);
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[1], floor1.zonCooTSet[j])
-      annotation (Line(points={{20,99},{96,99},{96,55},{112.438,55}}, color={0,
+      annotation (Line(points={{20,99.5},{96,99.5},{96,55},{112.438,55}},
+                                                                      color={0,
             0,127}));
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[2], floor1.zonHeaTSet[j])
-      annotation (Line(points={{20,101},{96,101},{96,51.5},{112.438,51.5}},
+      annotation (Line(points={{20,100.5},{96,100.5},{96,51.5},{112.438,51.5}},
           color={0,0,127}));
    end for;
 
@@ -489,24 +487,22 @@ equation
 
   connect(booRep.y, TZonAirSet.Occ)
     annotation (Line(points={{-9,100},{-4,100}}, color={255,0,255}));
-  connect(firOrd.y, reaToBooOcc.u)
-    annotation (Line(points={{-69,100},{-62,100}}, color={0,0,127}));
-  connect(firOrd.u,occ)
-    annotation (Line(points={{-92,100},{-114,100}}, color={0,0,127}));
   connect(reaToBooOcc.y, booRep.u)
     annotation (Line(points={{-39,100},{-32,100}}, color={255,0,255}));
-  connect(numOcc[1:5], floor1.nPeo) annotation (Line(points={{-114,14.4},{-114,
+  connect(numOcc[1:5], floor1.nPeo) annotation (Line(points={{-114,17.2},{-114,
           20},{-100,20},{-100,8},{92,8},{92,35.75},{112.438,35.75}},
                                                         color={0,0,127}));
-  connect(numOcc[11:15], floor3.nPeo) annotation (Line(points={{-114,33.0667},{
+  connect(numOcc[11:15], floor3.nPeo) annotation (Line(points={{-114,26.5333},{
           -114,20},{-100,20},{-100,10},{92,10},{92,35.75},{112.438,35.75}},
                                                                  color={0,0,127}));
   connect(numOcc[6:10], numOCCMulMidFlo.u) annotation (Line(points={{-114,
-          23.7333},{-114,20},{-95.2,20}},
+          21.8667},{-114,20},{-95.2,20}},
                                  color={0,0,127}));
   connect(numOCCMulMidFlo.y, floor2.nPeo) annotation (Line(points={{-81.4,20},{
           92,20},{92,35.75},{112.438,35.75}},
                                            color={0,0,127}));
+  connect(occ, reaToBooOcc.u)
+    annotation (Line(points={{-114,100},{-62,100}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}),                                        graphics={
           Rectangle(

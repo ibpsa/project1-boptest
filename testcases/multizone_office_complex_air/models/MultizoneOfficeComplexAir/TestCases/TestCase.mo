@@ -10,7 +10,7 @@ model TestCase "Complex office building model that includes air side systems, wa
             valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0))), fivZonVAV(ReheatWatNet(
+        cooCoi(val(use_inputFilter=true, y_start=0))),  fivZonVAV(ReheatWatNet(
           PreDroMai1=0,
           PreDroMai2=0,
           PreDroMai3=0,
@@ -27,7 +27,7 @@ model TestCase "Complex office building model that includes air side systems, wa
             valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0))), fivZonVAV(ReheatWatNet(
+        cooCoi(val(use_inputFilter=true, y_start=0))),  fivZonVAV(ReheatWatNet(
           PreDroMai1=0,
           PreDroMai2=0,
           PreDroMai3=0,
@@ -44,7 +44,7 @@ model TestCase "Complex office building model that includes air side systems, wa
             valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0))), fivZonVAV(ReheatWatNet(
+        cooCoi(val(use_inputFilter=true, y_start=0))),  fivZonVAV(ReheatWatNet(
           PreDroMai1=0,
           PreDroMai2=0,
           PreDroMai3=0,
@@ -53,13 +53,17 @@ model TestCase "Complex office building model that includes air side systems, wa
           PreDroBra2=0,
           PreDroBra3=0,
           PreDroBra4=0,
-          PreDroBra5=0))))
+          PreDroBra5=0))),
+    boiWatNet(
+      PreDroMai1=0,
+      PreDroMai2=0,
+      PreDroBra1=0))
     "Full HVAC system that contains the airside and waterside systems and controls"
     annotation (Placement(transformation(extent={{20,20},{-20,60}})));
 
 
   MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper loaEnePlu(building(
-        spawnExe="spawn-0.3.0-8d93151657"))
+        spawnExe="spawn-0.3.0-0fa49be497"))
     "Load calculation in EnergyPlus using Spawn, note this version spawn-0.3.0-8d93151657 is specified for BOPTEST environment; Use spawn-0.3.0-0fa49be497 for Buildings library version"
     annotation (Placement(transformation(extent={{-20,-60},{20,-20}})));
 
@@ -82,8 +86,7 @@ equation
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
-      StartTime=86400,
-      StopTime=259200,
+      StopTime=31536000,
       Interval=599.999616,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),

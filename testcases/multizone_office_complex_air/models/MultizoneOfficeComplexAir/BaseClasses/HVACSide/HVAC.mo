@@ -14,7 +14,9 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonEas(zone="bot_floor_eas"),
       oveZonNor(zone="bot_floor_nor"),
       oveZonWes(zone="bot_floor_wes"),
-      final mWatFloRat=mFloRat1),
+      final mWatFloRat=mFloRat1,
+      duaFanAirHanUni(booleanExpression(y=if (chiWatPla.TDryBul < 283.15 and
+              not reaToBooOcc.y) then false else true))),
       floor2(
       reaZonCor(zone="mid_floor_cor"),
       reaZonSou(zone="mid_floor_sou"),
@@ -26,7 +28,9 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonEas(zone="mid_floor_eas"),
       oveZonNor(zone="mid_floor_nor"),
       oveZonWes(zone="mid_floor_wes"),
-      final mWatFloRat=mFloRat2),
+      final mWatFloRat=mFloRat2,
+      duaFanAirHanUni(booleanExpression(y=if (chiWatPla.TDryBul < 283.15 and
+              not reaToBooOcc.y) then false else true))),
       floor3(
       reaZonCor(zone="top_floor_cor"),
       reaZonSou(zone="top_floor_sou"),
@@ -38,7 +42,9 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonEas(zone="top_floor_eas"),
       oveZonNor(zone="top_floor_nor"),
       oveZonWes(zone="top_floor_wes"),
-      final mWatFloRat=mFloRat3));
+      final mWatFloRat=mFloRat3,
+      duaFanAirHanUni(booleanExpression(y=if (chiWatPla.TDryBul < 283.15 and
+              not reaToBooOcc.y) then false else true))));
 
   parameter Modelica.Units.SI.MassFlowRate mFloRat1=-datChi[1].QEva_flow_nominal
       /4200/chiWatPla.dTCHW_nominal*chiWatPla.n/12
@@ -99,7 +105,9 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     mCW_flow_nominal=mCW_flow_nominal,
     secPumCon(conPI(k=0.000001, Ti=240)),
     On(y=if (chiWatPla.TDryBul < 283.15 and not reaToBooOcc.y) then false else
-          true))                          "Chilled water plant"
+          true),
+    On1(y=if (chiWatPla.TDryBul < 283.15 and not reaToBooOcc.y) then false
+           else true))                    "Chilled water plant"
     annotation (Placement(transformation(extent={{-10,-108},{10,-88}})));
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Network.PipeNetwork
@@ -183,12 +191,12 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
 
 equation
   connect(chiWatNet.ports_a[1], floor1.port_b_CooWat) annotation (Line(
-      points={{40,-89.1333},{40,-94},{104,-94},{104,6},{129.625,6},{129.625,20}},
+      points={{40,-90.4667},{40,-94},{104,-94},{104,6},{129.625,6},{129.625,20}},
       color={0,127,225},
       thickness=1));
   connect(floor1.port_a_CooWat, chiWatNet.ports_b[1]) annotation (Line(
-      points={{134.313,20},{134.313,2},{108,2},{108,-102},{72,-102},{72,
-          -99.9333},{40,-99.9333}},
+      points={{134.312,20},{134.312,2},{108,2},{108,-102},{72,-102},{72,
+          -101.267},{40,-101.267}},
       color={0,127,225},
       thickness=1));
 
@@ -197,13 +205,13 @@ equation
   connect(chiWatNet.ports_a[3], floor3.port_b_CooWat);
   connect(floor3.port_a_CooWat, chiWatNet.ports_b[3]);
   connect(boiWatNet.ports_a[1], floor1.port_b_HeaWat) annotation (Line(
-      points={{176,-93.1333},{196,-93.1333},{196,6},{154,6},{154,20},{149.938,
+      points={{176,-94.4667},{196,-94.4667},{196,6},{154,6},{154,20},{149.938,
           20}},
       color={238,46,47},
       thickness=1));
 
   connect(boiWatNet.ports_b[1], floor1.port_a_HeaWat) annotation (Line(
-      points={{176,-103.933},{192,-103.933},{192,0},{150,0},{150,20},{145.25,20}},
+      points={{176,-105.267},{192,-105.267},{192,0},{150,0},{150,20},{145.25,20}},
       color={238,46,47},
       thickness=1));
 
