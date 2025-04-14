@@ -191,12 +191,12 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
 
 equation
   connect(chiWatNet.ports_a[1], floor1.port_b_CooWat) annotation (Line(
-      points={{40,-89.1333},{40,-94},{104,-94},{104,6},{129.625,6},{129.625,20}},
+      points={{40,-90.4667},{40,-94},{104,-94},{104,6},{129.625,6},{129.625,20}},
       color={0,127,225},
       thickness=1));
   connect(floor1.port_a_CooWat, chiWatNet.ports_b[1]) annotation (Line(
-      points={{134.313,20},{134.313,2},{108,2},{108,-102},{72,-102},{72,
-          -99.9333},{40,-99.9333}},
+      points={{134.312,20},{134.312,2},{108,2},{108,-102},{72,-102},{72,
+          -101.267},{40,-101.267}},
       color={0,127,225},
       thickness=1));
 
@@ -205,13 +205,13 @@ equation
   connect(chiWatNet.ports_a[3], floor3.port_b_CooWat);
   connect(floor3.port_a_CooWat, chiWatNet.ports_b[3]);
   connect(boiWatNet.ports_a[1], floor1.port_b_HeaWat) annotation (Line(
-      points={{176,-93.1333},{196,-93.1333},{196,6},{154,6},{154,20},{149.938,
+      points={{176,-94.4667},{196,-94.4667},{196,6},{154,6},{154,20},{149.938,
           20}},
       color={238,46,47},
       thickness=1));
 
   connect(boiWatNet.ports_b[1], floor1.port_a_HeaWat) annotation (Line(
-      points={{176,-103.933},{192,-103.933},{192,0},{150,0},{150,20},{145.25,20}},
+      points={{176,-105.267},{192,-105.267},{192,0},{150,0},{150,20},{145.25,20}},
       color={238,46,47},
       thickness=1));
 
@@ -308,22 +308,6 @@ equation
       index=-1,
       extent={{-3,-6},{-3,-6}},
       horizontalAlignment=TextAlignment.Right));
-  connect(weaBus.TDryBul, sou[1].T_in) annotation (Line(
-      points={{40,-120},{12,-120},{12,44},{38,44}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(weaBus.TDryBul, sou[2].T_in) annotation (Line(
-      points={{40,-120},{12,-120},{12,44},{38,44}},
-      color={255,204,51},
-      thickness=0.5), Text(
-      string="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}},
-      horizontalAlignment=TextAlignment.Right));
-  connect(weaBus.TDryBul, sou[3].T_in) annotation (Line(
-      points={{40,-120},{12,-120},{12,44},{38,44}},
-      color={255,204,51},
-      thickness=0.5));
   connect(chiWatNet.p, reaChiWatSys.dp_in) annotation (Line(points={{41,-98},{
           52,-98},{52,-80},{-18,-80},{-18,-31.0769},{16,-31.0769}}, color={0,0,
           127}));
@@ -352,6 +336,16 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
+  for i in 1:n loop
+    connect(weaBus, sou[i].weaBus) annotation (Line(
+      points={{40,-120},{-24,-120},{-24,40.2},{40,40.2}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  end for;
   annotation (
     Diagram(coordinateSystem(extent={{-100,-120},{200,120}}), graphics={Text(
           extent={{118,-4},{190,-20}},

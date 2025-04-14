@@ -437,17 +437,12 @@ package BaseClasses
     Modelica.Blocks.Interfaces.BooleanInput On annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
     Modelica.Blocks.Interfaces.RealInput SetPoi "Connector of setpoint input signal"
       annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
-    Buildings.Controls.OBC.CDL.Continuous.LimitSlewRate ramLim(raisingSlewRate=1/
-          120) "Ramp limiter for water coil control signal"
-      annotation (Placement(transformation(extent={{-10,40},{10,60}})));
     Buildings.Utilities.IO.SignalExchange.Overwrite yCoo(description=
           "Cooling coil valve control signal for AHU", u(
         unit="1",
         min=0,
         max=1)) "Cooling coil control signal"
-      annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
-    Buildings.Controls.OBC.CDL.Continuous.Limiter lim(uMax=1, uMin=0)
-      annotation (Placement(transformation(extent={{20,40},{40,60}})));
+      annotation (Placement(transformation(extent={{-10,40},{10,60}})));
   equation
     connect(val.port_b, port_b_Wat) annotation (Line(
         points={{80,60},{80,80},{100,80}},
@@ -462,15 +457,10 @@ package BaseClasses
         points={{-82,20},{-94,20},{-94,-20},{-120,-20}},
         color={0,0,127},
         pattern=LinePattern.Dash));
-    connect(yCoo.y, ramLim.u)
-      annotation (Line(points={{-19,50},{-12,50}},
-                                                 color={0,0,127}));
-    connect(yCoo.u, pI.y) annotation (Line(points={{-42,50},{-54,50},{-54,20},{
+    connect(yCoo.u, pI.y) annotation (Line(points={{-12,50},{-54,50},{-54,20},{
             -59,20}},          color={0,0,127}));
-    connect(lim.u, ramLim.y)
-      annotation (Line(points={{18,50},{12,50}}, color={0,0,127}));
-    connect(lim.y, val.y)
-      annotation (Line(points={{42,50},{68,50}}, color={0,0,127}));
+    connect(yCoo.y, val.y)
+      annotation (Line(points={{11,50},{68,50}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(preserveAspectRatio=false)));
   end WatCoil;
 

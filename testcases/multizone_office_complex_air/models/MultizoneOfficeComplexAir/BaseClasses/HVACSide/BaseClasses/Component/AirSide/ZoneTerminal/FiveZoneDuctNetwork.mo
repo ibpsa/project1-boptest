@@ -55,8 +55,7 @@ model FiveZoneDuctNetwork
         mFloRat2 - mFloRat3 - mFloRat4 - mFloRat5,mFloRat1},
     dp_nominal={PreDroMai2/2,-PreDroMai1/2,PreDroBra1/2})
                                                 annotation (Placement(transformation(extent={{-70,-70},{-90,-50}})));
-  Buildings.Fluid.FixedResistances.Junction junRet2( redeclare package Medium
-      =                                                                         Medium,
+  Buildings.Fluid.FixedResistances.Junction junRet2( redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,                          m_flow_nominal={mFloRat3 + mFloRat4 + mFloRat5,-mFloRat2-mFloRat3-
         mFloRat4 - mFloRat5,mFloRat2},
     dp_nominal={PreDroMai3/2,-PreDroMai2/2,PreDroBra2/2})

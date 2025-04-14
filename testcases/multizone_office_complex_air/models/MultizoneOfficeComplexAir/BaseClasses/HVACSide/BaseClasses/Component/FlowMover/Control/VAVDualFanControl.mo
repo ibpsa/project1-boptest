@@ -35,11 +35,6 @@ model VAVDualFanControl
     annotation (Placement(transformation(extent={{-62,0},{-42,20}})));
   Buildings.Controls.OBC.CDL.Continuous.Switch swi
     annotation (Placement(transformation(extent={{12,28},{32,48}})));
-  Buildings.Controls.OBC.CDL.Continuous.LimitSlewRate ramLim(raisingSlewRate=1/
-        120) "Ramp limiter for fan control signal"
-    annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  Buildings.Controls.OBC.CDL.Continuous.Limiter lim(uMax=1, uMin=0)
-    annotation (Placement(transformation(extent={{66,-10},{86,10}})));
   Modelica.Blocks.Math.BooleanToReal booToRea
     annotation (Placement(transformation(extent={{-20,-40},{0,-20}})));
 equation
@@ -57,12 +52,6 @@ equation
       color={255,0,255}));
   connect(variableSpeed.y, swi.u1)
     annotation (Line(points={{-39,46},{10,46}}, color={0,0,127}));
-  connect(ramLim.y, lim.u)
-    annotation (Line(points={{62,0},{64,0}},   color={0,0,127}));
-  connect(lim.y, ySup) annotation (Line(points={{88,0},{110,0}},
-        color={0,0,127}));
-  connect(ramLim.u, swi.y) annotation (Line(points={{38,0},{36,0},{36,
-          38},{34,38}}, color={0,0,127}));
   connect(SetPoi, variableSpeed.set) annotation (Line(points={{-120,20},
           {-74,20},{-74,46},{-62,46}}, color={0,0,127}));
   connect(onFanOcc, swi.u2) annotation (Line(points={{-120,60},{-80,60},{-80,28},
@@ -71,6 +60,8 @@ equation
     annotation (Line(points={{-39,-30},{-22,-30}}, color={255,0,255}));
   connect(booToRea.y, swi.u3) annotation (Line(points={{1,-30},{6,-30},{6,
           30},{10,30}}, color={0,0,127}));
+  connect(swi.y, ySup) annotation (Line(points={{34,38},{60,38},{60,0},{110,0}},
+        color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},

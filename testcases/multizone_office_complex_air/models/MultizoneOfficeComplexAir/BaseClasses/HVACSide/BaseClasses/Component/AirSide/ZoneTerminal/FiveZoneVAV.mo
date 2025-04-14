@@ -224,8 +224,8 @@ model FiveZoneVAV "Thermal zones, VAV terminals, and duct network"
   Modelica.Blocks.Interfaces.BooleanInput on[5]
     "Zonal On signal (not implemented)"
     annotation (Placement(transformation(extent={{-120,-22},{-100,-2}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium
-      =        MediumAir)
+  Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium =
+               MediumAir)
     annotation (Placement(transformation(extent={{138,-68},{118,-48}})));
   Modelica.Blocks.Interfaces.RealOutput p "Pressure at port" annotation (
       Placement(transformation(extent={{200,-22},{220,-2}}),
