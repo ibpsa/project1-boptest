@@ -344,6 +344,9 @@ class TestCase(object):
                     message = alert_message
                 # Advance start time
                 self.start_time = self.final_time
+                # Check if scenario is over
+                if self.start_time >= self.end_time:
+                    self.scenario_end = True
                 # Log and return
                 logging.info(message)
                 return status, message, payload
@@ -357,7 +360,6 @@ class TestCase(object):
                 return status, message, payload
         else:
             # Simulation at end time
-            self.scenario_end = True
             payload = dict()
             message = "End of test case scenario time period reached."
             logging.info(message)
