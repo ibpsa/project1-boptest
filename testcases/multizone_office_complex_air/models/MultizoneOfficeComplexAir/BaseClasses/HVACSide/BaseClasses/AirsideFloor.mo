@@ -425,10 +425,9 @@ equation
   connect(booleanReplicator.y,fivZonVAV.on)  annotation (Line(
       points={{-125.3,-90},{4,-90},{4,-33.9385},{28.8,-33.9385}},
       color={255,0,255}));
-  connect(fivZonVAV.p, duaFanAirHanUni.pMea) annotation (Line(points={{55.2,
-          -25.5385},{70,-25.5385},{70,-16},{-88,-16},{-88,-11.2909},{-79.4,
-          -11.2909}},
-        color={0,0,127}));
+  connect(fivZonVAV.ducStaPre, duaFanAirHanUni.pMea) annotation (Line(points={{
+          55.2,-25.5385},{70,-25.5385},{70,-16},{-88,-16},{-88,-11.2909},{-79.4,
+          -11.2909}}, color={0,0,127}));
   connect(fivZonVAV.TZon, duaFanAirHanUni.zonT) annotation (Line(points={{55.2,
           -39.5385},{84,-39.5385},{84,-64},{-104,-64},{-104,4.54545},{-79.4,
           4.54545}},

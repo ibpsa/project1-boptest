@@ -145,10 +145,6 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
   Buildings.Fluid.Sensors.TemperatureTwoPort senTDisAir(redeclare package
       Medium =         MediumAir, m_flow_nominal=mAirFloRat)
     annotation (Placement(transformation(extent={{76,-6},{88,6}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=101325)
-    annotation (Placement(transformation(extent={{40,66},{60,86}})));
-  Modelica.Blocks.Math.Add add(k2=-1)
-    annotation (Placement(transformation(extent={{50,40},{30,60}})));
   Modelica.Blocks.Interfaces.RealInput heaTSet[numTemp]
     "Connector of setpoint input signal" annotation (Placement(
         transformation(extent={{-120,70},{-100,90}})));
@@ -335,13 +331,6 @@ equation
       points={{100,0},{88,0}},
       color={0,127,255},
       thickness=1));
-  connect(pMea, add.u1) annotation (Line(points={{-110,94},{-20,94},{-20,
-          68},{60,68},{60,56},{52,56}}, color={0,0,127}));
-  connect(realExpression.y, add.u2) annotation (Line(
-      points={{61,76},{68,76},{68,44},{52,44}},
-      color={0,0,127}));
-  connect(add.y, supFan.pMea) annotation (Line(points={{29,50},{10,50},
-          {10,-10},{16,-10}}, color={0,0,127}));
   connect(supFan.heaTSet, heaTSet) annotation (Line(points={{16,10},{12,
           10},{12,80},{-110,80}}, color={0,0,127}));
   connect(supFan.cooTSet, cooTSet) annotation (Line(points={{16,-2},{-46,
@@ -472,6 +461,8 @@ equation
       points={{61.05,22.5},{61.05,34},{82,34},{82,-160},{110,-160}},
       color={0,0,127},
       pattern=LinePattern.Dash));
+  connect(pMea, supFan.pMea) annotation (Line(points={{-110,94},{10,94},{10,-10},
+          {16,-10}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{
             -100,-120},{100,100}}),                             graphics={
         Rectangle(
