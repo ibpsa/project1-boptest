@@ -15,8 +15,36 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonNor(zone="bot_floor_nor"),
       oveZonWes(zone="bot_floor_wes"),
       final mWatFloRat=mFloRat1,
-      duaFanAirHanUni(booleanExpression(y=if (chiWatPla.TDryBul < 283.15 and
-              not reaToBooOcc.y) then false else true))),
+      duaFanAirHanUni(mixingBox(mixBox(
+            valRet(riseTime=15, y_start=1),
+            valExh(riseTime=15, y_start=1),
+            valFre(riseTime=15, y_start=0))),
+        retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
+        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
+        cooCoi(PreDroAir(displayUnit="Pa") = 600,
+        val(use_inputFilter=true, y_start=0)),
+        booleanExpression(y=if (chiWatPla.TDryBul < 283.15 and
+              not reaToBooOcc.y) then false else true)),
+      fivZonVAV(ReheatWatNet(
+          PreDroMai1=0,
+          PreDroMai2=0,
+          PreDroMai3=0,
+          PreDroMai4=0,
+          PreDroBra1=0,
+          PreDroBra2=0,
+          PreDroBra3=0,
+          PreDroBra4=0,
+          PreDroBra5=0),
+          AirNetWor(
+          PreDroMai1=0,
+          PreDroMai2=0,
+          PreDroMai3=0,
+          PreDroMai4=0,
+          PreDroBra1=0,
+          PreDroBra2=0,
+          PreDroBra3=0,
+          PreDroBra4=0,
+          PreDroBra5=0))),
       floor2(
       reaZonCor(zone="mid_floor_cor"),
       reaZonSou(zone="mid_floor_sou"),
@@ -29,8 +57,37 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonNor(zone="mid_floor_nor"),
       oveZonWes(zone="mid_floor_wes"),
       final mWatFloRat=mFloRat2,
-      duaFanAirHanUni(booleanExpression(y=if (chiWatPla.TDryBul < 283.15 and
-              not reaToBooOcc.y) then false else true))),
+      duaFanAirHanUni(
+              mixingBox(mixBox(
+            valRet(riseTime=15, y_start=1),
+            valExh(riseTime=15, y_start=0),
+            valFre(riseTime=15, y_start=0))),
+        retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
+        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
+        cooCoi(PreDroAir(displayUnit="Pa") = 600,
+               val(use_inputFilter=true, y_start=0)),
+      booleanExpression(y=if (chiWatPla.TDryBul < 283.15 and
+              not reaToBooOcc.y) then false else true)),
+      fivZonVAV(ReheatWatNet(
+          PreDroMai1=0,
+          PreDroMai2=0,
+          PreDroMai3=0,
+          PreDroMai4=0,
+          PreDroBra1=0,
+          PreDroBra2=0,
+          PreDroBra3=0,
+          PreDroBra4=0,
+          PreDroBra5=0),
+          AirNetWor(
+          PreDroMai1=0,
+          PreDroMai2=0,
+          PreDroMai3=0,
+          PreDroMai4=0,
+          PreDroBra1=0,
+          PreDroBra2=0,
+          PreDroBra3=0,
+          PreDroBra4=0,
+          PreDroBra5=0))),
       floor3(
       reaZonCor(zone="top_floor_cor"),
       reaZonSou(zone="top_floor_sou"),
@@ -43,8 +100,37 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonNor(zone="top_floor_nor"),
       oveZonWes(zone="top_floor_wes"),
       final mWatFloRat=mFloRat3,
-      duaFanAirHanUni(booleanExpression(y=if (chiWatPla.TDryBul < 283.15 and
-              not reaToBooOcc.y) then false else true))));
+      duaFanAirHanUni(
+       mixingBox(mixBox(
+            valRet(riseTime=15, y_start=1),
+            valExh(riseTime=15, y_start=0),
+            valFre(riseTime=15, y_start=0))),
+        retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
+        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
+        cooCoi(PreDroAir(displayUnit="Pa") = 600,
+        val(use_inputFilter=true, y_start=0)),
+        booleanExpression(y=if (chiWatPla.TDryBul < 283.15 and
+              not reaToBooOcc.y) then false else true)),
+               fivZonVAV(ReheatWatNet(
+          PreDroMai1=0,
+          PreDroMai2=0,
+          PreDroMai3=0,
+          PreDroMai4=0,
+          PreDroBra1=0,
+          PreDroBra2=0,
+          PreDroBra3=0,
+          PreDroBra4=0,
+          PreDroBra5=0),
+          AirNetWor(
+          PreDroMai1=0,
+          PreDroMai2=0,
+          PreDroMai3=0,
+          PreDroMai4=0,
+          PreDroBra1=0,
+          PreDroBra2=0,
+          PreDroBra3=0,
+          PreDroBra4=0,
+          PreDroBra5=0))));
 
   parameter Modelica.Units.SI.MassFlowRate mFloRat1=-datChi[1].QEva_flow_nominal
       /4200/chiWatPla.dTCHW_nominal*chiWatPla.n/12
@@ -83,8 +169,8 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     boiWatNet(
     PreDroBra2(displayUnit="Pa") = 0,
     PreDroBra3(displayUnit="Pa") = 0,
-    PreDroMai1(displayUnit="Pa") = (79712/4),
-    PreDroMai2(displayUnit="Pa") = (79712/4/2),
+    PreDroMai1(displayUnit="Pa") = 0,
+    PreDroMai2(displayUnit="Pa") = 0,
     mFloRat1=floor1.mWatFloRat1 + floor1.mWatFloRat2 + floor1.mWatFloRat3 +
         floor1.mWatFloRat4 + floor1.mWatFloRat5,
     mFloRat2=floor2.mWatFloRat1 + floor2.mWatFloRat2 + floor2.mWatFloRat3 +
@@ -92,7 +178,7 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     mFloRat3=floor3.mWatFloRat1 + floor3.mWatFloRat2 + floor3.mWatFloRat3 +
         floor3.mWatFloRat4 + floor3.mWatFloRat5,
     redeclare package Medium = MediumHeaWat,
-    PreDroBra1(displayUnit="Pa") = (79712/4))
+    PreDroBra1(displayUnit="Pa") = 0)
     "Hot water plant distribution network"
     annotation (Placement(transformation(extent={{156,-92},{176,-112}})));
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant

@@ -2,65 +2,9 @@ within MultizoneOfficeComplexAir.TestCases;
 model TestCase "Complex office building model that includes air side systems, water side systems from Modelica, and building thermal load calucation from EnergyPlus."
   extends Modelica.Icons.Example;
 
-  MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC hva(
-    floor1(duaFanAirHanUni(
-        mixingBox(mixBox(
-            valRet(riseTime=15, y_start=1),
-            valExh(riseTime=15, y_start=1),
-            valFre(riseTime=15, y_start=0))),
-        retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
-        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0))),  fivZonVAV(ReheatWatNet(
-          PreDroMai1=0,
-          PreDroMai2=0,
-          PreDroMai3=0,
-          PreDroMai4=0,
-          PreDroBra1=0,
-          PreDroBra2=0,
-          PreDroBra3=0,
-          PreDroBra4=0,
-          PreDroBra5=0))),
-    floor2(duaFanAirHanUni(
-        mixingBox(mixBox(
-            valRet(riseTime=15, y_start=1),
-            valExh(riseTime=15, y_start=0),
-            valFre(riseTime=15, y_start=0))),
-        retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
-        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0))),  fivZonVAV(ReheatWatNet(
-          PreDroMai1=0,
-          PreDroMai2=0,
-          PreDroMai3=0,
-          PreDroMai4=0,
-          PreDroBra1=0,
-          PreDroBra2=0,
-          PreDroBra3=0,
-          PreDroBra4=0,
-          PreDroBra5=0))),
-    floor3(duaFanAirHanUni(
-        mixingBox(mixBox(
-            valRet(riseTime=15, y_start=1),
-            valExh(riseTime=15, y_start=0),
-            valFre(riseTime=15, y_start=0))),
-        retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
-        supFan(withoutMotor(varSpeFloMov(use_inputFilter=true, y_start=0))),
-        cooCoi(val(use_inputFilter=true, y_start=0))),  fivZonVAV(ReheatWatNet(
-          PreDroMai1=0,
-          PreDroMai2=0,
-          PreDroMai3=0,
-          PreDroMai4=0,
-          PreDroBra1=0,
-          PreDroBra2=0,
-          PreDroBra3=0,
-          PreDroBra4=0,
-          PreDroBra5=0))),
-    boiWatNet(
-      PreDroMai1=0,
-      PreDroMai2=0,
-      PreDroBra1=0))
+  MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC hva
     "Full HVAC system that contains the airside and waterside systems and controls"
     annotation (Placement(transformation(extent={{20,20},{-20,60}})));
-
 
   MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper loaEnePlu(building(
         spawnExe="spawn-0.3.0-0fa49be497"))
@@ -83,7 +27,7 @@ equation
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
-      StopTime=31536000,
+      StopTime=604800,
       Interval=599.999616,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
