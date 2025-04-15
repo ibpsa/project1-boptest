@@ -94,11 +94,13 @@ def create_objects(app, configfile):
 
     g= rdflib.Graph()
     g.parse(configfile)
-    points = g.query("select ?point ?name ?bacnetRef ?unit where {?point ref:hasExternalReference ?bo . ?bo bacnet:object-identifier ?bacnetRef . ?bo bacnet:object-name ?name OPTIONAL {?point brick:hasUnit ?unit} }")
+    points = g.query("select ?point ?name ?bacnetRef ?statusFlags ?unit where {?point ref:hasExternalReference ?bo . ?bo bacnet:object-identifier ?bacnetRef . ?bo bacnet:object-name ?name . ?bo bacnet:status-flags ?statusFlags OPTIONAL {?point brick:hasUnit ?unit} }")
     for point in points:
         rdfBacnetName = point[1]
         rdfBacnetRef = point[2]
-        rdfBacnetUnit = point[3]
+        rdfStatusFlags = point[3]
+        rdfBacnetUnit = point[4]
+
         if _debug:
             create_objects._debug("    - name: %r", point[1])
         klassName, instanceNum = rdfBacnetRef.split(",", 2)
@@ -114,10 +116,13 @@ def create_objects(app, configfile):
             initialValue = nextState['payload'][name]
         else:
             initialValue = 0.0
+
+        statusFlagsList=[int(str(rdfStatusFlags))]
+
         if klassName == 'analog-input' or klassName == 'analog-value':
-            obj = klass(objectName = name, objectIdentifier=(klass.objectType, instanceNum), presentValue=initialValue)
+            obj = klass(objectName = name, objectIdentifier=(klass.objectType, instanceNum), presentValue=initialValue,statusFlags=statusFlagsList)
         else:
-            obj = klass(objectName = name, objectIdentifier=(klass.objectType, instanceNum), relinquishDefault = initialValue)
+            obj = klass(objectName = name, objectIdentifier=(klass.objectType, instanceNum), presentValue=initialValue, relinquishDefault = initialValue,statusFlags=statusFlagsList)
         if _debug:
             create_objects._debug("    - obj: %r", obj)
 

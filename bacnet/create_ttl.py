@@ -64,6 +64,7 @@ with open(test_case_name+'.ttl', 'a') as f:
         f.write('\t\tbacnet:object-identifier "{0},{1}" ;\n'.format(obj_type, obj_id))
         f.write('\t\tbacnet:object-type "{0}" ;\n'.format(obj_type))
         f.write('\t\tbacnet:object-name "{0}" ;\n'.format(point))
+        f.write('\t\tbacnet:status-flags 0 ;\n')
         f.write('\t\tbacnet:objectOf bldg:boptest-proxy-device\n')
         f.write('\t] .\n\n')
 
