@@ -194,7 +194,7 @@ performance data following the procedure explained in
 this heat pump calibration guide</a>
 using manufacturer performance data from a Carrier air-to-water heat pump model 30AW015
 which data can be found in
-<a href="https://www.ahi-carrier.gr/el/wp-content/uploads/sites/3/2017/10/PSD-30AW_-LR-3.pdf">
+<a href="https://www.hosbv.com/data/specifications/14399_Carrier%2030%20AWH%20015%20Specifications.pdf">
 this manufacturer datasheet</a>.
 </p>
 <p>
@@ -251,27 +251,36 @@ is depicted as controller C2 in Figure 1.
 </p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
-<p>The model inputs are: </p>
+The model inputs are:
 <ul>
-
+<li>
+<code>oveFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveFan_u where 1 activates, 0 deactivates (default value)
+</li>
 <li>
 <code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the heat pump evaporator fan either on or off
+</li>
+<li>
+<code>oveHeaPumY_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveHeaPumY_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>oveHeaPumY_u</code> [1] [min=0.0, max=1.0]: Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)
 </li>
 <li>
+<code>ovePum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ovePum_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the emission circuit pump either on or off
+</li>
+<li>
+<code>oveTSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>oveTSet_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint
 </li>
-
 </ul>
 <h4>Outputs</h4>
-<p>The model outputs are: </p>
+The model outputs are:
 <ul>
-
 <li>
 <code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
 </li>
@@ -380,10 +389,9 @@ is depicted as controller C2 in Figure 1.
 <li>
 <code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
-
 </ul>
 <h4>Forecasts</h4>
-<p>The model forecasts are: </p>
+The model forecasts are:
 <ul>
 <li>
 <code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity

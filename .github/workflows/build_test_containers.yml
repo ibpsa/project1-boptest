@@ -1,0 +1,93 @@
+name: Build, test and publish containers
+
+on:
+  pull_request:
+    branches:
+      -  '*'
+  push:
+    branches:
+      -  '*'
+    tags:
+      - '*'
+
+jobs:
+
+  simulation-tests:
+    name: Build containers and run boptest simulation tests
+    runs-on: ubuntu-22.04
+    timeout-minutes: 240
+    env:
+      COMPOSE_PROJECT_NAME: boptest_service
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Build and run stack
+        run: |
+          cd service
+          docker compose build
+          docker compose up -d web worker
+
+      - name: dump docker logs
+        uses: jwalton/gh-docker-logs@v1
+
+      - name: Upload test cases to minio
+        run: |
+          # The provision script will wait for the web service to be available,
+          # so there is no need for an external wait-for-it script
+          cd service
+          docker compose run --no-deps provision
+          curl http://localhost/testcases
+
+      - name: Run example
+        run: |
+          python --version
+          pip install requests matplotlib numpy pandas
+          PYTHONPATH=$GITHUB_WORKSPACE
+          echo "PYTHONPATH=$PYTHONPATH" >> $GITHUB_ENV
+          # Storing PYTHONPATH above doesn't work for python so setting it below at run 
+          PYTHONPATH=$PWD python examples/python/testcase1.py 
+
+      - name: Run tests
+        run: |
+           cd service
+           docker compose run --no-deps test
+
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v1
+
+      - name: Log in to the GitHub container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GH_USERNAME }}
+          password: ${{ secrets.GH_REGISTRY }}
+        
+      - name: Publish docker images to GitHub Registry
+        if: |
+          github.ref == 'refs/heads/develop' ||
+          contains(github.ref, 'refs/tags') 
+        shell: bash
+        run: service/ci/publish_to_github.sh
+
+#------------------  Push to docker hub (disabled) -------------------------------------
+#
+#      - name: Log in to Docker Hub
+#        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+#        with:
+#          username: ${{ secrets.DOCKER_USER }}
+#          password: ${{ secrets.DOCKER_PASS }}
+#
+#      - name: Publish docker images to Docker Hub
+#        if: |
+#          github.ref == 'refs/heads/develop' ||
+#          github.ref == 'refs/heads/experimental' ||
+#          contains(github.ref, 'refs/tags') 
+#        shell: bash
+#        run: service/ci/publish_to_docker.sh

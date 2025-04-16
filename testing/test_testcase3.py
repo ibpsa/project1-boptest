@@ -9,6 +9,7 @@ import unittest
 import pandas as pd
 import os
 import utilities
+import requests
 from examples.python import testcase3
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
@@ -54,13 +55,18 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         '''
 
         self.name = 'testcase3'
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
         self.step_ref = 60
         self.test_time_period = 'test_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
         self.input = {'oveActNor_activate': 0, 'oveActNor_u': 1500,
                       'oveActSou_activate': 0, 'oveActSou_u': 1500}
         self.measurement = 'CO2RooAirSou_y'
+        self.forecast_point = 'EmissionsBiomassPower'
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

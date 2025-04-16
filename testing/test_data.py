@@ -291,6 +291,22 @@ class PartialDataManagerTest(object):
         df_man = pd.DataFrame(data_dict).set_index('time')
         self.compare_ref_timeseries_df(df_man, self.ref_data_index)
 
+    def test_get_data_over_year(self):
+        '''Check that the data manager can retrieve the test case data
+        when an arbitrary time index across the year is provided.
+
+        '''
+
+        # Define index
+        index = np.arange(364*24*3600, (364+2)*24*3600, 1800)
+
+        # Get the data
+        data_dict = self.man.get_data(index=index)
+
+        # Check the data retrieved with the manager
+        df_man = pd.DataFrame(data_dict).set_index('time')
+        self.compare_ref_timeseries_df(df_man, self.ref_data_over_year)
+
 class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
                       PartialDataManagerTest):
     '''Tests the data manager class in a single-zone example.
@@ -321,6 +337,8 @@ class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
             'references', 'data', 'testcase2', 'tc2_data_retrieved_default.csv')
         self.ref_data_index = os.path.join(testing_root_dir,
             'references', 'data', 'testcase2', 'tc2_data_retrieved_index.csv')
+        self.ref_data_over_year = os.path.join(testing_root_dir,
+            'references', 'data', 'testcase2', 'tc2_data_retrieved_over_year.csv')
 
 class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
                                PartialDataManagerTest):
@@ -352,6 +370,8 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
             'references', 'data', 'testcase3', 'tc3_data_retrieved_default.csv')
         self.ref_data_index = os.path.join(testing_root_dir,
             'references', 'data', 'testcase3', 'tc3_data_retrieved_index.csv')
+        self.ref_data_over_year = os.path.join(testing_root_dir,
+            'references', 'data', 'testcase3', 'tc3_data_retrieved_over_year.csv')
 
 class FindDaysTest(unittest.TestCase, utilities.partialChecks):
     '''Tests module to find peak and typical heating and cooling
@@ -369,8 +389,13 @@ class FindDaysTest(unittest.TestCase, utilities.partialChecks):
         self.sim_data = os.path.join(testing_root_dir,'references',
                             'data', 'find_days', 'sim_test_days.csv')
 
-        self.days_ref = os.path.join(testing_root_dir,'references',
+        self.sim_data_ncool = os.path.join(testing_root_dir,'references',
+                            'data', 'find_days', 'sim_test_days_ncool.csv')
+
+        self.days_basic_ref = os.path.join(testing_root_dir,'references',
                             'data', 'find_days', 'days_ref.json')
+        self.days_limits_ref = os.path.join(testing_root_dir,'references',
+                            'data', 'find_days', 'days_limits_ref.json')
 
 
     def test_find_days(self):
@@ -379,10 +404,28 @@ class FindDaysTest(unittest.TestCase, utilities.partialChecks):
 
         '''
 
-        days = find_days(heat='fcu.powHeaThe.y', cool='fcu.powCooThe.y',
+        # Basic
+        days_basic = find_days(heat='fcu.powHeaThe.y',
+                         cool='fcu.powCooThe.y',
                          data=self.sim_data)
+        self.compare_ref_json(days_basic, self.days_basic_ref)
 
-        self.compare_ref_json(days, self.days_ref)
+        # With lower and upper limits
+        days_limits = find_days(heat='fcu.powHeaThe.y',
+                         cool='fcu.powCooThe.y',
+                         data=self.sim_data,
+                         cool_day_low_limit=10,
+                         cool_day_high_limit=20,
+                         heat_day_low_limit=10,
+                         heat_day_high_limit=20)
+        self.compare_ref_json(days_limits, self.days_limits_ref)
+
+        # With negative cooling
+        days_ncool = find_days(heat='fcu.powHeaThe.y',
+                         cool='fcu.powCooThe.y',
+                         data=self.sim_data_ncool,
+                         cooling_negative=True)
+        self.compare_ref_json(days_ncool, self.days_basic_ref)
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

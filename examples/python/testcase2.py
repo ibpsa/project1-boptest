@@ -11,8 +11,8 @@ in controllers/sup.py.
 # ----------------------
 import sys
 import os
-from examples.python.interface import control_test
 sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-2]))
+from examples.python.interface import control_test
 
 
 def run(plot=False):
@@ -50,7 +50,8 @@ def run(plot=False):
 
     # RUN THE CONTROL TEST
     # --------------------
-    kpi, df_res, custom_kpi_result, forecasts = control_test(control_module,
+    kpi, df_res, custom_kpi_result, forecasts = control_test('testcase2',
+                                                             control_module,
                                                              start_time=start_time,
                                                              warmup_period=warmup_period,
                                                              length=length,
@@ -97,4 +98,3 @@ def run(plot=False):
 
 if __name__ == "__main__":
     kpi, df_res, custom_kpi_result = run()
-    print(kpi)

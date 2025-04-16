@@ -63,6 +63,24 @@ class PartialForecasterTest(object):
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
+    def test_get_forecast_over_year(self):
+        '''Check that the forecaster is able to retrieve the data across
+        the year
+
+        '''
+        self.case.initialize(364*24*3600, 0)
+        # Load the data into the test case
+        forecast = self.forecaster.get_forecast(self.forecast_points,
+                                                horizon=2*24*3600,
+                                                interval=1800)
+
+        # Set reference file path
+        ref_filepath = self.ref_forecast_over_year
+
+        # Check the forecast
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+
 class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
                                PartialForecasterTest):
     '''Tests the Forecaster class in a single-zone example.
@@ -74,10 +92,11 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
 
         '''
 
-        # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
-        self.case=TestCase()
+        # Change directory to specific testcase2 folder
+        os.chdir(os.path.join(testing_root_dir))
+        os.chdir('..')
+        from testcase import TestCase
+        self.case=TestCase(fmupath='testcases/testcase2/models/wrapped.fmu')
 
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case)
@@ -92,6 +111,9 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
         self.ref_forecast_interval = os.path.join(utilities.get_root_path(),
             'testing', 'references', 'forecast', 'testcase2', 'tc2_forecast_interval.csv')
 
+        self.ref_forecast_over_year = os.path.join(utilities.get_root_path(),
+            'testing', 'references', 'forecast', 'testcase2', 'tc2_forecast_over_year.csv')
+
 class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
                               PartialForecasterTest):
     '''Tests the Forecaster class in a multi-zone example.
@@ -103,10 +125,11 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
 
         '''
 
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
-        self.case=TestCase()
+        # Change directory to specific testcase3 folder
+        os.chdir(os.path.join(testing_root_dir))
+        os.chdir('..')
+        from testcase import TestCase
+        self.case=TestCase(fmupath='testcases/testcase3/models/wrapped.fmu')
 
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case)
@@ -120,6 +143,9 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
 
         self.ref_forecast_interval = os.path.join(utilities.get_root_path(),
             'testing', 'references', 'forecast', 'testcase3', 'tc3_forecast_interval.csv')
+
+        self.ref_forecast_over_year = os.path.join(utilities.get_root_path(),
+            'testing', 'references', 'forecast', 'testcase3', 'tc3_forecast_over_year.csv')
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

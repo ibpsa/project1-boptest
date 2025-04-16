@@ -103,108 +103,120 @@ depicted as C2 in Figure 1.
 
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
-<p>The model inputs are: </p>
+The model inputs are:
 <ul>
 <li>
-<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone operative temperature setpoint for heating
-</li>
-<li>
-<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone operative temperature setpoint for cooling
-</li>
-<li>
-<code>oveTSetSup_u</code> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater
+<code>ovePum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ovePum_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the pump either on or off
 </li>
+<li>
+<code>oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveTSetCoo_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint for cooling
+</li>
+<li>
+<code>oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveTSetHea_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint for heating
+</li>
+<li>
+<code>oveTSetSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetSup_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveTSetSup_u</code> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater
+</li>
 </ul>
 <h4>Outputs</h4>
-<p>The model outputs are: </p>
+The model outputs are:
 <ul>
 <li>
-<code>reaQHea_y</code> [W] [min=None, max=None]: Heating thermal power
+<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
 </li>
 <li>
 <code>reaPPum_y</code> [W] [min=None, max=None]: Pump electrical power
 </li>
 <li>
-<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
+<code>reaQHea_y</code> [W] [min=None, max=None]: Heating thermal power
 </li>
 <li>
 <code>reaTRoo_y</code> [K] [min=None, max=None]: Operative zone temperature
 </li>
 <li>
-<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
-</li>
-<li>
-<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
-</li>
-<li>
-<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
-</li>
-<li>
-<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
-</li>
-<li>
-<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
-</li>
-<li>
-<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+<code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
 </li>
 <li>
 <code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
 </li>
 <li>
-<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
-</li>
-<li>
-<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
-</li>
-<li>
-<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
 </li>
 <li>
 <code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
 </li>
 <li>
-<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
 </li>
 <li>
-<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
-</li>
-<li>
-<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
-</li>
-<li>
-<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
-</li>
-<li>
-<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
 </li>
 <li>
 <code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
 </li>
 <li>
-<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
 </li>
 <li>
-<code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
 </li>
 <li>
 <code>weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
 </li>
+<li>
+<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
 </ul>
 <h4>Forecasts</h4>
-<p>The model forecasts are: </p>
+The model forecasts are:
 <ul>
 <li>
 <code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity

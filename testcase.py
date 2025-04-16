@@ -22,6 +22,7 @@ import uuid
 import os
 import json
 import array as a
+import pandas as pd
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -74,8 +75,8 @@ class TestCase(object):
         # Get building area
         self.area = self.config_json['area']
         # Get available control inputs and outputs
-        self.input_names = self.fmu.get_model_variables(causality = 2).keys()
-        self.output_names = self.fmu.get_model_variables(causality = 3).keys()
+        self.input_names = list(self.fmu.get_model_variables(causality = 2).keys())
+        self.output_names = list(self.fmu.get_model_variables(causality = 3).keys())
         self.forecast_names = list(self.data.keys())
         # Set default communication step
         self.set_step(self.config_json['step'])
@@ -83,15 +84,15 @@ class TestCase(object):
         self.__initilize_data()
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
-        self.options['CVode_options']['rtol'] = 1e-6
-        self.options['CVode_options']['store_event_points'] = False
         self.options['filter'] = self.output_names + self.input_names
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Initialize test case
         self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
         # Set default scenario
-        self.set_scenario(self.config_json['scenario'])
+        scenario_default = {'electricity_price':'constant',
+                            'time_period': None}
+        self.set_scenario(scenario_default)
 
     def __initilize_data(self):
         '''Initializes objects for simulation data storage.
@@ -159,7 +160,13 @@ class TestCase(object):
         # Set fmu initialization option
         self.options['initialize'] = self.initialize_fmu
         # Set sample rate
-        self.options['ncp'] = int((end_time-start_time)/30)
+        step = end_time - start_time
+        if step >= 30:
+            self.options['ncp'] = int((end_time-start_time)/30)
+        elif step == 0:
+            pass
+        elif (step < 30) and (step > 0):
+            self.options['ncp'] = int((end_time-start_time)/step)
         # Simulate fmu
         try:
             res = self.fmu.simulate(start_time=start_time,
@@ -203,8 +210,12 @@ class TestCase(object):
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                for x in res[key][i:]:
-                    self.y_store[key].append(x)
+                # Handle initialization of cs fmu generating multiple points for the same time
+                if res['time'][0] == res['time'][-1]:
+                    self.y_store[key].append(res[key][-1])
+                else:
+                    for x in res[key][i:]:
+                        self.y_store[key].append(x)
         # Store control signals (will be baseline if not activated, test controller input if activated)
         for key in self.u.keys():
             # Replace '_u' and '_y' for key used to collect data and don't overwrite time
@@ -216,8 +227,12 @@ class TestCase(object):
                 key_data = key
             self.u[key] = res[key_data][-1]
             if store:
-                for x in res[key_data][i:]:
-                    self.u_store[key].append(x)
+                # Handle initialization of cs fmu generating multiple points for the same time
+                if res['time'][0] == res['time'][-1]:
+                    self.u_store[key].append(res[key_data][-1])
+                else:
+                    for x in res[key_data][i:]:
+                        self.u_store[key].append(x)
 
     def advance(self, u):
         '''Advances the test case model simulation forward one step.
@@ -227,7 +242,7 @@ class TestCase(object):
         u : dict
             Defines the control input data to be used for the step.
             {<input_name>_activate : bool, int, float, or str convertable to 1 or 0
-             <input_name>_u        : int or float}
+             <input_name>_u        : int or float, or str convertable to float}
 
         Returns
         -------
@@ -258,68 +273,57 @@ class TestCase(object):
         # Set control inputs if they exist and are written
         # Check if possible to overwrite
         if u.keys():
-            # If there are overwriting keys available
-            # Check that any are overwritten
-            written = False
+            # Create input object
+            u_list = []
+            u_trajectory = self.start_time
             for key in u.keys():
-                if u[key]:
-                    written = True
-                    break
-            # If there are, create input object
-            if written:
-                u_list = []
-                u_trajectory = self.start_time
-                for key in u.keys():
-                    if (key not in self.input_names):
-                        payload = None
-                        status = 400
-                        message = "Unexpected input variable: {}.".format(key)
-                        logging.error(message)
-                        return status, message, payload
-                    if key != 'time' and u[key]:
-                        if '_activate' in key:
-                            try:
-                                if float(u[key]) == 1:
-                                    checked_value = 1
-                                elif  float(u[key]) == 0:
-                                    checked_value = 0
-                                else:
-                                    payload = None
-                                    status = 400
-                                    message = "Invalid value {} and/or type {} for input {}. Input must be a boolean, float, integer, string, or unicode able to be converted to a 1 or 0 (or 'T[t]rue' or 'F[f]alse').".format(u[key], type(u[key]), key)
-                                    logging.error(message)
-                                    return status, message, payload
-                            except ValueError:
-                                if (u[key] == 'True') or (u[key] == 'true'):
-                                    checked_value = 1
-                                elif  (u[key] == 'False') or (u[key] == 'false'):
-                                    checked_value = 0
-                                else:
-                                    payload = None
-                                    status = 400
-                                    message = "Invalid value {} and/or type {} for input {}. Input must be a boolean, float, integer, string, or unicode able to be converted to a 1 or 0 (or 'T[t]rue' or 'F[f]alse').".format(u[key], type(u[key]), key)
-                                    logging.error(message)
-                                    return status, message, payload
-                        else:
-                            try:
-                                value = float(u[key])
-                            except:
+                if (key not in self.input_names):
+                    payload = None
+                    status = 400
+                    message = "Unexpected input variable: {}.".format(key)
+                    logging.error(message)
+                    return status, message, payload
+                if (key != 'time' and (u[key] != None)):
+                    if '_activate' in key:
+                        try:
+                            if float(u[key]) == 1:
+                                checked_value = 1
+                            elif  float(u[key]) == 0:
+                                checked_value = 0
+                            else:
                                 payload = None
                                 status = 400
-                                message = "Invalid value {} for input {}. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(u[key], key, type(u[key]))
+                                message = "Invalid value {} and/or type {} for input {}. Input must be a boolean, float, integer, string, or unicode able to be converted to a 1 or 0 (or 'T[t]rue' or 'F[f]alse').".format(u[key], type(u[key]), key)
                                 logging.error(message)
                                 return status, message, payload
-                            # Check min/max if not activation input
-                            checked_value, message = self._check_value_min_max(key, value)
-                            if message is not None:
-                                logging.warning(message)
-                                alert_message = message + ';' + alert_message
-                        u_list.append(key)
-                        u_trajectory = np.vstack((u_trajectory, checked_value))
-                input_object = (u_list, np.transpose(u_trajectory))
-            # Otherwise, input object is None
-            else:
-                input_object = None
+                        except ValueError:
+                            if (u[key] == 'True') or (u[key] == 'true'):
+                                checked_value = 1
+                            elif  (u[key] == 'False') or (u[key] == 'false'):
+                                checked_value = 0
+                            else:
+                                payload = None
+                                status = 400
+                                message = "Invalid value {} and/or type {} for input {}. Input must be a boolean, float, integer, string, or unicode able to be converted to a 1 or 0 (or 'T[t]rue' or 'F[f]alse').".format(u[key], type(u[key]), key)
+                                logging.error(message)
+                                return status, message, payload
+                    else:
+                        try:
+                            value = float(u[key])
+                        except:
+                            payload = None
+                            status = 400
+                            message = "Invalid value {} for input {}. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(u[key], key, type(u[key]))
+                            logging.error(message)
+                            return status, message, payload
+                        # Check min/max if not activation input
+                        checked_value, message = self._check_value_min_max(key, value)
+                        if message is not None:
+                            logging.warning(message)
+                            alert_message = message + ';' + alert_message
+                    u_list.append(key)
+                    u_trajectory = np.vstack((u_trajectory, checked_value))
+            input_object = (u_list, np.transpose(u_trajectory))
         # Otherwise, input object is None
         else:
             input_object = None
@@ -344,6 +348,11 @@ class TestCase(object):
                     message = alert_message
                 # Advance start time
                 self.start_time = self.final_time
+                # Check if scenario is over
+                if self.start_time >= self.end_time:
+                    self.scenario_end = True
+                    # store results
+                    self.store_results()
                 # Log and return
                 logging.info(message)
                 return status, message, payload
@@ -357,7 +366,6 @@ class TestCase(object):
                 return status, message, payload
         else:
             # Simulation at end time
-            self.scenario_end = True
             payload = dict()
             message = "End of test case scenario time period reached."
             logging.info(message)
@@ -400,7 +408,10 @@ class TestCase(object):
         self.fmu.reset()
         # Reset simulation data storage
         self.__initilize_data()
+        # Reset computational time ratio timer
         self.elapsed_control_time_ratio = np.array([])
+        if hasattr(self, 'tic_time'):
+            delattr(self,'tic_time')
         # Check if the inputs are valid
         try:
             start_time = float(start_time)
@@ -859,10 +870,10 @@ class TestCase(object):
             message = "Invalid value {} for parameter interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(interval, type(interval))
             logging.error(message)
             return status, message, payload
-        if horizon <= 0:
+        if horizon < 0:
             payload = None
             status = 400
-            message = "Invalid value {} for parameter horizon. Value must be positive.".format(horizon)
+            message = "Invalid value {} for parameter horizon. Value must not be negative.".format(horizon)
             logging.error(message)
             return status, message, payload
         if interval <= 0:
@@ -1128,26 +1139,17 @@ class TestCase(object):
         dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
         # Create payload
         uid = str(uuid.uuid4())
-        payload = {
-          "results": [
-            {
-              "uid": uid,
-              "dateRun": str(datetime.now(tz=pytz.UTC)),
-              "boptestVersion": self.version,
-              "isShared": True,
-              "controlStep": str(self.get_step()[2]),
-              "account": {
+        test_results = self._get_test_results()
+        api_parameters = {
+            "uid": uid,
+            "isShared": True,
+            "account": {
                 "apiKey": api_key
-              },
-              "tags": tags,
-              "kpis": self.get_kpis()[2],
-              "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
-              "buildingType": {
-                "uid": self.get_name()[2]['name']
-              }
-            }
-          ]
+            },
+            "tags": tags,
         }
+        test_results.update(api_parameters)
+        payload = {"results":[test_results]}
         dash_url = "%s/api/results" % dash_server
         # Post to dashboard
         if not unit_test:
@@ -1311,6 +1313,58 @@ class TestCase(object):
         z.update(self.u)
 
         return z
+
+    def _get_test_results(self):
+        '''Collect test results and information into a dictionary.
+
+        Returns
+        -------
+        results: dict
+            Dictionary of test specific results and information.
+
+        '''
+
+        results = {
+            "dateRun": str(datetime.now(tz=pytz.UTC)),
+            "boptestVersion": self.version,
+            "controlStep": str(self.get_step()[2]),
+            "forecastParameters":{},
+            "kpis": self.get_kpis()[2],
+            "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
+            "buildingType": {
+                "uid": self.get_name()[2]['name'],
+            }
+        }
+
+        return results
+
+    def store_results(self):
+        '''Stores results from scenario in working directory as json and csv.
+
+        When run with Service, the result will be packed in the result tarball and
+        be retrieveable with the test_id.
+
+        Returns
+        -------
+        None
+
+        '''
+
+        file_name = "results"
+        # get results_json
+        results_json = self._get_test_results()
+        # store results_json
+        with open(file_name + ".json", "w") as outfile:
+            json.dump(results_json, outfile)
+        # get list of results, need to use output metadata so duplicate inputs are removed
+        result_list = self.input_names + list(self.outputs_metadata.keys())
+        # get results trajectories
+        results = self.get_results(result_list, self.initial_time, self.end_time)[2]
+        # convert to dataframe with time as index
+        results_df = pd.DataFrame.from_dict(results)
+        results_df.index = results_df['time']
+        # store results csv
+        results_df.to_csv(file_name + ".csv")
 
     def to_camel_case(self, snake_str):
         components = snake_str.split('_')

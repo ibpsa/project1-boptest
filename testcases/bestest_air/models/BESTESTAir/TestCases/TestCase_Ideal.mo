@@ -292,16 +292,28 @@ temperature setpoint.
 The model inputs are:
 <ul>
 <li>
-<code>fcu_oveTSup_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint
+<code>con_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input con_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>con_oveTSetCoo_u</code> [K] [min=278.15, max=308.15]: Zone temperature setpoint for cooling
+</li>
+<li>
+<code>con_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input con_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>con_oveTSetHea_u</code> [K] [min=278.15, max=308.15]: Zone temperature setpoint for heating
+</li>
+<li>
+<code>fcu_oveFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input fcu_oveFan_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>fcu_oveFan_u</code> [1] [min=0.0, max=1.0]: Fan control signal as air mass flow rate normalized to the design air mass flow rate
 </li>
 <li>
-<code>con_oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+<code>fcu_oveTSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input fcu_oveTSup_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>con_oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+<code>fcu_oveTSup_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint
 </li>
 </ul>
 <h4>Outputs</h4>
@@ -396,6 +408,10 @@ The model outputs are:
 </li>
 <li>
 <code>zon_weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
 </ul>
 <h4>Forecasts</h4>
 The model forecasts are:
@@ -753,6 +769,12 @@ see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </html>",
 revisions="<html>
 <ul>
+<li>
+October 18, 2024, by Ettore Zanetti:<br/>
+Update <code>min</code> and <code>max</code> for ovewrite blocks <code>oveTSetHea_u</code> and <code>oveTSetCoo_u</code>.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/658>
+BOPTEST issue #658</a>.
+</li>
 <li>
 August 25, 2022, by David Blum:<br/>
 Add forecast point documentation.

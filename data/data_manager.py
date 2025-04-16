@@ -9,11 +9,10 @@ test case FMU.
 
 '''
 
-import matplotlib.pyplot as plt
+
 import pandas as pd
 import numpy as np
 import zipfile
-from scipy import interpolate
 import warnings
 import os
 import json
@@ -146,12 +145,20 @@ class Data_Manager(object):
 
         # Get zone and boundary data keys allowed
         zon_keys, bou_keys = self._get_zone_and_boundary_keys()
+        weather_keys = list(self.categories['weather'].keys())
 
         # Search for .csv files in the resources folder
         for f in self.files:
             if f.endswith('.csv'):
                 df = pd.read_csv(f, comment='#')
                 cols = df.keys()
+                
+                # Check if all weather variables are included in weather.csv
+                if 'weather' in f:
+                    if not set(cols) <= set(weather_keys):
+                        warnings.warn('The file weather.csv is missing '\
+                        'the following variables '+str(set(weather_keys).difference(set(cols)))+'.', Warning)
+                
                 if 'time' in cols:
                     for col in cols.drop('time'):
                         # Raise error if col already appended
@@ -256,7 +263,7 @@ class Data_Manager(object):
         self.z_fmu.close()
 
     def get_data(self, horizon=24*3600, interval=None, index=None,
-                 variables=None, category=None, plot=False):
+                 variables=None, category=None):
         '''Retrieve test case data from the fmu. The data
         is stored within the csv files that are
         located in the resources folder of the test case fmu.
@@ -285,9 +292,7 @@ class Data_Manager(object):
             The possible options are specified at categories.json.
             This argument cannot be used together with the `variables`
             argument.
-        plot : Boolean, default is False
-            True if desired to plot the retrieved data
-
+            
         Returns
         -------
         data: dict
@@ -333,30 +338,36 @@ class Data_Manager(object):
             # the closest possible point under stop will be the end
             # point in order to keep interval unchanged among index.
             index = np.arange(start,stop+0.1,interval).astype(int)
+        else:
+            if not isinstance(index, np.ndarray):
+                index = np.asarray(index)
 
         # Reindex to the desired index
-        data_slice_reindexed = data_slice.reindex(index)
-
-        for key in data_slice_reindexed.keys():
-            # Use linear interpolation for continuous variables
-            if key in self.categories['weather']:
-                f = interpolate.interp1d(self.case.data.index,
-                    self.case.data[key], kind='linear')
-            # Use forward fill for discrete variables
-            else:
-                f = interpolate.interp1d(self.case.data.index,
-                    self.case.data[key], kind='zero')
-            data_slice_reindexed.loc[:,key] = f(index)
-
-        if plot:
-            if category is None:
-                to_plot = data_slice_reindexed.keys()
-            else:
-                to_plot = self.categories[category]
-            for var in to_plot:
-                data_slice_reindexed[var].plot()
-                plt.legend()
-                plt.show()
+        start = index[0]
+        # 1 year in (s)
+        year = 31536000
+        # Starting year
+        year_start = int(np.floor(start/year))*year
+        # Normalizing index with respect to starting year
+        index_norm = index - year_start
+        stop_norm = index_norm[-1]
+        # If stop happens across the year divide df and interpolate separately
+        if stop_norm > data_slice.index[-1]:
+            idx_year = (np.abs(index_norm - year)).argmin() + 1
+            # Take previous index value if index at idx_year > year
+            if index_norm[idx_year - 1] - year > np.finfo(float).eps:
+                idx_year = idx_year -1
+            df_slice1 = data_slice.reindex(index_norm[:idx_year])
+            df_slice1 = self.interpolate_data(df_slice1,index_norm[:idx_year])
+            df_slice2 = data_slice.reindex(index_norm[idx_year:] - year)
+            df_slice2 = self.interpolate_data(df_slice2,index_norm[idx_year:] - year)
+            df_slice2.index = df_slice2.index + year
+            data_slice_reindexed = pd.concat([df_slice1,df_slice2])
+        else:
+            data_slice_reindexed = data_slice.reindex(index_norm)
+            data_slice_reindexed = self.interpolate_data(data_slice_reindexed,index_norm)
+        # Add starting year back to index desired by user
+        data_slice_reindexed.index = data_slice_reindexed.index + year_start
 
         # Reset the index to keep the 'time' column in the data
         # Transform data frame to dictionary
@@ -411,7 +422,8 @@ class Data_Manager(object):
 
         # Get zone and boundary data keys allowed
         zon_keys, bou_keys = self._get_zone_and_boundary_keys()
-
+        
+        
         # Initialize test case data frame
         self.case.data = \
             pd.DataFrame(index=index).rename_axis('time')
@@ -420,6 +432,7 @@ class Data_Manager(object):
         for f in files:
             df = pd.read_csv(z_fmu.open(f))
             cols = df.keys()
+                               
             if 'time' in cols:
                 for col in cols.drop('time'):
                     # Check that column has any of the allowed data keys
@@ -439,17 +452,16 @@ class Data_Manager(object):
                         for category in self.categories:
                             # Use linear interpolation for continuous variables
                             if any(col.startswith(key) for key in self.categories['weather']):
-                                g = interpolate.interp1d(df['time'],df[col],
-                                    kind='linear')
-                                self.case.data.loc[:,col] = \
-                                    g(self.case.data.index)
+                                
+                                self.case.data.loc[:,col] = np.interp(self.case.data.index,\
+                                                                     df['time'],df[col])
                             # Use forward fill for discrete variables
                             elif any(col.startswith(key) for key in self.categories[category]):
-                                g = interpolate.interp1d(df['time'],df[col],
-                                    kind='zero')
-                                self.case.data.loc[:,col] = \
-                                    g(self.case.data.index)
-            else:
+
+                                self.case.data.loc[:,col] = self.interp0(self.case.data.index,\
+                                                                     df['time'].values,df[col].values)
+
+            else:                        
                 warnings.warn('The following file does not have '\
                 'time column and therefore no data is going to '\
                 'be used from this file as test case data.', Warning)
@@ -503,6 +515,69 @@ class Data_Manager(object):
             data_metadata[key] = metadata
 
         return data_metadata
+
+    def interpolate_data(self,df,index):
+        '''Interpolate testcase data.
+
+        Parameters
+        ----------
+        df: pandas.DataFrame
+            Dataframe that needs to be interpolated
+        index: np.array()
+            Index to use to get interpolated data
+
+        Returns
+        -------
+        df: pandas.DataFrame
+            Interpolated dataframe
+
+        '''
+        for key in df.keys():
+            # Use linear interpolation for continuous variables
+            if key in self.categories['weather']:
+                df.loc[:,key] = np.interp(index,self.case.data.index,
+                self.case.data[key])
+            # Use forward fill for discrete variables
+            else:
+                df.loc[:,key] = self.interp0(index,self.case.data.index.values,
+                self.case.data[key].values)
+        return df
+    
+    def interp0(self,x, xp, yp):
+        """ Zeroth order hold interpolation w/ same
+        (base)   signature  as numpy.interp.
+        Parameters
+        ----------
+        x : np.array
+            The x-coordinates at which to evaluate the interpolated values.
+            
+        xp : np.array
+            The x-coordinates of the data points, must be increasing.
+        
+        yp : np.array
+            The y-coordinates of the data points, same length as xp.
+            
+        Returns
+        -------
+        y : np.array
+            The interpolated values, same length as x.
+        """
+    
+        def func(x0,k):
+            if x0 <= xp[0]:
+                return yp[0], k
+            if x0 >= xp[-1]:
+                return yp[-1], k
+           
+            while x0 >= xp[k]:
+                k += 1
+            return yp[k-1], k
+        k = 0
+        y = list()
+        for x0 in x:           
+            y0,k = func(x0,k)
+            y.append(y0)
+        return np.array(y)
 
 
 if __name__ == "__main__":

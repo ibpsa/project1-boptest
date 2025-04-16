@@ -1,4 +1,4 @@
-﻿within MultiZoneResidentialHydronic;
+within MultiZoneResidentialHydronic;
 model TestCase "Multi zone residential hydronic example model"
 
   extends Modelica.Icons.Example;
@@ -199,7 +199,7 @@ protected
   Modelica.Blocks.Math.RealToBoolean realToBoolean1
     annotation (Placement(transformation(extent={{-286,-188},{-274,-176}})));
   Modelica.Blocks.Logical.Switch switch4
-    annotation (Placement(transformation(extent={{-234,-232},{-222,-220}})));
+    annotation (Placement(transformation(extent={{-260,-206},{-248,-194}})));
   Modelica.Blocks.Continuous.LimPID conHeaModeBoiler(
     yMax=1,
     yMin=Pmin_Ch/Pmax_Ch,
@@ -207,12 +207,14 @@ protected
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=1,
     Ti=300)
-    annotation (Placement(transformation(extent={{-272,-222},{-260,-210}})));
+    annotation (Placement(transformation(extent={{-306,-206},{-294,-194}})));
   Modelica.Blocks.Sources.RealExpression BoilerSafetyMode(y=0)
-    annotation (Placement(transformation(extent={{-260,-252},{-246,-236}})));
+    annotation (Placement(transformation(extent={{-290,-238},{-276,-222}})));
   Modelica.Blocks.Logical.OnOffController
                                        onOffController(bandwidth=0.5)
-    annotation (Placement(transformation(extent={{-296,-242},{-276,-222}})));
+    annotation (Placement(transformation(extent={{-328,-244},{-308,-224}})));
+  Modelica.Blocks.Math.Product product2
+    annotation (Placement(transformation(extent={{-196,-146},{-176,-126}})));
 public
   Buildings.ThermalZones.Detailed.MixedAir gar(
     redeclare package Medium = MediumA,
@@ -464,8 +466,8 @@ public
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3     weaDat(                           winSpe=
         5.25,
     winSpeSou=Buildings.BoundaryConditions.Types.DataSource.Parameter,
-    filNam=ModelicaServices.ExternalReferences.loadResource(
-        "Resources/FRA_Bordeaux.075100_IWEC.mos"))
+    filNam=Modelica.Utilities.Files.loadResource(
+        "modelica://MultiZoneResidentialHydronic/Resources/FRA_Bordeaux.075100_IWEC.mos"))
     annotation (Placement(transformation(extent={{-296,46},{-276,66}})));
   Building.Schedules.ScheduleDay schDay(delta_ST=delta_ST_rad) "Day schedule"
     annotation (Placement(transformation(extent={{-372,-16},{-350,6}})));
@@ -1215,13 +1217,6 @@ public
         extent={{-3,3},{3,-3}},
         rotation=90,
         origin={-91,-127})));
-  Building.Control.ConHea conPumHea(
-    Khea=mBoi_flow_nominal,
-    k=1,
-    Ti=600) annotation (Placement(transformation(
-        extent={{4.99991,-2.99998},{-4.99997,2.99997}},
-        rotation=180,
-        origin={-203,-199})));
   Buildings.Fluid.Movers.FlowControlled_m_flow pumEmiSystem(
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     redeclare package Medium = MediumW,
@@ -1235,9 +1230,9 @@ public
     annotation (Placement(transformation(extent={{5,5},{-5,-5}}, origin={-83,-175})));
   Modelica.Blocks.Sources.RealExpression HeaSetLiv(y=schGeneral.HeaSetRT12 +
         delta_ST_rad)
-    annotation (Placement(transformation(extent={{-368,-224},{-330,-196}})));
+    annotation (Placement(transformation(extent={{-376,-214},{-338,-186}})));
   Modelica.Blocks.Sources.RealExpression expTLiv(y=TLiv.T)
-    annotation (Placement(transformation(extent={{-366,-260},{-328,-234}})));
+    annotation (Placement(transformation(extent={{-378,-252},{-342,-228}})));
   Buildings.Fluid.Sources.Boundary_pT bou(nPorts=1, redeclare package Medium =
         MediumW)
     annotation (Placement(transformation(extent={{-110,-194},{-102,-186}})));
@@ -1391,14 +1386,25 @@ public
     annotation (Placement(transformation(
         extent={{-3,-3},{3,3}},
         rotation=0,
-        origin={-187,-199})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetPum(u(
+        origin={-175,-199})));
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetPumBoi(u(
       min=273.15 + 10,
       max=273.15 + 95,
-      unit="K"), description=
-        "Heating zone air temperature setpoint used to control circulation pump of the emission system")
-    "Overwrite the heating setpoint used to control circulation pump of the emission system"
-    annotation (Placement(transformation(extent={{-238,-210},{-230,-202}})));
+      unit="K"), description="Heating zone air temperature setpoint used to control circulation pump of the emission system")
+    "Overwrite the heating setpoint used to control boiler and circulation pump of the emission system"
+    annotation (Placement(transformation(extent={{-328,-204},{-320,-196}})));
+  Modelica.Blocks.Math.Gain gaiHea(k=mBoi_flow_nominal)
+    annotation (Placement(transformation(extent={{-190,-254},{-182,-246}})));
+  Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea
+    annotation (Placement(transformation(extent={{-220,-260},{-200,-240}})));
+  Modelica.Blocks.Math.Gain gaiHea1(k=1/mBoi_flow_nominal)
+    annotation (Placement(transformation(extent={{-4,-4},{4,4}},
+        rotation=180,
+        origin={-176,-184})));
+  Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea1
+    annotation (Placement(transformation(extent={{-210,-148},{-198,-136}})));
+  Buildings.Controls.OBC.CDL.Continuous.GreaterThreshold greThr(t=0.05, h=0.025)
+    annotation (Placement(transformation(extent={{-184,-194},{-204,-174}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -1526,9 +1532,9 @@ equation
   connect(uShaLiv.y, repLiv.u)
     annotation (Line(points={{-113.8,46},{-110.4,46}}, color={0,0,127}));
   connect(repLiv.y[1], liv.uSha[1]) annotation (Line(points={{-105.8,46},{-100,
-          46},{-100,28.88},{-96.64,28.88}}, color={0,0,127}));
+          46},{-100,29.04},{-96.64,29.04}}, color={0,0,127}));
   connect(repLiv.y[2], liv.uSha[2]) annotation (Line(points={{-105.8,46},{-100,
-          46},{-100,29.52},{-96.64,29.52}}, color={0,0,127}));
+          46},{-100,29.36},{-96.64,29.36}}, color={0,0,127}));
   connect(uShaRo1.y, repRo1.u)
     annotation (Line(points={{-31.8,36},{-28.4,36}}, color={0,0,127}));
   connect(repRo1.y[1], ro1.uSha[1]) annotation (Line(points={{-23.8,36},{-20,36},
@@ -1568,55 +1574,55 @@ equation
   connect(multiplex3_Combles.y, ati.qGai_flow) annotation (Line(points={{-239.8,
           -8},{-234,-8},{-234,-6.8},{-228.64,-6.8}}, color={0,0,127}));
   connect(ati.surf_surBou[1], gar.surf_conBou[1]) annotation (Line(points={{-221.52,
-          -15.9429},{-222,-15.9429},{-222,-76},{-127.6,-76},{-127.6,-54.6}},
+          -15.7714},{-222,-15.7714},{-222,-76},{-127.6,-76},{-127.6,-54.5}},
         color={191,0,0}));
   connect(ati.surf_surBou[2], liv.surf_conBou[1]) annotation (Line(points={{-221.52,
-          -15.8286},{-222,-15.8286},{-222,-76},{-82,-76},{-82,4},{-85.6,4},{
-          -85.6,15.3333}},
+          -15.7143},{-222,-15.7143},{-222,-76},{-82,-76},{-82,4},{-85.6,4},{
+          -85.6,15.4667}},
         color={191,0,0}));
   connect(ati.surf_surBou[3], ro1.surf_conBou[1]) annotation (Line(points={{-221.52,
-          -15.7143},{-221.52,-44},{-176,-44},{-176,6},{-5.6,6},{-5.6,11.3333}},
+          -15.6571},{-221.52,-44},{-176,-44},{-176,6},{-5.6,6},{-5.6,11.4667}},
         color={191,0,0}));
   connect(ati.surf_surBou[4], ro2.surf_conBou[1]) annotation (Line(points={{-221.52,
-          -15.6},{-221.52,-44},{-176,-44},{-176,6},{52.4,6},{52.4,11.3333}},
+          -15.6},{-221.52,-44},{-176,-44},{-176,6},{52.4,6},{52.4,11.4667}},
         color={191,0,0}));
   connect(ati.surf_surBou[5], ro3.surf_conBou[1]) annotation (Line(points={{-221.52,
-          -15.4857},{-221.52,-76},{52.4,-76},{52.4,-60.6}}, color={191,0,0}));
+          -15.5429},{-221.52,-76},{52.4,-76},{52.4,-60.5}}, color={191,0,0}));
   connect(ati.surf_surBou[6], bth.surf_conBou[1]) annotation (Line(points={{-221.52,
-          -15.3714},{-221.52,-76},{-7.6,-76},{-7.6,-60.7}}, color={191,0,0}));
+          -15.4857},{-221.52,-76},{-7.6,-76},{-7.6,-60.55}},color={191,0,0}));
   connect(ati.surf_surBou[7], hal.surf_conBou[1]) annotation (Line(points={{-221.52,
-          -15.2571},{-192,-15.2571},{-192,-32},{54,-32},{54,-16},{54.4,-16},{
-          54.4,-16.7429}},
+          -15.4286},{-192,-15.4286},{-192,-32},{54,-32},{54,-16},{54.4,-16},{
+          54.4,-16.5714}},
         color={191,0,0}));
   connect(gar.surf_surBou[1], liv.surf_conBou[2]) annotation (Line(points={{-131.52,
           -53.6},{-131.52,-54},{-132,-54},{-132,-76},{-82,-76},{-82,4},{-85.6,4},
           {-85.6,15.6}},
         color={191,0,0}));
   connect(liv.surf_surBou[1], ro1.surf_conBou[2]) annotation (Line(points={{-89.52,
-          16.1333},{-89.52,8},{-6,8},{-6,12},{-5.6,12},{-5.6,11.6}}, color={191,
+          16.2667},{-89.52,8},{-6,8},{-6,12},{-5.6,12},{-5.6,11.6}}, color={191,
           0,0}));
   connect(liv.surf_surBou[2], bth.surf_conBou[2]) annotation (Line(points={{-89.52,
-          16.4},{-89.52,8},{-82,8},{-82,-74},{-7.6,-74},{-7.6,-60.5}}, color={191,
+          16.4},{-89.52,8},{-82,8},{-82,-74},{-7.6,-74},{-7.6,-60.45}},color={191,
           0,0}));
   connect(liv.surf_surBou[3], hal.surf_conBou[6]) annotation (Line(points={{-89.52,
-          16.6667},{-89.52,8},{86,8},{86,-16},{62,-16},{62,-16.1714},{54.4,
-          -16.1714}}, color={191,0,0}));
+          16.5333},{-89.52,8},{86,8},{86,-16},{62,-16},{62,-16.2857},{54.4,
+          -16.2857}}, color={191,0,0}));
   connect(ro1.surf_surBou[1], hal.surf_conBou[2]) annotation (Line(points={{-9.52,
-          12.2},{-9.52,8},{86,8},{86,-16},{70,-16},{70,-16.6286},{54.4,-16.6286}},
+          12.3},{-9.52,8},{86,8},{86,-16},{70,-16},{70,-16.5143},{54.4,-16.5143}},
         color={191,0,0}));
   connect(ro1.surf_surBou[2], ro2.surf_conBou[2]) annotation (Line(points={{-9.52,
-          12.6},{-9.52,8},{52.4,8},{52.4,11.6}}, color={191,0,0}));
+          12.5},{-9.52,8},{52.4,8},{52.4,11.6}}, color={191,0,0}));
   connect(ro2.surf_surBou[1], hal.surf_conBou[3]) annotation (Line(points={{48.48,
-          12.4},{48.48,8},{86,8},{86,-16},{70,-16},{70,-16.5143},{54.4,-16.5143}},
+          12.4},{48.48,8},{86,8},{86,-16},{70,-16},{70,-16.4571},{54.4,-16.4571}},
         color={191,0,0}));
   connect(ro3.surf_surBou[1], bth.surf_conBou[3]) annotation (Line(points={{48.48,
-          -59.8},{48.48,-74},{-7.6,-74},{-7.6,-60.3}}, color={191,0,0}));
+          -59.7},{48.48,-74},{-7.6,-74},{-7.6,-60.35}},color={191,0,0}));
   connect(ro3.surf_surBou[2], hal.surf_conBou[4]) annotation (Line(points={{48.48,
-          -59.4},{48.48,-74},{86,-74},{86,-16},{70,-16},{70,-16.4},{54.4,-16.4}},
+          -59.5},{48.48,-74},{86,-74},{86,-16},{70,-16},{70,-16.4},{54.4,-16.4}},
         color={191,0,0}));
   connect(bth.surf_surBou[1], hal.surf_conBou[5]) annotation (Line(points={{-11.52,
-          -59.6},{-11.52,-74},{86,-74},{86,-16},{70,-16},{70,-16.2857},{54.4,
-          -16.2857}},
+          -59.6},{-11.52,-74},{86,-74},{86,-16},{70,-16},{70,-16.3429},{54.4,
+          -16.3429}},
         color={191,0,0}));
   connect(weaDat.weaBus, hal.weaBus) annotation (Line(
       points={{-276,56},{59.16,56},{59.16,-2.84}},
@@ -1664,41 +1670,43 @@ equation
       extent={{-6,3},{-6,3}}));
 
   connect(dooRo2.port_b2, ro2.ports[1]) annotation (Line(points={{24.8,2},{26,2},
-          {26,6},{38,6},{38,10},{44,10},{44,12.8}}, color={0,127,255}));
+          {26,6},{38,6},{38,10},{44,10},{44,13.4}}, color={0,127,255}));
   connect(dooRo2.port_a1, ro2.ports[2]) annotation (Line(points={{30.2,2},{32,2},
-          {32,6},{38,6},{38,10},{44,10},{44,13.6}}, color={0,127,255}));
+          {32,6},{38,6},{38,10},{44,10},{44,13.8}}, color={0,127,255}));
   connect(dooRo2.port_b1, hal.ports[1]) annotation (Line(points={{30.2,-7},{
-          30.2,-15.4667},{46,-15.4667}}, color={0,127,255}));
+          30.2,-14.7333},{46,-14.7333}}, color={0,127,255}));
   connect(dooRo2.port_a2, hal.ports[2]) annotation (Line(points={{24.8,-7},{
-          24.8,-15.2},{46,-15.2}}, color={0,127,255}));
+          24.8,-14.6},{46,-14.6}}, color={0,127,255}));
   connect(dooRo3.port_a2, hal.ports[3]) annotation (Line(points={{32.2,-14},{46,
-          -14},{46,-14.9333}}, color={0,127,255}));
+          -14},{46,-14.4667}}, color={0,127,255}));
   connect(dooRo3.port_b1, hal.ports[4]) annotation (Line(points={{26.8,-14},{46,
-          -14},{46,-14.6667}}, color={0,127,255}));
+          -14},{46,-14.3333}}, color={0,127,255}));
   connect(dooBth.port_a2, hal.ports[5]) annotation (Line(points={{-7.8,-14},{46,
-          -14},{46,-14.4}}, color={0,127,255}));
+          -14},{46,-14.2}}, color={0,127,255}));
   connect(dooBth.port_b1, hal.ports[6]) annotation (Line(points={{-13.2,-14},{
-          16,-14},{16,-14.1333},{46,-14.1333}}, color={0,127,255}));
+          16,-14},{16,-14.0667},{46,-14.0667}}, color={0,127,255}));
   connect(dooRo1.port_b1, hal.ports[7]) annotation (Line(points={{-7.8,-7},{-6,
-          -7},{-6,-14},{18,-14},{18,-13.8667},{46,-13.8667}}, color={0,127,255}));
+          -7},{-6,-14},{18,-14},{18,-13.9333},{46,-13.9333}}, color={0,127,255}));
   connect(dooRo1.port_a2, hal.ports[8]) annotation (Line(points={{-13.2,-7},{
-          -12,-7},{-12,-13.6},{46,-13.6}}, color={0,127,255}));
+          -12,-7},{-12,-13.8},{46,-13.8}}, color={0,127,255}));
   connect(dooLiv.port_b1, hal.ports[9]) annotation (Line(points={{-36,-7.8},{
-          -18,-7.8},{-18,-13.3333},{46,-13.3333}}, color={0,127,255}));
+          -18,-7.8},{-18,-13.6667},{46,-13.6667}}, color={0,127,255}));
   connect(dooRo3.port_b2, ro3.ports[1]) annotation (Line(points={{32.2,-23},{
-          32.2,-59.2},{44,-59.2}}, color={0,127,255}));
+          32.2,-58.6},{44,-58.6}}, color={0,127,255}));
   connect(dooRo3.port_a1, ro3.ports[2]) annotation (Line(points={{26.8,-23},{
-          26.8,-58.4},{44,-58.4}}, color={0,127,255}));
-  connect(dooBth.port_a1, bth.ports[1]) annotation (Line(points={{-13.2,-23},{-13.2,
-          -32},{-16,-32},{-16,-59.2}}, color={0,127,255}));
-  connect(dooBth.port_b2, bth.ports[2]) annotation (Line(points={{-7.8,-23},{-7.8,
-          -32},{-16,-32},{-16,-58.4}}, color={0,127,255}));
+          26.8,-58.2},{44,-58.2}}, color={0,127,255}));
+  connect(dooBth.port_a1, bth.ports[1]) annotation (Line(points={{-13.2,-23},{
+          -13.2,-32},{-16,-32},{-16,-58.6}},
+                                       color={0,127,255}));
+  connect(dooBth.port_b2, bth.ports[2]) annotation (Line(points={{-7.8,-23},{
+          -7.8,-32},{-16,-32},{-16,-58.2}},
+                                       color={0,127,255}));
   connect(dooRo1.port_b2, ro1.ports[1]) annotation (Line(points={{-13.2,2},{-14,
-          2},{-14,12.8}}, color={0,127,255}));
+          2},{-14,13.4}}, color={0,127,255}));
   connect(dooRo1.port_a1, ro1.ports[2])
-    annotation (Line(points={{-7.8,2},{-14,2},{-14,13.6}}, color={0,127,255}));
+    annotation (Line(points={{-7.8,2},{-14,2},{-14,13.8}}, color={0,127,255}));
   connect(dooLiv.port_a2, hal.ports[10]) annotation (Line(points={{-36,-13.2},{
-          6,-13.2},{6,-13.0667},{46,-13.0667}}, color={0,127,255}));
+          6,-13.2},{6,-13.5333},{46,-13.5333}}, color={0,127,255}));
 
   connect(THal.port, hal.heaPorAir)
     annotation (Line(points={{60,-10},{51.6,-10}}, color={191,0,0}));
@@ -1715,24 +1723,24 @@ equation
   connect(temSoil.y, T_sol.T) annotation (Line(points={{32.4,84},{39.2,84}},
                 color={0,0,127}));
   connect(T_sol.port, liv.surf_conBou[3]) annotation (Line(points={{48,84},{60,
-          84},{60,64},{86,64},{86,8},{-85.6,8},{-85.6,15.8667}},
+          84},{60,64},{86,64},{86,8},{-85.6,8},{-85.6,15.7333}},
         color={191,0,0}));
   connect(T_sol.port, ro1.surf_conBou[3]) annotation (Line(points={{48,84},{60,
-          84},{60,64},{86,64},{86,8},{-5.6,8},{-5.6,11.8667}},     color={191,0,
+          84},{60,64},{86,64},{86,8},{-5.6,8},{-5.6,11.7333}},     color={191,0,
           0}));
   connect(T_sol.port, ro2.surf_conBou[3]) annotation (Line(points={{48,84},{60,
-          84},{60,64},{86,64},{86,8},{52.4,8},{52.4,11.8667}},            color=
+          84},{60,64},{86,64},{86,8},{52.4,8},{52.4,11.7333}},            color=
          {191,0,0}));
   connect(T_sol.port, ro3.surf_conBou[2]) annotation (Line(points={{48,84},{60,
-          84},{60,64},{86,64},{86,-74},{52.4,-74},{52.4,-60.2}},
+          84},{60,64},{86,64},{86,-74},{52.4,-74},{52.4,-60.3}},
                                                              color={191,0,0}));
   connect(T_sol.port,bth. surf_conBou[4]) annotation (Line(points={{48,84},{60,
-          84},{60,64},{86,64},{86,-74},{-7.6,-74},{-7.6,-60.1}},
+          84},{60,64},{86,64},{86,-74},{-7.6,-74},{-7.6,-60.25}},
         color={191,0,0}));
   connect(T_sol.port, hal.surf_conBou[7]) annotation (Line(points={{48,84},{60,
-          84},{60,64},{86,64},{86,-16.0571},{54.4,-16.0571}},     color={191,0,0}));
+          84},{60,64},{86,64},{86,-16.2286},{54.4,-16.2286}},     color={191,0,0}));
   connect(T_sol.port, gar.surf_conBou[2]) annotation (Line(points={{48,84},{60,
-          84},{60,64},{86,64},{86,-76},{-127.6,-76},{-127.6,-54.2}},     color={
+          84},{60,64},{86,64},{86,-76},{-127.6,-76},{-127.6,-54.3}},     color={
           191,0,0}));
   connect(thConHal.port_b, hal.heaPorAir) annotation (Line(points={{66,-5},{64,
           -5},{64,-6},{51.6,-6},{51.6,-10}}, color={191,0,0}));
@@ -1983,44 +1991,34 @@ equation
           {-286.35,-182.5},{-286.35,-182},{-287.2,-182}}, color={0,0,127}));
   connect(booleanToReal1.y,product1. u2) annotation (Line(points={{-255.4,-182},
           {-240,-182}},                color={0,0,127}));
-  connect(conHeaModeBoiler.y, switch4.u1) annotation (Line(points={{-259.4,-216},
-          {-244.7,-216},{-244.7,-221.2},{-235.2,-221.2}}, color={0,0,127}));
-  connect(switch4.u3, BoilerSafetyMode.y) annotation (Line(points={{-235.2,-230.8},
-          {-242,-230.8},{-242,-244},{-245.3,-244}}, color={0,0,127}));
-  connect(onOffController.y, switch4.u2) annotation (Line(points={{-275,-232},{-246,
-          -232},{-246,-226},{-235.2,-226}}, color={255,0,255}));
-  connect(HeaSetLiv.y, conHeaModeBoiler.u_s) annotation (Line(points={{-328.1,-210},
-          {-306,-210},{-306,-216},{-273.2,-216}}, color={0,0,127}));
-  connect(expTLiv.y, conHeaModeBoiler.u_m) annotation (Line(points={{-326.1,-247},
-          {-266,-247},{-266,-223.2}}, color={0,0,127}));
-  connect(boi.T, conBoiSaf.T) annotation (Line(points={{-128.2,-136},{-122,-136},
-          {-122,-130},{-216,-130},{-216,-144},{-336,-144},{-336,-182.267},{
+  connect(conHeaModeBoiler.y, switch4.u1) annotation (Line(points={{-293.4,-200},
+          {-286,-200},{-286,-195.2},{-261.2,-195.2}},     color={0,0,127}));
+  connect(switch4.u3, BoilerSafetyMode.y) annotation (Line(points={{-261.2,
+          -204.8},{-266,-204.8},{-266,-230},{-275.3,-230}},
+                                                    color={0,0,127}));
+  connect(expTLiv.y, conHeaModeBoiler.u_m) annotation (Line(points={{-340.2,
+          -240},{-336,-240},{-336,-218},{-300,-218},{-300,-207.2}},
+                                      color={0,0,127}));
+  connect(boi.T, conBoiSaf.T) annotation (Line(points={{-128.2,-136},{-128,-136},
+          {-128,-118},{-216,-118},{-216,-144},{-336,-144},{-336,-182.267},{
           -308.04,-182.267}},
                     color={0,0,127}));
-  connect(expTLiv.y, onOffController.u) annotation (Line(points={{-326.1,-247},
-          {-314,-247},{-314,-238},{-298,-238}}, color={0,0,127}));
+  connect(expTLiv.y, onOffController.u) annotation (Line(points={{-340.2,-240},
+          {-330,-240}},                         color={0,0,127}));
   connect(product1.y, switch1.u1) annotation (Line(points={{-217,-176},{-208,-176},
           {-208,-152},{-256,-152},{-256,-115},{-251,-115}}, color={0,0,127}));
   connect(product1.y, greaterThreshold.u) annotation (Line(points={{-217,-176},{
           -208,-176},{-208,-152},{-308,-152},{-308,-119},{-301,-119}}, color={0,
           0,127}));
-  connect(switch4.y, product1.u1) annotation (Line(points={{-221.4,-226},{-218,
-          -226},{-218,-196},{-248,-196},{-248,-170},{-240,-170}},
-                                                            color={0,0,127}));
-  connect(expTLiv.y, conPumHea.T) annotation (Line(points={{-326.1,-247},{-314,
-          -247},{-314,-199.2},{-208.8,-199.2}},
-                                            color={0,0,127}));
+  connect(switch4.y, product1.u1) annotation (Line(points={{-247.4,-200},{-246,
+          -200},{-246,-170},{-240,-170}},                   color={0,0,127}));
   connect(bou.ports[1], temRet.port_a) annotation (Line(points={{-102,-190},{
           -94,-190},{-94,-174}},
                              color={0,127,255}));
   connect(expCooLiv.y, conCooLiv.TSet) annotation (Line(points={{-73.8,16},{-70,
           16},{-70,18.3333},{-66.32,18.3333}}, color={0,0,127}));
-  connect(switch1.y, boi.y) annotation (Line(points={{-239.5,-119},{-184,-119},
-          {-184,-136},{-152,-136}}, color={0,0,127}));
-  connect(TRo1.T, conCooRo1.T) annotation (Line(points={{6.2,18},{8,18},{8,15},{
+  connect(TRo1.T, conCooRo1.T) annotation (Line(points={{6,18},{8,18},{8,15},{
           9.68,15}}, color={0,0,127}));
-  connect(HeaSetLiv.y, onOffController.reference) annotation (Line(points={{-328.1,
-          -210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
   connect(massFlowRate.port_b, inSplVal1.port_1) annotation (Line(points={{-91,
           -124},{-92,-124},{-92,-119},{-88,-119}}, color={0,127,255}));
   connect(schGeneral.HeaSetRT12, reaTSetHea.u) annotation (Line(points={{-352,
@@ -2056,15 +2054,15 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(infRo1.ports_b, ro1.ports[3:4]) annotation (Line(points={{-20.2,10},{
-          -16,10},{-16,15.2},{-14,15.2}}, color={0,127,255}));
+          -16,10},{-16,14.6},{-14,14.6}}, color={0,127,255}));
   connect(infRo2.ports_b, ro2.ports[3:4]) annotation (Line(points={{35.8,12},{
-          42,12},{42,15.2},{44,15.2}}, color={0,127,255}));
+          42,12},{42,14.6},{44,14.6}}, color={0,127,255}));
   connect(infRo2.weaBus, weaDat.weaBus) annotation (Line(
       points={{32,12},{18,12},{18,56},{-276,56}},
       color={255,204,51},
       thickness=0.5));
   connect(infRo3.ports_b, ro3.ports[3:4]) annotation (Line(points={{35.8,-70},{
-          42,-70},{42,-56.8},{44,-56.8}}, color={0,127,255}));
+          42,-70},{42,-57.4},{44,-57.4}}, color={0,127,255}));
   connect(infRo3.weaBus, weaDat.weaBus) annotation (Line(
       points={{32,-70},{30,-70},{30,-94},{-164,-94},{-164,56},{-276,56}},
       color={255,204,51},
@@ -2082,9 +2080,9 @@ equation
   connect(genCO2Ro3.y, ro3.C_flow[1]) annotation (Line(points={{36.2,-66},{40,
           -66},{40,-52.88},{41.36,-52.88}}, color={0,0,127}));
   connect(infHal.ports_b, hal.ports[11:12]) annotation (Line(points={{39.8,-6},
-          {42,-6},{42,-12.5333},{46,-12.5333}}, color={0,127,255}));
+          {42,-6},{42,-13.2667},{46,-13.2667}}, color={0,127,255}));
   connect(extBth.ports_b, bth.ports[3:4]) annotation (Line(points={{-24.2,-60},
-          {-20,-60},{-20,-56.8},{-16,-56.8}}, color={0,127,255}));
+          {-20,-60},{-20,-57.4},{-16,-57.4}}, color={0,127,255}));
   connect(extBth.weaBus, bth.weaBus) annotation (Line(
       points={{-28,-60},{-32,-60},{-32,-94},{-2.84,-94},{-2.84,-46.84}},
       color={255,204,51},
@@ -2097,24 +2095,26 @@ equation
     annotation (Line(points={{-111.7,22},{-108.4,22}}, color={0,0,127}));
   connect(genCO2Liv.y, liv.C_flow[1]) annotation (Line(points={{-103.8,22},{
           -102,22},{-102,23.12},{-96.64,23.12}}, color={0,0,127}));
-  connect(dooLiv.port_a1, liv.ports[1]) annotation (Line(points={{-45,-7.8},{-94,
-          -7.8},{-94,16.72}}, color={0,127,255}));
-  connect(dooLiv.port_b2, liv.ports[2]) annotation (Line(points={{-45,-13.2},{-94,
-          -13.2},{-94,17.36}}, color={0,127,255}));
+  connect(dooLiv.port_a1, liv.ports[1]) annotation (Line(points={{-45,-7.8},{
+          -94,-7.8},{-94,17.36}},
+                              color={0,127,255}));
+  connect(dooLiv.port_b2, liv.ports[2]) annotation (Line(points={{-45,-13.2},{
+          -94,-13.2},{-94,17.68}},
+                               color={0,127,255}));
   connect(extLiv.ports_b, liv.ports[3:5]) annotation (Line(points={{-104.2,18},
-          {-100,18},{-100,19.28},{-94,19.28}}, color={0,127,255}));
+          {-100,18},{-100,18.64},{-94,18.64}}, color={0,127,255}));
   connect(extLiv.weaBus, liv.weaBus) annotation (Line(
       points={{-108,18},{-132,18},{-132,56},{-80.84,56},{-80.84,29.16}},
       color={255,204,51},
       thickness=0.5));
   connect(infAti.ports_b, ati.ports[1:3]) annotation (Line(points={{-234.2,-24},
-          {-230,-24},{-230,-12.9333},{-226,-12.9333}}, color={0,127,255}));
+          {-230,-24},{-230,-13.4667},{-226,-13.4667}}, color={0,127,255}));
   connect(infAti.weaBus, weaDat.weaBus) annotation (Line(
       points={{-238,-24},{-266,-24},{-266,56},{-276,56}},
       color={255,204,51},
       thickness=0.5));
   connect(infGar.ports_b, gar.ports[1:3]) annotation (Line(points={{-144.2,-56},
-          {-140,-56},{-140,-50.9333},{-136,-50.9333}}, color={0,127,255}));
+          {-140,-56},{-140,-51.4667},{-136,-51.4667}}, color={0,127,255}));
   connect(infGar.weaBus, gar.weaBus) annotation (Line(
       points={{-148,-56},{-152,-56},{-152,-94},{-122.84,-94},{-122.84,-40.84}},
       color={255,204,51},
@@ -2132,17 +2132,41 @@ equation
           -112},{-113,-112},{-113,-115.4}}, color={0,0,127}));
   connect(oveMixValSup.y, valBoi.y)
     annotation (Line(points={{-113,-122.3},{-113,-133}}, color={0,0,127}));
-  connect(conPumHea.yHea, oveEmiPum.u)
-    annotation (Line(points={{-197,-199},{-190.6,-199}}, color={0,0,127}));
-  connect(oveEmiPum.y, pumEmiSystem.m_flow_in) annotation (Line(points={{-183.7,
+  connect(oveEmiPum.y, pumEmiSystem.m_flow_in) annotation (Line(points={{-171.7,
           -199},{-83,-199},{-83,-181}}, color={0,0,127}));
   connect(boi.m_PompeCirc, pumEmiSystem.m_flow_in) annotation (Line(points={{-152,
           -145.636},{-168,-145.636},{-168,-199},{-83,-199},{-83,-181}},
         color={0,0,127}));
-  connect(HeaSetLiv.y, oveTSetPum.u) annotation (Line(points={{-328.1,-210},{
-          -314,-210},{-314,-206},{-238.8,-206}}, color={0,0,127}));
-  connect(oveTSetPum.y, conPumHea.TSet) annotation (Line(points={{-229.6,-206},
-          {-226,-206},{-226,-201},{-208.8,-201}}, color={0,0,127}));
+  connect(HeaSetLiv.y, oveTSetPumBoi.u)
+    annotation (Line(points={{-336.1,-200},{-328.8,-200}}, color={0,0,127}));
+  connect(gaiHea.y, oveEmiPum.u) annotation (Line(points={{-181.6,-250},{-180,-250},
+          {-180,-199},{-178.6,-199}},                               color={0,0,
+          127}));
+  connect(booToRea.y, gaiHea.u) annotation (Line(points={{-198,-250},{-190.8,-250}},
+                                      color={0,0,127}));
+  connect(oveTSetPumBoi.y, conHeaModeBoiler.u_s) annotation (Line(points={{-319.6,
+          -200},{-307.2,-200}},                         color={0,0,127}));
+  connect(oveTSetPumBoi.y, onOffController.reference) annotation (Line(points={{-319.6,
+          -200},{-314,-200},{-314,-212},{-334,-212},{-334,-228},{-330,-228}},
+                                                             color={0,0,127}));
+  connect(onOffController.y, switch4.u2) annotation (Line(points={{-307,-234},{
+          -298,-234},{-298,-212},{-268,-212},{-268,-200},{-261.2,-200}}, color=
+          {255,0,255}));
+  connect(onOffController.y, booToRea.u) annotation (Line(points={{-307,-234},{
+          -298,-234},{-298,-250},{-222,-250}}, color={255,0,255}));
+  connect(pumEmiSystem.m_flow_actual, gaiHea1.u) annotation (Line(points={{-88.5,
+          -177.5},{-88.5,-196},{-166,-196},{-166,-184},{-171.2,-184}},
+        color={0,0,127}));
+  connect(switch1.y, product2.u1) annotation (Line(points={{-239.5,-119},{
+          -239.5,-120},{-212,-120},{-212,-130},{-192,-130}}, color={0,0,127}));
+  connect(product2.y, boi.y)
+    annotation (Line(points={{-169,-136},{-152,-136}}, color={0,0,127}));
+  connect(booToRea1.y, product2.u2)
+    annotation (Line(points={{-196.8,-142},{-192,-142}}, color={0,0,127}));
+  connect(gaiHea1.y, greThr.u)
+    annotation (Line(points={{-180.4,-184},{-182,-184}}, color={0,0,127}));
+  connect(greThr.y, booToRea1.u) annotation (Line(points={{-206,-184},{-212,
+          -184},{-212,-142},{-211.2,-142}}, color={255,0,255}));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
@@ -2462,9 +2486,8 @@ A heating curve is implemented to modulate the supply water temperature from the
 circuit based on outdoor temperature readings. A 3 way valve is used for this modulation.
 </li>
 <li>
-The emission circuit pump is modulated by a PI controller
-that observes the indoor air temperature setpoint (from the occupancy schedule) and the measured indoor
-air temperature from the thermostat in the living room.
+The emission circuit pump is controlled according to the same hysteresis controller as the boiler
+with an on/off signal. The boiler on signal has a 30s delay to allow the pump to reach nominal flow rate conditions.
 </li>
 <li>
 There is one radiator per zone with a motorized valve controlled by a PI controller
@@ -2476,97 +2499,174 @@ vacuum failures when all valves are closed while the distribution pump is workin
 
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
-<p>The model inputs are: </p>
+The model inputs are:
 <ul>
 <li>
+<code>boi_oveBoi_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input boi_oveBoi_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal for part load ratio
+</li>
+<li>
+<code>conCooBth_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooBth_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooBth_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Bth
 </li>
 <li>
+<code>conCooBth_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooBth_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooBth_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Bth
+</li>
+<li>
+<code>conCooHal_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooHal_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooHal_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Hal
 </li>
 <li>
+<code>conCooHal_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooHal_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooHal_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Hal
+</li>
+<li>
+<code>conCooLiv_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooLiv_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooLiv_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Liv
 </li>
 <li>
+<code>conCooLiv_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooLiv_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooLiv_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Liv
+</li>
+<li>
+<code>conCooRo1_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo1_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooRo1_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Ro1
 </li>
 <li>
+<code>conCooRo1_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo1_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooRo1_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Ro1
+</li>
+<li>
+<code>conCooRo2_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo2_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooRo2_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Ro2
 </li>
 <li>
+<code>conCooRo2_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo2_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooRo2_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Ro2
+</li>
+<li>
+<code>conCooRo3_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo3_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooRo3_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Ro3
 </li>
 <li>
+<code>conCooRo3_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo3_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooRo3_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Ro3
+</li>
+<li>
+<code>conHeaBth_oveActHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaBth_oveActHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Bth
 </li>
 <li>
+<code>conHeaBth_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaBth_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conHeaBth_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Bth
+</li>
+<li>
+<code>conHeaLiv_oveActHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaLiv_oveActHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conHeaLiv_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Liv
 </li>
 <li>
+<code>conHeaLiv_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaLiv_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conHeaLiv_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Liv
+</li>
+<li>
+<code>conHeaRo1_oveActHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo1_oveActHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro1
 </li>
 <li>
+<code>conHeaRo1_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo1_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conHeaRo1_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Ro1
+</li>
+<li>
+<code>conHeaRo2_oveActHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo2_oveActHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro2
 </li>
 <li>
+<code>conHeaRo2_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo2_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conHeaRo2_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Ro2
+</li>
+<li>
+<code>conHeaRo3_oveActHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo3_oveActHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro3
 </li>
 <li>
+<code>conHeaRo3_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo3_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conHeaRo3_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Ro3
+</li>
+<li>
+<code>oveEmiPum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveEmiPum_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>oveEmiPum_u</code> [1] [min=0.0, max=1.0]: Control signal to the circulation pump of the emission system
 </li>
 <li>
-<code>oveMixValSup_u</code> [1] [min=0.0, max=1.0]: Actuator signal for 0three-way mixing valve controlling supply water temperature to radiators
+<code>oveMixValSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveMixValSup_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>oveTSetPum_u</code> [K] [min=283.15, max=368.15]: Heating zone air temperature setpoint used to control circulation pump of the emission system
+<code>oveMixValSup_u</code> [1] [min=0.0, max=1.0]: Actuator signal for three-way mixing valve controlling supply water temperature to radiators
+</li>
+<li>
+<code>oveTSetPumBoi_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetPumBoi_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveTSetPumBoi_u</code> [K] [min=283.15, max=368.15]: Heating zone air temperature setpoint used to control boiler and circulation pump of the emission system
+</li>
+<li>
+<code>oveTSetSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetSup_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>oveTSetSup_u</code> [K] [min=283.15, max=368.15]: Supply water temperature setpoint to radiators
 </li>
 </ul>
-
 <h4>Outputs</h4>
-<p>The model outputs are: </p>
+The model outputs are:
 <ul>
-<li>
-<code>boi_oveBoi_y</code> [1] [min=None, max=None]: Boiler control signal for part load ratio
-</li>
 <li>
 <code>boi_reaGasBoi_y</code> [W] [min=None, max=None]: Boiler gas power use
 </li>
@@ -2574,100 +2674,34 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power use
 </li>
 <li>
-<code>conCooBth_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Bth
-</li>
-<li>
-<code>conCooBth_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Bth
-</li>
-<li>
 <code>conCooBth_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Bth
-</li>
-<li>
-<code>conCooHal_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Hal
-</li>
-<li>
-<code>conCooHal_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Hal
 </li>
 <li>
 <code>conCooHal_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Hal
 </li>
 <li>
-<code>conCooLiv_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Liv
-</li>
-<li>
-<code>conCooLiv_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Liv
-</li>
-<li>
 <code>conCooLiv_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Liv
-</li>
-<li>
-<code>conCooRo1_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro1
-</li>
-<li>
-<code>conCooRo1_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro1
 </li>
 <li>
 <code>conCooRo1_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro1
 </li>
 <li>
-<code>conCooRo2_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro2
-</li>
-<li>
-<code>conCooRo2_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro2
-</li>
-<li>
 <code>conCooRo2_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro2
-</li>
-<li>
-<code>conCooRo3_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro3
-</li>
-<li>
-<code>conCooRo3_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro3
 </li>
 <li>
 <code>conCooRo3_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro3
 </li>
 <li>
-<code>conHeaBth_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Bth
-</li>
-<li>
-<code>conHeaBth_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Bth
-</li>
-<li>
 <code>conHeaBth_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Bth
-</li>
-<li>
-<code>conHeaLiv_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Liv
-</li>
-<li>
-<code>conHeaLiv_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Liv
 </li>
 <li>
 <code>conHeaLiv_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Liv
 </li>
 <li>
-<code>conHeaRo1_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro1
-</li>
-<li>
-<code>conHeaRo1_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro1
-</li>
-<li>
 <code>conHeaRo1_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro1
 </li>
 <li>
-<code>conHeaRo2_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro2
-</li>
-<li>
-<code>conHeaRo2_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro2
-</li>
-<li>
 <code>conHeaRo2_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro2
-</li>
-<li>
-<code>conHeaRo3_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro3
-</li>
-<li>
-<code>conHeaRo3_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro3
 </li>
 <li>
 <code>conHeaRo3_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro3
@@ -2695,18 +2729,6 @@ vacuum failures when all valves are closed while the distribution pump is workin
 </li>
 <li>
 <code>infRo3_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro3
-</li>
-<li>
-<code>oveEmiPum_y</code> [1] [min=None, max=None]: Control signal to the circulation pump of the emission system
-</li>
-<li>
-<code>oveMixValSup_y</code> [1] [min=None, max=None]: Actuator signal for three-way mixing valve controlling supply water temperature to radiators
-</li>
-<li>
-<code>oveTSetPum_y</code> [K] [min=None, max=None]: Heating zone air temperature setpoint used to control circulation pump of the emission system
-</li>
-<li>
-<code>oveTSetSup_y</code> [K] [min=None, max=None]: Supply water temperature setpoint to radiators
 </li>
 <li>
 <code>reaHeaBth_y</code> [W] [min=None, max=None]: Heating delivered to Bth
@@ -2815,7 +2837,7 @@ vacuum failures when all valves are closed while the distribution pump is workin
 </li>
 </ul>
 <h4>Forecasts</h4>
-<p>The model forecasts are: </p>
+The model forecasts are:
 <ul>
 <li>
 <code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity

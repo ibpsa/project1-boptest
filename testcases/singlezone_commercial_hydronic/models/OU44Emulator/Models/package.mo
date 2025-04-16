@@ -1,8 +1,6 @@
 within OU44Emulator;
 package Models
 
-extends Buildings.BaseClasses.BaseIcon;
-
 annotation (uses(
     Buildings(version="5.0.1"),
     ModelicaServices(version="3.2.2"),

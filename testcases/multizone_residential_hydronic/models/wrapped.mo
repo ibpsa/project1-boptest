@@ -8,14 +8,14 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput conHeaRo3_oveActHea_activate "Activation for Actuator signal for heating valve for zone Ro3";
 	Modelica.Blocks.Interfaces.RealInput conCooLiv_oveCoo_u(unit="1", min=0.0, max=1.0) "Cooling control signal as fraction of maximum for zone Liv";
 	Modelica.Blocks.Interfaces.BooleanInput conCooLiv_oveCoo_activate "Activation for Cooling control signal as fraction of maximum for zone Liv";
-	Modelica.Blocks.Interfaces.RealInput oveTSetPum_u(unit="K", min=283.15, max=368.15) "Heating zone air temperature setpoint used to control circulation pump of the emission system";
-	Modelica.Blocks.Interfaces.BooleanInput oveTSetPum_activate "Activation for Heating zone air temperature setpoint used to control circulation pump of the emission system";
 	Modelica.Blocks.Interfaces.RealInput conHeaRo1_oveActHea_u(unit="1", min=0.0, max=1.0) "Actuator signal for heating valve for zone Ro1";
 	Modelica.Blocks.Interfaces.BooleanInput conHeaRo1_oveActHea_activate "Activation for Actuator signal for heating valve for zone Ro1";
 	Modelica.Blocks.Interfaces.RealInput conHeaLiv_oveActHea_u(unit="1", min=0.0, max=1.0) "Actuator signal for heating valve for zone Liv";
 	Modelica.Blocks.Interfaces.BooleanInput conHeaLiv_oveActHea_activate "Activation for Actuator signal for heating valve for zone Liv";
 	Modelica.Blocks.Interfaces.RealInput conHeaRo2_oveTSetHea_u(unit="K", min=283.15, max=368.15) "Air temperature heating setpoint for zone Ro2";
 	Modelica.Blocks.Interfaces.BooleanInput conHeaRo2_oveTSetHea_activate "Activation for Air temperature heating setpoint for zone Ro2";
+	Modelica.Blocks.Interfaces.RealInput oveTSetPumBoi_u(unit="K", min=283.15, max=368.15) "Heating zone air temperature setpoint used to control circulation pump of the emission system";
+	Modelica.Blocks.Interfaces.BooleanInput oveTSetPumBoi_activate "Activation for Heating zone air temperature setpoint used to control circulation pump of the emission system";
 	Modelica.Blocks.Interfaces.RealInput oveEmiPum_u(unit="1", min=0.0, max=1.0) "Control signal to the circulation pump of the emission system";
 	Modelica.Blocks.Interfaces.BooleanInput oveEmiPum_activate "Activation for Control signal to the circulation pump of the emission system";
 	Modelica.Blocks.Interfaces.RealInput conCooRo1_oveTSetCoo_u(unit="K", min=283.15, max=303.15) "Air temperature cooling setpoint for zone Ro1";
@@ -115,10 +115,10 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput conHeaLiv_oveTSetHea_y(unit="K") = mod.conHeaLiv.oveTSetHea.y "Air temperature heating setpoint for zone Liv";
 	Modelica.Blocks.Interfaces.RealOutput conHeaRo3_oveActHea_y(unit="1") = mod.conHeaRo3.oveActHea.y "Actuator signal for heating valve for zone Ro3";
 	Modelica.Blocks.Interfaces.RealOutput conCooLiv_oveCoo_y(unit="1") = mod.conCooLiv.oveCoo.y "Cooling control signal as fraction of maximum for zone Liv";
-	Modelica.Blocks.Interfaces.RealOutput oveTSetPum_y(unit="K") = mod.oveTSetPum.y "Heating zone air temperature setpoint used to control circulation pump of the emission system";
 	Modelica.Blocks.Interfaces.RealOutput conHeaRo1_oveActHea_y(unit="1") = mod.conHeaRo1.oveActHea.y "Actuator signal for heating valve for zone Ro1";
 	Modelica.Blocks.Interfaces.RealOutput conHeaLiv_oveActHea_y(unit="1") = mod.conHeaLiv.oveActHea.y "Actuator signal for heating valve for zone Liv";
 	Modelica.Blocks.Interfaces.RealOutput conHeaRo2_oveTSetHea_y(unit="K") = mod.conHeaRo2.oveTSetHea.y "Air temperature heating setpoint for zone Ro2";
+	Modelica.Blocks.Interfaces.RealOutput oveTSetPumBoi_y(unit="K") = mod.oveTSetPumBoi.y "Heating zone air temperature setpoint used to control circulation pump of the emission system";
 	Modelica.Blocks.Interfaces.RealOutput oveEmiPum_y(unit="1") = mod.oveEmiPum.y "Control signal to the circulation pump of the emission system";
 	Modelica.Blocks.Interfaces.RealOutput conCooRo1_oveTSetCoo_y(unit="K") = mod.conCooRo1.oveTSetCoo.y "Air temperature cooling setpoint for zone Ro1";
 	Modelica.Blocks.Interfaces.RealOutput conCooHal_oveTSetCoo_y(unit="K") = mod.conCooHal.oveTSetCoo.y "Air temperature cooling setpoint for zone Hal";
@@ -144,10 +144,10 @@ model wrapped "Wrapped model"
 		conHeaLiv.oveTSetHea(uExt(y=conHeaLiv_oveTSetHea_u),activate(y=conHeaLiv_oveTSetHea_activate)),
 		conHeaRo3.oveActHea(uExt(y=conHeaRo3_oveActHea_u),activate(y=conHeaRo3_oveActHea_activate)),
 		conCooLiv.oveCoo(uExt(y=conCooLiv_oveCoo_u),activate(y=conCooLiv_oveCoo_activate)),
-		oveTSetPum(uExt(y=oveTSetPum_u),activate(y=oveTSetPum_activate)),
 		conHeaRo1.oveActHea(uExt(y=conHeaRo1_oveActHea_u),activate(y=conHeaRo1_oveActHea_activate)),
 		conHeaLiv.oveActHea(uExt(y=conHeaLiv_oveActHea_u),activate(y=conHeaLiv_oveActHea_activate)),
 		conHeaRo2.oveTSetHea(uExt(y=conHeaRo2_oveTSetHea_u),activate(y=conHeaRo2_oveTSetHea_activate)),
+		oveTSetPumBoi(uExt(y=oveTSetPumBoi_u),activate(y=oveTSetPumBoi_activate)),
 		oveEmiPum(uExt(y=oveEmiPum_u),activate(y=oveEmiPum_activate)),
 		conCooRo1.oveTSetCoo(uExt(y=conCooRo1_oveTSetCoo_u),activate(y=conCooRo1_oveTSetCoo_activate)),
 		conCooHal.oveTSetCoo(uExt(y=conCooHal_oveTSetCoo_u),activate(y=conCooHal_oveTSetCoo_activate)),
