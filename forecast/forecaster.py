@@ -94,60 +94,89 @@ class Forecaster(object):
             solar_params.update(self.uncertainty_params['solar'][wea_sol_glo_hor])
 
         # Get the forecast
-        forecast = self.case.data_manager.get_data(variables=point_names,
-                                                   horizon=horizon,
-                                                   interval=interval,
-                                                   category=category)
+        # If uncertainty scenario, forecast should update only at the start of each hour
+        if (wea_tem_dry_bul is not None) or (wea_sol_glo_hor is not None):
+            # Get actual start time in seconds
+            start_raw = self.case.start_time
+            # Round down to last start of the hour
+            start = start_raw - (start_raw % 3600)
+            # Build the index to send to the data_manager
+            stop = start + horizon
+            index = np.arange(start,stop+0.1,interval).astype(int)
+            # Get the forecast data
+            forecast = self.case.data_manager.get_data(variables=point_names,
+                                                       index=index,
+                                                       category=category)
+            # Check if error also needs to be updated
+            if not hasattr(self, 'start_store'):
+                self.start_store = start
+                update_error = True
+            if start != self.start_store:
+                self.start_store = start
+                update_error = True
+            else:
+                update_error = False
+        else:
+            # Get the forecast data
+            forecast = self.case.data_manager.get_data(variables=point_names,
+                                                       horizon=horizon,
+                                                       interval=interval,
+                                                       category=category)
 
-        # Add any outside dry bulb temperature error
+        # Add any outside dry bulb temperature error, but update error only at the start of each hour
         if 'TDryBul' in point_names and any(temperature_params.values()):
-            if seed is not None:
-                np.random.seed(seed)
-            # error in the forecast
-            error_forecast_temp = predict_temperature_error_AR1(
-                hp=int(horizon / interval + 1),
-                F0=temperature_params["F0"],
-                K0=temperature_params["K0"],
-                F=temperature_params["F"],
-                K=temperature_params["K"],
-                mu=temperature_params["mu"]
-            )
-
-            # forecast error just added to dry bulb temperature
-            forecast['TDryBul'] = forecast['TDryBul'] - error_forecast_temp
-            forecast['TDryBul'] = forecast['TDryBul'].tolist()
-
-        # Add any outside global horizontal irradiation error
-        if 'HGloHor' in point_names and any(solar_params.values()):
-
-            original_HGloHor = np.array(forecast['HGloHor']).copy()
-            lower_bound = 0.2 * original_HGloHor
-            upper_bound = 2 * original_HGloHor
-            indices = np.where(original_HGloHor > 50)[0]
-
-            for i in range(200):
+            if (not hasattr(self, 'error_forecast_temp')) or update_error:
                 if seed is not None:
-                    np.random.seed(seed+i*i)
-                error_forecast_solar = predict_solar_error_AR1(
-                    int(horizon / interval + 1),
-                    solar_params["ag0"],
-                    solar_params["bg0"],
-                    solar_params["phi"],
-                    solar_params["ag"],
-                    solar_params["bg"]
+                    np.random.seed(seed)
+                # error in the forecast
+                self.error_forecast_temp = predict_temperature_error_AR1(
+                    hp=int(horizon / interval + 1),
+                    F0=temperature_params["F0"],
+                    K0=temperature_params["K0"],
+                    F=temperature_params["F"],
+                    K=temperature_params["K"],
+                    mu=temperature_params["mu"]
                 )
 
-                forecast['HGloHor'] = original_HGloHor - error_forecast_solar
+            # forecast error just added to dry bulb temperature
+            forecast['TDryBul'] = forecast['TDryBul'] - self.error_forecast_temp
+            forecast['TDryBul'] = forecast['TDryBul'].tolist()
 
-                # Check if any point in forecast['HGloHor'] is out of the specified range
-                condition = np.any((forecast['HGloHor'][indices] > 2 * original_HGloHor[indices]) |
-                                   (forecast['HGloHor'][indices] < 0.2 * original_HGloHor[indices]))
-                # forecast['HGloHor']=gaussian_filter_ignoring_nans(forecast['HGloHor'])
-                forecast['HGloHor'] = mean_filter(forecast['HGloHor'])
-                forecast['HGloHor'] = np.clip(forecast['HGloHor'], lower_bound, upper_bound)
-                forecast['HGloHor'] = forecast['HGloHor'].tolist()
-                if not condition:
-                    break
+        # Add any outside global horizontal irradiation error, but update error only at the start of each hour
+        if 'HGloHor' in point_names and any(solar_params.values()):
+            if (not hasattr(self, 'forecast_solar_store')) or update_error:
+                original_HGloHor = np.array(forecast['HGloHor']).copy()
+                lower_bound = 0.2 * original_HGloHor
+                upper_bound = 2 * original_HGloHor
+                indices = np.where(original_HGloHor > 50)[0]
+
+                for i in range(200):
+                    if seed is not None:
+                        np.random.seed(seed+i*i)
+                    error_forecast_solar = predict_solar_error_AR1(
+                        int(horizon / interval + 1),
+                        solar_params["ag0"],
+                        solar_params["bg0"],
+                        solar_params["phi"],
+                        solar_params["ag"],
+                        solar_params["bg"]
+                    )
+
+                    forecast['HGloHor'] = original_HGloHor - error_forecast_solar
+
+                    # Check if any point in forecast['HGloHor'] is out of the specified range
+                    condition = np.any((forecast['HGloHor'][indices] > 2 * original_HGloHor[indices]) |
+                                    (forecast['HGloHor'][indices] < 0.2 * original_HGloHor[indices]))
+                    # forecast['HGloHor']=gaussian_filter_ignoring_nans(forecast['HGloHor'])
+                    forecast['HGloHor'] = mean_filter(forecast['HGloHor'])
+                    forecast['HGloHor'] = np.clip(forecast['HGloHor'], lower_bound, upper_bound)
+                    forecast['HGloHor'] = forecast['HGloHor'].tolist()
+                    # store latest in case don't need to update next time
+                    self.forecast_solar_store = forecast['HGloHor']
+                    if not condition:
+                        break
+            else:
+                forecast['HGloHor'] = self.forecast_solar_store
 
         return forecast
 

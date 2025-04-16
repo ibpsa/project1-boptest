@@ -643,6 +643,23 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain.csv')
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        # Check if advance 5 min and re-take forecast, it won't change
+        step_current = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': 300})
+        requests.post('{0}/advance/{1}'.format(self.url,self.testid))
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        # Check if advance another hour and re-take forecast, it does change
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': 3600})
+        requests.post('{0}/advance/{1}'.format(self.url,self.testid))
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set new reference file path
+        ref_filepath_next_hour = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain_next_hour.csv')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath_next_hour)
+        # Set step back to reference
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': step_current})
         # Test invalid horizon (<= 48 hours ) and internval (= 1 hour) parameters
         # Test temperature_uncertainty
         point_names = ['TDryBul']
