@@ -5,7 +5,7 @@ model ConHeaZon "Zone controller for heating system"
   parameter Modelica.Units.SI.Time Ti=300
     "Time constant of Integrator block";
   parameter String zone="1" "Zone designation";
-  Buildings.Controls.Continuous.LimPID conHea(
+  Buildings.Controls.OBC.CDL.Reals.PID conHea(
     Ni=0.1,
     Td=1e4,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -59,7 +59,7 @@ equation
   connect(reaTZon.u, T) annotation (Line(points={{-84.8,12},{-108,12}},
                      color={0,0,127}));
   connect(oveActHea.u, conHea.y)
-    annotation (Line(points={{-48.8,20},{-51.6,20}}, color={0,0,127}));
+    annotation (Line(points={{-48.8,20},{-51.2,20}}, color={0,0,127}));
   connect(reaTZon.y, conHea.u_m) annotation (Line(points={{-75.6,12},{-56,12},{
           -56,15.2}}, color={0,0,127}));
   connect(oveActHea.y, gaiHea.u)

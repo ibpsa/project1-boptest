@@ -14,7 +14,8 @@ model RealOccupancy
     districtHeating(m_flow_nominal=2),
     infiltration(ach=0.2),
     scale_factor(k=4),
-    rad(dp_nominal=0),
+    rad(energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+        dp_nominal=0),
     conPIDcoil(
       yMax=1,
       controllerType=Modelica.Blocks.Types.SimpleController.PI,

@@ -1,12 +1,13 @@
-﻿within BESTESTAir.TestCases;
+within BESTESTAir.TestCases;
 model TestCase_Ideal "Testcase model with ideal airflow"
   extends Modelica.Icons.Example;
-  BaseClasses.Case900FF zon(mAir_flow_nominal=fcu.mAir_flow_nominal)
+  parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal = 0.55 "Nominal air mass flow rate" annotation(Evaluate = true);
+  BaseClasses.Case900FF zon(mAir_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{34,-10},{54,10}})));
 
   BaseClasses.Thermostat_T con "Thermostat controller"
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
-  BaseClasses.FanCoilUnit_T fcu "Fan coil unit"
+  BaseClasses.FanCoilUnit_T fcu(mAir_flow_nominal = mAir_flow_nominal)  "Fan coil unit"
     annotation (Placement(transformation(extent={{-20,-8},{0,20}})));
 equation
   connect(fcu.supplyAir, zon.supplyAir) annotation (Line(points={{0,13.7778},{
