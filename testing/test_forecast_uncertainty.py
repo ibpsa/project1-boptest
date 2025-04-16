@@ -44,18 +44,23 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         self.ref_solar_uncertainty_params = uncertainty_params['solar']
 
         # Set URL for testcase
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
+        self.name = 'testcase2'
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
     def test_interval_horizon(self):
         """Test whether forecast intervals and horizon are correct."""
         uncertain_level = 'low'
-        requests.put('{0}/scenario'.format(self.url), json={
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={
             'electricity_price': 'constant',
             'solar_uncertainty': uncertain_level,
             'temperature_uncertainty': uncertain_level,
             'seed':5
         })
-        forecasts = requests.put('{0}/forecast'.format(self.url),
+        forecasts = requests.put('{0}/forecast/{1}'.format(self.url,self.testid),
                                  json={'point_names': ['TDryBul', 'HGloHor'],
                                        'interval': 3600,
                                        'horizon': 48 * 3600},
@@ -69,29 +74,29 @@ class ForecasterSingleZoneTest(unittest.TestCase):
             self.assertEqual(interval, 3600)
 
     def test_forecast_solar_radiation_are_positive(self):
-        requests.put('{0}/scenario'.format(self.url), json={
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={
             'electricity_price': 'constant',
             'solar_uncertainty': 'high',
             'seed': 5
         })
         for _ in range(1000):
-            forecasts=requests.put('{0}/forecast'.format(self.url),
+            forecasts=requests.put('{0}/forecast/{1}'.format(self.url,self.testid),
                          json={'point_names': ['HGloHor'],
                                'interval': 3600,
                                'horizon': 48 * 3600},
                          ).json()['payload']['HGloHor']
             for forecast in forecasts:
                 self.assertGreaterEqual(forecast, 0, f"Forecast value {forecast} is not greater than 0")
-            requests.post('{0}/advance'.format(self.url), json={}).json()
+            requests.post('{0}/advance/{1}'.format(self.url,self.testid), json={}).json()
 
     def test_forecast_temperature_are_within_range(self):
-        requests.put('{0}/scenario'.format(self.url), json={
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={
             'electricity_price': 'constant',
             'temperature_uncertainty': 'high',
             'seed': 5
         })
         for _ in range(1000):
-            forecasts=requests.put('{0}/forecast'.format(self.url),
+            forecasts=requests.put('{0}/forecast/{1}'.format(self.url,self.testid),
                          json={'point_names': ['TDryBul'],
                                'interval': 3600,
                                'horizon': 48 * 3600},
@@ -99,7 +104,7 @@ class ForecasterSingleZoneTest(unittest.TestCase):
             for forecast in forecasts:
                 self.assertGreaterEqual(forecast, 173.15, f"Forecast temperature {forecast} is below -100°C")
                 self.assertLessEqual(forecast, 373.15, f"Forecast temperature {forecast} is above 100°C")
-            requests.post('{0}/advance'.format(self.url), json={}).json()
+            requests.post('{0}/advance/{1}'.format(self.url,self.testid), json={}).json()
 
     def test_low_uncertainty(self):
         """Test forecasts under low uncertainty."""
@@ -129,11 +134,11 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         ref_ag0, ref_bg0, ref_phi, ref_ag, ref_bg=self.ref_solar_uncertainty_params[uncertain_level].values()
 
         # Initialize, set step, and set scenario
-        requests.put('{0}/initialize'.format(self.url),
+        requests.put('{0}/initialize/{1}'.format(self.url,self.testid),
                      json={'start_time': int(0),
                            'warmup_period': int(0)})
-        requests.put('{0}/step'.format(self.url), json={'step': int(3600)})
-        requests.put('{0}/scenario'.format(self.url), json={
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': int(3600)})
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={
             'electricity_price': 'constant',
             'solar_uncertainty': uncertain_level,
             'temperature_uncertainty': uncertain_level,
@@ -144,7 +149,7 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         all_temperature_forecasts = []
         all_solar_forecasts = []
         for _ in range(1000):
-            forecasts=requests.put('{0}/forecast'.format(self.url),
+            forecasts=requests.put('{0}/forecast/{1}'.format(self.url,self.testid),
                          json={'point_names': ['TDryBul', 'HGloHor'],
                                'interval': 3600,
                                'horizon': 48 * 3600},
@@ -154,7 +159,7 @@ class ForecasterSingleZoneTest(unittest.TestCase):
             all_temperature_forecasts.append(current_temperature_forecast)
             all_solar_forecasts.append(current_solar_forecast)
 
-            requests.post('{0}/advance'.format(self.url), json={}).json()
+            requests.post('{0}/advance/{1}'.format(self.url,self.testid), json={}).json()
 
         # Calculate error between deterministic and forecasted data
         temperature_error=self.determinstic_temperature_forecasts.values-np.array(all_temperature_forecasts)
