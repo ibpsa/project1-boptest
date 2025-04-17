@@ -13,16 +13,108 @@ read any associated signals for KPIs, units, min/max, and descriptions.
 """
 
 from pyfmi import load_fmu
-from pymodelica import compile_fmu
+import subprocess
 import os
 import json
 from data.data_manager import Data_Manager
 import warnings
+import time
+import zipfile
+import xml.etree.ElementTree as ET
 
 if 'MODELICAPATH' in os.environ:
     modelicapath=os.environ['MODELICAPATH']
 else:
     modelicapath=os.path.abspath('.')
+
+def compile_fmu_dymola(model_path):
+    '''Execute dymola process to compile FMU.
+
+    '''
+
+    # Create expected fmu file name
+    fmu_path = model_path.replace('.','_') + '.fmu'
+    # Start by removing fmu if it exists already
+    if os.path.exists(fmu_path):
+        os.remove(fmu_path)
+    with open('compile_fmu.mos', 'w') as f:
+        f.write('Advanced.FMI.CopyExternalResources = true;\n')
+        f.write('Advanced.FMI.AllowStringParametersForFMU = true;\n')
+        f.write('OutputCPUtime = false;\n')
+        f.write('Evaluate = false;\n')
+        f.write('translateModelFMU("{0}", false, "", "2", "cs", false, 0, fill("",0));\n'.format(model_path))
+        f.write('exit();')
+    process = subprocess.Popen(['dymola','compile_fmu.mos', '/nowindow'])
+    while process.poll() == None:
+        time.sleep(10)
+        print('Waiting for Dymola to finish compiling {0}.  Checking again in 10 seconds...'.format(fmu_path))
+    print('Dymola finished compiling {0}.'.format(fmu_path))
+
+    return fmu_path
+
+def get_parameter_dymola(scalar_variables, instance, parameter, type='String'):
+    '''Parses the fmu model description xml to get the string parameter value.
+
+    Parameters
+    ----------
+    scalar_variables : xml child iterations
+        XML children "ScalarVariable".
+    instance : str
+        Parser instance.
+    parameter : str
+        Parameter of the parser instance to get value for.
+    type : str
+        Type of parameter defined by xml child.  e.g. "String" or "Enumeration"
+
+    Returns
+    -------
+    value : parameter type
+        Value of instance parameter.
+
+    '''
+
+    var = instance + '.' + parameter
+    found = False
+    for svariable in scalar_variables:
+        if svariable.get('name') == var:
+            value = svariable.find(type).attrib['start']
+            found = True
+    if not found:
+        value = None
+        raise ValueError('Could not find variable "{0}".'.format(var))
+
+    return value
+
+def get_signal_types_dymola(simple_types):
+    '''Parses the fmu model description xml to get the KPI signal type enumerations.
+
+    Parameters
+    ----------
+    simple_types : xml child iterations
+        XML children "SimpleType".
+
+    Returns
+    -------
+    signal_types : dict
+        {int : str}.
+
+    '''
+
+    signal_types = dict()
+    found = False
+    for stype in simple_types:
+        if 'SignalExchange.SignalTypes.SignalsForKPIs' in stype.get('name'):
+            enumeration = stype.find('Enumeration')
+            for item in enumeration.findall('Item'):
+                signal_types[item.attrib['value']] = item.attrib['name']
+            found = True
+            break
+    if not found:
+        signal_types = None
+        raise ValueError('Could not find signal types in xml.')
+
+    return signal_types
+
 
 def parse_instances(model_path, file_name, tool='JModelica'):
     '''Parse the signal exchange block class instances using fmu xml.
@@ -51,9 +143,13 @@ def parse_instances(model_path, file_name, tool='JModelica'):
 
     # Compile fmu
     if tool == 'JModelica':
+        from pymodelica import compile_fmu
         fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
     elif tool == 'OCT':
+        from pymodelica import compile_fmu
         fmu_path = compile_fmu(model_path, file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
+    elif tool == 'Dymola':
+        fmu_path = compile_fmu_dymola(model_path)
     else:
         raise ValueError('Tool {0} unknown.'.format(tool))
     # Load fmu
@@ -67,6 +163,14 @@ def parse_instances(model_path, file_name, tool='JModelica'):
     # Initialize dictionaries
     instances = {'Overwrite':dict(), 'Read':dict()}
     signals = {}
+    # Parse xml if using Dymola exported FMU
+    if tool == 'Dymola':
+        z_fmu = zipfile.ZipFile(fmu_path, 'r')
+        xml = ET.fromstring(z_fmu.read('modelDescription.xml'))
+        z_fmu.close()
+        scalar_variables = xml.find('ModelVariables').findall('ScalarVariable')
+        simple_types = xml.find('TypeDefinitions').findall('SimpleType')
+        signal_types = get_signal_types_dymola(simple_types)
     # Find instances of 'Overwrite' or 'Read'
     for var in allvars:
         # Get instance name
@@ -75,14 +179,32 @@ def parse_instances(model_path, file_name, tool='JModelica'):
         if 'boptestOverwrite' in var:
             label = 'Overwrite'
             unit = fmu.get_variable_unit(instance+'.u')
-            description = fmu.get(instance+'.description')[0]
+            # Description
+            if tool == 'Dymola':
+                description = get_parameter_dymola(scalar_variables, instance, 'description', 'String')
+            else:
+                description = fmu.get(instance+'.description')[0]
             mini = fmu.get_variable_min(instance+'.u')
             maxi = fmu.get_variable_max(instance+'.u')
         # Read
         elif 'boptestRead' in var:
             label = 'Read'
-            unit = fmu.get_variable_unit(instance+'.y')
-            description = fmu.get(instance+'.description')[0]
+            # Unit
+            if tool == 'Dymola':
+                try:
+                    unit = fmu.get_variable_unit(instance+'.y')
+                except:
+                    if 'CO2' in instance:
+                        print('{0} does not have a unit. Assuming "ppm".'.format(instance))
+                        unit = 'ppm'
+            else:
+                unit = fmu.get_variable_unit(instance+'.y')
+            # Description
+            if tool == 'Dymola':
+                description = get_parameter_dymola(scalar_variables, instance, 'description', 'String')
+            else:
+                description = fmu.get(instance+'.description')[0]
+            # Min and Max
             mini = None
             maxi = None
         # KPI
@@ -91,21 +213,28 @@ def parse_instances(model_path, file_name, tool='JModelica'):
         else:
             continue
         # Save instance
-        if label is not 'kpi':
+        if label != 'kpi':
             instances[label][instance] = {'Unit' : unit}
             instances[label][instance]['Description'] = description
             instances[label][instance]['Minimum'] = mini
             instances[label][instance]['Maximum'] = maxi
         else:
-            signal_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
+            if tool == 'Dymola':
+                signal_type = signal_types[get_parameter_dymola(scalar_variables, instance, 'KPIs', 'Enumeration')]
+            else:
+                signal_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
             # Split certain signal types for multi-zone
             if signal_type in ['AirZoneTemperature',
                                'RadiativeZoneTemperature',
                                'OperativeZoneTemperature',
                                'RelativeHumidity',
                                'CO2Concentration']:
-                signal_type = '{0}[{1}]'.format(signal_type, fmu.get(instance+'.zone')[0])
-            if signal_type is 'None':
+                if tool == 'Dymola':
+                    string = get_parameter_dymola(scalar_variables, instance, 'zone', 'String')
+                    signal_type = '{0}[{1}]'.format(signal_type, string)
+                else:
+                    signal_type = '{0}[{1}]'.format(signal_type, fmu.get_variable_start(instance+'.zone')[0])
+            if signal_type == 'None':
                 continue
             elif signal_type in signals:
                 signals[signal_type].append(_make_var_name(instance,style='output'))
@@ -196,9 +325,13 @@ def write_wrapper(model_path, file_name, instances, tool='JModelica'):
             f.write('end wrapped;\n')
         # Export as fmu
         if tool == 'JModelica':
+            from pymodelica import compile_fmu
             fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, jvm_args="-Xmx8g", target='cs')
         elif tool == 'OCT':
+            from pymodelica import compile_fmu
             fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
+        elif tool == 'Dymola':
+            fmu_path = compile_fmu_dymola('wrapped')
         else:
             raise ValueError('Tool {0} unknown.'.format(tool))
     # If there are not, write and export wrapper model
@@ -207,9 +340,13 @@ def write_wrapper(model_path, file_name, instances, tool='JModelica'):
         warnings.warn('No signal exchange block instances found in model.  Exporting model as is.')
         # Compile fmu
         if tool == 'JModelica':
+            from pymodelica import compile_fmu
             fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
         elif tool == 'OCT':
+            from pymodelica import compile_fmu
             fmu_path = compile_fmu(model_path, file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
+        elif tool == 'Dymola':
+            fmu_path = compile_fmu_dymola(model_path)
         else:
             raise ValueError('Tool {0} unknown.'.format(tool))
         wrapped_path = None
@@ -279,17 +416,17 @@ def _make_var_name(block, style, description='', attribute=''):
     # General modification
     name = block.replace('.', '_')
     # Handle empty descriptions
-    if description is '':
+    if description == '':
         description = ''
     else:
         description = ' "{0}"'.format(description)
 
     # Specific modification
-    if style is 'input_signal':
+    if style == 'input_signal':
         var_name = '{0}_u{1}{2}'.format(name,attribute, description)
-    elif style is 'input_activate':
+    elif style == 'input_activate':
         var_name = '{0}_activate{1}'.format(name, description)
-    elif style is 'output':
+    elif style == 'output':
         var_name = '{0}_y{1}{2}'.format(name,attribute, description)
     else:
         raise ValueError('Style {0} unknown.'.format(style))
