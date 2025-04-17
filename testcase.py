@@ -1234,7 +1234,15 @@ class TestCase(object):
                 mini = None
                 maxi = None
             else:
-                unit = fmu.get_variable_unit(var)
+                try:
+                    unit = fmu.get_variable_unit(var)
+                except Exception as e:
+                    if 'CO2' in var:
+                        logging.warning('Getting unit via FMI failed for variable "{0}". Assuming unit is "ppm" since variable name contains "CO2".'.format(var))
+                        unit = 'ppm'
+                    else:
+                        logging.error(e)
+                        raise Exception(e)
                 description = fmu.get_variable_description(var)
                 if inputs:
                     mini = fmu.get_variable_min(var)
