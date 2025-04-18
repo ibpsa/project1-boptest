@@ -664,7 +664,18 @@ The model forecasts are:
                         https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf
                     </li>
                 </ul>
-
+<h4>Weather Forecast Uncertainty: Temperature</h4>
+<p>
+Options for <code>/scenario</code> API are <code>'low'</code>, <code>'medium'</code>, or <code>'high'</code>.
+Empty or <code>None</code> will lead to deterministic forecasts.
+See the BOPTEST design documentation for more information.
+</p>
+<h4>Weather Forecast Uncertainty: Global Horizontal Irradiation (GHI)</h4>
+<p>
+Options for <code>/scenario</code> API are <code>'low'</code>, <code>'medium'</code>, or <code>'high'</code>.
+Empty or <code>None</code> will lead to deterministic forecasts.
+See the BOPTEST design documentation for more information.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
