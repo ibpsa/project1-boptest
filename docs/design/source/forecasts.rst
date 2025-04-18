@@ -16,7 +16,7 @@ Without uncertainty, the controller developer can choose the prediction horizon 
 the forecast from the actual simulation time. The controller developer may
 also filter the forecast for a specific data category or request all data
 variables and filter it afterwards.  Forecasts with uncertainty, however,
-are limited in their allowable horizon and intterval in order to stay consistent
+are limited in their allowable horizon and interval in order to stay consistent
 with underlying uncertainty models.
 
 Getting Weather Forecasts Across Year-End
