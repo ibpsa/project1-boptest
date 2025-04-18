@@ -1226,6 +1226,18 @@ from 2019 for the state of Illinois, USA per the EIA.
 It is 752 lbs/MWh or 0.341 kgCO2/kWh.
 For reference, see https://www.eia.gov/electricity/state/illinois/
 </p>
+<h4>Weather Forecast Uncertainty: Temperature</h4>
+<p>
+Options for <code>/scenario</code> API are <code>'low'</code>, <code>'medium'</code>, or <code>'high'</code>.
+Empty or <code>None</code> will lead to deterministic forecasts.
+See the BOPTEST design documentation for more information.
+</p>
+<h4>Weather Forecast Uncertainty: Global Horizontal Irradiation (GHI)</h4>
+<p>
+Options for <code>/scenario</code> API are <code>'low'</code>, <code>'medium'</code>, or <code>'high'</code>.
+Empty or <code>None</code> will lead to deterministic forecasts.
+See the BOPTEST design documentation for more information.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
