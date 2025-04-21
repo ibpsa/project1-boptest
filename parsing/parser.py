@@ -233,7 +233,7 @@ def parse_instances(model_path, file_name, tool='JModelica'):
                     string = get_parameter_dymola(scalar_variables, instance, 'zone', 'String')
                     signal_type = '{0}[{1}]'.format(signal_type, string)
                 else:
-                    signal_type = '{0}[{1}]'.format(signal_type, fmu.get_variable_start(instance+'.zone')[0])
+                    signal_type = '{0}[{1}]'.format(signal_type, fmu.get(instance+'.zone')[0])
             if signal_type == 'None':
                 continue
             elif signal_type in signals:
