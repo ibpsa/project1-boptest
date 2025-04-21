@@ -127,7 +127,7 @@ def parse_instances(model_path, file_name, tool='JModelica'):
         Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
     tool : str, optional
-        FMU compilation tool. "JModelica" or "OCT" supported.
+        FMU compilation tool. "JModelica" or "OCT" or "Dymola" supported.
         Default is "JModelica".
 
     Returns
@@ -261,7 +261,7 @@ def write_wrapper(model_path, file_name, instances, tool='JModelica'):
         Dictionary of overwrite and read block class instance lists.
         {'Overwrite': [str], 'Read': [str]}
     tool : str, optional
-        FMU compilation tool. "JModelica" or "OCT" supported.
+        FMU compilation tool. "JModelica" or "OCT" or "Dymola" supported.
         Default is "JModelica".
 
     Returns
@@ -364,7 +364,7 @@ def export_fmu(model_path, file_name, tool='JModelica'):
         Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
     tool : str, optional
-        FMU compilation tool. "JModelica" or "OCT" supported.
+        FMU compilation tool. "JModelica" or "OCT" or "Dymola" supported.
         Default is "JModelica".
 
     Returns
