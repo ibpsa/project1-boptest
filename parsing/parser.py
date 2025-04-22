@@ -32,8 +32,8 @@ def compile_fmu_dymola(model_path):
 
     '''
 
-    # Create expected fmu file name
-    fmu_path = model_path.replace('.','_') + '.fmu'
+    # Create expected fmu file name (observed rule of dymola)
+    fmu_path = model_path.replace('_','_0').replace('.','_') + '.fmu'
     # Start by removing fmu if it exists already
     if os.path.exists(fmu_path):
         os.remove(fmu_path)
@@ -42,7 +42,7 @@ def compile_fmu_dymola(model_path):
         f.write('Advanced.FMI.AllowStringParametersForFMU = true;\n')
         f.write('OutputCPUtime = false;\n')
         f.write('Evaluate = false;\n')
-        f.write('translateModelFMU("{0}", false, "", "2", "cs", false, 0, fill("",0));\n'.format(model_path))
+        f.write('translateModelFMU("{0}", false, "", "2", "csSolver", false, 0, fill("",0));\n'.format(model_path))
         f.write('exit();')
     process = subprocess.Popen(['dymola','compile_fmu.mos', '/nowindow'])
     while process.poll() == None:
