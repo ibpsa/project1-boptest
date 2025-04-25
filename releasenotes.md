@@ -17,9 +17,9 @@ Released on xx/xx/xxxx.
   - Update unit tests such that ``test_kpis.py``, ``test_forecast.py``, and ``test_testcase.py`` are run in the ``worker`` container, instead of the ``jm`` container.
 - Update Spawn version to ``light-0.3.0-0fa49be497``, which uses a smaller file size and is used in Modelica Buildings Library v9.1.0.  This is for [#718](https://github.com/ibpsa/project1-boptest/issues/718).
 
-**The following changes are not backwards compatible but do not change benchmark results:**
+**The following changes are not backwards compatible, but do not change benchmark results:**
 
-- Written initial testcase1 and testcase3 documentation. This is for [#582](https://github.com/ibpsa/project1-boptest/issues/582).
+- Written and clarified testcase1 and testcase3 documentation. This is for [#582](https://github.com/ibpsa/project1-boptest/issues/582).
   - For testcase1, changed naming of ``PHea`` to ``PHeaCoo`` for clarity regarding allowed heating and cooling regimes.
   - Similarly for testcase3, changed ``PHeaNor`` and ``PHeaSou`` to ``PHeaCooNor`` and ``PHeaCooSou`` respectively.
 
