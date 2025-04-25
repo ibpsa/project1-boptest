@@ -19,7 +19,7 @@ def compare(testcase='bestest_air'):
     '''
 
     if testcase == 'testcase1':
-        compare_references(vars_timeseries = ['PHea_y',
+        compare_references(vars_timeseries = ['PHeaCoo_y',
                                               'TRooAir_y',
                                               'CO2RooAir_y',
                                               'oveAct_u',
