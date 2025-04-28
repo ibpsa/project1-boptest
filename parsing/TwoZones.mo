@@ -51,7 +51,7 @@ model TwoZones
     zone=zonSouName)   "Read the room air temperature of south zone"
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read PHeaSou(
+  IBPSA.Utilities.IO.SignalExchange.Read PHeaCooSou(
     y(unit="W"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power of south zone")
@@ -111,7 +111,7 @@ model TwoZones
     zone=zonNorName)   "Read the room air temperature of north zone"
     annotation (Placement(transformation(extent={{80,120},{60,140}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read PHeaNor(
+  IBPSA.Utilities.IO.SignalExchange.Read PHeaCooNor(
     y(unit="W"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power of north zone")
@@ -158,7 +158,7 @@ equation
     annotation (Line(points={{59,-50},{-60,-50},{-60,-42}}, color={0,0,127}));
   connect(effSou.y, absSou.u)
     annotation (Line(points={{21,-80},{28,-80}}, color={0,0,127}));
-  connect(absSou.y, PHeaSou.u)
+  connect(absSou.y, PHeaCooSou.u)
     annotation (Line(points={{51,-80},{78,-80}}, color={0,0,127}));
   connect(conCO2Sou.y, CO2RooAirSou.u)
     annotation (Line(points={{141,-30},{158,-30}}, color={0,0,127}));
@@ -176,7 +176,7 @@ equation
     annotation (Line(points={{-79,100},{-72,100}}, color={0,0,127}));
   connect(effNor.y, absNor.u)
     annotation (Line(points={{21,160},{28,160}}, color={0,0,127}));
-  connect(absNor.y, PHeaNor.u)
+  connect(absNor.y, PHeaCooNor.u)
     annotation (Line(points={{51,160},{78,160}}, color={0,0,127}));
   connect(conCO2Nor.y, CO2RooAirNor.u)
     annotation (Line(points={{141,90},{158,90}}, color={0,0,127}));
