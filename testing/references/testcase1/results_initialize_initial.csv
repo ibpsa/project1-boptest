@@ -1,4 +1,4 @@
-time,CO2RooAir_y,PHea_y,TRooAir_y,oveAct_activate,oveAct_u
+time,CO2RooAir_y,PHeaCoo_y,TRooAir_y,oveAct_activate,oveAct_u
 0.0,750.0,0.0,293.15,0.0,0.0
 30.0,750.5454149585842,0.0,293.150038948095,0.0,0.0
 60.0,751.0908273211867,0.0,293.1501396045594,0.0,0.0

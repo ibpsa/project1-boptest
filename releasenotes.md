@@ -15,7 +15,14 @@ Released on xx/xx/xxxx.
   - Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3.
   - Update Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64.
   - Update unit tests such that ``test_kpis.py``, ``test_forecast.py``, and ``test_testcase.py`` are run in the ``worker`` container, instead of the ``jm`` container.
+- Update Spawn version to ``light-0.3.0-0fa49be497``, which uses a smaller file size and is used in Modelica Buildings Library v9.1.0.  This is for [#718](https://github.com/ibpsa/project1-boptest/issues/718).
 - Add weather forecast uncertainty as new scenario options for dry bulb temperature and global horizontal irradiation.  The corresponding new scenario keys are ``temperature_uncertainty`` and ``solar_uncertainty``, which can take values ``low``, ``medium``, or ``high``.  A new scenario key ``seed`` is also added to set an integer seed for reproducible uncertainty generation.  The uncertainty models are based on [Zheng et al. (2025)](https://doi.org/10.1080/19401493.2025.2453537). This is for [#135](https://github.com/ibpsa/project1-boptest/issues/135).
+
+**The following changes are not backwards compatible, but do not change benchmark results:**
+
+- Written and clarified testcase1 and testcase3 documentation. This is for [#582](https://github.com/ibpsa/project1-boptest/issues/582).
+  - For testcase1, changed naming of ``PHea`` to ``PHeaCoo`` for clarity regarding allowed heating and cooling regimes.
+  - Similarly for testcase3, changed ``PHeaNor`` and ``PHeaSou`` to ``PHeaCooNor`` and ``PHeaCooSou`` respectively.
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 

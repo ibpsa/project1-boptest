@@ -126,13 +126,13 @@ time = [x/3600 for x in res["time"]] # convert s --> hr
 TZone = [x-273.15 for x in res["TRooAir_y"]] # convert K --> C
 res = JSON.parse(String(HTTP.put("$url/results/$testid", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_names" => ["CO2RooAir_y"],"start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 CO2Zone = [x for x in res["CO2RooAir_y"]]
-res = JSON.parse(String(HTTP.put("$url/results/$testid", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_names" => ["PHea_y"],"start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
-PHeat = res["PHea_y"]
+res = JSON.parse(String(HTTP.put("$url/results/$testid", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_names" => ["PHeaCoo_y"],"start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
+PHeat = res["PHeaCoo_y"]
 res = JSON.parse(String(HTTP.put("$url/results/$testid", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_names" => ["oveAct_u"],"start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 QHeat = res["oveAct_u"]
 res = JSON.parse(String(HTTP.put("$url/results/$testid", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_names" => ["oveAct_activate"],"start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 uAct = res["oveAct_activate"]
-tab_res=DataFrame([time,TZone,CO2Zone,PHeat,QHeat,uAct],[:time,:TRooAir_y,:CO2RooAir_y,:PHea_y,:oveAct_u,:oveAct_activate])
+tab_res=DataFrame([time,TZone,CO2Zone,PHeat,QHeat,uAct],[:time,:TRooAir_y,:CO2RooAir_y,:PHeaCoo_y,:oveAct_u,:oveAct_activate])
 CSV.write("result_testcase1.csv",tab_res)
 tab_kpi = DataFrame([[kpi["ener_tot"]], [kpi["tdis_tot"]], [kpi["idis_tot"]], [kpi["cost_tot"]], [kpi["time_rat"]], [kpi["emis_tot"]], [kpi["pgas_tot"]]], [:ener_tot, :tdis_tot, :idis_tot, :cost_tot, :time_rat, :emis_tot, :pgas_tot])
 CSV.write("kpi_testcase1.csv",tab_kpi)
