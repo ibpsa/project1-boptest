@@ -913,10 +913,9 @@ class TestCase(object):
                 return status, message, payload
             if interval != 3600:
                 payload = None
-                status = 400
-                message = "Invalid value {} for parameter interval. Value must = 1 hour in a temperature_uncertainty scenario.".format(interval)
-                logging.error(message)
-                return status, message, payload
+                status = 200
+                message = "Value {} for parameter interval. Note that error model for temperature_uncertainty scenario validated at hourly intervals.".format(interval)
+                logging.info(message)
         if (scenario['solar_uncertainty']) and ('HGloHor' in point_names):
             if horizon > 48*3600:
                 payload = None
@@ -926,10 +925,9 @@ class TestCase(object):
                 return status, message, payload
             if interval != 3600:
                 payload = None
-                status = 400
-                message = "Invalid value {} for parameter interval. Value must = 1 hour in a solar_uncertainty scenario.".format(interval)
-                logging.error(message)
-                return status, message, payload
+                status = 200
+                message = "Value {} for parameter interval. Note that error model for solar_uncertainty scenario validated at hourly intervals.".format(interval)
+                logging.info(message)
         # Get forecast
         try:
             if scenario['seed'] is not None:

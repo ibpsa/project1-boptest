@@ -130,22 +130,29 @@ class Forecaster(object):
                     np.random.seed(seed)
                 # error in the forecast
                 self.error_forecast_temp = predict_temperature_error_AR1(
-                    hp=int(horizon / interval + 1),
+                    hp=int(horizon / 3600 + 1), # Use interval of 3600 to create error
                     F0=temperature_params["F0"],
                     K0=temperature_params["K0"],
                     F=temperature_params["F"],
                     K=temperature_params["K"],
                     mu=temperature_params["mu"]
                 )
-
-            # forecast error just added to dry bulb temperature
+                # interpolate error to interval
+                x = np.arange(0,horizon+0.1,interval).astype(int)
+                xp = np.arange(0,horizon+0.1,3600).astype(int)
+                self.error_forecast_temp = np.interp(x,xp,self.error_forecast_temp)
+            # add forecast error to dry bulb temperature
             forecast['TDryBul'] = forecast['TDryBul'] - self.error_forecast_temp
             forecast['TDryBul'] = forecast['TDryBul'].tolist()
 
         # Add any outside global horizontal irradiation error, but update error only at the start of each hour
         if 'HGloHor' in point_names and any(solar_params.values()):
             if (not hasattr(self, 'forecast_solar_store')) or update_error:
-                original_HGloHor = np.array(forecast['HGloHor']).copy()
+                # Get HGloHor data at 3600 interval
+                original_HGloHor = np.array(self.case.data_manager.get_data(variables=['HGloHor'],
+                                                                            horizon=horizon,
+                                                                            interval=3600,
+                                                                            category=category)['HGloHor'])
                 lower_bound = 0.2 * original_HGloHor
                 upper_bound = 2 * original_HGloHor
                 indices = np.where(original_HGloHor > 50)[0]
@@ -154,7 +161,7 @@ class Forecaster(object):
                     if seed is not None:
                         np.random.seed(seed+i*i)
                     error_forecast_solar = predict_solar_error_AR1(
-                        int(horizon / interval + 1),
+                        int(horizon / 3600 + 1), # Generate error at 3600 interval
                         solar_params["ag0"],
                         solar_params["bg0"],
                         solar_params["phi"],
@@ -170,6 +177,10 @@ class Forecaster(object):
                     # forecast['HGloHor']=gaussian_filter_ignoring_nans(forecast['HGloHor'])
                     forecast['HGloHor'] = mean_filter(forecast['HGloHor'])
                     forecast['HGloHor'] = np.clip(forecast['HGloHor'], lower_bound, upper_bound)
+                    # interpolate data to interval
+                    x = np.arange(0,horizon+0.1,interval).astype(int)
+                    xp = np.arange(0,horizon+0.1,3600).astype(int)
+                    forecast['HGloHor'] = np.interp(x,xp,forecast['HGloHor'])
                     forecast['HGloHor'] = forecast['HGloHor'].tolist()
                     # store latest in case don't need to update next time
                     self.forecast_solar_store = forecast['HGloHor']
