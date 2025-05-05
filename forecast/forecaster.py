@@ -12,6 +12,8 @@ error_emulator module to generate errors for uncertain forecasts.
 from .error_emulator import predict_temperature_error_AR1, predict_solar_error_AR1, mean_filter
 import numpy as np
 import json
+import logging
+logger = logging.getLogger()
 
 
 class Forecaster(object):
@@ -93,37 +95,35 @@ class Forecaster(object):
         if wea_sol_glo_hor is not None:
             solar_params.update(self.uncertainty_params['solar'][wea_sol_glo_hor])
 
-        # Get the forecast
-        # If uncertainty scenario, forecast should update only at the start of each hour
+        # Get the deterministic forecast data at requested interval
+        forecast = self.case.data_manager.get_data(variables=point_names,
+                                                   horizon=horizon,
+                                                   interval=interval,
+                                                   category=category)
+
+        # If uncertainty scenario, forecast should update only at the start of each hour and
+        # underlying deterministic data should be hourly
         if (wea_tem_dry_bul is not None) or (wea_sol_glo_hor is not None):
             # Get actual start time in seconds
             start_raw = self.case.start_time
             # Round down to last start of the hour
             start = start_raw - (start_raw % 3600)
-            # Build the index to send to the data_manager
+            # Build the index to send to the data_manager.  With uncertain forecasts, deterministic data should be at hour interval.
             stop = start + horizon
-            index = np.arange(start,stop+0.1,interval).astype(int)
-            # Get the forecast data
-            forecast = self.case.data_manager.get_data(variables=point_names,
-                                                       index=index,
-                                                       category=category)
-            # Check if error also needs to be updated
+            index_uncertain = np.arange(start,stop+0.1,3600).astype(int)
+            # Check if error needs to be updated due to changing hour or new horizon
             if not hasattr(self, 'start_store'):
                 self.start_store = start
+                self.stop_store = stop
                 update_error = True
-            if start != self.start_store:
+            if (start != self.start_store) or (stop != self.stop_store):
                 self.start_store = start
+                self.stop_store = stop
                 update_error = True
             else:
                 update_error = False
-        else:
-            # Get the forecast data
-            forecast = self.case.data_manager.get_data(variables=point_names,
-                                                       horizon=horizon,
-                                                       interval=interval,
-                                                       category=category)
 
-        # Add any outside dry bulb temperature error, but update error only at the start of each hour
+        # If uncertainty scenario for outside dry bulb temperature, add any error and re-sample to requested interval
         if 'TDryBul' in point_names and any(temperature_params.values()):
             if (not hasattr(self, 'error_forecast_temp')) or update_error:
                 if seed is not None:
@@ -135,28 +135,29 @@ class Forecaster(object):
                     K0=temperature_params["K0"],
                     F=temperature_params["F"],
                     K=temperature_params["K"],
-                    mu=temperature_params["mu"]
-                )
-                # interpolate error to interval
-                x = np.arange(0,horizon+0.1,interval).astype(int)
-                xp = np.arange(0,horizon+0.1,3600).astype(int)
-                self.error_forecast_temp = np.interp(x,xp,self.error_forecast_temp)
+                    mu=temperature_params["mu"])
+            # Get the forecast data for TDryBul at 3600 interval
+            forecast['TDryBul'] = np.array(self.case.data_manager.get_data(variables=['TDryBul'],
+                                                                           index=index_uncertain,
+                                                                           category=category)['TDryBul'])
             # add forecast error to dry bulb temperature
             forecast['TDryBul'] = forecast['TDryBul'] - self.error_forecast_temp
+            # interpolate error to interval
+            x = np.arange(0,horizon+0.1,interval).astype(int)
+            xp = np.arange(0,horizon+0.1,3600).astype(int)
+            forecast['TDryBul'] = np.interp(x,xp,forecast['TDryBul'])
             forecast['TDryBul'] = forecast['TDryBul'].tolist()
 
-        # Add any outside global horizontal irradiation error, but update error only at the start of each hour
+        # If uncertainty scenario for ghi, add any error and re-sample to requested interval
         if 'HGloHor' in point_names and any(solar_params.values()):
             if (not hasattr(self, 'forecast_solar_store')) or update_error:
                 # Get HGloHor data at 3600 interval
                 original_HGloHor = np.array(self.case.data_manager.get_data(variables=['HGloHor'],
-                                                                            horizon=horizon,
-                                                                            interval=3600,
+                                                                            index=index_uncertain,
                                                                             category=category)['HGloHor'])
                 lower_bound = 0.2 * original_HGloHor
                 upper_bound = 2 * original_HGloHor
                 indices = np.where(original_HGloHor > 50)[0]
-
                 for i in range(200):
                     if seed is not None:
                         np.random.seed(seed+i*i)
@@ -166,28 +167,26 @@ class Forecaster(object):
                         solar_params["bg0"],
                         solar_params["phi"],
                         solar_params["ag"],
-                        solar_params["bg"]
-                    )
-
+                        solar_params["bg"])
+                    # add forecast error to dry bulb temperature
                     forecast['HGloHor'] = original_HGloHor - error_forecast_solar
-
                     # Check if any point in forecast['HGloHor'] is out of the specified range
                     condition = np.any((forecast['HGloHor'][indices] > 2 * original_HGloHor[indices]) |
                                     (forecast['HGloHor'][indices] < 0.2 * original_HGloHor[indices]))
-                    # forecast['HGloHor']=gaussian_filter_ignoring_nans(forecast['HGloHor'])
-                    forecast['HGloHor'] = mean_filter(forecast['HGloHor'])
-                    forecast['HGloHor'] = np.clip(forecast['HGloHor'], lower_bound, upper_bound)
-                    # interpolate data to interval
-                    x = np.arange(0,horizon+0.1,interval).astype(int)
-                    xp = np.arange(0,horizon+0.1,3600).astype(int)
-                    forecast['HGloHor'] = np.interp(x,xp,forecast['HGloHor'])
-                    forecast['HGloHor'] = forecast['HGloHor'].tolist()
-                    # store latest in case don't need to update next time
-                    self.forecast_solar_store = forecast['HGloHor']
                     if not condition:
                         break
+                # forecast['HGloHor']=gaussian_filter_ignoring_nans(forecast['HGloHor'])
+                forecast['HGloHor'] = mean_filter(forecast['HGloHor'])
+                forecast['HGloHor'] = np.clip(forecast['HGloHor'], lower_bound, upper_bound)
+                # store latest in case don't need to update next time
+                self.forecast_solar_store = forecast['HGloHor']
             else:
                 forecast['HGloHor'] = self.forecast_solar_store
+            # interpolate data to interval
+            x = np.arange(0,horizon+0.1,interval).astype(int)
+            xp = np.arange(0,horizon+0.1,3600).astype(int)
+            forecast['HGloHor'] = np.interp(x,xp,forecast['HGloHor'])
+            forecast['HGloHor'] = forecast['HGloHor'].tolist()
 
         return forecast
 
