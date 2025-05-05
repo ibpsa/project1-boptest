@@ -125,10 +125,6 @@ and model fitting, was performed separately from the BOPTEST framework within Zh
 The resulting model parameters (AR coefficients and distribution properties)
 are the only components carried forward into BOPTEST.
 
-**Reference**
-
-Zheng, W., Zabala, L., Febres, J., Blum, D., & Wang, Z. (2025). Quantifying and simulating the weather forecast uncertainty for advanced building control. *Journal of Building Performance Simulation*, 1–16. https://doi.org/10.1080/19401493.2025.2453537.
-
 Weather Forecast Uncertainty Scenarios Definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -164,23 +160,26 @@ reflect systematic bias observed in some forecast datasets.
 Configuration of Uncertainty in BOPTEST by Users
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The forecast uncertainty can be configured by users in the followinng ways:
+The forecast uncertainty can be configured by users in the following ways:
 
 - **Whether uncertainty is enabled**: Users can choose whether they want deterministic or stochastic forecasts.
 - **Which forecast variables are affected**: Uncertainty may be applied to ambient temperature, global horizontal irradiation (GHI), or both.
 - **The uncertainty scenario**: Forecasts may follow low, medium, or high uncertainty levels, representing varying degrees of forecast error.
 - **The seed for randomization**: Users can define a fixed seed value to ensure reproducibility of stochastic forecast realizations across simulation runs.
 
-Users use the BOPTEST API to configure forecast uncertainty. Specifically, new scenario options
-have been added to the :code:`/scenario` request for :code:`temperature_uncertainty` and :code:`solar_uncertainty`,
-which can each take values of :code:`low`, :code:`medium`, or :code:`high` if a user wants to enable uncertainty.
-A user can also define a :code:`seed` parameter with any integer value.
+Users use the BOPTEST API to configure forecast uncertainty. Specifically, scenario parameters
+are available in the :code:`/scenario` request for :code:`temperature_uncertainty` and :code:`solar_uncertainty`,
+which can each take values of :code:`None` (default), for deterministic, or :code:`low`, :code:`medium`, or :code:`high` if a user wants to enable uncertainty.
+A user can also define a :code:`seed` parameter with any integer value, which allows for repeatable results of the
+underlying random processes, and therefore, sequence of uncertain forecasts for a given test set up.
 
 When obtaining forecasts with the :code:`/forecast` request, if a scenario with uncertainty has been
-configured, and the forecast request includes temperature or GHI, the
-:code:`interval` parameter is limited to one hour and the :code:`horizon` parameter
-is limited to less-than-or-equal to 48 hours.  In addition, the forecast and
-associated error will only be updated at the start of each hour of simulation time.
+configured, and the forecast request includes ambient temperature (:code:`TDryBul`) or GHI (:code:`HGloHor`),
+the :code:`horizon` parameter is limited to less-than-or-equal to 48 hours.  In addition, the forecast and
+associated error with these variables will only be updated at the start of each hour of simulation time.
+Use of the :code:`interval` parameter will interpolate the forecasts to the specified interval,
+but for forecast variables with uncertainty, the interpolation will be linear based on an underlying
+uncertain forecast with interval of one hour, consistent with the validation of the error models as described above.
 
 Code Integration and Related Files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -201,3 +200,7 @@ This file is loaded and read-in by BOPTEST at runtime upon deployment.
 - :code:`tests/test_forecast_uncertainty.py`
 Contains specific unit tests for verifying emulator functionality.
 Additional unit tests are also present in the API unit test module.
+
+References
+~~~~~~~~~~
+Zheng, W., Zabala, L., Febres, J., Blum, D., & Wang, Z. (2025). Quantifying and simulating the weather forecast uncertainty for advanced building control. *Journal of Building Performance Simulation*, 1–16. https://doi.org/10.1080/19401493.2025.2453537.
