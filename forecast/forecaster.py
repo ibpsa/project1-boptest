@@ -12,8 +12,6 @@ error_emulator module to generate errors for uncertain forecasts.
 from .error_emulator import predict_temperature_error_AR1, predict_solar_error_AR1, mean_filter
 import numpy as np
 import json
-import logging
-logger = logging.getLogger()
 
 
 class Forecaster(object):
