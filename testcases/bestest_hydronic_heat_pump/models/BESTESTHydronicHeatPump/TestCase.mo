@@ -5,10 +5,14 @@ model TestCase
   package MediumWater = IDEAS.Media.Water "Water medium";
   package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
   package MediumGlycol = IDEAS.Media.Antifreeze.PropyleneGlycolWater (property_T=273.15, X_a = 0.5) "Glycol medium";
-  parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooUno=273.15 + 30
+    "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooOcc=273.15 + 24
+    "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaUno=273.15 + 15
+    "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaOcc=273.15 + 21
+    "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
   parameter Real scalingFactor = 4 "Factor to scale up the model area";
   parameter Real nOccupants = 5 "Number of occupants";
 
@@ -61,7 +65,6 @@ model TestCase
   IDEAS.Utilities.IO.SignalExchange.Read reaPPumEmi(
     description="Emission circuit pump electrical power",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W"))
     "Block for reading the electrical power of the pump of the emission system"
     annotation (Placement(transformation(extent={{20,70},{40,90}})));
@@ -71,8 +74,7 @@ model TestCase
   IDEAS.Utilities.IO.SignalExchange.Overwrite ovePum(u(
       min=0,
       max=1,
-      unit="1"), description=
-        "Integer signal to control the emission circuit pump either on or off")
+      unit="1"), description="Integer signal to control the emission circuit pump either on or off")
     "Block for overwriting emission circuit pump control signal" annotation (
       Placement(transformation(
         extent={{10,10},{-10,-10}},
@@ -82,23 +84,20 @@ model TestCase
   IDEAS.Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="CO2 concentration in the zone",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-
     y(unit="ppm")) "Block for reading CO2 concentration in the zone"
     annotation (Placement(transformation(extent={{-60,-60},{-80,-40}})));
 
-  IDEAS.Utilities.IO.SignalExchange.Read reaTSetCoo(description=
-        "Zone operative temperature setpoint for cooling", y(unit="K"))
-    "Read zone cooling setpoint"
+  IDEAS.Utilities.IO.SignalExchange.Read reaTSetCoo(description="Zone operative temperature setpoint for cooling",
+      y(unit="K")) "Read zone cooling setpoint"
     annotation (Placement(transformation(extent={{-160,0},{-140,20}})));
-  IDEAS.Utilities.IO.SignalExchange.Read reaTSetHea(description=
-        "Zone operative temperature setpoint for heating", y(unit="K"))
-    "Read zone cooling heating"
+  IDEAS.Utilities.IO.SignalExchange.Read reaTSetHea(description="Zone operative temperature setpoint for heating",
+      y(unit="K")) "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-160,-40},{-140,-20}})));
-  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 0 then
-        TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback"
+  Modelica.Blocks.Sources.RealExpression TSetCoo(y=if yOcc.y > 1e-8 then
+        TSetCooOcc else TSetCooUno) "Cooling temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,0},{-180,20}})));
-  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 0 then
-        TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback"
+  Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 1e-8 then
+        TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
   Modelica.Blocks.Continuous.LimPID conPI(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -106,15 +105,14 @@ model TestCase
     Ti=8000,
     yMax=1,
     yMin=0,
-    initType=Modelica.Blocks.Types.InitPID.InitialState)
+    initType=Modelica.Blocks.Types.Init.InitialState)
     "PI controller for the boiler supply water temperature"
     annotation (Placement(transformation(extent={{100,140},{120,160}})));
   Modelica.Blocks.Math.Add addOcc
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
   IDEAS.Fluid.Movers.FlowControlled_dp pum(
     inputType=IDEAS.Fluid.Types.InputType.Stages,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    use_inputFilter=false,
+    use_riseTime=false,
     dp_nominal=20000,
     m_flow_nominal=0.5,
     redeclare package Medium = MediumWater,
@@ -123,6 +121,7 @@ model TestCase
     annotation (Placement(transformation(extent={{40,30},{20,50}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTemSup(
     redeclare package Medium = MediumWater,
+    allowFlowReversal=false,
     m_flow_nominal=pum.m_flow_nominal,
     tau=0) "Supply water temperature sensor"
     annotation (Placement(transformation(extent={{80,50},{60,30}})));
@@ -138,9 +137,10 @@ model TestCase
     annotation (Placement(transformation(extent={{0,0},{-20,20}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTemRet(
     redeclare package Medium = MediumWater,
+    allowFlowReversal=false,
     m_flow_nominal=pum.m_flow_nominal,
     tau=0) "Return water temperature sensor"
-    annotation (Placement(transformation(extent={{80,-10},{60,-30}})));
+    annotation (Placement(transformation(extent={{60,-10},{80,-30}})));
   IDEAS.Fluid.HeatPumps.ScrollWaterToWater heaPum(
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumAir,
@@ -148,9 +148,7 @@ model TestCase
     m2_flow_nominal=fan.m_flow_nominal,
     enable_variable_speed=true,
     m1_flow_nominal=pum.m_flow_nominal,
-    T1_start=293.15,
-    T2_start=278.15,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     TEvaMin=253.15,
     dTHys=3,
     dp1_nominal=pum.dp_nominal/2,
@@ -162,7 +160,8 @@ model TestCase
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={130,10})));
-  IDEAS.Fluid.Sources.Boundary_pT bouWat(redeclare package Medium = MediumWater,
+  IDEAS.Fluid.Sources.Boundary_pT bouWat(redeclare package Medium =
+        MediumWater,
       nPorts=1) "Expansion vessel" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=270,
@@ -174,14 +173,12 @@ model TestCase
   IDEAS.Utilities.IO.SignalExchange.Read reaPHeaPum(
     description="Heat pump electrical power",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Block for reading the electrical power of the heat pump"
     annotation (Placement(transformation(extent={{140,70},{160,90}})));
 
   IDEAS.Utilities.IO.SignalExchange.Read reaTZon(
     description="Zone operative temperature",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
-
     y(unit="K")) "Block for reading the operative zone temperature"
     annotation (Placement(transformation(extent={{-32,70},{-12,90}})));
 
@@ -203,13 +200,11 @@ model TestCase
     y(unit="W"))
     "Block for reading the heat pump thermal power exchanged in the condenser"
     annotation (Placement(transformation(extent={{100,0},{80,20}})));
-  IDEAS.Utilities.IO.SignalExchange.Read reaTSup(description=
-        "Supply water temperature to radiant floor", y(unit="K"))
-    "Read supply water temperature to radiant floor"
+  IDEAS.Utilities.IO.SignalExchange.Read reaTSup(description="Supply water temperature to radiant floor",
+      y(unit="K")) "Read supply water temperature to radiant floor"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
-  IDEAS.Utilities.IO.SignalExchange.Read reaTRet(description=
-        "Return water temperature from radiant floor", y(unit="K"))
-    "Read return water temperature from radiant floor"
+  IDEAS.Utilities.IO.SignalExchange.Read reaTRet(description="Return water temperature from radiant floor",
+      y(unit="K")) "Read return water temperature from radiant floor"
     annotation (Placement(transformation(extent={{100,-60},{120,-40}})));
   IDEAS.Utilities.IO.SignalExchange.Read reaCOP(description="Heat pump COP", y(
         unit="1")) "Read heat pump COP"
@@ -227,8 +222,7 @@ model TestCase
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveFan(u(
       min=0,
       max=1,
-      unit="1"), description=
-        "Integer signal to control the heat pump evaporator fan either on or off")
+      unit="1"), description="Integer signal to control the heat pump evaporator fan either on or off")
     "Block for overwriting fan control signal" annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
@@ -239,9 +233,8 @@ model TestCase
     annotation (Placement(transformation(extent={{160,100},{180,120}})));
   IDEAS.Fluid.Movers.FlowControlled_dp fan(
     redeclare package Medium = MediumAir,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
-    use_inputFilter=false,
+    use_riseTime=false,
     dp_nominal=100,
     m_flow_nominal=3,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
@@ -250,7 +243,6 @@ model TestCase
   IDEAS.Utilities.IO.SignalExchange.Read reaPFan(
     description="Electrical power of the heat pump evaporator fan",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Electrical power of the heat pump evaporator fan"
     annotation (Placement(transformation(extent={{220,70},{240,90}})));
 
@@ -263,7 +255,7 @@ model TestCase
     annotation (Placement(transformation(extent={{-80,90},{-60,70}})));
   Modelica.Blocks.Logical.Switch switch1(y(unit="K"))
     annotation (Placement(transformation(extent={{-20,140},{0,160}})));
-  Modelica.Blocks.Sources.Constant const(k=0)
+  Modelica.Blocks.Sources.Constant const(k=1e-8) "Threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-114,100},{-94,120}})));
   IDEAS.Utilities.IO.SignalExchange.WeatherStation weaSta
     "BOPTEST weather station"
@@ -277,27 +269,29 @@ model TestCase
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={30,150})));
+
+initial equation
+  heaPum.con.T=293.15;
+  heaPum.eva.T=278.15;
+  heaPum.eva.port_a.C_outflow=outAir.Medium.C_default;
+  heaPum.eva.port_a.Xi_outflow={0.01};
+
 equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
-  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,
-          40},{-52,14},{-58,14}},
-                              color={0,0,127}));
+  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,40},
+          {-52,18},{-81,18}}, color={0,0,127}));
   connect(senTemSup.port_b, pum.port_a)
     annotation (Line(points={{60,40},{40,40}}, color={0,127,255}));
   connect(bouWat.ports[1], pum.port_a)
     annotation (Line(points={{50,20},{50,40},{40,40}}, color={0,127,255}));
   connect(heaPum.port_b1,senTemSup.port_a)  annotation (Line(points={{124,20},{124,
           40},{80,40}},               color={0,127,255}));
-  connect(senTemRet.port_a,heaPum. port_a1) annotation (Line(points={{80,-20},{124,
-          -20},{124,0}},        color={0,127,255}));
   connect(case900Template.gainEmb[1], floHea.heatPortEmb[1]) annotation (Line(
         points={{-60,1},{-40,1},{-40,20},{-10,20}},          color={191,0,0}));
   connect(pum.port_b, floHea.port_a)
     annotation (Line(points={{20,40},{0,40},{0,10}}, color={0,127,255}));
-  connect(floHea.port_b, senTemRet.port_b)
-    annotation (Line(points={{-20,10},{-20,-20},{60,-20}},color={0,127,255}));
   connect(pum.P, reaPPumEmi.u)
     annotation (Line(points={{19,49},{0,49},{0,80},{18,80}}, color={0,0,127}));
   connect(yPum.y, ovePum.u)
@@ -349,9 +343,8 @@ equation
           -90,88},{-82,88}}, color={0,0,127}));
   connect(yOcc.y, greater.u1) annotation (Line(points={{-59,40},{-52,40},{-52,
           60},{-100,60},{-100,80},{-82,80}}, color={0,0,127}));
-  connect(outAir.ports[2], heaPum.port_b2) annotation (Line(points={{240,11},{
-          240,-20},{136,-20},{136,0}},
-                                   color={0,127,255}));
+  connect(outAir.ports[2], heaPum.port_b2) annotation (Line(points={{240,11},{240,
+          -20},{136,-20},{136,0}}, color={0,127,255}));
   connect(heaPum.port_a2, fan.port_b)
     annotation (Line(points={{136,20},{136,40},{200,40}}, color={0,127,255}));
   connect(sim.weaDatBus, weaSta.weaBus) annotation (Line(
@@ -376,11 +369,19 @@ equation
     annotation (Line(points={{213,110},{250,110}}, color={0,0,127}));
   connect(ovePum.y, realToInteger.u)
     annotation (Line(points={{13,110},{50,110}}, color={0,0,127}));
+  connect(senTemRet.port_b, heaPum.port_a1)
+    annotation (Line(points={{80,-20},{124,-20},{124,0}}, color={0,127,255}));
+  connect(senTemRet.port_a, floHea.port_b)
+    annotation (Line(points={{60,-20},{-20,-20},{-20,10}}, color={0,127,255}));
   annotation (
-    experiment(StopTime=1728000, __Dymola_Algorithm="Dassl"),
+    experiment(
+      StopTime=1728000,
+      __Dymola_NumberOfIntervals=5000,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Lsodar"),
     Documentation(info="<html>
 <p>
-This is a single zone residential hydronic system model with an air-source
+This is a single zone residential hydronic system model with an air-source 
 heat pump and floor heating for WP 1.2 of IBPSA project 1.
 </p>
 <h3>Building Design and Use</h3>
@@ -577,7 +578,7 @@ performance data following the procedure explained in
 this heat pump calibration guide</a>
 using manufacturer performance data from a Carrier air-to-water heat pump model 30AW015
 which data can be found in
-<a href=\"https://www.hosbv.com/data/specifications/14399_Carrier%2030%20AWH%20015%20Specifications.pdf\">
+<a href=\"https://www.ahi-carrier.gr/el/wp-content/uploads/sites/3/2017/10/PSD-30AW_-LR-3.pdf\">
 this manufacturer datasheet</a>.
 </p>
 <p>
