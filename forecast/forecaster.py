@@ -108,7 +108,7 @@ class Forecaster(object):
             start = start_raw - (start_raw % 3600)
             # Build the index to send to the data_manager.  With uncertain forecasts, deterministic data should be at hour interval.
             stop = start + horizon
-            index_uncertain = np.arange(start,stop+0.1,3600).astype(int)
+            index_uncertain = np.arange(start,stop+0.1+3600,3600).astype(int)
             # Check if error needs to be updated due to changing hour or new horizon
             if not hasattr(self, 'start_store'):
                 self.start_store = start
@@ -128,7 +128,7 @@ class Forecaster(object):
                     np.random.seed(seed)
                 # error in the forecast
                 self.error_forecast_temp = predict_temperature_error_AR1(
-                    hp=int(horizon / 3600 + 1), # Use interval of 3600 to create error
+                    hp=int((horizon+3600) / 3600 + 1), # Use interval of 3600 to create error
                     F0=temperature_params["F0"],
                     K0=temperature_params["K0"],
                     F=temperature_params["F"],
@@ -143,7 +143,7 @@ class Forecaster(object):
             # interpolate error to interval
             x = np.arange(0,horizon+0.1,interval).astype(int)
             xp = np.arange(0,horizon+0.1,3600).astype(int)
-            forecast['TDryBul'] = np.interp(x,xp,forecast['TDryBul'])
+            forecast['TDryBul'] = np.interp(forecast['time'],index_uncertain,forecast['TDryBul'])
             forecast['TDryBul'] = forecast['TDryBul'].tolist()
 
         # If uncertainty scenario for ghi, add any error and re-sample to requested interval
@@ -160,7 +160,7 @@ class Forecaster(object):
                     if seed is not None:
                         np.random.seed(seed+i*i)
                     error_forecast_solar = predict_solar_error_AR1(
-                        int(horizon / 3600 + 1), # Generate error at 3600 interval
+                        int((horizon+3600) / 3600 + 1), # Generate error at 3600 interval
                         solar_params["ag0"],
                         solar_params["bg0"],
                         solar_params["phi"],
@@ -183,7 +183,7 @@ class Forecaster(object):
             # interpolate data to interval
             x = np.arange(0,horizon+0.1,interval).astype(int)
             xp = np.arange(0,horizon+0.1,3600).astype(int)
-            forecast['HGloHor'] = np.interp(x,xp,forecast['HGloHor'])
+            forecast['HGloHor'] = np.interp(forecast['time'],index_uncertain,forecast['HGloHor'])
             forecast['HGloHor'] = forecast['HGloHor'].tolist()
 
         return forecast
