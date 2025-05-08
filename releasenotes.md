@@ -19,7 +19,7 @@ Released on xx/xx/xxxx.
 
 **The following changes are backwards compatible, but may change benchmark results:**
 
-- For ``multizone_office_simple_hydronic`` test case, correct occupancy count .csv file within the resource directory of the test case FMU.  This will change the forecast of occupancy count provided to a controller for certain times during the year.  This is for [#726](https://github.com/ibpsa/project1-boptest/issues/726).
+- For ``multizone_office_simple_hydronic`` test case, correct occupancy count .csv file within the resource directory of the test case FMU.  This will change the forecast of occupancy count provided to a test controller.  This is for [#726](https://github.com/ibpsa/project1-boptest/issues/726).
 
 **The following changes are not backwards compatible, but do not change benchmark results:**
 
