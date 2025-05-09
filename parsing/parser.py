@@ -21,6 +21,7 @@ import warnings
 import time
 import zipfile
 import xml.etree.ElementTree as ET
+import platform
 
 if 'MODELICAPATH' in os.environ:
     modelicapath=os.environ['MODELICAPATH']
@@ -42,6 +43,8 @@ def compile_fmu_dymola(model_path):
         f.write('Advanced.FMI.AllowStringParametersForFMU = true;\n')
         f.write('OutputCPUtime = false;\n')
         f.write('Evaluate = false;\n')
+        if platform.system() == 'Windows':
+            f.write('Advanced.FMI.CrossExport=true;\n')
         f.write('translateModelFMU("{0}", false, "", "2", "csSolver", false, 0, fill("",0));\n'.format(model_path))
         f.write('exit();')
     process = subprocess.Popen(['dymola','compile_fmu.mos', '/nowindow'])
