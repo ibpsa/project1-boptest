@@ -15,6 +15,7 @@ Released on xx/xx/xxxx.
   - Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3.
   - Update Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64.
   - Update unit tests such that ``test_kpis.py``, ``test_forecast.py``, and ``test_testcase.py`` are run in the ``worker`` container, instead of the ``jm`` container.
+- Add status flags properties to bacnet objects for all ``bacnet.ttl`` files. This is for [#762](https://github.com/ibpsa/project1-boptest/issues/762).
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 
