@@ -1,4 +1,5 @@
-{"name"         : "twozone_apartment_hydronic",
+{
+"name"         : "twozone_apartment_hydronic",
 "area"          : 45.0,
 "start_time"    : 0.0,
 "warmup_period" : 0.0,
