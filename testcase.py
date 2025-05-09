@@ -973,11 +973,11 @@ class TestCase(object):
         message: str
             Includes the detailed debug information
         payload: dict
-            {'electricity_price': if succeeded in changing then True, else None,
+            {'electricity_price': if succeeded in changing then value, else None,
              'time_period': if succeeded then initial measurements, else None,
-             'temperature_uncertainty': if succeeded in changing then True, else None,
-             'solar_uncertainty': if succeeded in changing then True, else None,
-             'seed': if succeeded then seed, else None
+             'temperature_uncertainty': if succeeded in changing then value, else None,
+             'solar_uncertainty': if succeeded in changing then value, else None,
+             'seed': if succeeded then value, else None
             }
 
         '''

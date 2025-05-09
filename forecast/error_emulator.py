@@ -60,12 +60,11 @@ def predict_temperature_error_AR1(hp, F0, K0, F, K, mu):
     mu : float
         Mean value of the distribution function integrated in the AR error model.
 
-
     Returns
     -------
     error : 1D array
         Array containing the error values in the hp points.
-    
+
     '''
 
     error = np.zeros(hp)

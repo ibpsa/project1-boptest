@@ -198,7 +198,7 @@ class Forecaster(object):
 
         Returns
         -------
-        dict
+        uncertainty_params : dict
             Uncertainty parameters loaded from the JSON file.
 
         '''
