@@ -13,7 +13,6 @@ import json
 import pandas as pd
 import re
 from datetime import datetime
-import sys
 
 def get_root_path():
     '''Returns the path to the root repository directory.
