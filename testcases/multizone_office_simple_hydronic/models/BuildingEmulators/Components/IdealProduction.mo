@@ -20,10 +20,9 @@ model IdealProduction "Ideal production model which assumes a linear efficiency 
     .Modelica.Blocks.Sources.RealExpression effExp(y = abs(Q_flow / eff)) annotation(Placement(transformation(extent = {{20.0,-70.0},{40.0,-50.0}},origin = {0.0,0.0},rotation = 0.0)));
     //\frac{0.1}{\left(1+\exp\left(x-C\right)\right)}+2.46575-0.005x
 equation
-    if use_TSet then
-        connect(TSet,TSetIn);
-    else
-        TSetIn = 0;
+    TSet=TSetIn;
+    if not use_TSet then
+        TSet = 0;
     end if;
     connect(effExp.y,P) annotation(Line(points = {{41,-60},{110,-60}},color = {0,0,127}));
     annotation(Icon(coordinateSystem(preserveAspectRatio = false,extent = {{-100.0,-100.0},{100.0,100.0}}),graphics={  Text(lineColor={0,0,255},extent={{-150,150},{150,110}},textString="%name"),Line(origin={85,-51},points={{14.999967066252296,-8.950839008652679},{-5,-9},{-5,9},{-15,9}},color={22,0,255})}));
