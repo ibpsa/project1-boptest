@@ -6,8 +6,8 @@ Released on xx/xx/xxxx.
 
 **The following changes are backwards compatible and do not significantly change benchmark results:**
 
-- Update heat pump documentation to BESTEST Hydronic Heat Pump testcase. This is for [#704](https://github.com/ibpsa/project1-boptest/issues/704).
-- Enable BACnet interface to work with test case ``multizone_hydronic_simple_hydronic`` by creating the ``bacnet.ttl``. This is for [#735](https://github.com/ibpsa/project1-boptest/issues/735).
+- For ``bestest_hydronic_heat_pump`` test case, update heat pump documentation. This is for [#704](https://github.com/ibpsa/project1-boptest/issues/704).
+- For ``multizone_hydronic_simple_hydronic`` test case, enable BACnet interface to work by creating the ``bacnet.ttl``. This is for [#735](https://github.com/ibpsa/project1-boptest/issues/735).
 - Remove the ``scenario`` field from the test case ``config.json``. This is for [#719](https://github.com/ibpsa/project1-boptest/issues/719).
 - Update dependencies and environment of ``worker`` container.  This is for [#663](https://github.com/ibpsa/project1-boptest/issues/663).  Changes are summarized as follows:
   - Remove scipy and matplotlib dependencies from ``worker`` container.
@@ -15,7 +15,19 @@ Released on xx/xx/xxxx.
   - Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3.
   - Update Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64.
   - Update unit tests such that ``test_kpis.py``, ``test_forecast.py``, and ``test_testcase.py`` are run in the ``worker`` container, instead of the ``jm`` container.
+- Update Spawn version to ``light-0.3.0-0fa49be497``, which uses a smaller file size and is used in Modelica Buildings Library v9.1.0.  This is for [#718](https://github.com/ibpsa/project1-boptest/issues/718).
+- Add weather forecast uncertainty as new scenario options for dry bulb temperature and global horizontal irradiation.  The corresponding new scenario keys are ``temperature_uncertainty`` and ``solar_uncertainty``, which can take values ``None`` (default), ``'low'``, ``'medium'``, or ``'high'``.  A new scenario key ``seed`` is also added to set an integer seed for reproducible uncertainty generation.  The uncertainty models are based on [Zheng et al. (2025)](https://doi.org/10.1080/19401493.2025.2453537). This is for [#135](https://github.com/ibpsa/project1-boptest/issues/135).
 - Add status flags properties to bacnet objects for all ``bacnet.ttl`` files. This is for [#762](https://github.com/ibpsa/project1-boptest/issues/762).
+
+**The following changes are backwards compatible, but may change benchmark results:**
+
+- For ``multizone_office_simple_hydronic`` test case, correct occupancy count .csv file within the resource directory of the test case FMU.  This will change the forecast of occupancy count provided to a test controller.  This is for [#726](https://github.com/ibpsa/project1-boptest/issues/726).
+
+**The following changes are not backwards compatible, but do not change benchmark results:**
+
+- Written and clarified ``testcase1`` and ``testcase3`` documentation. This is for [#582](https://github.com/ibpsa/project1-boptest/issues/582).
+  - For ``testcase1``, changed naming of ``PHea`` to ``PHeaCoo`` for clarity regarding allowed heating and cooling regimes.
+  - Similarly for ``testcase3``, changed ``PHeaNor`` and ``PHeaSou`` to ``PHeaCooNor`` and ``PHeaCooSou`` respectively.
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 
