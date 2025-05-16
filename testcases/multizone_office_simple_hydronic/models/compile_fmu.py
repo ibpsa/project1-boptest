@@ -31,7 +31,7 @@ def compile_fmu():
 
     # COMPILE FMU
     # -----------
-    fmupath = parser.export_fmu(modelpath, [mopath], tool='Dymola')
+    fmupath = parser.export_fmu(modelpath, [mopath], tool='OCT')
     # -----------
 
     return fmupath

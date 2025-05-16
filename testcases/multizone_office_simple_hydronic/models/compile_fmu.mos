@@ -1,6 +1,0 @@
-Advanced.FMI.CopyExternalResources = true;
-Advanced.FMI.AllowStringParametersForFMU = true;
-OutputCPUtime = false;
-Evaluate = false;
-translateModelFMU("wrapped", false, "", "2", "cs", false, 0, fill("",0));
-exit();
