@@ -22,8 +22,8 @@ import rdflib
 from bacpypes.debugging import bacpypes_debugging, ModuleLogger
 from bacpypes.consolelogging import ConfigArgumentParser
 
-from bacpypes.core import run, deferred
-from bacpypes.task import recurring_function
+from bacpypes.core import run
+from bacpypes.task import RecurringTask
 
 from bacpypes.basetypes import DateTime
 from bacpypes.primitivedata import Real
@@ -39,9 +39,6 @@ from bacpypes.object import register_object_type, AnalogInputObject
 # some debugging
 _debug = 0
 _log = ModuleLogger(globals())
-
-# application interval is refresh time in seconds
-APPINTERVAL = 5 * 1000 # 5 seconds
 
 # dictionary of names to objects
 objects = {}
@@ -139,80 +136,93 @@ def create_objects(app, configfile):
             activation_signal[name] = activation_name
             inputs[name] = obj
 
-@recurring_function(APPINTERVAL)
 @bacpypes_debugging
-def update_boptest_data():
-    """Read the current simulation data from the API and set the object values."""
-    if _debug:
-        update_boptest_data._debug("update_boptest_data")
-    global objects, inputs, baseurl, testid
+class BOPTESTupdater(RecurringTask):
 
-    # ask the web service
-    # We get results direct from /advance now but you could ask the simulation for historic data
-    # response = requests.put(
-    #    "http://localhost:5000/results", json={'point_name':'TRooAir_y', 'start_time': timestep * 30, 'final_time': (timestep+1)*30}
-    #)
+    """
+    An instance of this class pops up out of the ground every once in a
+    while and write out the next value.
+    """
 
-    signals = {}
+    def __init__(self, interval):
+        if _debug:
+            self._debug("__init__ %r", interval)
+        RecurringTask.__init__(self, interval)
 
-    for signal_name, signal_activation in activation_signal.items():
-        signals[signal_activation] = 0.0
+        # install it
+        self.install_task()
+        
+    def process_task(self):
+        """Read the current simulation data from the API and set the object values."""
 
-    # For "commandable" objects, BACnet maintains a priorityArray that can be written to from levels 1-16, which are
-    # used to replace the 'presentValue' of an object. So, for the points that are 'inputs' in BOPtest, we created those as
-    # commandable objects, so check to see if there is a higher priority value set for this object that is overwriting
-    # what we should normally use - and if so, turn on the '_activate' signal for that point as well
-    #
-    # (BACpypes automatically turns a write to presentValue into a write to the priority array) - e.g. a client that
-    # does this from a client:
-    # python samples/ReadWriteProperty.py
-    # > write 10.0.2.7 analogValue:63 presentValue 310
-    #
-    # BACpypes-based servers will change that into a modification of priorityArray at priority 16
-    #
-    # the _activate signals are sticky in BOPtest, so we turn them off by default and only turn them back on when
-    # there is a signal to overwrite. Because they are sticky we could just leave out any that were previously set to 0
-    # but by just setting them all to 0, we don't have to worry about tracking any state, at the expense of sending in a
-    # bunch of parameters to boptest that don't really do anything
-    #
-    for k,v in inputs.items():
-        #print("k: %s %s %s" % (str(k), v._highest_priority_value(), type(v._highest_priority_value()[1])))
-        signal = v._highest_priority_value()
-        if signal[1]:
-            signals[k] = signal[0]
-            activation_name = activation_signal[k]
-            signals[activation_name] = 1.0
-
-
-    #print("Advancing with signals: " + str(signals))
-    response = requests.post('{0}/advance/{1}'.format(baseurl,testid), json=signals)
-    if response.status_code != 200:
-        print("Error response: %r" % (response.status_code,))
-        return
-
-    # turn the response string into a JSON object
-    json_response = response.json()
-
-    # set the object values
-    # We advance the simulation by 5 seconds at each call to the loop, but we don't update the external world
-    # with those results until the NEXT call to this function.
-    #
-    # TODO: don't ACK BACnet writes until we get to here - instead, buffer the write request and send the ACKs later
-    # don't worry about concurrency, last-writer-wins is fine, but be sure to send multiple acks, one to each writer
-    #
-    # TODO: rather than using recurring_function, we should schedule ourselves to be called again at (5secs-elapsed_function_time)
-    # because if say the call to /advance takes 3 seconds, we want to get called again in 2 seconds, not in 5 seconds.
-    global nextState
-    if nextState:
-        for k, v in nextState['payload'].items():
-            if _debug:
-                update_boptest_data._debug("    - k, v: %r, %r", k, v)
-
-            if k in objects:
-                #objects[k]._set_value(v)
-                objects[k].presentValue = v
-
-    nextState = json_response
+        if _debug:
+            self._debug("update_boptest_data")
+        global objects, inputs, baseurl, testid
+    
+        # ask the web service
+        # We get results direct from /advance now but you could ask the simulation for historic data
+        # response = requests.put(
+        #    "http://localhost:5000/results", json={'point_name':'TRooAir_y', 'start_time': timestep * 30, 'final_time': (timestep+1)*30}
+        #)
+    
+        signals = {}
+    
+        for signal_name, signal_activation in activation_signal.items():
+            signals[signal_activation] = 0.0
+    
+        # For "commandable" objects, BACnet maintains a priorityArray that can be written to from levels 1-16, which are
+        # used to replace the 'presentValue' of an object. So, for the points that are 'inputs' in BOPtest, we created those as
+        # commandable objects, so check to see if there is a higher priority value set for this object that is overwriting
+        # what we should normally use - and if so, turn on the '_activate' signal for that point as well
+        #
+        # (BACpypes automatically turns a write to presentValue into a write to the priority array) - e.g. a client that
+        # does this from a client:
+        # python samples/ReadWriteProperty.py
+        # > write 10.0.2.7 analogValue:63 presentValue 310
+        #
+        # BACpypes-based servers will change that into a modification of priorityArray at priority 16
+        #
+        # the _activate signals are sticky in BOPtest, so we turn them off by default and only turn them back on when
+        # there is a signal to overwrite. Because they are sticky we could just leave out any that were previously set to 0
+        # but by just setting them all to 0, we don't have to worry about tracking any state, at the expense of sending in a
+        # bunch of parameters to boptest that don't really do anything
+        #
+        for k,v in inputs.items():
+            #print("k: %s %s %s" % (str(k), v._highest_priority_value(), type(v._highest_priority_value()[1])))
+            signal = v._highest_priority_value()
+            if signal[1]:
+                signals[k] = signal[0]
+                activation_name = activation_signal[k]
+                signals[activation_name] = 1.0
+       
+        if _debug:
+            _log.debug('Advancing one step ' + time.strftime("%H:%M:%S", time.localtime()))
+    
+        response = requests.post('{0}/advance/{1}'.format(baseurl,testid), json=signals)
+        if response.status_code != 200:
+            print("Error response: %r" % (response.status_code,))
+            return
+        
+        # turn the response string into a JSON object
+        json_response = response.json()
+    
+        # set the object values
+        # We advance the simulation by 5 seconds at each call to the loop, but we don't update the external world
+        # with those results until the NEXT call to this function.
+        #
+        # TODO: don't ACK BACnet writes until we get to here - instead, buffer the write request and send the ACKs later
+        # don't worry about concurrency, last-writer-wins is fine, but be sure to send multiple acks, one to each writer
+        global nextState
+        if nextState:
+            for k, v in nextState['payload'].items():
+                if _debug:
+                    self._debug("    - k, v: %r, %r", k, v)
+    
+                if k in objects:
+                    #objects[k]._set_value(v)
+                    objects[k].presentValue = v
+     
+        nextState = json_response
 
 # BAC0 uses the ReadPropertyMultiple service so make that available
 @bacpypes_debugging
@@ -230,12 +240,29 @@ def main():
     parser = ConfigArgumentParser(description=__doc__)
 
     parser.add_argument('testcase', type=str, help="Name of BOPTEST test case to deploy")
-    parser.add_argument('start_time', type=int, default=0, help="timestamp (in seconds) at which to start the simulation")
-    parser.add_argument('warmup_period', type=int, default=0, help="timestamp (in seconds) at which to start the simulation")
-    parser.add_argument('--baseurl', dest='baseurl', type=str, default='http://127.0.0.1:80', help="URL for BOPTest endpoint")
+    parser.add_argument('start_time', type=int, default=0, help="Timestamp (in seconds) at which to start the simulation")
+    parser.add_argument('warmup_period', type=int, default=0, help="Timestamp (in seconds) at which to start the simulation")
+    parser.add_argument('--baseurl','-u', dest='baseurl', type=str, default='http://127.0.0.1:80', help="URL for BOPTest endpoint")
+    parser.add_argument('--app_interval','-ai', type=str, default='5', help="Application interval is refresh time in seconds, with option 'oncommand' simulation advances according to user input")
+    parser.add_argument('--simulation_step','-s', type=str, default='5', help="Simulation advance time step in seconds")
     # parse the command line arguments
     args = parser.parse_args()
     baseurl = args.baseurl
+    simulation_step = float(args.simulation_step)
+    
+    if "oncommand" in args.app_interval:
+        oncommand = True
+        APPINTERVAL = 0.5*1000
+    else:
+        oncommand = False
+        APPINTERVAL = float(args.app_interval)*1000
+    
+    if (APPINTERVAL/1000 < 0.5):
+        _log.warning("Warning application refresh interval is less than 0.5 seconds, this may not be enough time for simulation to advance by one timestep")
+ 
+
+
+        
 
     if _debug:
         _log.debug("initialization")
@@ -255,9 +282,9 @@ def main():
     boptest_measurements = requests.get('{0}/measurements/{1}'.format(baseurl,testid)).json()
     boptest_inputs = requests.get('{0}/inputs/{1}'.format(baseurl,testid)).json()
 
-    # We advance the simulation by 5 seconds at each call to /advance, and APPINTERVAL is also 5 seconds, so the simulationo
-    # moves in sync with wallclock time. To see things happen faster, set this time greater than 5 seconds
-    res = requests.put('{0}/step/{1}'.format(baseurl,testid), json={'step':5})
+    # We advance the simulation by "simulation_step" seconds at each call to /advance, if "APPINTERVAL" == "simulation_step" 
+    # the simulation moves in sync with wallclock time. To see things happen faster, set "simulation_step" > "APPINTERVAL" 
+    res = requests.put('{0}/step/{1}'.format(baseurl,testid), json={'step':simulation_step})
 
     # make a device object
     this_device = LocalDeviceObject(ini=args.ini)
@@ -272,10 +299,15 @@ def main():
     test_case_name = requests.get('{0}/name/{1}'.format(baseurl,testid)).json()['payload']['name']
     file_name = '../testcases/{0}/models/bacnet.ttl'.format(test_case_name)
     create_objects(this_application, file_name)
-
+    
     # run this update when the stack is ready
-    deferred(update_boptest_data)
-
+    if _debug:
+        _debug('Start simulation ' + time.strftime("%H:%M:%S", time.localtime()))
+    updater = BOPTESTupdater(APPINTERVAL)
+    
+    if _debug:
+        _log.debug("    - updater: %r", updater)
+    
     if _debug:
         _log.debug("running")
 
