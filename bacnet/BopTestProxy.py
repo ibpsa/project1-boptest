@@ -50,6 +50,7 @@ g = None
 baseurl = "http://127.0.0.1:80"
 boptest_measurements = None
 boptest_inputs = None
+advance_counter = 0
 
 # TODO - what should some of the BOPTEST objects be - maybe
 # AnalogInputs or BinaryInputs?
@@ -83,8 +84,9 @@ unitMapping = {'K': "degreesKelvin", 'ppm': "partsPerMillion"}
 
 
 @bacpypes_debugging
-def create_objects(app, configfile):
+def create_objects(app, configfile, oncommand):
     """Create the objects that hold the result values."""
+    
     if _debug:
         create_objects._debug("create_objects %r", app)
     global objects, inputs, g, nextState
@@ -135,6 +137,13 @@ def create_objects(app, configfile):
             # TODO: Check to make sure there actually is an activation signal!
             activation_signal[name] = activation_name
             inputs[name] = obj
+            
+    # Add oncommand input if advance on command is True
+    if oncommand:
+        obj = klass(objectName = 'advance', objectIdentifier=(klass.objectType, instanceNum+1), presentValue = 0, statusFlags = 0)
+        app.add_object(obj)
+        objects['advance'] = obj
+        inputs['advance'] = obj
 
 @bacpypes_debugging
 class BOPTESTupdater(RecurringTask):
@@ -144,9 +153,22 @@ class BOPTESTupdater(RecurringTask):
     while and write out the next value.
     """
 
-    def __init__(self, interval):
+    def __init__(self, interval, oncommand):
+        
+        self.oncommand = oncommand
+        # if oncommand == True start counter at 0 and simulation advances
+        # when advance input > self.advance_counter. If oncommand == false
+        # self.advance_counter == -1 and simulation advances automatically
+        if self.oncommand:
+            self.advance_counter = 0
+        else:
+            self.advance_counter = -1
+            
         if _debug:
             self._debug("__init__ %r", interval)
+            self._debug("__init__ %r", oncommand)
+            self._debug("__init__ Setting advance counter")
+            self._debug("__init__ %r", self.advance_counter)
         RecurringTask.__init__(self, interval)
 
         # install it
@@ -155,10 +177,10 @@ class BOPTESTupdater(RecurringTask):
     def process_task(self):
         """Read the current simulation data from the API and set the object values."""
 
-        if _debug:
+        global objects, inputs, baseurl, testid, advance_counter
+        
+        if _debug and (advance_counter > self.advance_counter):
             self._debug("update_boptest_data")
-        global objects, inputs, baseurl, testid
-    
         # ask the web service
         # We get results direct from /advance now but you could ask the simulation for historic data
         # response = requests.put(
@@ -191,21 +213,30 @@ class BOPTESTupdater(RecurringTask):
             #print("k: %s %s %s" % (str(k), v._highest_priority_value(), type(v._highest_priority_value()[1])))
             signal = v._highest_priority_value()
             if signal[1]:
-                signals[k] = signal[0]
-                activation_name = activation_signal[k]
-                signals[activation_name] = 1.0
-       
-        if _debug:
-            _log.debug('Advancing one step ' + time.strftime("%H:%M:%S", time.localtime()))
-    
-        response = requests.post('{0}/advance/{1}'.format(baseurl,testid), json=signals)
-        if response.status_code != 200:
-            print("Error response: %r" % (response.status_code,))
-            return
+                if k == 'advance':
+                    advance_counter = signal[0]
+                else:
+                    signals[k] = signal[0]
+                    activation_name = activation_signal[k]
+                    signals[activation_name] = 1.0
         
-        # turn the response string into a JSON object
-        json_response = response.json()
-    
+        # Advancing simulation if counter is higher than previous value
+        # if oncommand == False the statement is always True
+        
+        if advance_counter > self.advance_counter:
+            
+            
+            if _debug:
+                _log.debug('Advancing one step ' + time.strftime("%H:%M:%S", time.localtime()))
+        
+            response = requests.post('{0}/advance/{1}'.format(baseurl,testid), json=signals)
+            if response.status_code != 200:
+                print("Error response: %r" % (response.status_code,))
+                return
+            
+            # turn the response string into a JSON object
+            json_response = response.json()
+        
         # set the object values
         # We advance the simulation by 5 seconds at each call to the loop, but we don't update the external world
         # with those results until the NEXT call to this function.
@@ -215,14 +246,19 @@ class BOPTESTupdater(RecurringTask):
         global nextState
         if nextState:
             for k, v in nextState['payload'].items():
-                if _debug:
+                if _debug and (advance_counter > self.advance_counter):
                     self._debug("    - k, v: %r, %r", k, v)
     
                 if k in objects:
                     #objects[k]._set_value(v)
                     objects[k].presentValue = v
-     
-        nextState = json_response
+                    
+        if advance_counter > self.advance_counter:
+            nextState = json_response
+            if _debug and (self.advance_counter > 0):
+                _log.debug('Increasing counter to: %r', advance_counter)
+            if self.oncommand:
+                self.advance_counter = advance_counter
 
 # BAC0 uses the ReadPropertyMultiple service so make that available
 @bacpypes_debugging
@@ -252,13 +288,12 @@ def main():
     
     if "oncommand" in args.app_interval:
         oncommand = True
-        APPINTERVAL = 0.5*1000
+        APPINTERVAL = 100
     else:
         oncommand = False
-        APPINTERVAL = float(args.app_interval)*1000
-    
-    if (APPINTERVAL/1000 < 0.5):
-        _log.warning("Warning application refresh interval is less than 0.5 seconds, this may not be enough time for simulation to advance by one timestep")
+        APPINTERVAL = float(args.app_interval)*1000   
+        if (APPINTERVAL/1000 < 0.5):
+            _log.warning("Warning application refresh interval is less than 0.5 seconds, this may not be enough time for simulation to advance by one timestep")
  
 
 
@@ -297,13 +332,18 @@ def main():
 
     # create the objects and add them to the application
     test_case_name = requests.get('{0}/name/{1}'.format(baseurl,testid)).json()['payload']['name']
+    # create json file with testid
+    testid_dict = {'testid': testid}
+    with open('testid.json', 'w') as f:
+        json.dump(testid_dict, f)
+    
     file_name = '../testcases/{0}/models/bacnet.ttl'.format(test_case_name)
-    create_objects(this_application, file_name)
+    create_objects(this_application, file_name, oncommand)
     
     # run this update when the stack is ready
     if _debug:
-        _debug('Start simulation ' + time.strftime("%H:%M:%S", time.localtime()))
-    updater = BOPTESTupdater(APPINTERVAL)
+        _log.debug('Start simulation ' + time.strftime("%H:%M:%S", time.localtime()))
+    updater = BOPTESTupdater(APPINTERVAL, oncommand)
     
     if _debug:
         _log.debug("    - updater: %r", updater)
