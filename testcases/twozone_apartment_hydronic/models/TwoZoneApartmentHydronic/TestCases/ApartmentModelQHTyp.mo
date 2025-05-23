@@ -1,4 +1,4 @@
-﻿within TwoZoneApartmentHydronic.TestCases;
+within TwoZoneApartmentHydronic.TestCases;
 model ApartmentModelQHTyp "Hydronic Test case"
     extends Modelica.Icons.Example;
     replaceable package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium model";
@@ -72,10 +72,10 @@ model ApartmentModelQHTyp "Hydronic Test case"
     annotation (Placement(transformation(extent={{-80,-40},{-100,-20}})));
 equation
   connect(hydronicSystem.ports_b[1],dayZon. supplyWater) annotation (Line(
-        points={{12.8667,16.6},{12,16.6},{12,16},{54,16},{54,22},{53.52,22}},
+        points={{12.8667,11.5},{12,11.5},{12,16},{54,16},{54,22},{53.52,22}},
                                                    color={0,127,255}));
   connect(hydronicSystem.ports_b[2], nigZon.supplyWater) annotation (Line(
-        points={{12.8667,9.8},{24,9.8},{24,-64},{52,-64},{52,-58},{51.52,-58}},
+        points={{12.8667,14.9},{24,14.9},{24,-64},{52,-64},{52,-58},{51.52,-58}},
         color={0,127,255}));
   connect(weaBus, hydronicSystem.weaBus) annotation (Line(
       points={{-60,10},{-54,10},{-54,10.14},{-17.7333,10.14}},
@@ -102,10 +102,10 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(dayZon.returnWater, hydronicSystem.ports_a[1]) annotation (Line(
-        points={{66.48,22},{74,22},{74,-14},{14,-14},{14,-10.6},{12.8667,-10.6}},
+        points={{66.48,22},{74,22},{74,-14},{14,-14},{14,-8.9},{12.8667,-8.9}},
                                                                color={0,127,255}));
   connect(nigZon.returnWater, hydronicSystem.ports_a[2]) annotation (Line(
-        points={{64.48,-58},{66,-58},{66,-80},{20,-80},{20,-3.8},{12.8667,-3.8}},
+        points={{64.48,-58},{66,-58},{66,-80},{20,-80},{20,-5.5},{12.8667,-5.5}},
         color={0,127,255}));
   connect(dayZon.surf_conBou[2], nigZon.surf_surBou) annotation (Line(points={{
           61.44,37.36},{61.44,0},{67.6,0},{67.6,-42.88}}, color={191,0,0}));
@@ -758,8 +758,9 @@ equally between convective and radiative contributions. These values are taken f
 <p>The climate is assumed to be near Milan, Italy with a latitude and longitude of 45.44,9.27. The climate data comes from the Milano Linate TMY set. </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
-<p>Only heating is considered. The HVAC system is made up of two floor heating circuits, one per thermal zone that can be controlled with an on-off valve.
-The generation system is an air source heat pump with a nominal heat capacity of 5kW modelled after a Daikin heat pump. Below is reported a schematic view of the HVAC system.</p>
+<p>Only heating is considered. The HVAC system is made up of two floor heating circuits, one per thermal zone that can be controlled with a valve.
+The generation system is an air source heat pump with a nominal heat capacity of 5kW modelled after a Daikin heat pump. Below is reported a schematic view of the HVAC system.
+Although the baseline controller controls the valves as on-off and the pump with discrete stages, the user can overwrite all control inputs independently with continuous variables, resulting in continuous control.</p>
 <p align=\"center\">
 <img src=\"../../../doc/images/HVACscheme.png\"
      alt=\"HVACscheme.png\" />
