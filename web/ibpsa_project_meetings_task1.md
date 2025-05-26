@@ -29,7 +29,6 @@ There are currently no meetings planned for Task 1.
 
 - [Presentation](/ibpsa_project/meetings/task1/20250526_BOPTEST_Task1_Outreach_presentation.pdf)
 
-# Past Meetings
 
 ### April 14, 2025
 
