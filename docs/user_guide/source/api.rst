@@ -156,25 +156,36 @@ GET /scenario
 PUT /scenario
 -------------
 
-- **Description:** Set current test scenario.  Setting ``time_period`` results in similar behavior to ``PUT /initialize``, except uses a pre-determined start time and warmup period as defined within BOPTEST according to the selected scenario.
+- **Description:** Set test scenario settings.
+
+    Setting ``time_period`` results in similar behavior to ``PUT /initialize``, except uses a pre-determined start time and warmup period as defined within BOPTEST according to the selected scenario.
+
+    Uncertain forecasts set with  ``temperature_uncertainty`` or ``solar_uncertainty`` are updated with new error at hourly intervals at the start of each hour.  Error for sub-hour intervals is interpolated linearly. Underlying error models are based on [Zhe25]_.
 
 - **Arguments:**
 
     ::
 
-        electricity_price   // optional, str, electricity price scenario
-        time_period         // optional, str, time period scenario
+        electricity_price       // optional, str, electricity price scenario, <"constant" or "dynamic" or "highly_dynamic">
+        time_period             // optional, str, time period scenario, see Test Case documention for options
+        temperature_uncertainty // optional, str, uncertainty level for outside dry bulb temperature forecast, <None or "low" or "medium" or "high">
+        solar_uncertainty       // optional, str, uncertainty level for outside global horizontal irradiation forecast, <None or "low" or "medium" or "high">
+        seed                    // optional, int, set for repeatable uncertainty sampling with uncertain forecasts
 
 - **Returns:**
 
     ::
 
         {
-            "electricity_price":<value>,    // str, set electricity price scenario
-            {<point_name>:                  // str, name of point
-                <value>,                    // float, point value at start time
-            ...
-            }
+            "electricity_price":<value>,        // str, if succeeded in changing then value, else None
+            "time_period":                      // dict, if succeeded then initial measurements, else None
+                {<point_name>:                  // str, name of point
+                 <value>,                       // float, point value at start time
+                 ...
+                },
+            "temperature_uncertainty": <value>, // str, if succeeded in changing then value, else None
+            "solar_uncertainty": <value>,       // str, if succeeded in changing then value, else None
+            "seed":<value>                      // int, if succeeded then value, else None
         }
 
 GET /forecast_points
@@ -309,3 +320,7 @@ GET /submit
         {
             "identifier":<uid>,       // str, Unique identifier for result posted to dashboard}
         }
+
+References
+----------
+.. [Zhe25] Zheng, W., Zabala, L., Febres, J., Blum, D., & Wang, Z. (2025). Quantifying and simulating the weather forecast uncertainty for advanced building control. *Journal of Building Performance Simulation*, 18(4), 530-545. https://doi.org/10.1080/19401493.2025.2453537.
