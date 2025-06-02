@@ -1,8 +1,87 @@
 # Release Notes
 
-## BOPTEST v0.7.1-dev
+## BOPTEST v0.8.0
 
-Released on xx/xx/xxxx.
+Released on 06/02/2025.
+
+**The following changes are backwards compatible and do not significantly change benchmark results:**
+
+- For ``bestest_hydronic_heat_pump`` test case, update heat pump documentation. This is for [#704](https://github.com/ibpsa/project1-boptest/issues/704).
+- For ``multizone_hydronic_simple_hydronic`` test case, enable BACnet interface to work by creating the ``bacnet.ttl``. This is for [#735](https://github.com/ibpsa/project1-boptest/issues/735).
+- Remove the ``scenario`` field from the test case ``config.json``. This is for [#719](https://github.com/ibpsa/project1-boptest/issues/719).
+- Update dependencies and environment of ``worker`` container.  This is for [#663](https://github.com/ibpsa/project1-boptest/issues/663).  Changes are summarized as follows:
+  - Remove scipy and matplotlib dependencies from ``worker`` container.
+  - Substitute scipy.integrate.trapz with numpy.trapezoid in ``kpis/kpi_calculator.py``, scipy.interp1d linear with numpy.interp, and scipy.inter1d zero with a custom zero hold interpolation in ``data/data_manager.py``.
+  - Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3.
+  - Update Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64.
+  - Update unit tests such that ``test_kpis.py``, ``test_forecast.py``, and ``test_testcase.py`` are run in the ``worker`` container, instead of the ``jm`` container.
+- Update Spawn version to ``light-0.3.0-0fa49be497``, which uses a smaller file size and is used in Modelica Buildings Library v9.1.0.  This is for [#718](https://github.com/ibpsa/project1-boptest/issues/718).
+- Add weather forecast uncertainty as new scenario options for dry bulb temperature and global horizontal irradiation.  The corresponding new scenario keys are ``temperature_uncertainty`` and ``solar_uncertainty``, which can take values ``None`` (default), ``'low'``, ``'medium'``, or ``'high'``.  A new scenario key ``seed`` is also added to set an integer seed for reproducible uncertainty generation.  The uncertainty models are based on [Zheng et al. (2025)](https://doi.org/10.1080/19401493.2025.2453537). This is for [#135](https://github.com/ibpsa/project1-boptest/issues/135).
+- Add status flags properties to bacnet objects for all ``bacnet.ttl`` files. This is for [#762](https://github.com/ibpsa/project1-boptest/issues/762).
+- Add support to ``parsing/parser.py`` for test case compilation using Dymola.  The parser can take argument ``tool='Dymola'``.  A user of the parser choosing Dymola requires access to a Dymola license with binary model export capability.  This is for [#755](https://github.com/ibpsa/project1-boptest/issues/755).
+- Tag version for ``minio/minio`` and ``minio/mc`` docker images.  This is for [#769](https://github.com/ibpsa/project1-boptest/issues/769).
+
+**The following changes are backwards compatible, but may change benchmark results:**
+
+- For ``multizone_office_simple_hydronic`` test case, correct occupancy count .csv file within the resource directory of the test case FMU.  This will change the forecast of occupancy count provided to a test controller.  This is for [#726](https://github.com/ibpsa/project1-boptest/issues/726).
+
+**The following changes are not backwards compatible, but do not change benchmark results:**
+
+- Written and clarified ``testcase1`` and ``testcase3`` documentation. This is for [#582](https://github.com/ibpsa/project1-boptest/issues/582).
+  - For ``testcase1``, changed naming of ``PHea`` to ``PHeaCoo`` for clarity regarding allowed heating and cooling regimes.
+  - Similarly for ``testcase3``, changed ``PHeaNor`` and ``PHeaSou`` to ``PHeaCooNor`` and ``PHeaCooSou`` respectively.
+
+**The following changes are not backwards-compatible and significantly change benchmark results:**
+
+- Update ``singlezone_commercial_hydronic`` test case according to changes made for the Adrenalin competition and various issues. This is for [#702](https://github.com/ibpsa/project1-boptest/issues/702),
+[#635](https://github.com/ibpsa/project1-boptest/issues/635),
+[#432](https://github.com/ibpsa/project1-boptest/issues/432), and
+[#733](https://github.com/ibpsa/project1-boptest/issues/733).
+The changes are summarized as follows:
+  - Hydronic system:
+    - Added piping segments in hydronic system to increase thermal delay
+    -	Resized valves and switched to two-way valves
+    -	Switched to pressure driven pump in hydronic system
+    -	Switched DH heat exchanger from constant effectiveness to plate HX model
+  -	Ventilation:
+    -	Added internal control of rotary heat exchanger
+    -	Linked control of supply and extract fan for baseline controller
+  -	Occupancy profile:
+    -	Fixed missing data that resulted in day of week mismatch
+  - Control I/O:
+    - Changes to input and measurement names
+    - Added new measurement points
+  - Scenario changes for time periods
+    - Peak Heat Day now centered around day 42
+    - Typical Heat Day now centered around day 308
+
+  Impacts on KPIs calculated compared to v0.7.1 for indicated scenarios are as follows:
+
+  **Peak Heat Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+3.26%  |
+  |emis_tot               |+3.16%  |
+  |tdis_tot               |-98.5%  |
+  |idis_tot               |-99.5%  |
+  |pele_tot               |-37.2%  |
+  |pdih_tot               |-60.5%  |
+  |cost_tot_constant      |+3.32%  |
+  |cost_tot_dynamic       |+3.26%  |
+  |cost_tot_highly_dynamic|+3.16%  |
+
+  **Typical Heat Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+8.01%  |
+  |emis_tot               |-2.86%  |
+  |tdis_tot               |-99.8%  |
+  |idis_tot               |-100%   |
+  |pele_tot               |-12.7%  |
+  |pdih_tot               |-59.0%  |
+  |cost_tot_constant      |+16.6%  |
+  |cost_tot_dynamic       |+15.3%  |
+  |cost_tot_highly_dynamic|+14.6%  |
 
 
 ## BOPTEST v0.7.1

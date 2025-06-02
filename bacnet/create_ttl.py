@@ -18,7 +18,7 @@ import requests
 baseurl = 'http://127.0.0.1:80'
 
 # Instatiate test case
-test_case_name = 'bestest_air'
+test_case_name = 'multizone_office_simple_hydronic'
 testid = requests.post("{0}/testcases/{1}/select".format(baseurl, test_case_name)).json()["testid"]
 
 # Write the file prefix
@@ -64,6 +64,7 @@ with open(test_case_name+'.ttl', 'a') as f:
         f.write('\t\tbacnet:object-identifier "{0},{1}" ;\n'.format(obj_type, obj_id))
         f.write('\t\tbacnet:object-type "{0}" ;\n'.format(obj_type))
         f.write('\t\tbacnet:object-name "{0}" ;\n'.format(point))
+        f.write('\t\tbacnet:status-flags 0 ;\n')
         f.write('\t\tbacnet:objectOf bldg:boptest-proxy-device\n')
         f.write('\t] .\n\n')
 

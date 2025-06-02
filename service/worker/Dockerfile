@@ -10,21 +10,22 @@ RUN apt-get update -y && apt-get install -y \
     && apt-get install -y git
 
 # Install commands for Spawn
-ENV SPAWN_VERSION=0.3.0-8d93151657
-RUN wget https://spawn.s3.amazonaws.com/custom/Spawn-$SPAWN_VERSION-Linux.tar.gz \
-    && tar -xzf Spawn-$SPAWN_VERSION-Linux.tar.gz \
-    && ln -s /Spawn-$SPAWN_VERSION-Linux/bin/spawn-$SPAWN_VERSION /usr/local/bin/
+ENV SPAWN_VERSION light-0.3.0-0fa49be497
+RUN wget https://spawn.s3.amazonaws.com/builds/Spawn-$SPAWN_VERSION-Linux.tar.gz \
+    && tar -xzf Spawn-$SPAWN_VERSION-Linux.tar.gz
+ENV PATH ${PATH}:/Spawn-$SPAWN_VERSION-Linux/bin
+
 
 COPY service/worker/requirements/production.txt /boptest/
 
 # Download and install miniconda, pyfmi, and remaining python requirements
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.3.0-0-Linux-x86_64.sh -O /miniconda.sh \
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py311_24.7.1-0-Linux-x86_64.sh -O /miniconda.sh \
 	&& /bin/bash /miniconda.sh -b -p /miniconda \
 	&& . miniconda/bin/activate \
 	&& conda update -n base -c defaults conda \
-	&& conda create --name pyfmi3 python=3.10 -y \
+	&& conda create --name pyfmi3 python=3.11 -y \
 	&& conda activate pyfmi3 \
-	&& conda install -c conda-forge pyfmi=2.12 -y \
+	&& conda install -c conda-forge pyfmi=2.14 -y \
 	&& pip install -U pip setuptools \
   && python -m pip install -r /boptest/production.txt
 

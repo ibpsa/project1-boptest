@@ -125,7 +125,7 @@ allows for designating a zone associated with the particular KPI tag if needed.
 
 **Parsing and FMU Export**
 
-The parser has two main functions, which each have a number of steps.
+The parser in :code:`parsing/parser.py` has two main functions, which each have a number of steps.
 The concept is presented in the Figure below.  The first function is to
 identify the blocks in the model:
 

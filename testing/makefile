@@ -102,7 +102,7 @@ test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -116,7 +116,7 @@ test_%:
 # Generic test for all testcases that will not test with model compile to run locally with cleanup
 test_%_no_compile:
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -131,7 +131,7 @@ test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -141,7 +141,7 @@ test_testcase1:
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
 	cd .. && docker compose down
-# Remove julia image 
+# Remove julia image
 	cd ../examples/julia && make remove-image Script=testcase1
 # Report test results
 	if [ $(SINGLE) = true ]; then\
@@ -152,7 +152,7 @@ test_testcase2:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -211,43 +211,61 @@ test_forecast:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
-# Run jm docker container
-	make run_jm
-# Copy the required files and folders for the test
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=forecast
-	make copy_to_jm ARGS=kpis
-	make copy_testcase_to_jm TESTCASE=testcase2
-	make copy_testcase_to_jm TESTCASE=testcase3
+# Build and deploy testcase image
+	cd .. && docker compose build -q web worker provision
+	cd .. && docker compose up -d --quiet-pull web worker provision
+	python sleep10.py
+# Copy the required files and folders for testing
+	docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
+	docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
+	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
+	docker cp ../testcases/testcase2 project1-boptest-worker-1:/boptest/lib/testcases
+	docker cp ../testcases/testcase3 project1-boptest-worker-1:/boptest/lib/testcases
+	docker cp ../forecast project1-boptest-worker-1:/boptest/lib/forecast
 # Run test_forecast.py
-	make exec_jm ARGS="python test_forecast.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/forecast ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_forecast.log ./test_forecast.log
-# Stop jm docker container
-	make stop_jm
+	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_forecast.py && exit"
+	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/forecast ./references
+	docker cp project1-boptest-worker-1:/boptest/lib/testing/test_forecast.log ./test_forecast.log
+# Stop docker container
+	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
         	python report.py;\
 	fi
 
+test_forecast_uncertainty:
+# Build and deploy testcase image
+	cd .. && TESTCASE=testcase2 docker-compose up -d
+	python sleep10.py
+# Run test_forecast_uncertainty.py
+	cd .. && python testing/test_forecast_uncertainty.py $(ARG)
+# Stop testcase container and report results
+	cd .. && docker-compose down
+	if [ $(SINGLE) = true ]; then\
+	     python report.py;\
+	fi\
+
 test_kpis:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
-# Run jm docker container
-	make run_jm
-# Copy the required files and folders for the test
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=forecast
-	make copy_to_jm ARGS=kpis
-	make copy_testcase_to_jm TESTCASE=testcase2
-	make copy_testcase_to_jm TESTCASE=testcase3
+# Build and deploy testcase image
+	cd .. && docker compose build -q web worker provision
+	cd .. && docker compose up -d --quiet-pull web worker provision
+	python sleep10.py
+# Copy the required files and folders for testing
+	docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
+	docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
+	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
+	docker cp ../testcases/testcase2 project1-boptest-worker-1:/boptest/lib/testcases
+	docker cp ../testcases/testcase3 project1-boptest-worker-1:/boptest/lib/testcases
+	docker cp ../forecast project1-boptest-worker-1:/boptest/lib/forecast
 # Run test_kpis.py
-	make exec_jm ARGS="python test_kpis.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/kpis ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_kpis.log ./test_kpis.log
-# Stop jm docker container
-	make stop_jm
+	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_kpis.py && exit"
+	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/kpis ./references
+	docker cp project1-boptest-worker-1:/boptest/lib/testing/test_kpis.log ./test_kpis.log
+# Stop docker container
+	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
         	python report.py;\
@@ -257,7 +275,7 @@ test_bacnet:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -270,16 +288,21 @@ test_bacnet:
 	fi
 
 test_testcase:
-# Run jm docker container
-	make run_jm
-# Copy the required files and folders for the test
-	make copy_framework_with_testcase_to_jm TESTCASE=bestest_air
-# Run test_kpis.py
-	make exec_jm ARGS="python test_testcase.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/testcase ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_testcase.log ./test_testcase.log
-# Stop jm docker container
-	make stop_jm
+# Build and deploy testcase image
+	cd .. && docker compose build -q web worker provision
+	cd .. && docker compose up -d --quiet-pull web worker provision
+	python sleep10.py
+# Copy the required files and folders for testing
+	docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
+	docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
+	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
+	docker cp ../testcases/bestest_air project1-boptest-worker-1:/boptest/lib/testcases
+# Run test_testcase.py
+	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_testcase.py && exit"
+	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/testcase ./references
+	docker cp project1-boptest-worker-1:/boptest/lib/testing/test_testcase.log ./test_testcase.log
+# Stop testcase container
+	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
         	python report.py;\
@@ -287,7 +310,7 @@ test_testcase:
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
-	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 	curl http://127.0.0.1:80/measurements
