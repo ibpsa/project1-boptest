@@ -20,7 +20,6 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Tim Coleman (National Renewable Energy Laboratory, USA)** for web-service development and deployment.
 - **Iago Cupeiro Figueroa (Cupeiro Sinte, dnergy, Spain)** for framework development, test case implementation (multizone_office_simple_hybrid), tutorial and workshop development.
 - **Roel De Coninck (dnergy, Belgium)** for framework development.
-- **Jaap Neven (KU Leuven, VITO, Belgium)** for software implementation.
 - **Jan Drgona (Pacific Northwest National Laboratory, USA)** for framework development.
 - **Jesus Febres (IK4 Tekniker, Spain)** for framework development.
 - **Gauthier-Clerc Francois (Pure Control, France)** for software implementation.
@@ -39,7 +38,7 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Robert Lutes (Pacific Northwest National Laboratory, USA)** for software implementation.
 - **Bart Merema (dnergy, Belgium)** for test case implementation (multizone_office_simple_hybrid).
 - **Kefei Mo (Pacific Northwest National Laboratory, USA)** for software implementation.
-- **Jaap Neven (KU Leuven, Belgium)** for software implementation.
+- **Jaap Neven (KU Leuven, VITO, Belgium)** for software implementation.
 - **Erik Paulson (Independent, USA)** for BACnet interface development and implementation.
 - **Matt Robinson (University of Colorado Boulder, USA)** for software implementation.
 - **Marjorie Schott (National Renewable Energy Laboratory, USA)** for online dashboard development.
