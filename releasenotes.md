@@ -1,8 +1,8 @@
 # Release Notes
 
-## BOPTEST v0.7.1-dev
+## BOPTEST v0.8.0
 
-Released on xx/xx/xxxx.
+Released on 06/02/2025.
 
 **The following changes are backwards compatible and do not significantly change benchmark results:**
 
@@ -19,6 +19,9 @@ Released on xx/xx/xxxx.
 - Add weather forecast uncertainty as new scenario options for dry bulb temperature and global horizontal irradiation.  The corresponding new scenario keys are ``temperature_uncertainty`` and ``solar_uncertainty``, which can take values ``None`` (default), ``'low'``, ``'medium'``, or ``'high'``.  A new scenario key ``seed`` is also added to set an integer seed for reproducible uncertainty generation.  The uncertainty models are based on [Zheng et al. (2025)](https://doi.org/10.1080/19401493.2025.2453537). This is for [#135](https://github.com/ibpsa/project1-boptest/issues/135).
 - Add status flags properties to bacnet objects for all ``bacnet.ttl`` files. This is for [#762](https://github.com/ibpsa/project1-boptest/issues/762).
 - For ``twozone_apartment_hydronic`` test case, update control documentation. This is for [#766](https://github.com/ibpsa/project1-boptest/issues/766).
+- Add support to ``parsing/parser.py`` for test case compilation using Dymola.  The parser can take argument ``tool='Dymola'``.  A user of the parser choosing Dymola requires access to a Dymola license with binary model export capability.  This is for [#755](https://github.com/ibpsa/project1-boptest/issues/755).
+- Tag version for ``minio/minio`` and ``minio/mc`` docker images.  This is for [#769](https://github.com/ibpsa/project1-boptest/issues/769).
+
 
 **The following changes are backwards compatible, but may change benchmark results:**
 
