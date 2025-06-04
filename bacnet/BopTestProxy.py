@@ -85,8 +85,17 @@ unitMapping = {'K': "degreesKelvin", 'ppm': "partsPerMillion"}
 
 @bacpypes_debugging
 def create_objects(app, configfile, oncommand):
-    """Create the objects that hold the result values."""
-    
+    """Create the objects that hold the result values.
+
+    Parameters
+    ----------
+    configfile : str
+        File path for .ttl BACnet objects configuration file.
+    oncommand : bool
+        Indicator of whether app refresh interval is =on-command by user.
+
+    """
+
     if _debug:
         create_objects._debug("create_objects %r", app)
     global objects, inputs, g, nextState
@@ -137,7 +146,7 @@ def create_objects(app, configfile, oncommand):
             # TODO: Check to make sure there actually is an activation signal!
             activation_signal[name] = activation_name
             inputs[name] = obj
-            
+
     # Add oncommand input if advance on command is True
     if oncommand:
         obj = klass(objectName = 'advance', objectIdentifier=(klass.objectType, instanceNum+1), presentValue = 0, statusFlags = 0)
@@ -146,7 +155,7 @@ def create_objects(app, configfile, oncommand):
         inputs['advance'] = obj
 
 @bacpypes_debugging
-class BOPTESTupdater(RecurringTask):
+class BOPTESTUpdater(RecurringTask):
 
     """
     An instance of this class pops up out of the ground every once in a
@@ -154,7 +163,7 @@ class BOPTESTupdater(RecurringTask):
     """
 
     def __init__(self, interval, oncommand):
-        
+
         self.oncommand = oncommand
         # if oncommand == True start counter at 0 and simulation advances
         # when advance input > self.advance_counter. If oncommand == false
@@ -163,7 +172,7 @@ class BOPTESTupdater(RecurringTask):
             self.advance_counter = 0
         else:
             self.advance_counter = -1
-            
+
         if _debug:
             self._debug("__init__ %r", interval)
             self._debug("__init__ %r", oncommand)
@@ -173,12 +182,12 @@ class BOPTESTupdater(RecurringTask):
 
         # install it
         self.install_task()
-        
+
     def process_task(self):
         """Read the current simulation data from the API and set the object values."""
 
         global objects, inputs, baseurl, testid, advance_counter
-        
+
         if _debug and (advance_counter > self.advance_counter):
             self._debug("update_boptest_data")
         # ask the web service
@@ -186,12 +195,12 @@ class BOPTESTupdater(RecurringTask):
         # response = requests.put(
         #    "http://localhost:5000/results", json={'point_name':'TRooAir_y', 'start_time': timestep * 30, 'final_time': (timestep+1)*30}
         #)
-    
+
         signals = {}
-    
+
         for signal_name, signal_activation in activation_signal.items():
             signals[signal_activation] = 0.0
-    
+
         # For "commandable" objects, BACnet maintains a priorityArray that can be written to from levels 1-16, which are
         # used to replace the 'presentValue' of an object. So, for the points that are 'inputs' in BOPtest, we created those as
         # commandable objects, so check to see if there is a higher priority value set for this object that is overwriting
@@ -219,24 +228,24 @@ class BOPTESTupdater(RecurringTask):
                     signals[k] = signal[0]
                     activation_name = activation_signal[k]
                     signals[activation_name] = 1.0
-        
+
         # Advancing simulation if counter is higher than previous value
         # if oncommand == False the statement is always True
-        
+
         if advance_counter > self.advance_counter:
-            
-            
+
+
             if _debug:
                 _log.debug('Advancing one step ' + time.strftime("%H:%M:%S", time.localtime()))
-        
+
             response = requests.post('{0}/advance/{1}'.format(baseurl,testid), json=signals)
             if response.status_code != 200:
                 print("Error response: %r" % (response.status_code,))
                 return
-            
+
             # turn the response string into a JSON object
             json_response = response.json()
-        
+
         # set the object values
         # We advance the simulation by 5 seconds at each call to the loop, but we don't update the external world
         # with those results until the NEXT call to this function.
@@ -248,11 +257,11 @@ class BOPTESTupdater(RecurringTask):
             for k, v in nextState['payload'].items():
                 if _debug and (advance_counter > self.advance_counter):
                     self._debug("    - k, v: %r, %r", k, v)
-    
+
                 if k in objects:
                     #objects[k]._set_value(v)
                     objects[k].presentValue = v
-                    
+
         if advance_counter > self.advance_counter:
             nextState = json_response
             if _debug and (self.advance_counter > 0):
@@ -275,29 +284,26 @@ def main():
 
     parser = ConfigArgumentParser(description=__doc__)
 
-    parser.add_argument('testcase', type=str, help="Name of BOPTEST test case to deploy")
-    parser.add_argument('start_time', type=int, default=0, help="Timestamp (in seconds) at which to start the simulation")
-    parser.add_argument('warmup_period', type=int, default=0, help="Timestamp (in seconds) at which to start the simulation")
-    parser.add_argument('--baseurl','-u', dest='baseurl', type=str, default='http://127.0.0.1:80', help="URL for BOPTest endpoint")
-    parser.add_argument('--app_interval','-ai', type=str, default='5', help="Application interval is refresh time in seconds, with option 'oncommand' simulation advances according to user input")
-    parser.add_argument('--simulation_step','-s', type=str, default='5', help="Simulation advance time step in seconds")
+    parser.add_argument('testcase', type=str, help="Name of BOPTEST test case to deploy.")
+    parser.add_argument('start_time', type=int, default=0, help="Timestamp (in seconds) at which to start the simulation.")
+    parser.add_argument('warmup_period', type=int, default=0, help="Timestamp (in seconds) at which to start the simulation.")
+    parser.add_argument('--baseurl','-u', dest='baseurl', type=str, default='http://127.0.0.1:80', help="URL for BOPTest endpoint.")
+    parser.add_argument('--app_interval','-ai', type=str, default='5', help="Application refresh interval time in seconds, which triggers simulation advancement and data exchange. Using value 'oncommand' will give user control of refresh upon incrementing a positive integer value of an additional new BACnet point named 'advance'.")
+    parser.add_argument('--simulation_step','-s', type=str, default='5', help="Simulation advance time step in seconds, with each application refresh.")
+
     # parse the command line arguments
     args = parser.parse_args()
     baseurl = args.baseurl
     simulation_step = float(args.simulation_step)
-    
+
     if "oncommand" in args.app_interval:
         oncommand = True
         APPINTERVAL = 100
     else:
         oncommand = False
-        APPINTERVAL = float(args.app_interval)*1000   
+        APPINTERVAL = float(args.app_interval)*1000
         if (APPINTERVAL/1000 < 0.5):
-            _log.warning("Warning application refresh interval is less than 0.5 seconds, this may not be enough time for simulation to advance by one timestep")
- 
-
-
-        
+            _log.warning("WARNING: application refresh interval is less than 0.5 seconds, this may not be enough time for simulation to advance by one timestep")
 
     if _debug:
         _log.debug("initialization")
@@ -317,8 +323,9 @@ def main():
     boptest_measurements = requests.get('{0}/measurements/{1}'.format(baseurl,testid)).json()
     boptest_inputs = requests.get('{0}/inputs/{1}'.format(baseurl,testid)).json()
 
-    # We advance the simulation by "simulation_step" seconds at each call to /advance, if "APPINTERVAL" == "simulation_step" 
-    # the simulation moves in sync with wallclock time. To see things happen faster, set "simulation_step" > "APPINTERVAL" 
+    # We advance the simulation by "simulation_step" seconds at each call to /advance.
+    # if "APPINTERVAL" == "simulation_step" the simulation moves in sync with wallclock time.
+    # To see things happen faster, set "simulation_step" > "APPINTERVAL"
     res = requests.put('{0}/step/{1}'.format(baseurl,testid), json={'step':simulation_step})
 
     # make a device object
@@ -336,18 +343,18 @@ def main():
     testid_dict = {'testid': testid}
     with open('testid.json', 'w') as f:
         json.dump(testid_dict, f)
-    
+
     file_name = '../testcases/{0}/models/bacnet.ttl'.format(test_case_name)
     create_objects(this_application, file_name, oncommand)
-    
+
     # run this update when the stack is ready
     if _debug:
         _log.debug('Start simulation ' + time.strftime("%H:%M:%S", time.localtime()))
-    updater = BOPTESTupdater(APPINTERVAL, oncommand)
-    
+    updater = BOPTESTUpdater(APPINTERVAL, oncommand)
+
     if _debug:
         _log.debug("    - updater: %r", updater)
-    
+
     if _debug:
         _log.debug("running")
 
