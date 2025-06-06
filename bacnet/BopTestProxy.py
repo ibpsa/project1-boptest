@@ -149,10 +149,15 @@ def create_objects(app, configfile, oncommand):
 
     # Add oncommand input if advance on command is True
     if oncommand:
-        obj = klass(objectName = 'advance', objectIdentifier=(klass.objectType, instanceNum+1), presentValue = 0, statusFlags = 0)
+        name = 'advance'
+        if _debug:
+            create_objects._debug("    - name: %r", name)
+        obj = klass(objectName = name, objectIdentifier=(klass.objectType, instanceNum+1), presentValue = 0, statusFlags = 0)
+        if _debug:
+            create_objects._debug("    - obj: %r", obj)
         app.add_object(obj)
-        objects['advance'] = obj
-        inputs['advance'] = obj
+        objects[name] = obj
+        inputs[name] = obj
 
 @bacpypes_debugging
 class BOPTESTUpdater(RecurringTask):
