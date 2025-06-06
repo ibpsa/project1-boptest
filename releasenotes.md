@@ -4,6 +4,10 @@
 
 Released on xx/xx/xxxx.
 
+**The following changes are backwards compatible and do not significantly change benchmark results:**
+
+- For ``twozone_apartment_hydronic`` test case, update control documentation. This is for [#766](https://github.com/ibpsa/project1-boptest/issues/766).
+
 
 ## BOPTEST v0.8.0
 
