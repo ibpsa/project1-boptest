@@ -152,7 +152,7 @@ def create_objects(app, configfile, oncommand):
         name = 'advance'
         if _debug:
             create_objects._debug("    - name: %r", name)
-        obj = klass(objectName = name, objectIdentifier=(klass.objectType, instanceNum+1), presentValue = 0, statusFlags = 0)
+        obj = klass(objectName = name, objectIdentifier=(AnalogOutputCmdObject.objectType, instanceNum+1), presentValue = 0, statusFlags = 0)
         if _debug:
             create_objects._debug("    - obj: %r", obj)
         app.add_object(obj)
@@ -273,6 +273,12 @@ class BOPTESTUpdater(RecurringTask):
                 _log.debug('Increasing counter to: %r', advance_counter)
             if self.oncommand:
                 self.advance_counter = advance_counter
+        elif abs(advance_counter - 0.0) < 1E-6:
+            if _debug and (self.advance_counter > 0):
+                _log.debug('Resetting counter to: %r', advance_counter)
+            if self.oncommand:
+                self.advance_counter = advance_counter
+            
 
 # BAC0 uses the ReadPropertyMultiple service so make that available
 @bacpypes_debugging
