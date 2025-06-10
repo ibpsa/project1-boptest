@@ -13,7 +13,6 @@ Released on xx/xx/xxxx.
 - Update ``KPI_Calculator.get_computational_time_ratio`` to return ``None`` if no simulation steps have been processed. This is for [#540](https://github.com/ibpsa/project1-boptest/issues/540).
 - Add ``forecastParameters`` to dashboard submission with empty dictionary and update url for submitting dashboard results.  This is for [#548](https://github.com/ibpsa/project1-boptest/issues/548).
 
-
 **The following changes are backwards-compatible, but might change benchmark results:**
 
 - Fix check on control input overwrite in ``testcase.TestCase.advance`` when overwriting a value of 0. This will change results if using BOPTEST-Service and delivering control input overwrites, with value of 0, in an /advance request using the ``json`` attribute with the python requests library.  This is for [#533](https://github.com/ibpsa/project1-boptest/issues/533).
