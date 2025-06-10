@@ -1,4 +1,3 @@
-*.bak
 *.pyc
 *.txt
 !version.txt

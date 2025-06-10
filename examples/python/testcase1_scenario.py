@@ -16,7 +16,7 @@ in controllers/pid.py.
 # ----------------------
 import sys
 import os
-sys.path.insert(0, os.path.sep.join(os.path.dirname(os.path.abspath(__file__)).split(os.path.sep)[:-2]))
+sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-2]))
 from examples.python.interface import control_test
 
 
