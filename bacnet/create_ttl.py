@@ -38,9 +38,10 @@ with open(test_case_name+'.ttl', 'w') as f:
     f.write(prefix)
 
 # Get all the points and their metadata from BOPTEST test case
+time = {'time':{'Unit': 's', 'Description': 'Simulation time', 'Minimum': None, 'Maximum': None}}
 measurement_points = requests.get('{0}/measurements/{1}'.format(baseurl,testid)).json()['payload']
 input_points = requests.get('{0}/inputs/{1}'.format(baseurl,testid)).json()['payload']
-points = measurement_points | input_points
+points = time | measurement_points | input_points
 
 # Stop test case
 requests.put('{0}/stop/{1}'.format(baseurl, testid))
@@ -56,6 +57,8 @@ with open(test_case_name+'.ttl', 'a') as f:
             obj_type = 'analog-output'
         elif point[-9:] == '_activate':
             continue
+        elif point == 'time':
+            obj_type = 'analog-value'
         else:
             raise ValueError('{0} is not a valid point ending in _y or _u'.format(point))
 

@@ -12,9 +12,18 @@
 bldg:boptest-proxy-device a bacnet:BACnetDevice ;
 	bacnet:device-instance 599 .
 
+bldg:time a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-value,1" ;
+		bacnet:object-type "analog-value" ;
+		bacnet:object-name "time" ;
+		bacnet:status-flags 0 ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
 bldg:boi_reaGasBoi_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,1" ;
+		bacnet:object-identifier "analog-input,2" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "boi_reaGasBoi_y" ;
 		bacnet:status-flags 0 ;
@@ -23,7 +32,7 @@ bldg:boi_reaGasBoi_y a brick:Point ;
 
 bldg:boi_reaPpum_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,2" ;
+		bacnet:object-identifier "analog-input,3" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "boi_reaPpum_y" ;
 		bacnet:status-flags 0 ;
@@ -32,7 +41,7 @@ bldg:boi_reaPpum_y a brick:Point ;
 
 bldg:conCooBth_reaPCoo_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,3" ;
+		bacnet:object-identifier "analog-input,4" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conCooBth_reaPCoo_y" ;
 		bacnet:status-flags 0 ;
@@ -41,7 +50,7 @@ bldg:conCooBth_reaPCoo_y a brick:Point ;
 
 bldg:conCooHal_reaPCoo_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,4" ;
+		bacnet:object-identifier "analog-input,5" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conCooHal_reaPCoo_y" ;
 		bacnet:status-flags 0 ;
@@ -50,7 +59,7 @@ bldg:conCooHal_reaPCoo_y a brick:Point ;
 
 bldg:conCooLiv_reaPCoo_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,5" ;
+		bacnet:object-identifier "analog-input,6" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conCooLiv_reaPCoo_y" ;
 		bacnet:status-flags 0 ;
@@ -59,7 +68,7 @@ bldg:conCooLiv_reaPCoo_y a brick:Point ;
 
 bldg:conCooRo1_reaPCoo_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,6" ;
+		bacnet:object-identifier "analog-input,7" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conCooRo1_reaPCoo_y" ;
 		bacnet:status-flags 0 ;
@@ -68,7 +77,7 @@ bldg:conCooRo1_reaPCoo_y a brick:Point ;
 
 bldg:conCooRo2_reaPCoo_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,7" ;
+		bacnet:object-identifier "analog-input,8" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conCooRo2_reaPCoo_y" ;
 		bacnet:status-flags 0 ;
@@ -77,7 +86,7 @@ bldg:conCooRo2_reaPCoo_y a brick:Point ;
 
 bldg:conCooRo3_reaPCoo_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,8" ;
+		bacnet:object-identifier "analog-input,9" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conCooRo3_reaPCoo_y" ;
 		bacnet:status-flags 0 ;
@@ -86,7 +95,7 @@ bldg:conCooRo3_reaPCoo_y a brick:Point ;
 
 bldg:conHeaBth_reaTZon_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,9" ;
+		bacnet:object-identifier "analog-input,10" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conHeaBth_reaTZon_y" ;
 		bacnet:status-flags 0 ;
@@ -95,7 +104,7 @@ bldg:conHeaBth_reaTZon_y a brick:Point ;
 
 bldg:conHeaLiv_reaTZon_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,10" ;
+		bacnet:object-identifier "analog-input,11" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conHeaLiv_reaTZon_y" ;
 		bacnet:status-flags 0 ;
@@ -104,7 +113,7 @@ bldg:conHeaLiv_reaTZon_y a brick:Point ;
 
 bldg:conHeaRo1_reaTZon_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,11" ;
+		bacnet:object-identifier "analog-input,12" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conHeaRo1_reaTZon_y" ;
 		bacnet:status-flags 0 ;
@@ -113,7 +122,7 @@ bldg:conHeaRo1_reaTZon_y a brick:Point ;
 
 bldg:conHeaRo2_reaTZon_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,12" ;
+		bacnet:object-identifier "analog-input,13" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conHeaRo2_reaTZon_y" ;
 		bacnet:status-flags 0 ;
@@ -122,7 +131,7 @@ bldg:conHeaRo2_reaTZon_y a brick:Point ;
 
 bldg:conHeaRo3_reaTZon_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,13" ;
+		bacnet:object-identifier "analog-input,14" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "conHeaRo3_reaTZon_y" ;
 		bacnet:status-flags 0 ;
@@ -131,7 +140,7 @@ bldg:conHeaRo3_reaTZon_y a brick:Point ;
 
 bldg:extBth_reaCO2RooAir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,14" ;
+		bacnet:object-identifier "analog-input,15" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "extBth_reaCO2RooAir_y" ;
 		bacnet:status-flags 0 ;
@@ -140,7 +149,7 @@ bldg:extBth_reaCO2RooAir_y a brick:Point ;
 
 bldg:extLiv_reaCO2RooAir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,15" ;
+		bacnet:object-identifier "analog-input,16" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "extLiv_reaCO2RooAir_y" ;
 		bacnet:status-flags 0 ;
@@ -149,7 +158,7 @@ bldg:extLiv_reaCO2RooAir_y a brick:Point ;
 
 bldg:infAti_reaCO2RooAir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,16" ;
+		bacnet:object-identifier "analog-input,17" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "infAti_reaCO2RooAir_y" ;
 		bacnet:status-flags 0 ;
@@ -158,7 +167,7 @@ bldg:infAti_reaCO2RooAir_y a brick:Point ;
 
 bldg:infGar_reaCO2RooAir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,17" ;
+		bacnet:object-identifier "analog-input,18" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "infGar_reaCO2RooAir_y" ;
 		bacnet:status-flags 0 ;
@@ -167,7 +176,7 @@ bldg:infGar_reaCO2RooAir_y a brick:Point ;
 
 bldg:infHal_reaCO2RooAir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,18" ;
+		bacnet:object-identifier "analog-input,19" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "infHal_reaCO2RooAir_y" ;
 		bacnet:status-flags 0 ;
@@ -176,7 +185,7 @@ bldg:infHal_reaCO2RooAir_y a brick:Point ;
 
 bldg:infRo1_reaCO2RooAir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,19" ;
+		bacnet:object-identifier "analog-input,20" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "infRo1_reaCO2RooAir_y" ;
 		bacnet:status-flags 0 ;
@@ -185,7 +194,7 @@ bldg:infRo1_reaCO2RooAir_y a brick:Point ;
 
 bldg:infRo2_reaCO2RooAir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,20" ;
+		bacnet:object-identifier "analog-input,21" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "infRo2_reaCO2RooAir_y" ;
 		bacnet:status-flags 0 ;
@@ -194,7 +203,7 @@ bldg:infRo2_reaCO2RooAir_y a brick:Point ;
 
 bldg:infRo3_reaCO2RooAir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,21" ;
+		bacnet:object-identifier "analog-input,22" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "infRo3_reaCO2RooAir_y" ;
 		bacnet:status-flags 0 ;
@@ -203,7 +212,7 @@ bldg:infRo3_reaCO2RooAir_y a brick:Point ;
 
 bldg:reaHeaBth_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,22" ;
+		bacnet:object-identifier "analog-input,23" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaHeaBth_y" ;
 		bacnet:status-flags 0 ;
@@ -212,7 +221,7 @@ bldg:reaHeaBth_y a brick:Point ;
 
 bldg:reaHeaHal_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,23" ;
+		bacnet:object-identifier "analog-input,24" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaHeaHal_y" ;
 		bacnet:status-flags 0 ;
@@ -221,7 +230,7 @@ bldg:reaHeaHal_y a brick:Point ;
 
 bldg:reaHeaLiv_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,24" ;
+		bacnet:object-identifier "analog-input,25" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaHeaLiv_y" ;
 		bacnet:status-flags 0 ;
@@ -230,7 +239,7 @@ bldg:reaHeaLiv_y a brick:Point ;
 
 bldg:reaHeaRo1_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,25" ;
+		bacnet:object-identifier "analog-input,26" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaHeaRo1_y" ;
 		bacnet:status-flags 0 ;
@@ -239,7 +248,7 @@ bldg:reaHeaRo1_y a brick:Point ;
 
 bldg:reaHeaRo2_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,26" ;
+		bacnet:object-identifier "analog-input,27" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaHeaRo2_y" ;
 		bacnet:status-flags 0 ;
@@ -248,7 +257,7 @@ bldg:reaHeaRo2_y a brick:Point ;
 
 bldg:reaHeaRo3_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,27" ;
+		bacnet:object-identifier "analog-input,28" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaHeaRo3_y" ;
 		bacnet:status-flags 0 ;
@@ -257,7 +266,7 @@ bldg:reaHeaRo3_y a brick:Point ;
 
 bldg:reaTAti_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,28" ;
+		bacnet:object-identifier "analog-input,29" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaTAti_y" ;
 		bacnet:status-flags 0 ;
@@ -266,7 +275,7 @@ bldg:reaTAti_y a brick:Point ;
 
 bldg:reaTGar_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,29" ;
+		bacnet:object-identifier "analog-input,30" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaTGar_y" ;
 		bacnet:status-flags 0 ;
@@ -275,7 +284,7 @@ bldg:reaTGar_y a brick:Point ;
 
 bldg:reaTHal_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,30" ;
+		bacnet:object-identifier "analog-input,31" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaTHal_y" ;
 		bacnet:status-flags 0 ;
@@ -284,7 +293,7 @@ bldg:reaTHal_y a brick:Point ;
 
 bldg:reaTSetCoo_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,31" ;
+		bacnet:object-identifier "analog-input,32" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaTSetCoo_y" ;
 		bacnet:status-flags 0 ;
@@ -293,7 +302,7 @@ bldg:reaTSetCoo_y a brick:Point ;
 
 bldg:reaTSetHea_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,32" ;
+		bacnet:object-identifier "analog-input,33" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaTSetHea_y" ;
 		bacnet:status-flags 0 ;
@@ -302,7 +311,7 @@ bldg:reaTSetHea_y a brick:Point ;
 
 bldg:reaTSup_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,33" ;
+		bacnet:object-identifier "analog-input,34" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "reaTSup_y" ;
 		bacnet:status-flags 0 ;
@@ -311,7 +320,7 @@ bldg:reaTSup_y a brick:Point ;
 
 bldg:weatherStation_reaWeaCeiHei_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,34" ;
+		bacnet:object-identifier "analog-input,35" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaCeiHei_y" ;
 		bacnet:status-flags 0 ;
@@ -320,7 +329,7 @@ bldg:weatherStation_reaWeaCeiHei_y a brick:Point ;
 
 bldg:weatherStation_reaWeaCloTim_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,35" ;
+		bacnet:object-identifier "analog-input,36" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaCloTim_y" ;
 		bacnet:status-flags 0 ;
@@ -329,7 +338,7 @@ bldg:weatherStation_reaWeaCloTim_y a brick:Point ;
 
 bldg:weatherStation_reaWeaHDifHor_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,36" ;
+		bacnet:object-identifier "analog-input,37" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaHDifHor_y" ;
 		bacnet:status-flags 0 ;
@@ -338,7 +347,7 @@ bldg:weatherStation_reaWeaHDifHor_y a brick:Point ;
 
 bldg:weatherStation_reaWeaHDirNor_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,37" ;
+		bacnet:object-identifier "analog-input,38" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaHDirNor_y" ;
 		bacnet:status-flags 0 ;
@@ -347,7 +356,7 @@ bldg:weatherStation_reaWeaHDirNor_y a brick:Point ;
 
 bldg:weatherStation_reaWeaHGloHor_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,38" ;
+		bacnet:object-identifier "analog-input,39" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaHGloHor_y" ;
 		bacnet:status-flags 0 ;
@@ -356,7 +365,7 @@ bldg:weatherStation_reaWeaHGloHor_y a brick:Point ;
 
 bldg:weatherStation_reaWeaHHorIR_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,39" ;
+		bacnet:object-identifier "analog-input,40" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaHHorIR_y" ;
 		bacnet:status-flags 0 ;
@@ -365,7 +374,7 @@ bldg:weatherStation_reaWeaHHorIR_y a brick:Point ;
 
 bldg:weatherStation_reaWeaLat_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,40" ;
+		bacnet:object-identifier "analog-input,41" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaLat_y" ;
 		bacnet:status-flags 0 ;
@@ -374,7 +383,7 @@ bldg:weatherStation_reaWeaLat_y a brick:Point ;
 
 bldg:weatherStation_reaWeaLon_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,41" ;
+		bacnet:object-identifier "analog-input,42" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaLon_y" ;
 		bacnet:status-flags 0 ;
@@ -383,7 +392,7 @@ bldg:weatherStation_reaWeaLon_y a brick:Point ;
 
 bldg:weatherStation_reaWeaNOpa_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,42" ;
+		bacnet:object-identifier "analog-input,43" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaNOpa_y" ;
 		bacnet:status-flags 0 ;
@@ -392,7 +401,7 @@ bldg:weatherStation_reaWeaNOpa_y a brick:Point ;
 
 bldg:weatherStation_reaWeaNTot_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,43" ;
+		bacnet:object-identifier "analog-input,44" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaNTot_y" ;
 		bacnet:status-flags 0 ;
@@ -401,7 +410,7 @@ bldg:weatherStation_reaWeaNTot_y a brick:Point ;
 
 bldg:weatherStation_reaWeaPAtm_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,44" ;
+		bacnet:object-identifier "analog-input,45" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaPAtm_y" ;
 		bacnet:status-flags 0 ;
@@ -410,7 +419,7 @@ bldg:weatherStation_reaWeaPAtm_y a brick:Point ;
 
 bldg:weatherStation_reaWeaRelHum_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,45" ;
+		bacnet:object-identifier "analog-input,46" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaRelHum_y" ;
 		bacnet:status-flags 0 ;
@@ -419,7 +428,7 @@ bldg:weatherStation_reaWeaRelHum_y a brick:Point ;
 
 bldg:weatherStation_reaWeaSolAlt_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,46" ;
+		bacnet:object-identifier "analog-input,47" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaSolAlt_y" ;
 		bacnet:status-flags 0 ;
@@ -428,7 +437,7 @@ bldg:weatherStation_reaWeaSolAlt_y a brick:Point ;
 
 bldg:weatherStation_reaWeaSolDec_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,47" ;
+		bacnet:object-identifier "analog-input,48" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaSolDec_y" ;
 		bacnet:status-flags 0 ;
@@ -437,7 +446,7 @@ bldg:weatherStation_reaWeaSolDec_y a brick:Point ;
 
 bldg:weatherStation_reaWeaSolHouAng_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,48" ;
+		bacnet:object-identifier "analog-input,49" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaSolHouAng_y" ;
 		bacnet:status-flags 0 ;
@@ -446,7 +455,7 @@ bldg:weatherStation_reaWeaSolHouAng_y a brick:Point ;
 
 bldg:weatherStation_reaWeaSolTim_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,49" ;
+		bacnet:object-identifier "analog-input,50" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaSolTim_y" ;
 		bacnet:status-flags 0 ;
@@ -455,7 +464,7 @@ bldg:weatherStation_reaWeaSolTim_y a brick:Point ;
 
 bldg:weatherStation_reaWeaSolZen_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,50" ;
+		bacnet:object-identifier "analog-input,51" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaSolZen_y" ;
 		bacnet:status-flags 0 ;
@@ -464,7 +473,7 @@ bldg:weatherStation_reaWeaSolZen_y a brick:Point ;
 
 bldg:weatherStation_reaWeaTBlaSky_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,51" ;
+		bacnet:object-identifier "analog-input,52" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaTBlaSky_y" ;
 		bacnet:status-flags 0 ;
@@ -473,7 +482,7 @@ bldg:weatherStation_reaWeaTBlaSky_y a brick:Point ;
 
 bldg:weatherStation_reaWeaTDewPoi_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,52" ;
+		bacnet:object-identifier "analog-input,53" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaTDewPoi_y" ;
 		bacnet:status-flags 0 ;
@@ -482,7 +491,7 @@ bldg:weatherStation_reaWeaTDewPoi_y a brick:Point ;
 
 bldg:weatherStation_reaWeaTDryBul_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,53" ;
+		bacnet:object-identifier "analog-input,54" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaTDryBul_y" ;
 		bacnet:status-flags 0 ;
@@ -491,7 +500,7 @@ bldg:weatherStation_reaWeaTDryBul_y a brick:Point ;
 
 bldg:weatherStation_reaWeaTWetBul_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,54" ;
+		bacnet:object-identifier "analog-input,55" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaTWetBul_y" ;
 		bacnet:status-flags 0 ;
@@ -500,7 +509,7 @@ bldg:weatherStation_reaWeaTWetBul_y a brick:Point ;
 
 bldg:weatherStation_reaWeaWinDir_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,55" ;
+		bacnet:object-identifier "analog-input,56" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaWinDir_y" ;
 		bacnet:status-flags 0 ;
@@ -509,7 +518,7 @@ bldg:weatherStation_reaWeaWinDir_y a brick:Point ;
 
 bldg:weatherStation_reaWeaWinSpe_y a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-input,56" ;
+		bacnet:object-identifier "analog-input,57" ;
 		bacnet:object-type "analog-input" ;
 		bacnet:object-name "weatherStation_reaWeaWinSpe_y" ;
 		bacnet:status-flags 0 ;
@@ -518,7 +527,7 @@ bldg:weatherStation_reaWeaWinSpe_y a brick:Point ;
 
 bldg:boi_oveBoi_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,57" ;
+		bacnet:object-identifier "analog-output,58" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "boi_oveBoi_u" ;
 		bacnet:status-flags 0 ;
@@ -527,7 +536,7 @@ bldg:boi_oveBoi_u a brick:Point ;
 
 bldg:conCooBth_oveCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,58" ;
+		bacnet:object-identifier "analog-output,59" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooBth_oveCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -536,7 +545,7 @@ bldg:conCooBth_oveCoo_u a brick:Point ;
 
 bldg:conCooBth_oveTSetCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,59" ;
+		bacnet:object-identifier "analog-output,60" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooBth_oveTSetCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -545,7 +554,7 @@ bldg:conCooBth_oveTSetCoo_u a brick:Point ;
 
 bldg:conCooHal_oveCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,60" ;
+		bacnet:object-identifier "analog-output,61" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooHal_oveCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -554,7 +563,7 @@ bldg:conCooHal_oveCoo_u a brick:Point ;
 
 bldg:conCooHal_oveTSetCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,61" ;
+		bacnet:object-identifier "analog-output,62" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooHal_oveTSetCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -563,7 +572,7 @@ bldg:conCooHal_oveTSetCoo_u a brick:Point ;
 
 bldg:conCooLiv_oveCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,62" ;
+		bacnet:object-identifier "analog-output,63" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooLiv_oveCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -572,7 +581,7 @@ bldg:conCooLiv_oveCoo_u a brick:Point ;
 
 bldg:conCooLiv_oveTSetCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,63" ;
+		bacnet:object-identifier "analog-output,64" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooLiv_oveTSetCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -581,7 +590,7 @@ bldg:conCooLiv_oveTSetCoo_u a brick:Point ;
 
 bldg:conCooRo1_oveCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,64" ;
+		bacnet:object-identifier "analog-output,65" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooRo1_oveCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -590,7 +599,7 @@ bldg:conCooRo1_oveCoo_u a brick:Point ;
 
 bldg:conCooRo1_oveTSetCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,65" ;
+		bacnet:object-identifier "analog-output,66" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooRo1_oveTSetCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -599,7 +608,7 @@ bldg:conCooRo1_oveTSetCoo_u a brick:Point ;
 
 bldg:conCooRo2_oveCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,66" ;
+		bacnet:object-identifier "analog-output,67" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooRo2_oveCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -608,7 +617,7 @@ bldg:conCooRo2_oveCoo_u a brick:Point ;
 
 bldg:conCooRo2_oveTSetCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,67" ;
+		bacnet:object-identifier "analog-output,68" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooRo2_oveTSetCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -617,7 +626,7 @@ bldg:conCooRo2_oveTSetCoo_u a brick:Point ;
 
 bldg:conCooRo3_oveCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,68" ;
+		bacnet:object-identifier "analog-output,69" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooRo3_oveCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -626,7 +635,7 @@ bldg:conCooRo3_oveCoo_u a brick:Point ;
 
 bldg:conCooRo3_oveTSetCoo_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,69" ;
+		bacnet:object-identifier "analog-output,70" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conCooRo3_oveTSetCoo_u" ;
 		bacnet:status-flags 0 ;
@@ -635,7 +644,7 @@ bldg:conCooRo3_oveTSetCoo_u a brick:Point ;
 
 bldg:conHeaBth_oveActHea_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,70" ;
+		bacnet:object-identifier "analog-output,71" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conHeaBth_oveActHea_u" ;
 		bacnet:status-flags 0 ;
@@ -644,7 +653,7 @@ bldg:conHeaBth_oveActHea_u a brick:Point ;
 
 bldg:conHeaBth_oveTSetHea_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,71" ;
+		bacnet:object-identifier "analog-output,72" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conHeaBth_oveTSetHea_u" ;
 		bacnet:status-flags 0 ;
@@ -653,7 +662,7 @@ bldg:conHeaBth_oveTSetHea_u a brick:Point ;
 
 bldg:conHeaLiv_oveActHea_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,72" ;
+		bacnet:object-identifier "analog-output,73" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conHeaLiv_oveActHea_u" ;
 		bacnet:status-flags 0 ;
@@ -662,7 +671,7 @@ bldg:conHeaLiv_oveActHea_u a brick:Point ;
 
 bldg:conHeaLiv_oveTSetHea_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,73" ;
+		bacnet:object-identifier "analog-output,74" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conHeaLiv_oveTSetHea_u" ;
 		bacnet:status-flags 0 ;
@@ -671,7 +680,7 @@ bldg:conHeaLiv_oveTSetHea_u a brick:Point ;
 
 bldg:conHeaRo1_oveActHea_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,74" ;
+		bacnet:object-identifier "analog-output,75" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conHeaRo1_oveActHea_u" ;
 		bacnet:status-flags 0 ;
@@ -680,7 +689,7 @@ bldg:conHeaRo1_oveActHea_u a brick:Point ;
 
 bldg:conHeaRo1_oveTSetHea_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,75" ;
+		bacnet:object-identifier "analog-output,76" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conHeaRo1_oveTSetHea_u" ;
 		bacnet:status-flags 0 ;
@@ -689,7 +698,7 @@ bldg:conHeaRo1_oveTSetHea_u a brick:Point ;
 
 bldg:conHeaRo2_oveActHea_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,76" ;
+		bacnet:object-identifier "analog-output,77" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conHeaRo2_oveActHea_u" ;
 		bacnet:status-flags 0 ;
@@ -698,7 +707,7 @@ bldg:conHeaRo2_oveActHea_u a brick:Point ;
 
 bldg:conHeaRo2_oveTSetHea_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,77" ;
+		bacnet:object-identifier "analog-output,78" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conHeaRo2_oveTSetHea_u" ;
 		bacnet:status-flags 0 ;
@@ -707,7 +716,7 @@ bldg:conHeaRo2_oveTSetHea_u a brick:Point ;
 
 bldg:conHeaRo3_oveActHea_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,78" ;
+		bacnet:object-identifier "analog-output,79" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conHeaRo3_oveActHea_u" ;
 		bacnet:status-flags 0 ;
@@ -716,7 +725,7 @@ bldg:conHeaRo3_oveActHea_u a brick:Point ;
 
 bldg:conHeaRo3_oveTSetHea_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,79" ;
+		bacnet:object-identifier "analog-output,80" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "conHeaRo3_oveTSetHea_u" ;
 		bacnet:status-flags 0 ;
@@ -725,7 +734,7 @@ bldg:conHeaRo3_oveTSetHea_u a brick:Point ;
 
 bldg:oveEmiPum_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,80" ;
+		bacnet:object-identifier "analog-output,81" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "oveEmiPum_u" ;
 		bacnet:status-flags 0 ;
@@ -734,7 +743,7 @@ bldg:oveEmiPum_u a brick:Point ;
 
 bldg:oveMixValSup_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,81" ;
+		bacnet:object-identifier "analog-output,82" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "oveMixValSup_u" ;
 		bacnet:status-flags 0 ;
@@ -743,7 +752,7 @@ bldg:oveMixValSup_u a brick:Point ;
 
 bldg:oveTSetPumBoi_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,82" ;
+		bacnet:object-identifier "analog-output,83" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "oveTSetPumBoi_u" ;
 		bacnet:status-flags 0 ;
@@ -752,7 +761,7 @@ bldg:oveTSetPumBoi_u a brick:Point ;
 
 bldg:oveTSetSup_u a brick:Point ;
 	ref:hasExternalReference [
-		bacnet:object-identifier "analog-output,83" ;
+		bacnet:object-identifier "analog-output,84" ;
 		bacnet:object-type "analog-output" ;
 		bacnet:object-name "oveTSetSup_u" ;
 		bacnet:status-flags 0 ;

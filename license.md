@@ -81,7 +81,7 @@ BACpypes
 The code in ``/bacnet/BopTestProxy.py`` is based on the OpenWeatherServer.py
 sample from the BACpypes Python package.
 
-The code in ``/bacnet/example/SimpleReadWrite.py`` is based on the
+The code in ``/bacnet/example/SimpleReadWrite.py`` and ``/bacnet/example/SimpleRead.py`` are based on the
 ReadObjectList.py, ReadWriteProperty.py, and ReadProperty.py
 samples from the BACpypes Python package.
 
