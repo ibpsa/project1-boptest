@@ -1,7 +1,7 @@
 # BACnet Interface
 
 The contents of this directory enables a BACnet interface to be deployed on top of a BOPTEST test case.
-In this way, BACnet applications and controllers can be used to communicate with BOPTEST measurement and control points.
+In this way, BACnet applications and controllers can be used to communicate with BOPTEST measurement and control points. The simulation time in seconds is exposed through the interface as the variable ``time``.
 
 ## Architecture Concept
 
@@ -28,6 +28,12 @@ The BACnet objects are configured based on a .ttl file for each test case locate
 
 4. Use a BACnet application to locate the device and objects on the network and communicate with them.
 
+## Faster than real time simulation and advance on demand
+
+In order to advance the simulation faster than real time the optional arguments ``--app_interval(-ai)`` and ``--simulation_step(-s)`` can be used. These are respectively the application refresh interval time in seconds, and the simulation advance time step in seconds  with each application refresh. For example if ``-ai=1`` and ``-s=2`` the application will refresh every second advancing the simulation by two seconds, effectively running it at a speed of 2x with respect to real time. 
+In order to advance the simulation on demand, the argument ``--app_interval(-ai)`` should be set equal to ``oncommand``. This will create a new BACnet input called ``advance``. ``advance`` is an integer input that starts at 0 and each increment advances the simulation by a ``--simulation_step(-s)`` amount. Every 100ms the value is checked to see if the simulation needs to be advanced. ``advance`` can be reset by setting it 0 to avoid everincreasing numbers.
+
+
 ## References
 
 ``BopTestProxy.py`` code is based on a prototype written by Erik Paulson (https://github.com/epaulson/boptest-bacnet-proxy)
@@ -35,4 +41,7 @@ and is based on the BACpypes Python package distributed under an
 MIT License.  See license.md in the root of this repositoriy for details.
 
 ``/example/SimpleReadWrite.py`` is based on the BACpypes Python package distributed under an
+MIT License.  See license.md in the root of this repositoriy for details.
+
+``/example/SimpleRead.py`` is based on the BACpypes Python package distributed under an
 MIT License.  See license.md in the root of this repositoriy for details.
