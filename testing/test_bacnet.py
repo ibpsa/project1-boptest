@@ -9,6 +9,7 @@ import os
 import utilities
 import subprocess
 import time
+import json
 
 class Run(unittest.TestCase, utilities.partialTestTimePeriod):
     '''Tests an example deployment of the bacnet proxy.
@@ -71,7 +72,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
     def test_read_write(self):
         p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0", shell=True)
-        r = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:33 presentValue 294".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        r = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:34 presentValue 294".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         with r.stdout:
             for line in iter(r.stdout.readline, b''):
                 print(str(line))
@@ -79,6 +80,57 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
                     success = True
                 else:
                     success = False
+        time.sleep(15)
+        r.kill()
+        p.kill()
+
+        self.assertTrue(success)
+    
+    def test_advance_faster_than_realtime(self):
+        
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=1 --simulation_step=10", shell=True)
+        t_start = time.time()
+        time.sleep(2)
+        r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:1 presentValue".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        delta_t = time.time() - t_start
+        
+        with r.stdout:
+            for line in iter(r.stdout.readline, b''):
+                if 'value' in str(line):
+                    time_dict = json.loads(line)
+
+        if time_dict['var'] == 'analogValue:1' and time_dict['value'] > delta_t:
+            success = True
+        else:
+            print('wrong part of the test')
+            print(time_dict)
+            success = False
+        
+        time.sleep(15)
+        r.kill()
+        p.kill()
+
+        self.assertTrue(success)
+        
+    def test_advance_oncommand(self):
+        time_advanced = 10
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=oncommand --simulation_step={0}".format(time_advanced), shell=True)
+        w = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:37 presentValue 1".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        time.sleep(1)
+        w.kill()
+        r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:1 presentValue".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        
+        
+        with r.stdout:
+            for line in iter(r.stdout.readline, b''):
+                if 'value' in str(line):
+                    time_dict = json.loads(line)
+
+        if time_dict['var'] == 'analogValue:1' and time_dict['value'] - time_advanced < 1E-6:
+            success = True
+        else:
+            success = False
+        
         time.sleep(15)
         r.kill()
         p.kill()
