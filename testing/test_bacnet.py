@@ -88,7 +88,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
     
     def test_advance_faster_than_realtime(self):
         
-        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=4 --simulation_step=10", shell=True)
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=2 --simulation_step=10", shell=True)
         t_start = time.time()
         time.sleep(10)
         r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:1 presentValue".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -103,7 +103,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
             success = True
         else:
             print('Either time value was not found or time value is incorrect, check json response:')
-            print('Variable name is: ' + time_dict['var'] + ' Simulation time is: ' + str(time_dict['value']) )
+            print('Variable name is: ' + time_dict['var'] + ' Simulation time is: ' + str(time_dict['value']) + 'and is lower than real time passed: ' + str(delta_t) )
             success = False
         
         time.sleep(15)
