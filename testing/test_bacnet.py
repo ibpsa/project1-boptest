@@ -88,9 +88,9 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
     
     def test_advance_faster_than_realtime(self):
         
-        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=1 --simulation_step=10", shell=True)
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=4 --simulation_step=10", shell=True)
         t_start = time.time()
-        time.sleep(2)
+        time.sleep(10)
         r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:1 presentValue".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         delta_t = time.time() - t_start
         
@@ -102,8 +102,8 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         if time_dict['var'] == 'analogValue:1' and time_dict['value'] > delta_t:
             success = True
         else:
-            print('wrong part of the test')
-            print(time_dict)
+            print('Either time value was not found or time value is incorrect, check json response:')
+            print('Variable name is: ' + time_dict['var'] + ' Simulation time is: ' + str(time_dict['value']) )
             success = False
         
         time.sleep(15)
@@ -116,7 +116,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         time_advanced = 10
         p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=oncommand --simulation_step={0}".format(time_advanced), shell=True)
         w = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:37 presentValue 1".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        time.sleep(1)
+        time.sleep(10)
         w.kill()
         r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:1 presentValue".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         
