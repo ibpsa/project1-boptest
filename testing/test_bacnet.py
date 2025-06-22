@@ -89,7 +89,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
     
     def test_advance_faster_than_realtime(self):
         
-        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=2 --simulation_step=10", shell=True)
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=2 --simulation_step=60", shell=True)
         t_start = time.time()
         time.sleep(10)
         r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:1 presentValue".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -131,7 +131,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
         if time_dict['var'] == 'analogValue:1' and time_dict['value'] - time_advanced < 1E-6:
             success = True
-            print('Test 2 successful')
+            print('Test 3 successful')
         else:
             success = False
         
