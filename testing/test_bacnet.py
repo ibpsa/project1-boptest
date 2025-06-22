@@ -79,9 +79,9 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
                 print(str(line))
                 if 'New value seen!' in str(line):
                     success = True
-                    print('Test 1 successful')
                 else:
-                    success = False
+                     print('test_read_write failed, value was not updated properly')
+                     success = False
         time.sleep(15)
         r.kill()
         p.kill()
@@ -103,9 +103,8 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
         if time_dict['var'] == 'analogValue:1' and time_dict['value'] > delta_t:
             success = True
-            print('Test 2 successful')
         else:
-            print('Either time value was not found or time value is incorrect, check json response:')
+            print('test_advance_faster_than_realtime failed. Either time value was not found or time value is incorrect, check json response:')
             print('Variable name is: ' + time_dict['var'] + ' Simulation time is: ' + str(time_dict['value']) + 'and is lower than real time passed: ' + str(delta_t) )
             success = False
         
@@ -122,6 +121,12 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         w = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:37 presentValue 1".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         time.sleep(10)
         w.kill()
+        w1 = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:37 presentValue 0".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        time.sleep(10)
+        w1.kill()
+        w2 = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:37 presentValue 1".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        time.sleep(10)
+        w2.kill()
         r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:1 presentValue".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         
         
@@ -130,11 +135,13 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
                 if 'value' in str(line):
                     time_dict = json.loads(line)
 
-        if time_dict['var'] == 'analogValue:1' and time_dict['value'] - time_advanced < 1E-6:
+        if time_dict['var'] == 'analogValue:1' and time_dict['value'] - 2*time_advanced < 1E-6:
             success = True
-            print('Test 3 successful')
         else:
+            print('test_advance_oncommand failed. Either time value was not found or time value is incorrect, check json response:')
+            print('Variable name is: ' + time_dict['var'] + ' Simulation time is: ' + str(time_dict['value']) + 'and is different from expected time: ' + str(2*time_advanced) )
             success = False
+        
         
         time.sleep(15)
         r.kill()
