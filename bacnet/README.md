@@ -1,7 +1,7 @@
 # BACnet Interface
 
 The contents of this directory enables a BACnet interface to be deployed on top of a BOPTEST test case.
-In this way, BACnet applications and controllers can be used to communicate with BOPTEST measurement and control points. The simulation time in seconds is exposed through the interface as the variable ``time``.
+In this way, BACnet applications and controllers can be used to communicate with BOPTEST measurement and control points. The simulation time in seconds is exposed through the interface as the first output variable ``time`` for all test cases.
 
 ## Architecture Concept
 
