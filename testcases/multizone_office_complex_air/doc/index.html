@@ -8,8 +8,7 @@
     and Modelica. EnergyPlus (V9.6) calculates the building’s 
     thermal loads with the boundary conditions. Modelica is responsible 
     for the airflow calculation (e.g., building infiltration) and HVAC system 
-    and controls. Spawn integrated model is compiled into Functional Mockup 
-    Unit (FMU) using Optimica (V1.40). The geometry of the large offcie building is shown
+    and controls. The geometry of the large offcie building is shown
     in the figure below.
 </p>
 <p align=\"center\">
@@ -22,9 +21,10 @@
     The layout is representative of the large commercial office building 
     stock and is consistent with the building prototypes. The test case is 
     located in Chicago, IL and based on the DOE Reference Large Office Building
-    Model (Constructed In or After 1980). The original model has 12 floors with a basement. For 
-    simplicity, the middle 10 floors are treated as identical. The ground floor is 
-    assumed to be adiabatic with the basement.
+    Model (Constructed In or After 1980). The original model has 12 floors with a basement. 
+	For simplicity, the middle 10 floors are treated as identical and are modeled as a single representative floor, 
+	resulting in three modeled floors (ground, middle, and top), each served by a dedicated AHU.
+	The ground floor is assumed to be adiabatic with the basement.
 </p>
 <p>
     The represented floor has five zones, with four perimeter zones and one core zone. 
@@ -637,10 +637,7 @@
     <img alt=\"SingleMax.\"
     src="images/SingleMax.png" width=300>
 </p>
-<p>
-    Taylor, Steven T., et al. "Dual maximum VAV box control logic." ASHRAE Journal, vol. 54, 
-    no. 12, Dec. 2012.
-</p>
+
 <p>
     <i>VAV air flow rate control</i>
 </p>
@@ -650,11 +647,11 @@
      the VAV damper position as the output. 
 </p>
 <p>
-  <i>VAV supply air temperature Control</i>
+  <i>VAV supply air temperature control</i>
 </p>
 <P>
     Heating coil valve position is controlled by a PI controller to maintain the supply air 
-    temperature at setpoint. It takes the zone air temperature measurements and setpoint as 
+    temperature at setpoint. It takes the supply air temperature measurements and setpoint as 
     inputs. It takes the heating coil valve position as the output.    
 </P>
 <h4>
@@ -2316,12 +2313,12 @@ zones.
 </p>
 <h4>Infiltration models</h4>
 <p>
-Air infiltration features have been incorporated into the exterior zones on all three floors. 
+Air infiltration features have been incorporated into the exterior zones on all the floors. 
 The specified infiltration rate (m_flow_infAir) is based on an air leakage rate of 1 cfm/ft² of exterior surface area, 
 measured at a constant building pressure differential of 75 Pa. 
 This value is then converted to a wind-driven infiltration rate at a reference wind speed of 4.47 m/s, 
 following the methodology outlined in ASHRAE Standard 90.1-2022, Section G3.2.1.7.
-During occupied hours, the infiltration schedule uses a fraction of 0.25 to approximate the reduced infiltration rate resulting from mechanical ventilation being active. 
+During the occupied hours, the infiltration schedule uses a fraction of 0.25 to approximate the reduced infiltration rate resulting from mechanical ventilation being active. 
 This assumption aligns with the modeling rules in Appendix C of ASHRAE Standard 90.1-2022. 
 Additionally, the infiltration rate is dynamically adjusted to account for variations in wind speed.
 
