@@ -7,7 +7,11 @@ Released on xx/xx/xxxx.
 **The following changes are backwards compatible and do not significantly change benchmark results:**
 
 - For ``twozone_apartment_hydronic`` test case, update control documentation. This is for [#766](https://github.com/ibpsa/project1-boptest/issues/766).
-- For BACnet interface, add support for faster-than-real-time and on-command simulation advance, as well as adding simulation time as an available bacnet point. Optional arguments ``--app_interval`` and ``--simulation_step`` were added to ``BopTestProxy.py`` to support this feature and simulation time was added as the first BACnet point object for each test case by updating all ``bacnet.ttl`` files. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
+- For BACnet interface, add support for faster-than-real-time and on-command simulation advance. Optional arguments ``--app_interval`` and ``--simulation_step`` were added to ``BopTestProxy.py`` to support this feature. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
+
+**The following changes are not backwards compatible, but do not change benchmark results:**
+- For BACnet interface, add simulation time as an available BACnet point. Simulation time was added as the first BACnet point object for each test case by updating all ``bacnet.ttl`` files.  This is not backwards compatible for the BACnet interface for clients referencing BACnet object numbers, since the object numbers are shifted by +1. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
+
 
 ## BOPTEST v0.8.0
 
