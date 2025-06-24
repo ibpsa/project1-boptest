@@ -45,7 +45,8 @@ model VSDCoolingTower "the cooling tower"
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage val(
     redeclare package Medium = MediumCW,
     m_flow_nominal=mCW_flow_nominal,
-    dpValve_nominal=dP_nominal)
+    dpValve_nominal=dP_nominal,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
   .MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.conPI
     conPI(k=GaiPi, Ti=tIntPi)

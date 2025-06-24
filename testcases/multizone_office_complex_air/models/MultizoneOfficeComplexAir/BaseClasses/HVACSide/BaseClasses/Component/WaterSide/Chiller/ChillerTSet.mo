@@ -73,7 +73,8 @@ model ChillerTSet "Chiller"
     redeclare package Medium = MediumCW,
     m_flow_nominal=mCW_flow_nominal,
     allowFlowReversal=false,
-    dpValve_nominal=dPCW_nominal)
+    dpValve_nominal=dPCW_nominal,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{-60,90},{-80,70}})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valCHW(
     redeclare package Medium = MediumCHW,
