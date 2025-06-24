@@ -127,6 +127,9 @@ model BoilerPlant "Boiler hot water plant"
   Modelica.Blocks.Interfaces.RealOutput mHW_tot annotation (Placement(
         transformation(extent={{240,50},{260,70}}), iconTransformation(extent={
             {100,60},{120,80}})));
+  Modelica.Blocks.Sources.RealExpression QTot(y=sum(mulBoi.boi.boi.QWat_flow))
+    "Heating load from the boiler"
+    annotation (Placement(transformation(extent={{140,-90},{160,-70}})));
 equation
 
   connect(mulBoi.port_a_HW, pumSecHW.port_b) annotation (Line(

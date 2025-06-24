@@ -295,6 +295,9 @@ model ChillerPlant
     redeclare package Medium = MediumCHW,
     dp_nominal={0,0,0})
     annotation (Placement(transformation(extent={{0,-80},{20,-100}})));
+  Modelica.Blocks.Sources.RealExpression QTot(y=sum(mulChiSys.ch.chi.Q1_flow))
+    "Cooling load from the chiller"
+    annotation (Placement(transformation(extent={{160,-110},{180,-90}})));
 equation
   connect(senTCHWByp.port_a, senMasFloByp.port_b) annotation (Line(
       points={{10,-20},{10,-42}},
