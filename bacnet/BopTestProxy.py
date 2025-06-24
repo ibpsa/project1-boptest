@@ -252,7 +252,7 @@ class BOPTESTUpdater(RecurringTask):
             json_response = response.json()
 
         # set the object values
-        # We advance the simulation by 5 seconds at each call to the loop, but we don't update the external world
+        # We advance the simulation by x seconds at each call to the loop, but we don't update the external world
         # with those results until the NEXT call to this function.
         #
         # TODO: don't ACK BACnet writes until we get to here - instead, buffer the write request and send the ACKs later
@@ -278,7 +278,7 @@ class BOPTESTUpdater(RecurringTask):
                 _log.debug('Resetting counter to: %r', advance_counter)
             if self.oncommand:
                 self.advance_counter = advance_counter
-            
+
 
 # BAC0 uses the ReadPropertyMultiple service so make that available
 @bacpypes_debugging
