@@ -268,32 +268,30 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
     PreDroWat5=PreDroWat5,
     eps5=eps5)
     annotation (Placement(transformation(extent={{30,-18},{66,-46}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_CooWat(redeclare package Medium
-      = MediumCooWat)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_CooWat(redeclare package Medium =
+        MediumCooWat)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-70,-110},{-50,-90}}),
         iconTransformation(extent={{-70,-110},{-50,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_CooWat(redeclare package Medium
-      = MediumCooWat)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_CooWat(redeclare package Medium =
+        MediumCooWat)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-40,-110},{-20,-90}}),
         iconTransformation(extent={{-40,-110},{-20,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_HeaWat(redeclare package Medium
-      = MediumHeaWat)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_HeaWat(redeclare package Medium =
+        MediumHeaWat)
     "Second port, typically outlet"
     annotation (Placement(transformation(extent={{30,-110},{50,-90}}),
         iconTransformation(extent={{30,-110},{50,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_HeaWat(redeclare package Medium
-      = MediumHeaWat)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_HeaWat(redeclare package Medium =
+        MediumHeaWat)
     "Second port, typically outlet"
     annotation (Placement(transformation(extent={{60,-110},{80,-90}}),
         iconTransformation(extent={{60,-110},{80,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium
-      =                                                                         MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium = MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-174,-50},{-154,-30}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium
-      =                                                                         MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium = MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-170,30},{-150,50}})));
   Modelica.Blocks.Routing.BooleanReplicator booleanReplicator(nout=5)
@@ -507,7 +505,6 @@ equation
 
   connect(duaFanAirHanUni.V_flowOutAir, reaAHU.V_flowOA_in) annotation (Line(
       points={{-48.6,-6.61429},{-48.6,-6},{-12,-6},{-12,16},{26,16},{26,21.4286}},
-
       color={0,0,127},
       pattern=LinePattern.Dash));
 
@@ -790,19 +787,17 @@ equation
 <li>Core: 2532.32 m<sup>2</sup></li>
 </ul>
 <p>The geometry of the floor is shown as the following figure:</p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/Zones.png\"/></p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/Zones.png\" width=\"400\"/></p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.AirHandlingUnit.DuaFanAirHanUnit\">
 MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.AirHandlingUnit.DuaFanAirHanUnit </a>for a description of the AHU.</p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.FiveZoneVAV\">
 MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.FiveZoneVAV</a> for a description of the five-zone models with VAV terminals.</p>
-<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.Controls.ZonCon\">
-MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.Controls.ZonCon</a> for a description of the zone terminal VAV controller. </p>
-</html>", revisions = "<html>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.Control.ZonCon\">
+MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.Control.ZonCon</a> for a description of the zone terminal VAV controller. </p>
+</html>", revisions="<html>
 <ul>
-<li> August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
-<p> Added CO2 and air infiltration features; Adjusted system equipment sizing; Reduced nonlinear system warnings.</p>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
-<p> First implementation.</p>
+<li>August 17, 2023, by Xing Lu, Sen Huang: </li>
+<p>First implementation.</p>
 </ul>
 </html>"));
 end AirsideFloor;

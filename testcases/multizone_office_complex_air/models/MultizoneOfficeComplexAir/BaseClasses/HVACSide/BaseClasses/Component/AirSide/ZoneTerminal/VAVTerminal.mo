@@ -94,7 +94,8 @@ model VAVTerminal "The model of the VAV terminals"
   Modelica.Blocks.Interfaces.RealOutput TAirLea
     "Temperature of the passing fluid"
     annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
-  Modelica.Blocks.Interfaces.BooleanInput On annotation (Placement(transformation(extent={{-120,-90},{-100,-70}})));
+  Modelica.Blocks.Interfaces.BooleanInput On annotation (Placement(transformation(extent={{-120,
+            -50},{-100,-30}})));
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
     annotation (Placement(transformation(extent={{-60,76},{-40,96}})));
   ReadOverwrite.WriteZoneLoc oveZonLoc(zonNam=zonNam)
@@ -168,7 +169,8 @@ equation
                                            color={0,0,127}));
   connect(oveZonLoc.yDam_out,dam. y)
     annotation (Line(points={{-47,54},{-2,54},{-2,12}}, color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -80},{100,100}}),                                   graphics={
         Rectangle(
           extent={{-100,100},{102,-100}},
           lineColor={0,0,0},
@@ -189,5 +191,16 @@ equation
           extent={{-144,118},{156,158}},
           textString="%name",
           textColor={0,0,255})}),                                Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false, extent={{-100,-80},{100,100}})),
+
+    Documentation(info="<html>
+<p>This Modelica model implements a variable-air-volume (VAV) terminal unit with an integral reheat coil. The system layout and its control components are shown in the figure below:</p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/VAVControl.png\"/ width=\"500\"></p>
+<p>The controller for terminal VAV box is based on the &quot;single maximum VAV reheat control logic&quot;.</p>
+<ul>
+<li>When the Zone State is cooling, the cooling-loop output shall be mapped to the active airflow setpoint from the cooling minimum endpoint to the cooling maximum endpoint. Heating coil is disabled. When the Zone State is deadband, the active airflow setpoint shall be the minimum endpoint. Heating coil is disabled.</li>
+<li>When the Zone State is heating, the active airflow setpoint shall be the minimum endpoint. The reheat valve position shall be mapped to the supply air temperature setpoint from the heating minimum endpoint to the heating maximum endpoint.</li>
+</ul>
+<p>VAV damper position is controlled by a PI controller to maintain the air flow rate at setpoint. Heating coil valve position is controlled by a PI controller to maintain the supply air temperature at setpoint. </p>
+</html>"));
 end VAVTerminal;

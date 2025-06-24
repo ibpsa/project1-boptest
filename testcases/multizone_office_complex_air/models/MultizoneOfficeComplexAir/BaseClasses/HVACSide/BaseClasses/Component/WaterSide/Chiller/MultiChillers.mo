@@ -1,6 +1,6 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Chiller;
 model MultiChillers
-  "The chiller system with N chillers and associated local controllers "
+  "Multiple chillers and associated local controllers"
   replaceable package MediumCHW =
       Modelica.Media.Interfaces.PartialMedium
     "Medium in the chilled water side";
@@ -30,21 +30,17 @@ model MultiChillers
   Modelica.Blocks.Interfaces.RealInput TCHWSet
     "Temperature setpoint of the chilled water"
     annotation (Placement(transformation(extent={{-118,31},{-100,49}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_CW(redeclare package
-      Medium =                                                               MediumCW)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_CW(redeclare package Medium = MediumCW)
     "Fluid connector a1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{-110,-90},{-90,-70}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_CW(redeclare package
-      Medium =                                                               MediumCW)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_CW(redeclare package Medium = MediumCW)
     "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{-110,70},{-90,90}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_CHW(redeclare package
-      Medium =                                                                MediumCHW)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_CHW(redeclare package Medium = MediumCHW)
     "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,-90},{110,-70}}),
         iconTransformation(extent={{90,-90},{110,-70}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_CHW(redeclare package
-      Medium =                                                                MediumCHW)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_CHW(redeclare package Medium = MediumCHW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,70},{110,90}})));
   Modelica.Blocks.Interfaces.RealOutput P[n]
@@ -107,12 +103,10 @@ model MultiChillers
 
   Modelica.Blocks.Interfaces.RealOutput Rat[n] "compressor speed ratio"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFloCHW(redeclare package
-      Medium =
+  Buildings.Fluid.Sensors.MassFlowRate senMasFloCHW(redeclare package Medium =
         MediumCHW)
     annotation (Placement(transformation(extent={{70,-90},{88,-70}})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFloCW(redeclare package
-      Medium =
+  Buildings.Fluid.Sensors.MassFlowRate senMasFloCW(redeclare package Medium =
         MediumCHW)
     annotation (Placement(transformation(extent={{-46,70},{-64,90}})));
 equation
@@ -175,7 +169,7 @@ equation
   end for;
 
   annotation (Documentation(info="<html>
-<p>This model is to simulate the chiller system which consists of three chillers and associated local controllers.</p>
+<p>This model consists of multiple chillers and associated local controllers.</p>
 </html>", revisions="<html>
 <ul>
 <li>

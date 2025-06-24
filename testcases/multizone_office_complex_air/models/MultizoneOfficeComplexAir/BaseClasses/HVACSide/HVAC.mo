@@ -416,17 +416,17 @@ equation
   connect(boiWatNet.p, reaHotWatSys.dp_in) annotation (Line(points={{177,-102},
           {182,-102},{182,-60},{154,-60},{154,-31.5},{158,-31.5}}, color={0,0,
           127}));
-  connect(chiWatPla.TCHW_ret, reaChiWatSys.TCHWRet_in) annotation (Line(points=
-          {{11,-96},{16,-96},{16,-62},{6,-62},{6,-33.6154},{16,-33.6154}},
+  connect(chiWatPla.TCHW_ret, reaChiWatSys.TCHWRet_in) annotation (Line(points={{11,-96},
+          {16,-96},{16,-62},{6,-62},{6,-33.6154},{16,-33.6154}},
         color={0,0,127}));
   connect(chiWatPla.TCHW_sup, reaChiWatSys.TCHWSup_in) annotation (Line(points=
           {{11,-99},{18,-99},{18,-60},{8,-60},{8,-37},{16,-37}}, color={0,0,127}));
-  connect(boiWatPla.THW_ret, reaHotWatSys.THWRet_in) annotation (Line(points={{
-          137,-100},{144,-100},{144,-35.1667},{158,-35.1667}}, color={0,0,127}));
-  connect(boiWatPla.THW_sup, reaHotWatSys.THWSup_in) annotation (Line(points={{
-          137,-103},{146,-103},{146,-38.8333},{158,-38.8333}}, color={0,0,127}));
-  connect(boiWatPla.mHW_tot, reaHotWatSys.mHWTot_in) annotation (Line(points={{
-          137,-93},{142,-93},{142,-27.8333},{158,-27.8333}}, color={0,0,127}));
+  connect(boiWatPla.THW_ret, reaHotWatSys.THWRet_in) annotation (Line(points={{137,
+          -100},{144,-100},{144,-35.1667},{158,-35.1667}},     color={0,0,127}));
+  connect(boiWatPla.THW_sup, reaHotWatSys.THWSup_in) annotation (Line(points={{137,
+          -103},{146,-103},{146,-38.8333},{158,-38.8333}},     color={0,0,127}));
+  connect(boiWatPla.mHW_tot, reaHotWatSys.mHWTot_in) annotation (Line(points={{137,-93},
+          {142,-93},{142,-27.8333},{158,-27.8333}},          color={0,0,127}));
   connect(chiWatPla.mCHW_tot, reaChiWatSys.mCHWTot_in) annotation (Line(points=
           {{11,-105},{12,-105},{12,-28},{14,-28},{14,-27.6923},{16,-27.6923}},
         color={0,0,127}));
@@ -456,25 +456,18 @@ equation
           textColor={0,0,255}), Bitmap(extent={{-98,-98},{96,94}}, fileName=
               "modelica://MultizoneOfficeComplexAir/Resources/figure/hvac.png")}),
     Documentation(info="<html>
-<p>This model consist of a full HVAC system that contains the air side and water side systems. The air side system is a variable air volume (VAV) flow system with economizer and a cooling coil in the air handler unit. 
-There are two fans (i.e., one supply fan, and one return fan) in the AHU. A mixing box carries out the economizer function of providing cooling and ventilation. 
-Each VAV terminals contain a modulating damper and a hot water reheat coil. 
-See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor</a> for a description of the air side systems and the thermal zones.</p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AirSide.png\"/> </p>
-<p>The water side systems include one chilled water system and one hot water system. The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, 
-a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps. The hot water system consists of two gas boilers and two variable speed pumps. 
-See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant</a> for a description of the chilled water system. 
-See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant</a> for a description of the hot water system. </p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChilledWater.png\"/> </p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/HotWater.png\"/> </p>
+<p>This model consist of a full HVAC system that contains the air side and water side systems for the three floors. </p>
+<p><br>The air side system is a variable air volume (VAV) flow system with economizer and a cooling coil in the air handler unit. There are two fans (i.e., one supply fan, and one return fan) in the AHU. A mixing box carries out the economizer function of providing cooling and ventilation. Each VAV terminals contain a modulating damper and a hot water reheat coil. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor</a> for a description of the air side systems and the thermal zones.</p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AirSide.png\" width=\"600\"/> </p>
+<p><br>The water side systems include one chilled water system and one hot water system. The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps. The hot water system consists of two gas boilers and two variable speed pumps. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant</a> for a description of the chilled water system. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant</a> for a description of the hot water system. </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChilledWater.png\" width=\"600\"/> </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/HotWater.png\" width=\"250\"/> </p>
 <p>The air side system controls include the VAV air flow rate control, VAV supply air temperature control, AHU duct static pressure control, AHU supply air temperature control, and mixing box damper and economizer control.</p>
 <p>The water side system controls include the chiller plant staging control, chilled water supply temperature control, secondary chilled water pump staging control, secondary chilled water loop static pressure control, cooling tower supply water temperature control, minimum condenser supply water temperature control, boiler staging control, boiler water temperature control, and boiler hot water loop static pressure control.</p>
-</html>", revisions = "<html>
+</html>", revisions="<html>
 <ul>
-<li>August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
-<p>Added CO2 and air infiltration features; Adjusted system equipment sizing; Reduced nonlinear system warnings.</p>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen:
-<p> First implementation.</p>
+<li>August 17, 2023, by Xing Lu, Sen Huang: </li>
+<p>First implementation.</p>
 </ul>
 </html>"),
     __Dymola_Commands(file="Resources/script/Testcase.mos" "Simulate and Plot"));

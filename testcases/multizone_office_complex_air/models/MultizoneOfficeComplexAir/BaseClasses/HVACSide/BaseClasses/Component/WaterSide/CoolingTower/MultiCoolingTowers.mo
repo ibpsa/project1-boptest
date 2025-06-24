@@ -1,6 +1,6 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.CoolingTower;
 model MultiCoolingTowers
-  "This model is designed to simulate the cooling tower systwm with N towers"
+  "Multiple cooling tower systems"
   replaceable package MediumCW =
        Modelica.Media.Interfaces.PartialMedium
     "Medium in the  condenser water side";
@@ -25,12 +25,10 @@ model MultiCoolingTowers
 
   parameter Integer n
     "the number of cooling towers";
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_CW(redeclare package
-      Medium =                                                               MediumCW)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_CW(redeclare package Medium = MediumCW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_CW(redeclare package
-      Medium =                                                               MediumCW)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_CW(redeclare package Medium = MediumCW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealInput TWetBul

@@ -1,6 +1,6 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.CoolingTower;
 model CoolingTowersWithBypass
-  "This model is designed to simulate the cooling tower system with N way bypass valve"
+  "Cooling tower system with a bypass valve"
   replaceable package MediumCW =
        Modelica.Media.Interfaces.PartialMedium
     "Medium condenser water side";

@@ -1,6 +1,6 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.FlowMover.Control;
 model CyclingOn
-  "\"Controller for constant speed fans or pumps\""
+  "Controller for constant speed fans or pumps"
   parameter Modelica.Units.SI.Time waitTime(min=0) = 0
     "Wait time before transition fires";
 
@@ -48,11 +48,11 @@ model CyclingOn
     annotation (Placement(transformation(extent={{-60,38},{-40,58}})));
 equation
   connect(transitionWithSignal.inPort, On.outPort[1]) annotation (Line(
-      points={{-6.66134e-016,-44},{-6.66134e-016,-80},{55.75,-80},{55.75,-54.5}},
+      points={{0,-44},{0,-80},{56.125,-80},{56.125,-54.5}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(transitionWithSignal.outPort, Off.inPort[1]) annotation (Line(
-      points={{2.22045e-016,-38.5},{0,-38.5},{0,60},{53.5,60},{53.5,53}},
+      points={{0,-38.5},{0,-38.5},{0,60},{54.25,60},{54.25,53}},
       color={0,0,0},
       pattern=LinePattern.Dash));
 
@@ -89,12 +89,12 @@ equation
       color={255,0,255},
       pattern=LinePattern.Dash));
   connect(transitionWithSignal2.inPort, On.outPort[2]) annotation (Line(
-      points={{-22,44},{-22,44},{-22,42},{-22,36},{-22,-96},{56.25,-96},{56.25,
+      points={{-22,44},{-22,44},{-22,42},{-22,36},{-22,-96},{55.875,-96},{55.875,
           -54.5}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(transitionWithSignal2.outPort, Off.inPort[2]) annotation (Line(
-      points={{-22,49.5},{-22,49.5},{-22,74},{54.5,74},{54.5,53}},
+      points={{-22,49.5},{-22,49.5},{-22,74},{53.75,74},{53.75,53}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(OnSigIn, not2.u) annotation (Line(
@@ -122,5 +122,8 @@ equation
           extent={{-154,102},{146,142}},
           textString="%name",
           textColor={0,0,255})}),        Diagram(coordinateSystem(
-          preserveAspectRatio=false)));
+          preserveAspectRatio=false)),
+    Documentation(info="<html>
+This controller cycles the fan on and off during the unoccupied hour to maintain the zone air temperature within the setpoint range.
+</html>"));
 end CyclingOn;

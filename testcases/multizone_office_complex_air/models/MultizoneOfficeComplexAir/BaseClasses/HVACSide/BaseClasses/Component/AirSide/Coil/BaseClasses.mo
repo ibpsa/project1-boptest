@@ -15,8 +15,7 @@ package BaseClasses
     parameter Real UA "Rated heat exchange coefficients";
 
     Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(redeclare package
-                Medium1 =
-                  MediumWat, redeclare package Medium2 = MediumAir,
+        Medium1 = MediumWat, redeclare package Medium2 = MediumAir,
       m1_flow_nominal=mWatFloRat,
       m2_flow_nominal=mAirFloRat,
       dp1_nominal=PreDroWat,
@@ -24,27 +23,24 @@ package BaseClasses
       UA_nominal=UA,
       energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
       annotation (Placement(transformation(extent={{-14,-10},{6,10}})));
-    Modelica.Fluid.Sensors.TemperatureTwoPort TEntWat(redeclare package
-        Medium = MediumWat) annotation (Placement(transformation(extent=
+    Modelica.Fluid.Sensors.TemperatureTwoPort TEntWat(redeclare package Medium
+        =        MediumWat) annotation (Placement(transformation(extent=
              {{-74,-4},{-54,16}})));
-     Modelica.Fluid.Sensors.TemperatureTwoPort TLeaWat(redeclare package
-        Medium =         MediumWat)
+     Modelica.Fluid.Sensors.TemperatureTwoPort TLeaWat(redeclare package Medium
+        =                MediumWat)
       annotation (Placement(transformation(extent={{62,-4},{82,16}})));
-    Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
-        Medium =
-          MediumWat)
+    Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium
+        = MediumWat)
       "Fluid connector a (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
-    Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
-        Medium =
-          MediumWat)
+    Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium
+        = MediumWat)
       "Fluid connector b (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{90,50},{110,70}})));
-    Modelica.Fluid.Sensors.TemperatureTwoPort TEntAir(redeclare package
-        Medium = MediumAir) annotation (Placement(transformation(extent=
+    Modelica.Fluid.Sensors.TemperatureTwoPort TEntAir(redeclare package Medium
+        =        MediumAir) annotation (Placement(transformation(extent=
              {{50,-70},{30,-50}})));
-    Modelica.Fluid.Sensors.MassFlowRate m_flowWat(redeclare package
-        Medium =
+    Modelica.Fluid.Sensors.MassFlowRate m_flowWat(redeclare package Medium =
           MediumWat)
       annotation (Placement(transformation(extent={{32,-4},{52,16}})));
     Modelica.Fluid.Sensors.Pressure pWatEnt(redeclare package Medium =
@@ -53,21 +49,18 @@ package BaseClasses
     Modelica.Fluid.Sensors.Pressure pWatLea(redeclare package Medium =
           MediumWat)
       annotation (Placement(transformation(extent={{32,6},{12,26}})));
-    Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
-        Medium =
-          MediumAir)
+    Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium
+        = MediumAir)
       "Fluid connector a (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
-    Modelica.Fluid.Sensors.MassFlowRate m_flowAir(redeclare package
-        Medium =
+    Modelica.Fluid.Sensors.MassFlowRate m_flowAir(redeclare package Medium =
           MediumAir)
       annotation (Placement(transformation(extent={{-40,-70},{-60,-50}})));
     replaceable Buildings.Fluid.Sensors.TemperatureTwoPort TLeaAir(
         redeclare package Medium = MediumAir, m_flow_nominal=mAirFloRat)
       annotation (Placement(transformation(extent={{-68,-70},{-88,-50}})));
-    Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
-        Medium =
-          MediumAir)
+    Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium
+        = MediumAir)
       "Fluid connector b (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
     Modelica.Fluid.Sensors.Pressure pAirLea(redeclare package Medium =
@@ -229,8 +222,7 @@ package BaseClasses
         Medium =
           MediumAir)
       annotation (Placement(transformation(extent={{50,-70},{30,-50}})));
-    Modelica.Fluid.Sensors.MassFlowRate masFloWat(redeclare package
-        Medium =
+    Modelica.Fluid.Sensors.MassFlowRate masFloWat(redeclare package Medium =
           MediumWat)
       annotation (Placement(transformation(extent={{32,-4},{52,16}})));
     Modelica.Fluid.Sensors.Pressure preWatEnt(redeclare package Medium =
@@ -239,8 +231,7 @@ package BaseClasses
     Modelica.Fluid.Sensors.Pressure preWatLea(redeclare package Medium =
           MediumWat)
       annotation (Placement(transformation(extent={{32,6},{12,26}})));
-    Modelica.Fluid.Sensors.MassFlowRate masFloAir(redeclare package
-        Medium =
+    Modelica.Fluid.Sensors.MassFlowRate masFloAir(redeclare package Medium =
           MediumAir)
       annotation (Placement(transformation(extent={{-40,-70},{-60,-50}})));
     Modelica.Fluid.Sensors.TemperatureTwoPort temLeaAir(redeclare package
@@ -253,24 +244,20 @@ package BaseClasses
     Modelica.Fluid.Sensors.Pressure preAirEnt(redeclare package Medium =
           MediumAir)
       annotation (Placement(transformation(extent={{50,-44},{30,-24}})));
-    Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
-        Medium =
-          MediumWat)
+    Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium
+        = MediumWat)
       "Fluid connector a (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
-    Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
-        Medium =
-          MediumWat)
+    Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium
+        = MediumWat)
       "Fluid connector b (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{90,50},{110,70}})));
-    Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
-        Medium =
-          MediumAir)
+    Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium
+        = MediumAir)
       "Fluid connector a (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
-    Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
-        Medium =
-          MediumAir)
+    Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium
+        = MediumAir)
       "Fluid connector b (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
     Modelica.Blocks.Interfaces.RealOutput TAirLea
@@ -408,20 +395,20 @@ package BaseClasses
     parameter Real k(min=0, unit="1") = 1 "Gain of controller";
     parameter Modelica.Units.SI.Time Ti(min=Modelica.Constants.small) = 0.5
       "Time constant of Integrator block";
-    Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
-        Medium =                                                                MediumAir)
+    Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium
+        =                                                                       MediumAir)
                                                      "Fluid connector b (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{-112,-90},{-92,-70}})));
-    Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
-        Medium =                                                                MediumAir)
+    Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium
+        =                                                                       MediumAir)
                                                      "Fluid connector a (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
-    Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
-        Medium =                                                                MediumWat)
+    Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium
+        =                                                                       MediumWat)
       "Fluid connector b (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{90,70},{110,90}})));
-    Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
-        Medium =                                                                MediumWat)
+    Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium
+        =                                                                       MediumWat)
       "Fluid connector a (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{-110,70},{-90,90}})));
     replaceable Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage val(
@@ -463,5 +450,4 @@ package BaseClasses
       annotation (Line(points={{11,50},{68,50}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(preserveAspectRatio=false)));
   end WatCoil;
-
 end BaseClasses;

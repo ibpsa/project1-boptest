@@ -32,11 +32,9 @@ package BaseClasses
           rotation=90,
           origin={60,-12})));
 
-    Modelica.Fluid.Interfaces.FluidPort_a port_Ret(redeclare package
-        Medium =                                                              Medium)
+    Modelica.Fluid.Interfaces.FluidPort_a port_Ret(redeclare package Medium = Medium)
       "First port, typically inlet"                                              annotation (Placement(transformation(extent={{-80,-110},{-60,-90}})));
-    Modelica.Fluid.Interfaces.FluidPort_b port_Sup(redeclare package
-        Medium =                                                              Medium)
+    Modelica.Fluid.Interfaces.FluidPort_b port_Sup(redeclare package Medium = Medium)
       "Second port, typically outlet"                                              annotation (Placement(transformation(extent={{50,-110},{70,-90}})));
     replaceable Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage valExh(
       redeclare package Medium = Medium,
@@ -54,12 +52,10 @@ package BaseClasses
           extent={{10,-10},{-10,10}},
           rotation=90,
           origin={60,54})));
-    Modelica.Fluid.Interfaces.FluidPort_b port_Exh(redeclare package
-        Medium =                                                              Medium)
+    Modelica.Fluid.Interfaces.FluidPort_b port_Exh(redeclare package Medium = Medium)
       "Fluid connector b (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{-80,90},{-60,110}})));
-    Modelica.Fluid.Interfaces.FluidPort_b port_Fre(redeclare package
-        Medium =                                                              Medium)
+    Modelica.Fluid.Interfaces.FluidPort_b port_Fre(redeclare package Medium = Medium)
       "Fluid connector b (positive design flow direction is from port_a to port_b)"
       annotation (Placement(transformation(extent={{50,90},{70,110}})));
     replaceable Buildings.Fluid.Sensors.TemperatureTwoPort TOutSen(
@@ -74,20 +70,19 @@ package BaseClasses
           extent={{-10,-10},{10,10}},
           rotation=-90,
           origin={60,-42})));
-    Modelica.Fluid.Sensors.TemperatureTwoPort TRet(redeclare package
-        Medium = Medium) annotation (Placement(transformation(
+    Modelica.Fluid.Sensors.TemperatureTwoPort TRet(redeclare package Medium =
+                 Medium) annotation (Placement(transformation(
           extent={{-10,-10},{10,10}},
           rotation=90,
           origin={-70,-50})));
-    Modelica.Fluid.Sensors.MassFlowRate m_flowAir(redeclare package
-        Medium =                                                             Medium)
+    Modelica.Fluid.Sensors.MassFlowRate m_flowAir(redeclare package Medium = Medium)
       annotation (Placement(transformation(extent={{10,-10},{-10,10}},
           rotation=90,
           origin={60,20})));
     Modelica.Blocks.Interfaces.RealInput damPos "Actuator position (0: closed, 1: open)"
       annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-    Modelica.Fluid.Sensors.MassFlowRate m_flowSupAir(redeclare package
-        Medium = Medium) annotation (Placement(transformation(
+    Modelica.Fluid.Sensors.MassFlowRate m_flowSupAir(redeclare package Medium
+        =        Medium) annotation (Placement(transformation(
           extent={{10,-10},{-10,10}},
           rotation=90,
           origin={60,-72})));
@@ -259,5 +254,4 @@ package BaseClasses
             textString="%name",
             textColor={0,0,255})}),                                Diagram(coordinateSystem(preserveAspectRatio=false)));
   end MixingBox;
-
 end BaseClasses;

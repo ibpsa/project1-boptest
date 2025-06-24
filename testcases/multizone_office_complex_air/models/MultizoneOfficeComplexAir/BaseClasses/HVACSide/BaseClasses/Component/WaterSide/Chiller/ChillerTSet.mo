@@ -42,24 +42,20 @@ model ChillerTSet "Chiller"
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,-42})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_CW(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_CW(redeclare package Medium =
         MediumCW)
     "Fluid connector a1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{-110,-90},{-90,-70}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_CW(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_CW(redeclare package Medium =
         MediumCW)
     "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{-110,70},{-90,90}}),
         iconTransformation(extent={{-110,70},{-90,90}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_CHW(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_CHW(redeclare package Medium =
         MediumCHW)
     "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_CHW(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_CHW(redeclare package Medium =
         MediumCHW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,70},{110,90}}),
@@ -117,12 +113,10 @@ model ChillerTSet "Chiller"
         extent={{10,-10},{-10,10}},
         rotation=0,
         origin={30,0})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFloCHW(redeclare package
-      Medium =
+  Buildings.Fluid.Sensors.MassFlowRate senMasFloCHW(redeclare package Medium =
         MediumCHW)
     annotation (Placement(transformation(extent={{72,-10},{54,10}})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFloCW(redeclare package
-      Medium =
+  Buildings.Fluid.Sensors.MassFlowRate senMasFloCW(redeclare package Medium =
         MediumCHW)
     annotation (Placement(transformation(extent={{-78,-90},{-60,-70}})));
   Buildings.Fluid.Sensors.Pressure senPreCHWEnt(redeclare package Medium =
@@ -131,8 +125,7 @@ model ChillerTSet "Chiller"
   Buildings.Fluid.Sensors.Pressure senPreCHWLea(redeclare package Medium =
         MediumCHW)
     annotation (Placement(transformation(extent={{78,-50},{98,-30}})));
-  Buildings.Fluid.Sensors.Pressure     senPreCWLea(redeclare package
-      Medium =
+  Buildings.Fluid.Sensors.Pressure     senPreCWLea(redeclare package Medium =
         MediumCHW)
     annotation (Placement(transformation(extent={{-76,68},{-96,48}})));
   Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium =
@@ -329,5 +322,8 @@ March 19, 2014 by Sen Huang:<br/>
 First implementation.
 </li>
 </ul>
+</html>",
+        info="<html>
+This model contains a single chiller with valves.
 </html>"));
 end ChillerTSet;

@@ -86,12 +86,11 @@ package Control
             preserveAspectRatio=false)),
       Documentation(info="<html>
 <p>This is the zone terminal VAV controller. It takes the temperature measurements and cooling/heating setpoints as inputs. It takes the zone heating/cooling mode, discharge airflow setpoint, VAV damper position as the output.</p>
-</html>",   revisions = "<html>
+</html>",   revisions="<html>
 <ul>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<li> August 17, 2023, by Xing Lu, Sen Huang:
 <p> First implementation.</p>
 </ul>
 </html>"));
   end ZonCon;
-
 end Control;

@@ -14,8 +14,7 @@ model SimPumpSystem
     "Nominal pressure raise";
 
   Buildings.Fluid.Movers.FlowControlled_m_flow
-                                       pumConSpe[n](redeclare package
-      Medium =                                                                 Medium,
+                                       pumConSpe[n](redeclare package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     m_flow_nominal=m_flow_nominal,
     per(

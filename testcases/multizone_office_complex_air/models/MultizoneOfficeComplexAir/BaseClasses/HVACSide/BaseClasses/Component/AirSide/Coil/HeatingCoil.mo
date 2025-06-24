@@ -1,6 +1,7 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Coil;
 model HeatingCoil
-  extends MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Coil.BaseClasses.WatCoil;
+  extends
+    MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Coil.BaseClasses.WatCoil;
   parameter Modelica.Units.SI.Efficiency eps(max=1) = 0.8
     "Heat exchanger effectiveness";
 

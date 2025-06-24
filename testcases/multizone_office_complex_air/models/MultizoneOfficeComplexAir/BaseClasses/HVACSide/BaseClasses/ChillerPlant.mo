@@ -446,7 +446,7 @@ equation
     Documentation(info="<html>
 <p>The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, 
 a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps.</p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChillerControl.PNG\"/> </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChillerControl.PNG\" width=\"500\"/> </p>
 <p><br>The number of operating chillers is determined via a state machine based on the thermal load (Q, kW), 
 rated chiller cooling capacity of chiller k (cck, kW), threshold to start chiller k+1 (&xi;k = 0.9), and waiting time (30 min). The maximum operating chiller number is N, which is equal to 3. </p>
 <p>The chiller model takes as an input the set point for the leaving chilled water temperature, which is met if the chiller has sufficient capacity. Thus, the model has a built-in, ideal temperature control. </p>
@@ -466,12 +466,10 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.FlowMover.P
 MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Control.PlantStageN</a> for a description of the chiller stage control.</p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.FlowMover.Pump.Control.SecPumCon\">
 MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.FlowMover.Pump.Control.SecPumCon</a> for a description of the chilled water secondary pump control. </p>
-</html>", revisions = "<html>
+</html>", revisions="<html>
 <ul>
-<li> August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
-<p> Adjusted system equipment sizing; Reduced nonlinear system warnings.</p>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
-<p> First implementation.</p>
+<li>August 17, 2023, by Xing Lu, Sen Huang: </li>
+<p>First implementation.</p>
 </ul>
 </html>"),
     Icon(graphics={

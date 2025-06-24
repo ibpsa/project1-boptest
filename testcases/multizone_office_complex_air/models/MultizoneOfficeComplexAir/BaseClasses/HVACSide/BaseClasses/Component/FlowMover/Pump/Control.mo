@@ -67,5 +67,4 @@ package Control
             textColor={0,0,255})}),           Diagram(coordinateSystem(
             preserveAspectRatio=false)));
   end SecPumCon;
-
 end Control;

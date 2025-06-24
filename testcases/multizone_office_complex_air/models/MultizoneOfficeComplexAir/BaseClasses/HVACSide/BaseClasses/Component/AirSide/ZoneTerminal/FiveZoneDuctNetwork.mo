@@ -1,5 +1,5 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal;
-model FiveZoneDuctNetwork
+model FiveZoneDuctNetwork "Five zone air network"
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium "Medium for the air";
   parameter Modelica.Units.SI.Pressure PreDroMai1
     "Pressure drop 1 across the duct";

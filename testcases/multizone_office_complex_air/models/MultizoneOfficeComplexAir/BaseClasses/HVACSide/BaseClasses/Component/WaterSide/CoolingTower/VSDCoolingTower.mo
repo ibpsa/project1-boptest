@@ -32,13 +32,11 @@ model VSDCoolingTower "the cooling tower"
     T_start=TCW_start,
     fanRelPow(r_V=v_flow_rate, r_P=eta))
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_CW(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_CW(redeclare package Medium =
         MediumCW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_CW(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_CW(redeclare package Medium =
         MediumCW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
@@ -76,8 +74,7 @@ model VSDCoolingTower "the cooling tower"
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={44,0})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFloCW(redeclare package
-      Medium =
+  Buildings.Fluid.Sensors.MassFlowRate senMasFloCW(redeclare package Medium =
         MediumCW)
     annotation (Placement(transformation(extent={{60,-10},{78,10}})));
   Buildings.Fluid.Sensors.Pressure senPreCWLea(redeclare package Medium =

@@ -168,104 +168,46 @@ equation
         Bitmap(extent={{-94,-86},{94,82}}, fileName="modelica://MultizoneOfficeComplexAir/Resources/figure/spawn_icon.png")}),
         Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<p>This is an EnergyPlus (V9.6) wrapper model that calculates the building&rsquo;s thermal loads with the boundary conditions. The inputs are the zone air temperatures from Modelica that is responsible for the airflow calculation (e.g., building infiltration) and HVAC system and controls.</p>
-
+<p>This is an EnergyPlus (V9.6) wrapper model that calculates the building&rsquo;s thermal loads with the boundary conditions. The inputs are the zone air temperatures from Modelica that is responsible for the airflow calculation (e.g., building infiltration) and HVAC system and controls. </p>
 <h4>Architecture</h4>
-<p>
-    The layout is representative of the large commercial office building 
-    stock and is consistent with the building prototypes. The test case is 
-    located in Chicago, IL and based on the DOE Reference Large Office Building
-    Model (Constructed In or After 1980). The original model has 12 floors with a basement. For 
-    simplicity, the middle 10 floors are treated as identical. The ground floor is 
-    assumed to be adiabatic with the basement.
-</p>
-<p>
-    The represented floor has five zones, with four perimeter zones and one core zone. 
-    Each perimeter zone has a window-to-wall ratio of about 0.38. The height of each 
-    zone is 2.74 m and the areas are as follows:
-    <ul>
-        <li>
-        North and South: 313.42 m<sup>2</sup>
-        </li>
-        <li>
-        East and West: 201.98 m<sup>2</sup>
-        </li>
-        <li>
-        Core: 2532.32 m<sup>2</sup>
-        </li>
-        </ul>
-</p>
-<p>
-    The geometry of the floor is shown as the following figure:
-</p>
-<p align=\\\"center\\\">
-    <img alt=\\\"Zones.\\\"
-    src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/Zones.png\" width=400>
-</p>
-
-
+<p>The layout is representative of the large commercial office building stock and is consistent with the building prototypes. The test case is located in Chicago, IL and based on the DOE Reference Large Office Building Model (Constructed In or After 1980). The original model has 12 floors with a basement. For simplicity, the middle 10 floors are treated as identical and are modeled as a single representative floor, resulting in three modeled floors (ground, middle, and top), each served by a dedicated AHU. The ground floor is assumed to be adiabatic with the basement. </p>
+<p>The represented floor has five zones, with four perimeter zones and one core zone. Each perimeter zone has a window-to-wall ratio of about 0.38. The height of each zone is 2.74 m and the areas are as follows: </p>
+<ul>
+<li>North and South: 313.42 m<sup>2</sup> </li>
+<li>East and West: 201.98 m<sup>2</sup> </li>
+<li>Core: 2532.32 m<sup>2</sup> </li>
+</ul>
+<p>The geometry of the floor is shown as the following figure: </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/Zones.png\" width=\"400\"/> </p>
 <h4>Constructions</h4>
-<p>
-    Opaque constructions: Mass walls; built-up flat roof (insulation above deck); 
-    slab-on-grade floor.
-</p>
-<p>
-    Windows: Window-to-wall ratio = 38.0%, equal distribution of windows.
-</p>
-<p>
-    Infiltration: The infiltration fraction of the Energyplus model is 0.25 during occupied hours and 1 during unoccupied hours.
-</p>
+<p>Opaque constructions: Mass walls; built-up flat roof (insulation above deck); slab-on-grade floor. </p>
+<p>Windows: Window-to-wall ratio = 38.0&percnt;, equal distribution of windows. </p>
+<p>Infiltration: The infiltration fraction of the Energyplus model is 0.25 during occupied hours and 1 during unoccupied hours. </p>
 <h4>Occupancy and internal loads schedules</h4>
-<p>
-    The design occupancy density is 0.05 people/m<sup>2</sup>. The people internal gain is calucalted 
-    based on the activity level of 120 W. The number of occupants 
-    present in each zone at any time coincides with the internal gain schedule. 
-    The occupied time for the HVAC system is between 6:00 and 22:00  each day. 
-    The unoccupied time is outside of this period.
-</p>
-<p>
-  The design internal gains include lighting, plug loads, and people. The lighting load is 
-  with a radiant-convective-visible split of 70%-10%-20%. The plug load is with a 
-  radiant-convective-latent split of 50%-50%-0%. The people load is with a radiant-convective 
-  split of 30%-70%. The occupancy and the internal gains are activated according to the 
-  schedule in the figure below.
-</p>
-<p align=\\\"center\\\">
-        <img alt=\\\"Schedules.\\\"
-        src=\"images/Schedules.png\" width=400>
-</p>
-
-<p>
-    The power densities of the internal gains are listed in the following table.
-</p>
-<table cellspacing=\\\"2\\\" cellpadding=\\\"0\\\" border=\\\"0\\\" summary=\\\"Layers\\\">
-    <tr>
-    <th>Internal Gains</th>
-    <th>Power Density [W/m<sup>2</sup>]</th>
-    </tr>
-    <tr>
-    <td>Lighting</td>
-    <td>16.14 </td>
-    </tr>
-    <tr>
-    <td>Plug</td>
-    <td>10.76</td>
-    </tr>
-
+<p>The design occupancy density is 0.05 people/m<sup>2</sup>. The people internal gain is calucalted based on the activity level of 120 W. The number of occupants present in each zone at any time coincides with the internal gain schedule. The occupied time for the HVAC system is between 6:00 and 22:00 each day. The unoccupied time is outside of this period. </p>
+<p>The design internal gains include lighting, plug loads, and people. The lighting load is with a radiant-convective-visible split of 70&percnt;-10&percnt;-20&percnt;. The plug load is with a radiant-convective-latent split of 50&percnt;-50&percnt;-0&percnt;. The people load is with a radiant-convective split of 30&percnt;-70&percnt;. The occupancy and the internal gains are activated according to the schedule in the figure below. </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/Schedules.png\" width=\"300\"/> </p>
+<p>The power densities of the internal gains are listed in the following table. </p>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+<td><p align=\"center\"><h4>Internal Gains</h4></p></td>
+<td><p align=\"center\"><b>Power Density [W/m<sup>2</sup>]</b></p></td>
+</tr>
+<tr>
+<td><p>Lighting</p></td>
+<td><p>16.14 </p></td>
+</tr>
+<tr>
+<td><p>Plug</p></td>
+<td><p>10.76</p></td>
+</tr>
 </table>
-<h4>Climate data</h4>
-<p>
-    The weather data is from TMY3 for Chicago O'Hare International Airport.
-</p>
-
-<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus\">MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus</a> for the EnergyPlus model.</p>
-
+<p><br><h4>Climate data</h4></p>
+<p>The weather data is from TMY3 for Chicago O&apos;Hare International Airport. </p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus\">MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus</a> for the EnergyPlus model. </p>
 </html>", revisions="<html>
 <ul>
-<li>August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
-<p>Added weather bus.</p>
-<li>August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen: </li>
-<p>First implementation.</p>
+<li>August 17, 2023, by Xing Lu, Sen Huang, Yan Chen: </li>
 </ul>
+<p style=\"margin-left: 30px;\">First implementation.</p>
 </html>"));
 end LoadWrapper;
