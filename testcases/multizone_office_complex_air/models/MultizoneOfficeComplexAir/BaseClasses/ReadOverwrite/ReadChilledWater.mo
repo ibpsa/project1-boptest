@@ -8,9 +8,10 @@ model ReadChilledWater
     y(unit="Pa")) "Differential pressure of chilled/hot water measurement"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
 
-  Buildings.Utilities.IO.SignalExchange.Read TCHW_sup(
+  Buildings.Utilities.IO.SignalExchange.Read TCHWSup(
     description="Chilled water supply temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="K")) "Chilled water supply temperature measurement"
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
 
@@ -18,7 +19,7 @@ model ReadChilledWater
     "Differential pressure of chilled/hot water measurement"
     annotation (Placement(transformation(extent={{-140,80},{-100,120}}),
         iconTransformation(extent={{-140,80},{-100,120}})));
-  Modelica.Blocks.Interfaces.RealInput TCHW_sup_in
+  Modelica.Blocks.Interfaces.RealInput TCHWSup_in
     "CHW/HW temperature measurement"
     annotation (Placement(transformation(extent={{-140,10},{-100,50}})));
 
@@ -46,29 +47,31 @@ model ReadChilledWater
 
   Modelica.Blocks.Interfaces.RealInput PCooTow_in  "Cooling tower power "
     annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
-  Buildings.Utilities.IO.SignalExchange.Read TCHW_ret(
+  Buildings.Utilities.IO.SignalExchange.Read TCHWRet(
     description="Chilled water return temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="K")) "Chilled water return temperature measurement"
     annotation (Placement(transformation(extent={{-10,60},{10,80}})));
 
-  Modelica.Blocks.Interfaces.RealInput TCHW_ret_in
+  Modelica.Blocks.Interfaces.RealInput TCHWRet_in
     "CHW/HW temperature measurement" annotation (Placement(transformation(
-          extent={{-140,50},{-100,90}}), iconTransformation(extent={{-140,50},{-100,
-            90}})));
-  Buildings.Utilities.IO.SignalExchange.Read mCHW_tot(
+          extent={{-140,50},{-100,90}}), iconTransformation(extent={{-140,50},{
+            -100,90}})));
+  Buildings.Utilities.IO.SignalExchange.Read mCHWTot(
     description="Total chilled water mass flow rate ",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="kg/s")) "Total chilled water mass flow rate"
     annotation (Placement(transformation(extent={{-10,130},{10,150}})));
 
-  Modelica.Blocks.Interfaces.RealInput mCHW_tot_in
+  Modelica.Blocks.Interfaces.RealInput mCHWTot_in
     annotation (Placement(transformation(extent={{-140,120},{-100,160}})));
 equation
   connect(dp.u, dp_in)
     annotation (Line(points={{-12,100},{-120,100}},
                                                   color={0,0,127}));
-  connect(TCHW_sup_in, TCHW_sup.u)
+  connect(TCHWSup_in, TCHWSup.u)
     annotation (Line(points={{-120,30},{-12,30}}, color={0,0,127}));
   connect(reaPPum.u, PPum_in)
     annotation (Line(points={{-12,-10},{-120,-10}},
@@ -78,9 +81,9 @@ equation
     connect(reaPCooTow.u, PCooTow_in)
     annotation (Line(points={{-12,-80},{-120,-80}}, color={0,0,127}));
 
-  connect(TCHW_ret_in, TCHW_ret.u) annotation (Line(points={{-120,70},{-68,70},{
-          -68,70},{-12,70}}, color={0,0,127}));
-  connect(mCHW_tot.u, mCHW_tot_in)
+  connect(TCHWRet_in, TCHWRet.u) annotation (Line(points={{-120,70},{-68,70},{-68,
+          70},{-12,70}}, color={0,0,127}));
+  connect(mCHWTot.u, mCHWTot_in)
     annotation (Line(points={{-12,140},{-120,140}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,160}}),       graphics={Rectangle(

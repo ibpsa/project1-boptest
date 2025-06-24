@@ -8,16 +8,17 @@ model ReadHotWater
     y(unit="Pa")) "Differential pressure of chilled/hot water measurement"
     annotation (Placement(transformation(extent={{-10,70},{10,90}})));
 
-  Buildings.Utilities.IO.SignalExchange.Read THW_sup(
+  Buildings.Utilities.IO.SignalExchange.Read THWSup(
     description="Chilled water temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="K")) "Chilled/hot water temperature measurement"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
   Modelica.Blocks.Interfaces.RealInput dp_in
     "Differential pressure of chilled/hot water measurement"
     annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
-  Modelica.Blocks.Interfaces.RealInput THW_sup_in
+  Modelica.Blocks.Interfaces.RealInput THWSup_in
     "CHW/HW temperature measurement"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
 
@@ -38,27 +39,29 @@ model ReadHotWater
   Modelica.Blocks.Interfaces.RealInput PBoi_in  "Boiler power "
     annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
 
-  Buildings.Utilities.IO.SignalExchange.Read THW_ret(
+  Buildings.Utilities.IO.SignalExchange.Read THWRet(
     description="Hot water return temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="K")) "Hot water return temperature measurement"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 
-  Modelica.Blocks.Interfaces.RealInput THW_ret_in
+  Modelica.Blocks.Interfaces.RealInput THWRet_in
     "CHW/HW temperature measurement"
     annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
-  Buildings.Utilities.IO.SignalExchange.Read mHW_tot(
+  Buildings.Utilities.IO.SignalExchange.Read mHWTot(
     description="Total hot water mass flow rate ",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="kg/s")) "Total hot water mass flow rate"
     annotation (Placement(transformation(extent={{-10,110},{10,130}})));
 
-  Modelica.Blocks.Interfaces.RealInput mHW_tot_in
+  Modelica.Blocks.Interfaces.RealInput mHWTot_in
     annotation (Placement(transformation(extent={{-140,100},{-100,140}})));
 equation
   connect(dp.u, dp_in)
     annotation (Line(points={{-12,80},{-120,80}}, color={0,0,127}));
-  connect(THW_sup_in, THW_sup.u)
+  connect(THWSup_in, THWSup.u)
     annotation (Line(points={{-120,0},{-12,0}}, color={0,0,127}));
   connect(reaPPum.u, PPum_in)
     annotation (Line(points={{-12,-40},{-120,-40}},
@@ -66,9 +69,9 @@ equation
     connect(reaPBoi.u,PBoi_in)
     annotation (Line(points={{-12,-80},{-120,-80}}, color={0,0,127}));
 
-  connect(THW_ret_in, THW_ret.u)
+  connect(THWRet_in, THWRet.u)
     annotation (Line(points={{-120,40},{-12,40}}, color={0,0,127}));
-  connect(mHW_tot.u, mHW_tot_in)
+  connect(mHWTot.u, mHWTot_in)
     annotation (Line(points={{-12,120},{-120,120}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,140}}),       graphics={Rectangle(
