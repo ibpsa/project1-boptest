@@ -18,15 +18,15 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read V_flowSup(
     description="Supply air flowrate measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="m3/s")) "Supply air flowrate measurement"
     annotation (Placement(transformation(extent={{0,120},{20,140}})));
+
   Buildings.Utilities.IO.SignalExchange.Read V_flowRet(
     description="Return air flowrate measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="m3/s")) "Return air flowrate measurement"
     annotation (Placement(transformation(extent={{0,90},{20,110}})));
+
   Modelica.Blocks.Interfaces.RealInput TSup_in
     "Supply air temperature measurement"
     annotation (Placement(transformation(extent={{-140,200},{-100,240}})));
@@ -47,7 +47,6 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read dp(
     description="Discharge pressure of supply fan for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="Pa")) "Discharge pressure of supply fan"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
 
@@ -96,10 +95,10 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None, y(unit="1")) "Occupancy status (1 occupied, 0 unoccupied)"
     annotation (Placement(transformation(extent={{0,244},{20,264}})));
   Buildings.Utilities.IO.SignalExchange.Read yOA(
-    description="AHU cooling coil valve position measurement",
+    description="AHU OA damper position measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "AHU OA damper position measurement"
-    annotation (Placement(transformation(extent={{2,62},{22,82}})));
+    annotation (Placement(transformation(extent={{0,62},{20,82}})));
 
   Modelica.Blocks.Interfaces.RealInput yOA_in
     "AHU OA damper position measurement"
@@ -108,7 +107,6 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read V_flowOA(
     description="Supply outdoor airflow rate measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="m3/s")) "Supply outdoor airflow rate measurement"
     annotation (Placement(transformation(extent={{0,-120},{20,-100}})));
 
@@ -187,7 +185,7 @@ equation
   connect(yCooVal_in, yCooVal.u)
     annotation (Line(points={{-120,-80},{-2,-80}},   color={0,0,127}));
   connect(yOA_in, yOA.u)
-    annotation (Line(points={{-120,72},{0,72}}, color={0,0,127}));
+    annotation (Line(points={{-120,72},{-2,72}},color={0,0,127}));
   connect(V_flowOA_in, V_flowOA.u)
     annotation (Line(points={{-120,-110},{-2,-110}}, color={0,0,127}));
   connect(booleanToReal.y, occ.u)
