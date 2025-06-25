@@ -146,18 +146,8 @@ def create_objects(app, configfile, oncommand):
             # TODO: Check to make sure there actually is an activation signal!
             activation_signal[name] = activation_name
             inputs[name] = obj
-
-    # Add oncommand input if advance on command is True
-    if oncommand:
-        name = 'advance'
-        if _debug:
-            create_objects._debug("    - name: %r", name)
-        obj = klass(objectName = name, objectIdentifier=(AnalogOutputCmdObject.objectType, instanceNum+1), presentValue = 0, statusFlags = 0)
-        if _debug:
-            create_objects._debug("    - obj: %r", obj)
-        app.add_object(obj)
-        objects[name] = obj
-        inputs[name] = obj
+        elif name in 'advance':
+            inputs[name] = obj
 
 @bacpypes_debugging
 class BOPTESTUpdater(RecurringTask):
@@ -226,8 +216,8 @@ class BOPTESTUpdater(RecurringTask):
         for k,v in inputs.items():
             #print("k: %s %s %s" % (str(k), v._highest_priority_value(), type(v._highest_priority_value()[1])))
             signal = v._highest_priority_value()
-            if signal[1]:
-                if k == 'advance':
+            if signal[1]:                
+                if k == 'advance' and self.oncommand:
                     advance_counter = signal[0]
                 else:
                     signals[k] = signal[0]

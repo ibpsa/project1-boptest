@@ -38,10 +38,11 @@ with open(test_case_name+'.ttl', 'w') as f:
     f.write(prefix)
 
 # Get all the points and their metadata from BOPTEST test case
+advance = {'advance':{'Description': 'Advance command', 'Minimum': 0, 'Maximum': None}}
 time = {'time':{'Unit': 's', 'Description': 'Simulation time', 'Minimum': None, 'Maximum': None}}
 measurement_points = requests.get('{0}/measurements/{1}'.format(baseurl,testid)).json()['payload']
 input_points = requests.get('{0}/inputs/{1}'.format(baseurl,testid)).json()['payload']
-points = time | measurement_points | input_points
+points = advance | time | measurement_points | input_points
 
 # Stop test case
 requests.put('{0}/stop/{1}'.format(baseurl, testid))
@@ -53,7 +54,7 @@ with open(test_case_name+'.ttl', 'a') as f:
         # Assign type
         if point[-2:] == '_y':
             obj_type = 'analog-input'
-        elif point[-2:] == '_u':
+        elif point[-2:] == '_u' or point == 'advance':
             obj_type = 'analog-output'
         elif point[-9:] == '_activate':
             continue
