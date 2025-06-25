@@ -16,11 +16,17 @@ We are excited to host the BOPTEST webinar series! These sessions highlight the 
 
 **Webinar Format:** Each session features two speakers, one from academia and one from industry, each presenting for 20 minutes, followed by a 10-minute Q&A.
 
-### Webinar 4
+### Webinar 4: Introducing Autocontrol and Terion
 
-**Date and time:** April 16, 2025 - 15:00 UTC
+**Date and time:** June 11, 2025 - 15:00 UTC
 
-- [Register here](https://ucl.zoom.us/webinar/register/WN_Sh9Kys6nQW2QUc0ZzGRVng)
+**Presentations:**
+
+*<u>Ziqi Hu</u>* (Hong-Kong University of Science and Technology) introduces AutoControl, an end-to-end fully automated workflow which uses Large Language Models (LLMs) to automatically design and generate Proportional-Integral (PI) controller codes.
+
+*<u>Bertrand Kerres </u>* (Terion) demonstrates how Terion iterates MPC controller development in Julia using BOPTEST, covering both the model learning and the optimization step.
+
+- [Webinar recording here](https://youtu.be/XJA_IpUFMYg?si=wTWTXEcQLTKwQg7o)
 
 
 ### Webinar 3: Grid-interactive buildings
