@@ -298,7 +298,7 @@ class BOPTESTBacnetClientTestApplication(BIPSimpleApplication):
 #
 #   __main__
 #
-# python3 BOPTEST_bacnet_client_test.py 192.168.86.53:5000 analogOutput:33 presentValue  292
+# python3 SimpleReadWrite.py 192.168.86.53:5000 analogOutput:33 presentValue  292
 # for bestest_air that's con_oveTSetHea_u
 
 def main():
@@ -321,7 +321,7 @@ def main():
           help='property type identifier',
           )
 
-    parser.add_argument('target_value', type=float,
+    parser.add_argument('target_value', type=str,
           help='the value to set and watch for',
           )
 
@@ -339,7 +339,7 @@ def main():
     this_application = BOPTESTBacnetClientTestApplication(this_device, args.ini.address)
 
     enable_sleeping()
-    context_obj = {"phase": "first_read", "target_value": args.target_value, "addr": args.device_addr, "obj_id": args.object_id, "prop_id": args.property_id}
+    context_obj = {"phase": "first_read", "target_value": float(args.target_value), "addr": args.device_addr, "obj_id": args.object_id, "prop_id": args.property_id}
     # kick off the process after the core is up and running
     deferred(this_application.read_property, context_obj)
 
