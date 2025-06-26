@@ -10,7 +10,7 @@ Released on xx/xx/xxxx.
 - For BACnet interface, add support for faster-than-real-time and on-command simulation advance. Optional arguments ``--app_interval`` and ``--simulation_step`` were added to ``BopTestProxy.py`` to support this feature. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
 
 **The following changes are not backwards compatible, but do not change benchmark results:**
-- For BACnet interface, add advance command and simulation time as an available BACnet points. Advance command was added as the first, and simulation time as the second BACnet point object for each test case by updating all ``bacnet.ttl`` files.  This is not backwards compatible for the BACnet interface for clients referencing BACnet object numbers, since the object numbers are shifted by +2. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
+- For BACnet interface, add advance command and simulation time as an available BACnet points. The BACnet point for advancing was added as the first BACnet point object and simulation time was added as the second BACnet point object for each test case by updating all ``bacnet.ttl`` files.  This is not backwards compatible for the BACnet interface for clients referencing BACnet object numbers, since the object numbers are shifted by +2. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
 
 
 ## BOPTEST v0.8.0
