@@ -75,7 +75,8 @@ model ChillerTSet "Chiller"
   Buildings.Fluid.Actuators.Valves.TwoWayLinear valCHW(
     redeclare package Medium = MediumCHW,
     m_flow_nominal=mCHW_flow_nominal,
-    dpValve_nominal=dPCHW_nominal)
+    dpValve_nominal=dPCHW_nominal,
+    use_inputFilter=false)
     annotation (Placement(transformation(extent={{60,-90},{80,-70}})));
   Modelica.Blocks.Interfaces.RealInput On(min=0,max=1)
     "True to enable compressor to operate, or false to disable the operation of the compressor"
