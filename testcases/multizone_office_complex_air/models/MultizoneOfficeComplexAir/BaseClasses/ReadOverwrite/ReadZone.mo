@@ -52,9 +52,8 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     annotation (Placement(transformation(extent={{-140,70},{-100,110}})));
 
   Buildings.Utilities.IO.SignalExchange.Read V_flowSet(
-    description="Airflow setpoint" + zone,
+    description="Airflow setpoint " + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="m3/s"),
     zone=zone) "Minimum airflow setpoint"
     annotation (Placement(transformation(extent={{0,-64},{20,-44}})));
