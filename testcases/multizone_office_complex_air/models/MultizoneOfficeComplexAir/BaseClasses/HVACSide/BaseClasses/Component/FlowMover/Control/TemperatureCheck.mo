@@ -1,5 +1,5 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.FlowMover.Control;
-model TemperatureCheck "\"Controller for constant speed fans or pumps\""
+model TemperatureCheck "Controller for constant speed fans or pumps"
   parameter Integer numTemp(min=1) = 1
       "The size of the temeprature vector";
 
@@ -42,5 +42,8 @@ algorithm
           extent={{-156,106},{144,146}},
           textString="%name",
           textColor={0,0,255})}),        Diagram(coordinateSystem(
-          preserveAspectRatio=false)));
+          preserveAspectRatio=false)),
+    Documentation(info="<html>
+
+</html>"));
 end TemperatureCheck;

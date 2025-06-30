@@ -127,6 +127,9 @@ model BoilerPlant "Boiler hot water plant"
   Modelica.Blocks.Interfaces.RealOutput mHW_tot annotation (Placement(
         transformation(extent={{240,50},{260,70}}), iconTransformation(extent={
             {100,60},{120,80}})));
+  Modelica.Blocks.Sources.RealExpression QTot(y=sum(mulBoi.boi.boi.QWat_flow))
+    "Heating load from the boiler"
+    annotation (Placement(transformation(extent={{140,-90},{160,-70}})));
 equation
 
   connect(mulBoi.port_a_HW, pumSecHW.port_b) annotation (Line(
@@ -201,7 +204,7 @@ equation
     __Dymola_experimentSetupOutput,
     Documentation(info="<html>
 <p>The hot water system consists of two gas boilers and two variable speed pumps.</p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/BoilerControl.PNG\"/> </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/BoilerControl.PNG\" width=\"450\"/> </p>
 <p>The number of operating boilers is determined via a state machine based on the thermal load(Q, kW), rated heating capacity of boiler k (hck, kW),
  threshold to start boiler k+1 (&xi;k = 0.9), and waiting time (30 min). The maximum operating boiler number is N, which is equal to 2.</p>
 <p>Boiler heating power is controlled by a PI controller to maintain the temperature of the hot water leaving each boiler to be 80 &deg;C. 
@@ -212,12 +215,10 @@ It takes the heat water loop pressure drop measurements and setpoints as inputs.
 MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Boiler.MultiBoilers</a> for a description of the multiple boiler. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Control.PlantStageN\">
 MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Control.PlantStageN</a> for a description of the boiler stage control. </p>
-</html>", revisions = "<html>
+</html>", revisions="<html>
 <ul>
-<li>August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
-<p>Adjusted system equipment sizing; Reduced nonlinear system warnings.</p>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
-<p> First implementation.</p>
+<li>August 17, 2023, by Xing Lu, Sen Huang: </li>
+<p>First implementation.</p>
 </ul>
 </html>"),
     Icon(graphics={

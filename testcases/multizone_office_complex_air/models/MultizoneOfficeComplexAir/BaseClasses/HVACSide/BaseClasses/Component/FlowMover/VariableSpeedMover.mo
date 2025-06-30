@@ -1,6 +1,6 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.FlowMover;
 model VariableSpeedMover
-  "The component contains both the variable speed fan/pump and the controller"
+  "The component contains both  variable speed fan/pump and controller"
   import BuildingControlEmulator =
          MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component;
   extends BaseClasses.FlowMover(withoutMotor(varSpeFloMov(riseTime=240)));

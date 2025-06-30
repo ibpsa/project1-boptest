@@ -109,5 +109,7 @@ equation
         Text(
           extent={{-152,106},{148,146}},
           textString="%name",
-          textColor={0,0,255})}));
+          textColor={0,0,255})}), Documentation(info="<html>
+This model consists a supply fan with its fan speed controller.  
+</html>"));
 end VAVSupFan;

@@ -61,5 +61,4 @@ package BaseClasses
             textColor={0,0,255})}),
                                  Diagram(coordinateSystem(preserveAspectRatio=false)));
   end ZoneSetpoint;
-
 end BaseClasses;

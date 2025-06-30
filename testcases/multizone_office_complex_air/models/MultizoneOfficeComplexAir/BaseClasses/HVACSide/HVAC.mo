@@ -255,18 +255,18 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
   Modelica.Blocks.Sources.Constant dpHotWatStaSet(k=478250*0.25)
     "Secondary hot water loop static Pressure setpoint"
     annotation (Placement(transformation(extent={{40,-74},{60,-54}})));
-  ReadOverwrite.WriteWaterPlant oveChiWatSys(TW_set(u(
+  ReadOverwrite.WriteWaterPlant oveChiWatSys(TWSet(u(
         unit="K",
         min=278.15,
-        max=288.15)), dp_set(u(
+        max=288.15)), dpSet(u(
         unit="Pa",
         min=0,
         max=19130000)))
     annotation (Placement(transformation(extent={{-50,-36},{-30,-14}})));
-  ReadOverwrite.WriteWaterPlant oveHotWatSys(TW_set(u(
+  ReadOverwrite.WriteWaterPlant oveHotWatSys(TWSet(u(
         unit="K",
         min=291.15,
-        max=353.15)), dp_set(u(
+        max=353.15)), dpSet(u(
         unit="Pa",
         min=0,
         max=19130000)))
@@ -277,12 +277,12 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
 
 equation
   connect(chiWatNet.ports_a[1], floor1.port_b_CooWat) annotation (Line(
-      points={{40,-89.1333},{40,-94},{104,-94},{104,6},{129.625,6},{129.625,20}},
+      points={{40,-90.4667},{40,-94},{104,-94},{104,6},{129.625,6},{129.625,20}},
       color={0,127,225},
       thickness=1));
   connect(floor1.port_a_CooWat, chiWatNet.ports_b[1]) annotation (Line(
-      points={{134.313,20},{134.313,2},{108,2},{108,-102},{72,-102},{72,
-          -99.9333},{40,-99.9333}},
+      points={{134.312,20},{134.312,2},{108,2},{108,-102},{72,-102},{72,
+          -101.267},{40,-101.267}},
       color={0,127,225},
       thickness=1));
 
@@ -291,13 +291,13 @@ equation
   connect(chiWatNet.ports_a[3], floor3.port_b_CooWat);
   connect(floor3.port_a_CooWat, chiWatNet.ports_b[3]);
   connect(boiWatNet.ports_a[1], floor1.port_b_HeaWat) annotation (Line(
-      points={{176,-93.1333},{196,-93.1333},{196,6},{154,6},{154,20},{149.938,
+      points={{176,-94.4667},{196,-94.4667},{196,6},{154,6},{154,20},{149.938,
           20}},
       color={238,46,47},
       thickness=1));
 
   connect(boiWatNet.ports_b[1], floor1.port_a_HeaWat) annotation (Line(
-      points={{176,-103.933},{192,-103.933},{192,0},{150,0},{150,20},{145.25,20}},
+      points={{176,-105.267},{192,-105.267},{192,0},{150,0},{150,20},{145.25,20}},
       color={238,46,47},
       thickness=1));
 
@@ -345,21 +345,21 @@ equation
   connect(PHWPum.y, reaHotWatSys.PPum_in) annotation (Line(points={{135,-44},{
           150,-44},{150,-42.5},{158,-42.5}},
                                          color={0,0,127}));
-  connect(TCHWSupSet.y, oveChiWatSys.TW_set_in)
+  connect(TCHWSupSet.y, oveChiWatSys.TWSet_in)
     annotation (Line(points={{-61,-20},{-52,-20}}, color={0,0,127}));
   connect(oveChiWatSys.TW_set_out, chiWatPla.TCHWSet) annotation (Line(points={{-29,-20},
           {-22,-20},{-22,-98},{-11.6,-98}},             color={0,0,127}));
   connect(oveChiWatSys.dp_set_out, chiWatPla.dpSet) annotation (Line(points={{-29,-30},
           {-24,-30},{-24,-93.8},{-11.6,-93.8}},      color={0,0,127}));
-  connect(dpChiWatStaSet.y, oveChiWatSys.dp_set_in) annotation (Line(points={{
-          -59,-86},{-56,-86},{-56,-30},{-52,-30}}, color={0,0,127}));
+  connect(dpChiWatStaSet.y, oveChiWatSys.dpSet_in) annotation (Line(points={{-59,
+          -86},{-56,-86},{-56,-30},{-52,-30}}, color={0,0,127}));
   connect(oveHotWatSys.TW_set_out, boiWatPla.THWSet) annotation (Line(points={{91,-20},
           {100,-20},{100,-94},{114,-94}},         color={0,0,127}));
-  connect(dpHotWatStaSet.y, oveHotWatSys.dp_set_in) annotation (Line(points={{61,-64},
-          {64,-64},{64,-30},{68,-30}},         color={0,0,127}));
+  connect(dpHotWatStaSet.y, oveHotWatSys.dpSet_in) annotation (Line(points={{61,
+          -64},{64,-64},{64,-30},{68,-30}}, color={0,0,127}));
   connect(oveHotWatSys.dp_set_out, boiWatPla.dpSet) annotation (Line(points={{91,-30},
           {96,-30},{96,-106},{114,-106}},         color={0,0,127}));
-  connect(THWSupSet.y, oveHotWatSys.TW_set_in)
+  connect(THWSupSet.y, oveHotWatSys.TWSet_in)
     annotation (Line(points={{61,-20},{68,-20}}, color={0,0,127}));
 
   connect(weaBus.TWetBul, chiWatPla.TWetBul) annotation (Line(
@@ -416,19 +416,19 @@ equation
   connect(boiWatNet.p, reaHotWatSys.dp_in) annotation (Line(points={{177,-102},
           {182,-102},{182,-60},{154,-60},{154,-31.5},{158,-31.5}}, color={0,0,
           127}));
-  connect(chiWatPla.TCHW_ret, reaChiWatSys.TCHW_ret_in) annotation (Line(points={{11,-96},
-          {16,-96},{16,-62},{6,-62},{6,-33.6154},{16,-33.6154}},          color=
-         {0,0,127}));
-  connect(chiWatPla.TCHW_sup, reaChiWatSys.TCHW_sup_in) annotation (Line(points={{11,-99},
-          {18,-99},{18,-60},{8,-60},{8,-37},{16,-37}},          color={0,0,127}));
-  connect(boiWatPla.THW_ret, reaHotWatSys.THW_ret_in) annotation (Line(points={{137,
-          -100},{144,-100},{144,-35.1667},{158,-35.1667}},      color={0,0,127}));
-  connect(boiWatPla.THW_sup, reaHotWatSys.THW_sup_in) annotation (Line(points={{137,
-          -103},{146,-103},{146,-38.8333},{158,-38.8333}},      color={0,0,127}));
-  connect(boiWatPla.mHW_tot, reaHotWatSys.mHW_tot_in) annotation (Line(points={{137,-93},
-          {142,-93},{142,-27.8333},{158,-27.8333}},           color={0,0,127}));
-  connect(chiWatPla.mCHW_tot, reaChiWatSys.mCHW_tot_in) annotation (Line(points={{11,-105},
-          {12,-105},{12,-28},{14,-28},{14,-27.6923},{16,-27.6923}},
+  connect(chiWatPla.TCHW_ret, reaChiWatSys.TCHWRet_in) annotation (Line(points={{11,-96},
+          {16,-96},{16,-62},{6,-62},{6,-33.6154},{16,-33.6154}},
+        color={0,0,127}));
+  connect(chiWatPla.TCHW_sup, reaChiWatSys.TCHWSup_in) annotation (Line(points=
+          {{11,-99},{18,-99},{18,-60},{8,-60},{8,-37},{16,-37}}, color={0,0,127}));
+  connect(boiWatPla.THW_ret, reaHotWatSys.THWRet_in) annotation (Line(points={{137,
+          -100},{144,-100},{144,-35.1667},{158,-35.1667}},     color={0,0,127}));
+  connect(boiWatPla.THW_sup, reaHotWatSys.THWSup_in) annotation (Line(points={{137,
+          -103},{146,-103},{146,-38.8333},{158,-38.8333}},     color={0,0,127}));
+  connect(boiWatPla.mHW_tot, reaHotWatSys.mHWTot_in) annotation (Line(points={{137,-93},
+          {142,-93},{142,-27.8333},{158,-27.8333}},          color={0,0,127}));
+  connect(chiWatPla.mCHW_tot, reaChiWatSys.mCHWTot_in) annotation (Line(points=
+          {{11,-105},{12,-105},{12,-28},{14,-28},{14,-27.6923},{16,-27.6923}},
         color={0,0,127}));
   connect(weaBus.TDryBul, chiWatPla.TDryBul) annotation (Line(
       points={{40,-120},{-20,-120},{-20,-106},{-11.6,-106}},
@@ -456,25 +456,18 @@ equation
           textColor={0,0,255}), Bitmap(extent={{-98,-98},{96,94}}, fileName=
               "modelica://MultizoneOfficeComplexAir/Resources/figure/hvac.png")}),
     Documentation(info="<html>
-<p>This model consist of a full HVAC system that contains the air side and water side systems. The air side system is a variable air volume (VAV) flow system with economizer and a cooling coil in the air handler unit. 
-There are two fans (i.e., one supply fan, and one return fan) in the AHU. A mixing box carries out the economizer function of providing cooling and ventilation. 
-Each VAV terminals contain a modulating damper and a hot water reheat coil. 
-See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor</a> for a description of the air side systems and the thermal zones.</p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AirSide.png\"/> </p>
-<p>The water side systems include one chilled water system and one hot water system. The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, 
-a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps. The hot water system consists of two gas boilers and two variable speed pumps. 
-See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant</a> for a description of the chilled water system. 
-See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant</a> for a description of the hot water system. </p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChilledWater.png\"/> </p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/HotWater.png\"/> </p>
+<p>This model consist of a full HVAC system that contains the air side and water side systems for the three floors. </p>
+<p><br>The air side system is a variable air volume (VAV) flow system with economizer and a cooling coil in the air handler unit. There are two fans (i.e., one supply fan, and one return fan) in the AHU. A mixing box carries out the economizer function of providing cooling and ventilation. Each VAV terminals contain a modulating damper and a hot water reheat coil. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor</a> for a description of the air side systems and the thermal zones.</p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AirSide.png\" width=\"600\"/> </p>
+<p><br>The water side systems include one chilled water system and one hot water system. The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps. The hot water system consists of two gas boilers and two variable speed pumps. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant</a> for a description of the chilled water system. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant</a> for a description of the hot water system. </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChilledWater.png\" width=\"600\"/> </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/HotWater.png\" width=\"250\"/> </p>
 <p>The air side system controls include the VAV air flow rate control, VAV supply air temperature control, AHU duct static pressure control, AHU supply air temperature control, and mixing box damper and economizer control.</p>
 <p>The water side system controls include the chiller plant staging control, chilled water supply temperature control, secondary chilled water pump staging control, secondary chilled water loop static pressure control, cooling tower supply water temperature control, minimum condenser supply water temperature control, boiler staging control, boiler water temperature control, and boiler hot water loop static pressure control.</p>
-</html>", revisions = "<html>
+</html>", revisions="<html>
 <ul>
-<li>August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
-<p>Added CO2 and air infiltration features; Adjusted system equipment sizing; Reduced nonlinear system warnings.</p>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen:
-<p> First implementation.</p>
+<li>August 17, 2023, by Xing Lu, Sen Huang: </li>
+<p>First implementation.</p>
 </ul>
 </html>"),
     __Dymola_Commands(file="Resources/script/Testcase.mos" "Simulate and Plot"));

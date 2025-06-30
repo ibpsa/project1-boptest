@@ -1,20 +1,20 @@
 within MultizoneOfficeComplexAir.BaseClasses.ReadOverwrite;
 model WriteWaterPlant "Collection of Water System overwrite points for BOPTEST"
-  Modelica.Blocks.Interfaces.RealInput TW_set_in
-    "Supply chilled/hot water setpoint"
-    annotation (Placement(transformation(extent={{-140,40},{-100,80}}),
-        iconTransformation(extent={{-140,40},{-100,80}})));
-  Modelica.Blocks.Interfaces.RealInput dp_set_in
-    "differential pressure setpoint"
-    annotation (Placement(transformation(extent={{-140,-60},{-100,-20}}),
-        iconTransformation(extent={{-140,-60},{-100,-20}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite TW_set(description=
-        "Chilled/hot water supply setpoint", u(
-      unit="K")) "Chilled/hot water supply setpoint"
+  Modelica.Blocks.Interfaces.RealInput TWSet_in
+    "Supply chilled/hot water setpoint" annotation (Placement(transformation(
+          extent={{-140,40},{-100,80}}), iconTransformation(extent={{-140,40},{
+            -100,80}})));
+  Modelica.Blocks.Interfaces.RealInput dpSet_in
+    "differential pressure setpoint" annotation (Placement(transformation(
+          extent={{-140,-60},{-100,-20}}), iconTransformation(extent={{-140,-60},
+            {-100,-20}})));
+  Buildings.Utilities.IO.SignalExchange.Overwrite TWSet(description=
+        "Chilled/hot water supply setpoint", u(unit="K"))
+    "Chilled/hot water supply setpoint"
     annotation (Placement(transformation(extent={{-10,50},{10,70}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite dp_set(description=
-        "Differential pressure setpoint", u(
-      unit="Pa")) "Differential pressure setpoint"
+  Buildings.Utilities.IO.SignalExchange.Overwrite dpSet(description=
+        "Differential pressure setpoint", u(unit="Pa"))
+    "Differential pressure setpoint"
     annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
   Modelica.Blocks.Interfaces.RealOutput TW_set_out
     "Chilled/hot water supply setpoint"
@@ -25,13 +25,13 @@ model WriteWaterPlant "Collection of Water System overwrite points for BOPTEST"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}}),
         iconTransformation(extent={{100,-50},{120,-30}})));
 equation
-  connect(dp_set.y, dp_set_out)
+  connect(dpSet.y, dp_set_out)
     annotation (Line(points={{11,-40},{110,-40}}, color={0,0,127}));
-  connect(dp_set.u, dp_set_in)
+  connect(dpSet.u, dpSet_in)
     annotation (Line(points={{-12,-40},{-120,-40}}, color={0,0,127}));
-  connect(TW_set.y, TW_set_out)
+  connect(TWSet.y, TW_set_out)
     annotation (Line(points={{11,60},{110,60}}, color={0,0,127}));
-  connect(TW_set.u, TW_set_in)
+  connect(TWSet.u, TWSet_in)
     annotation (Line(points={{-12,60},{-120,60}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,120}}),                                  graphics={

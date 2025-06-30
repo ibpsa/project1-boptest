@@ -38,9 +38,7 @@ equation
 <p>Please use version <i>spawn-0.3.0-8d93151657</i> for BOPTEST environment; and use version <i>spawn-0.3.0-0fa49be497</i> for running testcases with Modlelica Buildings library.</p>
 </html>", revisions="<html>
 <ul>
-<li>August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
-<p>Added CO2 and air infiltration features; Adjusted system equipment sizing; Reduced nonlinear system warnings.</p>
-<li>August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen: </li>
+<li>August 17, 2023, by Xing Lu, Sen Huang: </li>
 <p>First implementation.</p>
 </ul>
 </html>"),

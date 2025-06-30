@@ -15,14 +15,14 @@ model Bypass "Three way bypass valve"
     annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
   Modelica.Blocks.Interfaces.RealInput yBypVal "(0: closed, 1: open)"
     annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFloTow(redeclare package
-      Medium =         MediumCW)
+  Buildings.Fluid.Sensors.MassFlowRate senMasFloTow(redeclare package Medium =
+                       MediumCW)
     annotation (Placement(transformation(extent={{-60,30},{-80,50}})));
   Modelica.Blocks.Interfaces.RealOutput m_flow
     "Mass flow rate through the cooling towers"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFloByp(redeclare package
-      Medium =         MediumCW) annotation (Placement(transformation(
+  Buildings.Fluid.Sensors.MassFlowRate senMasFloByp(redeclare package Medium =
+                       MediumCW) annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,
         origin={0,-20})));

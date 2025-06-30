@@ -16,8 +16,7 @@ package Control
       Ti=60,
       k=0.01,
       reverseActing=true)
-             annotation (Placement(transformation(extent={{50,-70},{70,
-              -50}})));
+             annotation (Placement(transformation(extent={{50,-70},{70,-50}})));
     Modelica.Blocks.Interfaces.RealInput T
       "Connector of measurement input signal"
       annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
@@ -29,8 +28,8 @@ package Control
           transformation(extent={{-140,-80},{-100,-40}})));
     Modelica.Blocks.Interfaces.RealOutput yAirFlowSet
       "Connector of actuator output signal" annotation (Placement(
-          transformation(extent={{100,-30},{120,-10}}),
-          iconTransformation(extent={{100,-30},{120,-10}})));
+          transformation(extent={{100,50},{120,70}}),
+          iconTransformation(extent={{100,50},{120,70}})));
     Modelica.Blocks.Interfaces.RealOutput yValPos
       "Connector of actuator output signal"
       annotation (Placement(transformation(extent={{100,-70},{120,-50}}),
@@ -44,12 +43,6 @@ package Control
       annotation (Placement(transformation(extent={{-26,10},{-6,30}})));
     Modelica.Blocks.Math.Add add(k2=-1)
       annotation (Placement(transformation(extent={{-56,10},{-36,30}})));
-    Modelica.Blocks.Interfaces.RealOutput yCoo
-      "Connector of actuator output signal" annotation (Placement(
-          transformation(extent={{100,70},{120,90}})));
-    Modelica.Blocks.Interfaces.RealOutput yHea
-      "Connector of actuator output signal" annotation (Placement(
-          transformation(extent={{100,30},{120,50}})));
   equation
     connect(cooCon.y, swi.u1) annotation (Line(points={{11,60},{34,60},
             {34,28},{48,28}},
@@ -70,20 +63,16 @@ package Control
             26},{-58,26}}, color={0,0,127}));
     connect(T, cooCon.u_m) annotation (Line(points={{-120,0},{0,0},{0,
             48}}, color={0,0,127}));
-    connect(T, heaCon.u_m) annotation (Line(points={{-120,0},{-40,0},{
-            -40,-80},{60,-80},{60,-72}}, color={0,0,127}));
+    connect(T, heaCon.u_m) annotation (Line(points={{-120,0},{-40,0},{-40,-80},
+            {60,-80},{60,-72}},          color={0,0,127}));
     connect(THeaSet, heaCon.u_s)
       annotation (Line(points={{-120,-60},{48,-60}}, color={0,0,127}));
     connect(THeaSet, add.u2) annotation (Line(points={{-120,-60},{-72,-60},
             {-72,14},{-58,14}}, color={0,0,127}));
     connect(heaCon.y, yValPos)
       annotation (Line(points={{71,-60},{110,-60}}, color={0,0,127}));
-    connect(swi.y, yAirFlowSet) annotation (Line(points={{71,20},{84,20},
-            {84,-20},{110,-20}}, color={0,0,127}));
-    connect(cooCon.y, yCoo) annotation (Line(points={{11,60},{34,60},{
-            34,80},{110,80}}, color={0,0,127}));
-    connect(heaCon.y, yHea) annotation (Line(points={{71,-60},{80,-60},
-            {80,40},{110,40}}, color={0,0,127}));
+    connect(swi.y, yAirFlowSet) annotation (Line(points={{71,20},{80,20},{80,60},
+            {110,60}},           color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
             Rectangle(
             extent={{-100,100},{100,-100}},
@@ -97,12 +86,11 @@ package Control
             preserveAspectRatio=false)),
       Documentation(info="<html>
 <p>This is the zone terminal VAV controller. It takes the temperature measurements and cooling/heating setpoints as inputs. It takes the zone heating/cooling mode, discharge airflow setpoint, VAV damper position as the output.</p>
-</html>",   revisions = "<html>
+</html>",   revisions="<html>
 <ul>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<li> August 17, 2023, by Xing Lu, Sen Huang:
 <p> First implementation.</p>
 </ul>
 </html>"));
   end ZonCon;
-
 end Control;

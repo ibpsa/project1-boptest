@@ -1,4 +1,7 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component;
-package FlowMover "\"Component used for modelling fans and pumps\""
+package FlowMover "Component models for fans and pumps"
 
+  annotation (Documentation(info="<html>
+This package contains component models for fans and pumps.
+</html>"));
 end FlowMover;

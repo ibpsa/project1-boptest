@@ -266,9 +266,9 @@ model AirsideFloor
     annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
 equation
   connect(airsideFloor.port_Fre_Air, sou.ports[1]) annotation (Line(points={{-24,4.5},
-          {-56,4.5},{-56,2},{-80,2}},        color={0,127,255}));
+          {-56,4.5},{-56,-1},{-80,-1}},      color={0,127,255}));
   connect(airsideFloor.port_Exh_Air, sou.ports[2]) annotation (Line(points={{-24.625,
-          -9.5},{-80,-9.5},{-80,-2}},color={0,127,255}));
+          -9.5},{-80,-9.5},{-80,1}}, color={0,127,255}));
   connect(sinCooWat.ports[1], airsideFloor.port_b_CooWat) annotation (Line(
         points={{-60,70},{-52,70},{-52,-30},{-8.375,-30},{-8.375,-20}}, color={0,
           127,255}));

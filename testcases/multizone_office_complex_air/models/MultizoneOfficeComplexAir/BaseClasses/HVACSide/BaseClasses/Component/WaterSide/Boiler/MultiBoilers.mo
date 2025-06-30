@@ -1,5 +1,5 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Boiler;
-model MultiBoilers "The boiler system with N boilers and associated local controllers."
+model MultiBoilers "Multiple boilers and local controllers"
   replaceable package MediumHW =
      Modelica.Media.Interfaces.PartialMedium
     "Medium in the hot water side";
@@ -17,14 +17,12 @@ model MultiBoilers "The boiler system with N boilers and associated local contro
   Modelica.Blocks.Interfaces.RealInput THWSet
     "Temperature setpoint of the chilled water"
     annotation (Placement(transformation(extent={{-118,31},{-100,49}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_HW(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_HW(redeclare package Medium =
         MediumHW)
     "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,-90},{110,-70}}),
         iconTransformation(extent={{90,-90},{110,-70}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_HW(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_HW(redeclare package Medium =
         MediumHW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,70},{110,90}})));
@@ -145,5 +143,8 @@ equation
         Text(
           extent={{-154,104},{146,144}},
           textString="%name",
-          textColor={0,0,255})}),                                Diagram(coordinateSystem(preserveAspectRatio=false)));
+          textColor={0,0,255})}),                                Diagram(coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<p><span style=\"font-family: Arial;\">This model comprises a multi-boiler system together with its local control.</span></p>
+</html>"));
 end MultiBoilers;

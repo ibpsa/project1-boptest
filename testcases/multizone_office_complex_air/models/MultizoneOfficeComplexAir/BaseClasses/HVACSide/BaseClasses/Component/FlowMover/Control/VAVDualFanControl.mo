@@ -1,5 +1,5 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.FlowMover.Control;
-model VAVDualFanControl
+model VAVDualFanControl "Supply fan speed controller"
   import BuildingControlEmulator =
          MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component;
   parameter Real k(min=0, unit="1") = 1 "Gain of controller";
@@ -48,7 +48,7 @@ equation
   connect(not1.u, onFanOcc) annotation (Line(points={{-64,10},{-80,10},{-80,60},
           {-120,60}}, color={255,0,255}));
   connect(not1.y, cyclingOn.OnSigIn) annotation (Line(
-      points={{-41,10},{-24,10},{-24,-8},{-80,-8},{-80,-26},{-62,-26}},
+      points={{-41,10},{-22,10},{-22,-8},{-78,-8},{-78,-26},{-62,-26}},
       color={255,0,255}));
   connect(variableSpeed.y, swi.u1)
     annotation (Line(points={{-39,46},{10,46}}, color={0,0,127}));
@@ -84,5 +84,8 @@ equation
       StartTime=15638400,
       StopTime=16243200,
       __Dymola_NumberOfIntervals=1440,
-      __Dymola_Algorithm="Cvode"));
+      __Dymola_Algorithm="Cvode"),
+    Documentation(info="<html>
+
+</html>"));
 end VAVDualFanControl;

@@ -1,5 +1,5 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal;
-model FiveZoneVAV "Thermal zones, VAV terminals, and duct network"
+model FiveZoneVAV "Five thermal zones, VAV terminals, and duct network"
   replaceable package MediumAir = Modelica.Media.Interfaces.PartialMedium "medium for the air";
 
   replaceable package MediumWat = Modelica.Media.Interfaces.PartialMedium "medium for the water";
@@ -224,8 +224,8 @@ model FiveZoneVAV "Thermal zones, VAV terminals, and duct network"
   Modelica.Blocks.Interfaces.BooleanInput on[5]
     "Zonal On signal (not implemented)"
     annotation (Placement(transformation(extent={{-120,-22},{-100,-2}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium =
-               MediumAir)
+  Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium
+      =        MediumAir)
     annotation (Placement(transformation(extent={{138,-68},{118,-48}})));
   Modelica.Blocks.Interfaces.RealOutput ducStaPre "Actual duct tatic pressure "
     annotation (Placement(transformation(extent={{200,-22},{220,-2}}),
@@ -239,16 +239,16 @@ model FiveZoneVAV "Thermal zones, VAV terminals, and duct network"
     "Control signal for terminal box damper"
     annotation (Placement(transformation(extent={{200,44},{220,64}}),
         iconTransformation(extent={{100,4},{120,24}})));
-  Modelica.Blocks.Sources.RealExpression yDamMea[5](y={vAV1.dam.y,vAV2.dam.y,
-        vAV3.dam.y,vAV4.dam.y,vAV5.dam.y})
+  Modelica.Blocks.Sources.RealExpression yDamMea[5](y={vAV1.dam.y_actual,vAV2.dam.y_actual,
+        vAV3.dam.y_actual,vAV4.dam.y_actual,vAV5.dam.y_actual})
     annotation (Placement(transformation(extent={{170,44},{190,64}}),
         iconTransformation(extent={{100,70},{120,90}})));
   Modelica.Blocks.Interfaces.RealOutput yReaHea[5]
     "Control signal for terminal box reheat"
     annotation (Placement(transformation(extent={{200,18},{220,38}}),
         iconTransformation(extent={{100,-20},{120,0}})));
-  Modelica.Blocks.Sources.RealExpression yReaValMea[5](y={vAV1.rehVal.y,
-        vAV2.rehVal.y,vAV3.rehVal.y,vAV4.rehVal.y,vAV5.rehVal.y})
+  Modelica.Blocks.Sources.RealExpression yReaValMea[5](y={vAV1.rehVal.y_actual,
+        vAV2.rehVal.y_actual,vAV3.rehVal.y_actual,vAV4.rehVal.y_actual,vAV5.rehVal.y_actual})
     annotation (Placement(transformation(extent={{170,18},{190,38}})));
 
   Modelica.Blocks.Sources.RealExpression TZonAir[5](y=vol.heatPort.T)
@@ -298,12 +298,6 @@ model FiveZoneVAV "Thermal zones, VAV terminals, and duct network"
     eps=eps5)
     annotation (Placement(transformation(extent={{158,-2},{178,18}})));
 
-  Modelica.Blocks.Interfaces.RealInput yCoo[5]
-    "Cooling PID signal measurement"
-    annotation (Placement(transformation(extent={{-120,16},{-100,36}})));
-  Modelica.Blocks.Interfaces.RealInput yHea[5]
-    "Heating PID signal measurement"
-    annotation (Placement(transformation(extent={{-120,-4},{-100,16}})));
   Modelica.Blocks.Sources.RealExpression Vflow_setMea[5](y={vAV1.airFloRatSet
         *vAV1.mAirFloRat/1.2,vAV2.airFloRatSet*vAV2.mAirFloRat/1.2,vAV3.airFloRatSet
         *vAV3.mAirFloRat/1.2,vAV4.airFloRatSet*vAV4.mAirFloRat/1.2,vAV5.airFloRatSet
@@ -365,8 +359,8 @@ model FiveZoneVAV "Thermal zones, VAV terminals, and duct network"
     annotation (Placement(transformation(extent={{38,-140},{58,-120}})));
 
   Modelica.Icons.SignalBus weaBus
-    annotation (Placement(transformation(extent={{-8,-128},{8,-112}}),
-        iconTransformation(extent={{-8,-128},{8,-112}})));
+    annotation (Placement(transformation(extent={{-10,-108},{6,-92}}),
+        iconTransformation(extent={{-10,-108},{6,-92}})));
 
   Modelica.Blocks.Sources.RealExpression m_flow_infAir[4](y=m_flow_lea)
     "Infiltration nominal air flow rate"
@@ -407,29 +401,29 @@ equation
     annotation (Line(points={{-40,-74},{-110,-74}}, color={0,0,127},
       pattern=LinePattern.Dash));
   connect(vAV1.port_b, vol[1].ports[1])
-                                       annotation (Line(points={{10,8},{14,8},{
-          14,-78},{76,-78},{76,-74},{76.8,-74},{76.8,-70}},
+                                       annotation (Line(points={{10,6.88889},{14,
+          6.88889},{14,-78},{76,-78},{76,-74},{78.4,-74},{78.4,-70}},
                                          color={0,140,72},
       thickness=0.5,
       pattern=LinePattern.Dash));
   connect(vAV2.port_b, vol[2].ports[1])
-                                       annotation (Line(points={{50,8},{60,8},{
-          60,-78},{76,-78},{76,-74},{76.8,-74},{76.8,-70}},
+                                       annotation (Line(points={{50,6.88889},{60,
+          6.88889},{60,-78},{76,-78},{76,-74},{78.4,-74},{78.4,-70}},
                                          color={0,140,72},
       thickness=0.5,      pattern=LinePattern.Dash));
   connect(vAV3.port_b, vol[3].ports[1])
-                                       annotation (Line(points={{92,8},{100,8},
-          {100,-78},{80,-78},{80,-70},{76.8,-70}},
+                                       annotation (Line(points={{92,6.88889},{100,
+          6.88889},{100,-78},{80,-78},{80,-70},{78.4,-70}},
                                          color={0,140,72},
       thickness=0.5,      pattern=LinePattern.Dash));
   connect(vAV4.port_b, vol[4].ports[1])
-                                       annotation (Line(points={{138,8},{150,8},
-          {150,-78},{80,-78},{80,-70},{76.8,-70}},
+                                       annotation (Line(points={{138,6.88889},{150,
+          6.88889},{150,-78},{80,-78},{80,-70},{78.4,-70}},
                                          color={0,140,72},
       thickness=0.5,      pattern=LinePattern.Dash));
   connect(vAV5.port_b, vol[5].ports[1])
-                                       annotation (Line(points={{178,8},{188,8},
-          {188,-78},{80,-78},{80,-70},{76.8,-70}},
+                                       annotation (Line(points={{178,6.88889},{188,
+          6.88889},{188,-78},{80,-78},{80,-70},{78.4,-70}},
                                          color={0,140,72},
       thickness=0.5,      pattern=LinePattern.Dash));
 
@@ -457,49 +451,57 @@ equation
       points={{191,80},{210,80}},
       color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(on[2], vAV2.On) annotation (Line(points={{-110,-16},{18,-16},{18,0},{
-          29,0}},
+  connect(on[2], vAV2.On) annotation (Line(points={{-110,-14},{18,-14},{18,2.44444},
+          {29,2.44444}},
                color={255,0,255}));
-  connect(on[3], vAV3.On) annotation (Line(points={{-110,-12},{-72,-12},{
-          -72,-8},{56,-8},{56,0},{71,0}},
+  connect(on[3], vAV3.On) annotation (Line(points={{-110,-12},{-72,-12},{-72,-8},
+          {56,-8},{56,2.44444},{71,2.44444}},
                               color={255,0,255}));
-  connect(on[4], vAV4.On) annotation (Line(points={{-110,-8},{-72,-8},{-72,-10},
-          {100,-10},{100,0},{117,0}},
+  connect(on[4], vAV4.On) annotation (Line(points={{-110,-10},{-72,-10},{-72,-10},
+          {100,-10},{100,2.44444},{117,2.44444}},
                                  color={255,0,255}));
-  connect(on[5], vAV5.On) annotation (Line(points={{-110,-4},{-72,-4},{-72,-10},
-          {148,-10},{148,0},{157,0}},
+  connect(on[5], vAV5.On) annotation (Line(points={{-110,-8},{-72,-8},{-72,-10},
+          {148,-10},{148,2.44444},{157,2.44444}},
                                  color={255,0,255}));
-  connect(on[1], vAV1.On) annotation (Line(points={{-110,-20},{-72,-20},{-72,0},
-          {-11,0}},
+  connect(on[1], vAV1.On) annotation (Line(points={{-110,-16},{-72,-16},{-72,2.44444},
+          {-11,2.44444}},
                color={255,0,255}));
-  connect(yVal[1], vAV1.yVal) annotation (Line(points={{-110,52},{-34,52},{-34,
-          12},{-11,12}},
+  connect(yVal[1], vAV1.yVal) annotation (Line(points={{-110,56},{-34,56},{-34,
+          11.3333},{-11,11.3333}},
                      color={0,0,127}));
-  connect(yVal[2], vAV2.yVal) annotation (Line(points={{-110,56},{20,56},{20,12},
-          {29,12}}, color={0,0,127}));
-  connect(yVal[3], vAV3.yVal) annotation (Line(points={{-110,60},{64,60},{64,12},
-          {71,12}}, color={0,0,127}));
-  connect(yVal[4], vAV4.yVal) annotation (Line(points={{-110,64},{110,64},{110,
-          12},{117,12}},
+  connect(yVal[2], vAV2.yVal) annotation (Line(points={{-110,58},{20,58},{20,
+          11.3333},{29,11.3333}},
+                    color={0,0,127}));
+  connect(yVal[3], vAV3.yVal) annotation (Line(points={{-110,60},{64,60},{64,
+          11.3333},{71,11.3333}},
+                    color={0,0,127}));
+  connect(yVal[4], vAV4.yVal) annotation (Line(points={{-110,62},{110,62},{110,
+          11.3333},{117,11.3333}},
                      color={0,0,127}));
-  connect(yVal[5], vAV5.yVal) annotation (Line(points={{-110,68},{-4,68},{-4,62},
-          {150,62},{150,12},{157,12}}, color={0,0,127}));
-  connect(airFloRatSet[1], vAV1.airFloRatSet) annotation (Line(points={{-110,78},
-          {-30,78},{-30,16},{-11,16}},     color={0,0,127}));
-  connect(airFloRatSet[2], vAV2.airFloRatSet) annotation (Line(points={{-110,82},
-          {18,82},{18,16},{29,16}},     color={0,0,127}));
-  connect(airFloRatSet[3], vAV3.airFloRatSet) annotation (Line(points={{-110,
-          86},{62,86},{62,16},{71,16}}, color={0,0,127}));
-  connect(airFloRatSet[4], vAV4.airFloRatSet) annotation (Line(points={{-110,90},
-          {108,90},{108,16},{117,16}},     color={0,0,127}));
-  connect(airFloRatSet[5], vAV5.airFloRatSet) annotation (Line(points={{-110,94},
-          {148,94},{148,16},{157,16}},     color={0,0,127}));
+  connect(yVal[5], vAV5.yVal) annotation (Line(points={{-110,64},{-4,64},{-4,62},
+          {150,62},{150,11.3333},{157,11.3333}},
+                                       color={0,0,127}));
+  connect(airFloRatSet[1], vAV1.airFloRatSet) annotation (Line(points={{-110,82},
+          {-30,82},{-30,15.7778},{-11,15.7778}},
+                                           color={0,0,127}));
+  connect(airFloRatSet[2], vAV2.airFloRatSet) annotation (Line(points={{-110,84},
+          {18,84},{18,15.7778},{29,15.7778}},
+                                        color={0,0,127}));
+  connect(airFloRatSet[3], vAV3.airFloRatSet) annotation (Line(points={{-110,86},
+          {62,86},{62,15.7778},{71,15.7778}},
+                                        color={0,0,127}));
+  connect(airFloRatSet[4], vAV4.airFloRatSet) annotation (Line(points={{-110,88},
+          {108,88},{108,15.7778},{117,15.7778}},
+                                           color={0,0,127}));
+  connect(airFloRatSet[5], vAV5.airFloRatSet) annotation (Line(points={{-110,90},
+          {148,90},{148,15.7778},{157,15.7778}},
+                                           color={0,0,127}));
   connect(vAV1.port_a_Wat, ReheatWatNet.ports_b[1]) annotation (Line(
-      points={{-8,18},{-10,18},{-10,44.62},{-46,44.62}},
+      points={{-8,18},{-10,18},{-10,41.9},{-46,41.9}},
       color={238,46,47},
       thickness=0.5));
   connect(vAV2.port_a_Wat, ReheatWatNet.ports_b[2]) annotation (Line(
-      points={{32,18},{32,38},{-46,38},{-46,41.9}},
+      points={{32,18},{32,38},{-46,38},{-46,40.54}},
       color={238,46,47},
       thickness=0.5));
   connect(vAV3.port_a_Wat, ReheatWatNet.ports_b[3]) annotation (Line(
@@ -507,20 +509,20 @@ equation
       color={238,46,47},
       thickness=0.5));
   connect(vAV4.port_a_Wat, ReheatWatNet.ports_b[4]) annotation (Line(
-      points={{120,18},{118,18},{118,36.46},{-46,36.46}},
+      points={{120,18},{118,18},{118,37.82},{-46,37.82}},
       color={238,46,47},
       thickness=0.5));
   connect(vAV5.port_a_Wat, ReheatWatNet.ports_b[5]) annotation (Line(
-      points={{160,18},{162,18},{162,33.74},{-46,33.74}},
+      points={{160,18},{162,18},{162,36.46},{-46,36.46}},
       color={238,46,47},
       thickness=0.5));
   connect(vAV1.port_b_Wat, ReheatWatNet.ports_a[1]) annotation (Line(
-      points={{-2,18},{-2,62.98},{-46,62.98}},
+      points={{-2,18},{-2,60.26},{-46,60.26}},
       color={238,46,47},
       thickness=0.5,
       pattern=LinePattern.Dash));
   connect(vAV2.port_b_Wat, ReheatWatNet.ports_a[2]) annotation (Line(
-      points={{38,18},{40,18},{40,60.26},{-46,60.26}},
+      points={{38,18},{40,18},{40,58.9},{-46,58.9}},
       color={238,46,47},
       thickness=0.5,
       pattern=LinePattern.Dash));
@@ -530,33 +532,33 @@ equation
       thickness=0.5,
       pattern=LinePattern.Dash));
   connect(vAV4.port_b_Wat, ReheatWatNet.ports_a[4]) annotation (Line(
-      points={{126,18},{126,54.82},{-46,54.82}},
+      points={{126,18},{126,56.18},{-46,56.18}},
       color={238,46,47},
       thickness=0.5,
       pattern=LinePattern.Dash));
   connect(vAV5.port_b_Wat, ReheatWatNet.ports_a[5]) annotation (Line(
-      points={{166,18},{166,52},{-46,52},{-46,52.1}},
+      points={{166,18},{166,52},{-46,52},{-46,54.82}},
       color={238,46,47},
       thickness=0.5,
       pattern=LinePattern.Dash));
   connect(vAV1.port_a, AirNetWor.ports_b[1]) annotation (Line(
-      points={{-10,8},{-28,8},{-28,-32.62},{-44,-32.62}},
+      points={{-10,6.88889},{-28,6.88889},{-28,-29.9},{-44,-29.9}},
       color={0,127,0},
       thickness=0.5));
   connect(vAV2.port_a, AirNetWor.ports_b[2]) annotation (Line(
-      points={{30,8},{16,8},{16,-30},{-16,-30},{-16,-29.9},{-44,-29.9}},
+      points={{30,6.88889},{16,6.88889},{16,-30},{-16,-30},{-16,-28.54},{-44,-28.54}},
       color={0,127,0},
       thickness=0.5));
   connect(vAV3.port_a, AirNetWor.ports_b[3]) annotation (Line(
-      points={{72,8},{58,8},{58,-28},{-44,-28},{-44,-27.18}},
+      points={{72,6.88889},{58,6.88889},{58,-28},{-44,-28},{-44,-27.18}},
       color={0,127,0},
       thickness=0.5));
   connect(vAV4.port_a, AirNetWor.ports_b[4]) annotation (Line(
-      points={{118,8},{108,8},{108,-24.46},{-44,-24.46}},
+      points={{118,6.88889},{108,6.88889},{108,-25.82},{-44,-25.82}},
       color={0,127,0},
       thickness=0.5));
   connect(vAV5.port_a, AirNetWor.ports_b[5]) annotation (Line(
-      points={{158,8},{146,8},{146,-21.74},{-44,-21.74}},
+      points={{158,6.88889},{146,6.88889},{146,-24.46},{-44,-24.46}},
       color={0,127,0},
       thickness=0.5));
 
@@ -589,14 +591,14 @@ equation
                                 color={0,0,127}));
   for i in 1:4 loop
     connect(infAir[i].ports[1], vol[i+1].ports[4]) annotation (Line(points={{58,-130},
-            {81.6,-130},{81.6,-70}},                                                                                            color={0,140,72},
+            {80.8,-130},{80.8,-70}},                                                                                            color={0,140,72},
         pattern=LinePattern.Dash,
         thickness=0.5));
   end for;
 
    for i in 1:4 loop
     connect(exfAir[i].ports[1], vol[i + 1].ports[5]) annotation (Line(
-        points={{154,-130},{160,-130},{160,-108},{83.2,-108},{83.2,-70}},
+        points={{154,-130},{160,-130},{160,-108},{81.6,-108},{81.6,-70}},
         color={0,140,72},
         pattern=LinePattern.Dash,
         thickness=0.5));
@@ -604,19 +606,19 @@ equation
 
 
   connect(weaBus,infAir [1].weaBus) annotation (Line(
-      points={{0,-120},{0,-129.8},{38,-129.8}},
+      points={{-2,-100},{-2,-129.8},{38,-129.8}},
       color={255,204,51},
       thickness=0.5));
   connect(weaBus,infAir [2].weaBus) annotation (Line(
-      points={{0,-120},{0,-129.8},{38,-129.8}},
+      points={{-2,-100},{-2,-129.8},{38,-129.8}},
       color={255,204,51},
       thickness=0.5));
   connect(weaBus,infAir [3].weaBus) annotation (Line(
-      points={{0,-120},{0,-129.8},{38,-129.8}},
+      points={{-2,-100},{-2,-129.8},{38,-129.8}},
       color={255,204,51},
       thickness=0.5));
   connect(weaBus,infAir [4].weaBus) annotation (Line(
-      points={{0,-120},{0,-129.8},{38,-129.8}},
+      points={{-2,-100},{-2,-129.8},{38,-129.8}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -624,7 +626,7 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(weaBus.winSpe, winSpe_infAir[1].u) annotation (Line(
-      points={{0,-120},{0,-156},{-90,-156},{-90,-141},{-81.4,-141}},
+      points={{-2,-100},{-2,-156},{-90,-156},{-90,-141},{-81.4,-141}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -636,13 +638,13 @@ equation
   connect(weaBus.winSpe, winSpe_infAir[4].u);
   for i in 1:4 loop
     connect(m_flow_infAir[i].y, multiProduct[i].u[1]) annotation (Line(points={{-65,
-            -104},{-44,-104},{-44,-111.2},{-38,-111.2}},
+            -104},{-44,-104},{-44,-115.4},{-38,-115.4}},
                                             color={0,0,127}));
     connect(schFac_infAir[i].y, multiProduct[i].u[2]) annotation (Line(points={{-65,
             -124},{-44,-124},{-44,-114},{-38,-114}},
                                             color={0,0,127}));
     connect(winSpe_infAir[i].y, multiProduct[i].u[3]) annotation (Line(points={{-65.3,
-            -141},{-44,-141},{-44,-116.8},{-38,-116.8}},
+            -141},{-44,-141},{-44,-112.6},{-38,-112.6}},
                                             color={0,0,127}));
   end for;
   connect(multiProduct.y, infAir.m_flow_in) annotation (Line(points={{-24.98,
@@ -668,10 +670,11 @@ equation
   connect(replicator[i].u, senCO2[i+1].C) annotation (Line(points={{106.8,-138},
             {104,-138},{104,-94},{100.8,-94}},               color={0,0,127}));
   end for;
-  connect(vAV5.port_a, senRelPre.port_a) annotation (Line(points={{158,8},{158,
-          -16},{114,-16},{114,-32},{128,-32}}, color={0,127,255}));
+  connect(vAV5.port_a, senRelPre.port_a) annotation (Line(points={{158,6.88889},
+          {158,-16},{114,-16},{114,-32},{128,-32}},
+                                               color={0,127,255}));
   connect(out.weaBus, weaBus) annotation (Line(
-      points={{26,-47.8},{0,-47.8},{0,-120}},
+      points={{26,-47.8},{-2,-47.8},{-2,-100}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%second",
@@ -682,86 +685,81 @@ equation
           -48},{72,-40},{160,-40},{160,-32},{148,-32}}, color={0,127,255}));
   connect(senRelPre.p_rel, ducStaPre) annotation (Line(points={{138,-41},{138,
           -48},{166,-48},{166,-12},{210,-12}}, color={0,0,127}));
-    annotation (Placement(transformation(extent={{84,-82},{100,-98}})),
-                Placement(transformation(extent={{122,-98},{138,-82}})),
-                Line(points={{100.8,-90},{121.2,-90}}, color={0,0,127}),
-              Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -160},{200,100}}),                                  graphics={
-        Line(points={{-90,40},{80,40}}, color={0,127,255}),
-        Line(points={{-90,-60},{80,-60}}, color={0,127,255}),
-        Line(points={{80,40},{80,-60}}, color={0,127,255}),
-        Line(points={{50,40},{50,-60}}, color={0,127,255}),
-        Line(points={{20,40},{20,-60}}, color={0,127,255}),
-        Line(points={{-10,40},{-10,-60}}, color={0,127,255}),
-        Line(points={{-40,40},{-40,-60}}, color={0,127,255}),
+    annotation (
+        Icon(
+      coordinateSystem(
+        preserveAspectRatio=false),
+      graphics={
+        Line(points = {{100.8, -90}, {121.2, -90}}, color = {0, 0, 127}),
+        Line(points = {{-90, 40}, {80, 40}},   color = {0, 127, 255}),
+        Line(points = {{-90, -60}, {80, -60}}, color = {0, 127, 255}),
+        Line(points = {{80, 40}, {80, -60}},   color = {0, 127, 255}),
+        Line(points = {{50, 40}, {50, -60}},   color = {0, 127, 255}),
+        Line(points = {{20, 40}, {20, -60}},   color = {0, 127, 255}),
+        Line(points = {{-10, 40}, {-10, -60}}, color = {0, 127, 255}),
+        Line(points = {{-40, 40}, {-40, -60}}, color = {0, 127, 255}),
         Rectangle(
-          extent={{-46,0},{-34,-20}},
-          lineColor={28,108,200},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid),
+          extent =     {{-46, 0}, {-34, -20}},
+          lineColor =  {28, 108, 200},
+          fillColor =  {0, 128, 255},
+          fillPattern= FillPattern.Solid),
         Rectangle(
-          extent={{-16,0},{-4,-20}},
-          lineColor={28,108,200},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid),
+          extent =     {{-16, 0}, {-4, -20}},
+          lineColor =  {28, 108, 200},
+          fillColor =  {0, 128, 255},
+          fillPattern= FillPattern.Solid),
         Rectangle(
-          extent={{14,0},{26,-20}},
-          lineColor={28,108,200},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid),
+          extent =     {{14, 0}, {26, -20}},
+          lineColor =  {28, 108, 200},
+          fillColor =  {0, 128, 255},
+          fillPattern= FillPattern.Solid),
         Rectangle(
-          extent={{44,0},{56,-20}},
-          lineColor={28,108,200},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid),
+          extent =     {{44, 0}, {56, -20}},
+          lineColor =  {28, 108, 200},
+          fillColor =  {0, 128, 255},
+          fillPattern= FillPattern.Solid),
         Rectangle(
-          extent={{74,0},{86,-20}},
-          lineColor={28,108,200},
-          fillColor={0,128,255},
-          fillPattern=FillPattern.Solid),
-        Line(points={{-40,90},{-40,60}}, color={255,0,0}),
-        Line(points={{-60,60},{-40,60}}, color={255,0,0}),
-        Line(points={{-60,60},{-60,-12}}, color={255,0,0}),
-        Line(points={{64,20},{-60,20}}, color={255,0,0}),
-        Line(points={{-24,20},{-24,-12}}, color={255,0,0}),
-        Line(points={{6,20},{6,-12}}, color={255,0,0}),
-        Line(points={{36,20},{36,-12}}, color={255,0,0}),
-        Line(points={{64,20},{64,-12}}, color={255,0,0}),
-        Line(points={{-60,-12},{-46,-12}}, color={255,0,0}),
-        Line(points={{-24,-12},{-16,-12}}, color={255,0,0}),
-        Line(points={{6,-12},{14,-12}}, color={255,0,0}),
-        Line(points={{36,-12},{44,-12}}, color={255,0,0}),
-        Line(points={{64,-12},{74,-12}}, color={255,0,0}),
-        Line(points={{90,-32},{-36,-32}}, color={255,0,0}),
-        Line(points={{-36,-20},{-36,-32}}, color={255,0,0}),
-        Line(points={{-6,-20},{-6,-32}}, color={255,0,0}),
-        Line(points={{24,-20},{24,-32}}, color={255,0,0}),
-        Line(points={{54,-20},{54,-32}}, color={255,0,0}),
-        Line(points={{84,-20},{84,-32}}, color={255,0,0}),
-        Line(points={{90,60},{90,-32}}, color={255,0,0}),
-        Line(points={{40,60},{90,60}}, color={255,0,0}),
-        Line(points={{40,90},{40,60}}, color={255,0,0}),
+          extent =     {{74, 0}, {86, -20}},
+          lineColor =  {28, 108, 200},
+          fillColor =  {0, 128, 255},
+          fillPattern= FillPattern.Solid),
+        Line(points = {{-40, 90},  {-40, 60}},   color = {255, 0, 0}),
+        Line(points = {{-60, 60},  {-40, 60}},   color = {255, 0, 0}),
+        Line(points = {{-60, 60},  {-60, -12}},  color = {255, 0, 0}),
+        Line(points = {{64, 20},   {-60, 20}},   color = {255, 0, 0}),
+        Line(points = {{-24, 20},  {-24, -12}},  color = {255, 0, 0}),
+        Line(points = {{6, 20},    {6, -12}},    color = {255, 0, 0}),
+        Line(points = {{36, 20},   {36, -12}},   color = {255, 0, 0}),
+        Line(points = {{64, 20},   {64, -12}},   color = {255, 0, 0}),
+        Line(points = {{-60, -12}, {-46, -12}},  color = {255, 0, 0}),
+        Line(points = {{-24, -12}, {-16, -12}},  color = {255, 0, 0}),
+        Line(points = {{6, -12},   {14, -12}},   color = {255, 0, 0}),
+        Line(points = {{36, -12},  {44, -12}},   color = {255, 0, 0}),
+        Line(points = {{64, -12},  {74, -12}},   color = {255, 0, 0}),
+        Line(points = {{90, -32},  {-36, -32}},  color = {255, 0, 0}),
+        Line(points = {{-36, -20}, {-36, -32}},  color = {255, 0, 0}),
+        Line(points = {{-6, -20},  {-6, -32}},   color = {255, 0, 0}),
+        Line(points = {{24, -20},  {24, -32}},   color = {255, 0, 0}),
+        Line(points = {{54, -20},  {54, -32}},   color = {255, 0, 0}),
+        Line(points = {{84, -20},  {84, -32}},   color = {255, 0, 0}),
+        Line(points = {{90, 60},   {90, -32}},   color = {255, 0, 0}),
+        Line(points = {{40, 60},   {90, 60}},    color = {255, 0, 0}),
+        Line(points = {{40, 90},   {40, 60}},    color = {255, 0, 0}),
         Text(
-          extent={{-148,-110},{152,-70}},
-          textColor={0,0,255},
-          textString="%name")}),
-          Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -160},{200,100}})),
+          extent={{-150,-142},{150,-102}},
+          textColor =  {0, 0, 255},
+          textString = "%name")}),
+    Diagram(
+      coordinateSystem(
+        preserveAspectRatio = false,
+        extent              = {{-100, -160}, {200, 100}})),
     Documentation(info="<html>
-<p>A hot water reheat coil is installed in each VAV terminal. The components and control systems of the VAV is shown in the figure below:</p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/VAVControl.png\"/></p>
-<p>The controller for terminal VAV box is based on the &quot;single maximum VAV reheat control logic&quot;.</p>
+<p>This model comprises five thermal zones served by an air-distribution duct network, a hot-water reheat hydronic loop, and variable-air-volume (VAV) terminal units. In each zone, infiltration is prescribed as a mass-flow rate in accordance with ASHRAE 90.1 Appendix G.</p>
+<p><br>For details on the VAV terminal implementation, see the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.VAVTerminal\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.VAVTerminal</a> for a description of the VAV terminal unit model. </p>
+</html>", revisions="<html>
 <ul>
-<li>When the Zone State is cooling, the cooling-loop output shall be mapped to the active airflow setpoint from the cooling minimum endpoint to the cooling maximum endpoint. Heating coil is disabled. When the Zone State is deadband, the active airflow setpoint shall be the minimum endpoint. Heating coil is disabled.</li>
-<li>When the Zone State is heating, the active airflow setpoint shall be the minimum endpoint. The reheat valve position shall be mapped to the supply air temperature setpoint from the heating minimum endpoint to the heating maximum endpoint.</li>
-</ul>
-<p>VAV damper position is controlled by a PI controller to maintain the air flow rate at setpoint. Heating coil valve position is controlled by a PI controller to maintain the supply air temperature at setpoint.</p>
-<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.VAVTerminal\">
-MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.VAVTerminal</a> for a description of the VAV terminal model. </p>
-</html>", revisions = "<html>
-<ul>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
-<p> First implementation.</p>
+<li>August 17, 2023, by Xing Lu, Sen Huang: </li>
+<p>First implementation.</p>
 </ul>
 </html>"));
 end FiveZoneVAV;

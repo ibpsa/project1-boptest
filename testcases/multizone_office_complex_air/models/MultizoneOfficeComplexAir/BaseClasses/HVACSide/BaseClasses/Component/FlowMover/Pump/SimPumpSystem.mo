@@ -14,13 +14,14 @@ model SimPumpSystem
     "Nominal pressure raise";
 
   Buildings.Fluid.Movers.FlowControlled_m_flow
-                                       pumConSpe[n](redeclare package
-      Medium =                                                                 Medium,
+                                       pumConSpe[n](redeclare package Medium = Medium,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     m_flow_nominal=m_flow_nominal,
     per(
       use_powerCharacteristic=false,
       motorEfficiency(eta=Motor_eta),
       hydraulicEfficiency(eta=Hydra_eta)),
+    use_inputFilter=false,
     dp_nominal=dp_nominal)                                                           "Constant Speed pump"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)

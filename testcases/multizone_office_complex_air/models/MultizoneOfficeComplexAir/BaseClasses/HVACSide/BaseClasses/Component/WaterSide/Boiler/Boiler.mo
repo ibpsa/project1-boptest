@@ -1,5 +1,5 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Boiler;
-model Boiler "Boiler"
+model Boiler "Boiler with local control"
   replaceable package MediumHW =
      Modelica.Media.Interfaces.PartialMedium
     "Medium in the hot water side";
@@ -28,13 +28,11 @@ model Boiler "Boiler"
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={0,-38})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_CHW(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_CHW(redeclare package Medium =
         MediumHW)
     "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_HW(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_HW(redeclare package Medium =
         MediumHW)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
     annotation (Placement(transformation(extent={{90,70},{110,90}}),
@@ -64,8 +62,7 @@ model Boiler "Boiler"
         extent={{10,-10},{-10,10}},
         rotation=0,
         origin={30,0})));
-  Buildings.Fluid.Sensors.MassFlowRate senMasFloHW(redeclare package
-      Medium =
+  Buildings.Fluid.Sensors.MassFlowRate senMasFloHW(redeclare package Medium =
         MediumHW)
     annotation (Placement(transformation(extent={{72,-10},{54,10}})));
   Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium =
@@ -207,5 +204,8 @@ March 19, 2014 by Sen Huang:<br/>
 First implementation.
 </li>
 </ul>
+</html>",
+        info="<html>
+<p><span style=\"font-family: Arial;\">This model is a single boiler with its local control.</span></p>
 </html>"));
 end Boiler;
