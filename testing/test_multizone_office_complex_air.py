@@ -88,6 +88,13 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                       'hva_floor1_TSupAirSet_u': 273.15 + 22}
         self.measurement = 'hva_reaHotWatSys_reaPBoi_y'
         self.forecast_point = 'EmissionsElectricPower'
+        self.points_check = ['hva_reaChiWatSys_reaPChi_y', 'hva_reaHotWatSys_reaPBoi_y',
+                            'hva_reaChiWatSys_reaPPum_y','hva_reaChiWatSys_reaPCooTow_y',
+                            'hva_reaHotWatSys_reaPPum_y',
+                             'hva_floor1_reaZonCor_TZon_y', 'hva_floor1_reaZonNor_TZon_y',
+                             'hva_floor2_reaZonEas_TZon_y','hva_floor3_reaZonWes_TZon_y',
+                             'hva_floor1_reaAHU_TMix_y','hva_floor2_reaAHU_TMix_y','hva_floor3_reaAHU_TMix_y',
+                             'loaEnePlu_weaSta_reaWeaTDryBul_y', 'loaEnePlu_weaSta_reaWeaHGloHor_y']
         self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
 
     def tearDown(self):
