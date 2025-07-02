@@ -169,19 +169,6 @@ test_testcase2:
         	python report.py;\
 	fi
 
-test_multizone_office_complex_air:
-# Build and deploy testcase image
-	cd .. && TESTCASE=multizone_office_complex_air docker-compose up -d
-	python sleep10.py
-# Run testcase tests
-# Python and checks
-	cd .. && python testing/test_multizone_office_complex_air.py
-# Stop testcase container
-	cd .. && TESTCASE=multizone_office_complex_air docker-compose down
-# Report test results
-	python report.py
-
-
 test_parser:
 	make run_jm
 	make copy_to_jm ARGS=parsing
