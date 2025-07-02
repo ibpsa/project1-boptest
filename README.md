@@ -1,6 +1,6 @@
 # Building Optimization Performance Tests (BOPTEST)
 
-[![Build Status](https://travis-ci.com/ibpsa/project1-boptest.svg?branch=master)](https://travis-ci.com/ibpsa/project1-boptest)
+[![Build Status](https://app.travis-ci.com/ibpsa/project1-boptest.svg?token=8LDXY9mTsfqAs1MYxozX&branch=master)](https://app.travis-ci.com/ibpsa/project1-boptest)
 
 This repository contains code for the BOPTEST framework that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io/project1-boptest/ibpsa/index.html) and was previously developed as part of the [IBPSA Project 1](https://ibpsa.github.io/project1/).
 
