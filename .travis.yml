@@ -97,10 +97,10 @@ jobs:
     script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_residential_hydronic ARG="-s API"
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_office_complex_air_no_compile ARG="-s test_peak_heat_day,test_typical_heat_day"
+    script: cd testing && travis_wait 90 make test_multizone_office_complex_air_no_compile ARG="-s test_peak_heat_day,test_typical_heat_day"
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_office_complex_air_no_compile ARG="-s test_peak_cool_day,test_typical_cool_day,test_mix_day"
+    script: cd testing && travis_wait 90 make test_multizone_office_complex_air_no_compile ARG="-s test_peak_cool_day,test_typical_cool_day,test_mix_day"
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_office_complex_air_no_compile ARG="-s API"
+    script: cd testing && travis_wait 90 make test_multizone_office_complex_air_no_compile ARG="-s API"
