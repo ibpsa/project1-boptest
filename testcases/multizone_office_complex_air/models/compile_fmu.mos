@@ -1,0 +1,9 @@
+Advanced.FMI.CopyExternalResources = true;
+Advanced.FMI.AllowStringParametersForFMU = true;
+OutputCPUtime = false;
+Evaluate = true;
+Advanced.OutputModelicaCode = true;
+experiment(Algorithm="Cvode",Tolerance=1e-06);
+Advanced.FMI.UseExperimentSettings=true;
+translateModelFMU("wrapped", false, "", "2", "csSolver", false, 0, fill("",0));
+exit();
