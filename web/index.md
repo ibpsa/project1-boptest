@@ -38,6 +38,7 @@ Financial support provided in-part by:
 - Engie
 - EU-H2020
 - VLAIO
+- Arup
 
 BOPTEST uses the open modeling language [Modelica](https://modelica.org/) and standard [FMI](https://fmi-standard.org/).
 
