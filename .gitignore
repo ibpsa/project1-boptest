@@ -9,6 +9,13 @@
 .idea
 dymosim
 dsmodel.c
+dsmodel.mof
+dsmodelFnc6.c
+dsmodelFnc7.c
+request
+status
+spawn-*
+.FMUOutput
 examples/julia/*.csv
 examples/javascript/*.csv
 testcase2/doc/build/

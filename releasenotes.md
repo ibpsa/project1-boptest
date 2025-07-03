@@ -8,9 +8,15 @@ Released on xx/xx/xxxx.
 
 - For ``twozone_apartment_hydronic`` test case, update control documentation. This is for [#766](https://github.com/ibpsa/project1-boptest/issues/766).
 - For BACnet interface, add support for faster-than-real-time and on-command simulation advance. Optional arguments ``--app_interval`` and ``--simulation_step`` were added to ``BopTestProxy.py`` to support this feature. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
+- Update support to ``parsing/parser.py`` for test case compilation using Dymola to be able to specify solver and tolerance and to be able to use references to other string parameters in defining a string parameter.  This is for [#777](https://github.com/ibpsa/project1-boptest/issues/777).
 
 **The following changes are not backwards compatible, but do not change benchmark results:**
+
 - For BACnet interface, add advance command and simulation time as an available BACnet points. The BACnet point for advancing was added as the first BACnet point object and simulation time was added as the second BACnet point object for each test case by updating all ``bacnet.ttl`` files.  This is not backwards compatible for the BACnet interface for clients referencing BACnet object numbers, since the object numbers are shifted by +2. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
+
+**The following new test cases have been added:**
+
+- ``multizone_office_complex_air``, a DOE reference large office building in Chicago, IL, modeled with 3 floors and 15 zones, with each floor served by a 5-zone AHU VAV system with single-duct terminal box reheat. A water-cooled chiller plant serves chilled water to cooling coils and a gas-fired boiler plant serves hot water to heating coils. Spawn is used to model the envelope in EnergyPlus and the HVAC and controls in Modelica. The test case FMU is compiled by Dymola.  This is for [#218](https://github.com/ibpsa/project1-boptest/issues/218).
 
 
 ## BOPTEST v0.8.0
