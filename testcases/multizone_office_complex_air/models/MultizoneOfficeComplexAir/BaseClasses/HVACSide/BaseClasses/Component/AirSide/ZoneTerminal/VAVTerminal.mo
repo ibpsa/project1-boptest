@@ -32,7 +32,7 @@ model VAVTerminal "The model of the VAV terminals"
     tau=1,
     transferHeat=true)
     annotation (Placement(transformation(extent={{26,10},{46,-10}})));
-  Modelica.Fluid.Sensors.MassFlowRate m_flow(redeclare package Medium =
+  Modelica.Fluid.Sensors.VolumeFlowRate V_flowLea(redeclare package Medium =
         MediumAir)
     annotation (Placement(transformation(extent={{56,-10},{76,10}})));
   Modelica.Fluid.Sensors.Pressure pEnt(redeclare package Medium =
@@ -72,7 +72,7 @@ model VAVTerminal "The model of the VAV terminals"
     k=0.02,
     Ti=120)
     annotation (Placement(transformation(extent={{10,70},{30,90}})));
-  Modelica.Blocks.Math.Gain gain(k=1/mAirFloRat/1.25)
+  Modelica.Blocks.Math.Gain gain(k=1/mAirFloRat*1.2)
                                  annotation (Placement(transformation(
         extent={{4,-4},{-4,4}},
         rotation=-90,
@@ -109,7 +109,7 @@ equation
       points={{8,0},{26,0}},
       color={0,140,72},
       thickness=0.5));
-  connect(TLea.port_b, m_flow.port_a) annotation (Line(
+  connect(TLea.port_b, V_flowLea.port_a) annotation (Line(
       points={{46,0},{56,0}},
       color={0,140,72},
       thickness=0.5));
@@ -121,10 +121,6 @@ equation
       points={{-26,-20},{-26,0},{-12,0}},
       color={0,140,72},
       thickness=0.5));
-  connect(m_flow.m_flow, gain.u) annotation (Line(
-      points={{66,11},{66,19.2}},
-      color={0,0,127},
-      pattern=LinePattern.Dash));
   connect(gain.y,pI.mea)  annotation (Line(
       points={{66,28.4},{66,52},{0,52},{0,74},{8,74}},
       color={0,0,127}));
@@ -155,7 +151,7 @@ equation
       color={255,0,255}));
   connect(TLea.T, TAirLea) annotation (Line(points={{36,-11},{36,-60},
           {110,-60}}, color={0,0,127}));
-  connect(m_flow.port_b, port_b) annotation (Line(
+  connect(V_flowLea.port_b, port_b) annotation (Line(
       points={{76,0},{88,0},{88,0},{100,0}},
       color={0,140,72},
       thickness=0.5));
@@ -169,6 +165,8 @@ equation
                                            color={0,0,127}));
   connect(oveZonLoc.yDam_out,dam. y)
     annotation (Line(points={{-47,54},{-2,54},{-2,12}}, color={0,0,127}));
+  connect(V_flowLea.V_flow, gain.u)
+    annotation (Line(points={{66,11},{66,19.2}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -80},{100,100}}),                                   graphics={
         Rectangle(
@@ -192,7 +190,6 @@ equation
           textString="%name",
           textColor={0,0,255})}),                                Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-100,-80},{100,100}})),
-
     Documentation(info="<html>
 <p>This Modelica model implements a variable-air-volume (VAV) terminal unit with an integral reheat coil. The system layout and its control components are shown in the figure below:</p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/VAVControl.png\"/ width=\"500\"></p>
