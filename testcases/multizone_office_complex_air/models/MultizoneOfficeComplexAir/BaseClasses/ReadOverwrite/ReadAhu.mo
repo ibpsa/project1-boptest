@@ -45,9 +45,9 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput dp_in "Discharge pressure of supply fan"
     annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
   Buildings.Utilities.IO.SignalExchange.Read dp(
-    description="Discharge pressure of supply fan for AHU",
+    description="Static pressure of supply fan for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="Pa")) "Discharge pressure of supply fan"
+    y(unit="Pa")) "Static pressure of supply fan"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
 
   Buildings.Utilities.IO.SignalExchange.Read PFanTot(
