@@ -224,8 +224,8 @@ model FiveZoneVAV "Five thermal zones, VAV terminals, and duct network"
   Modelica.Blocks.Interfaces.BooleanInput on[5]
     "Zonal On signal (not implemented)"
     annotation (Placement(transformation(extent={{-120,-22},{-100,-2}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium
-      =        MediumAir)
+  Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium =
+               MediumAir)
     annotation (Placement(transformation(extent={{138,-68},{118,-48}})));
   Modelica.Blocks.Interfaces.RealOutput ducStaPre "Actual duct tatic pressure "
     annotation (Placement(transformation(extent={{200,-22},{220,-2}}),
@@ -308,9 +308,9 @@ model FiveZoneVAV "Five thermal zones, VAV terminals, and duct network"
     "VAV terminal airflow setpoint" annotation (Placement(transformation(
           extent={{200,-50},{220,-30}}), iconTransformation(extent={{100,-46},
             {120,-26}})));
-  Modelica.Blocks.Sources.RealExpression Vflow_Mea[5](y={vAV1.m_flow.m_flow
-        /1.2,vAV2.m_flow.m_flow/1.2,vAV3.m_flow.m_flow/1.2,vAV4.m_flow.m_flow
-        /1.2,vAV5.m_flow.m_flow/1.2}) "VAV terminal airflow measurement"
+  Modelica.Blocks.Sources.RealExpression Vflow_Mea[5](y={vAV1.V_flowLea.V_flow,
+        vAV2.V_flowLea.V_flow,vAV3.V_flowLea.V_flow,vAV4.V_flowLea.V_flow,vAV5.V_flowLea.V_flow})
+                                      "VAV terminal airflow measurement"
     annotation (Placement(transformation(extent={{170,-70},{190,-50}})));
   Modelica.Blocks.Interfaces.RealOutput Vflow[5] "VAV terminal airflow"
     annotation (Placement(transformation(extent={{200,-70},{220,-50}}),
@@ -386,8 +386,8 @@ model FiveZoneVAV "Five thermal zones, VAV terminals, and duct network"
     annotation (Placement(transformation(extent={{68,-116},{80,-104}})));
   Modelica.Blocks.Routing.Replicator replicator[4](nout=MediumAir.nC)
     annotation (Placement(transformation(extent={{108,-144},{120,-132}})));
-  Buildings.Fluid.Sensors.RelativePressure senRelPre(redeclare package Medium
-      = MediumAir)
+  Buildings.Fluid.Sensors.RelativePressure senRelPre(redeclare package Medium =
+        MediumAir)
     annotation (Placement(transformation(extent={{128,-42},{148,-22}})));
   Buildings.Fluid.Sources.Outside out(redeclare package Medium = MediumAir,
       nPorts=1)
