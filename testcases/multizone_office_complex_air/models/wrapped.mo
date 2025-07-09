@@ -182,7 +182,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAHU_TRet_y(unit="K") = mod.hva.floor1.reaAHU.TRet.y "Return air temperature measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAHU_V_flowSup_y(unit="m3/s") = mod.hva.floor1.reaAHU.V_flowSup.y "Supply air flowrate measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAHU_V_flowRet_y(unit="m3/s") = mod.hva.floor1.reaAHU.V_flowRet.y "Return air flowrate measurement for AHU";
-	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAHU_dp_y(unit="Pa") = mod.hva.floor1.reaAHU.dp.y "Discharge pressure of supply fan for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAHU_dp_y(unit="Pa") = mod.hva.floor1.reaAHU.dp.y "Static pressure of supply fan for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAHU_PFanTot_y(unit="W") = mod.hva.floor1.reaAHU.PFanTot.y "Total electrical power measurement of supply and return fans for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAHU_TCooCoiSup_y(unit="K") = mod.hva.floor1.reaAHU.TCooCoiSup.y "Cooling coil supply water temperature measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAHU_TCooCoiRet_y(unit="K") = mod.hva.floor1.reaAHU.TCooCoiRet.y "Cooling coil return water temperature measurement for AHU";
@@ -235,7 +235,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAHU_TRet_y(unit="K") = mod.hva.floor2.reaAHU.TRet.y "Return air temperature measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAHU_V_flowSup_y(unit="m3/s") = mod.hva.floor2.reaAHU.V_flowSup.y "Supply air flowrate measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAHU_V_flowRet_y(unit="m3/s") = mod.hva.floor2.reaAHU.V_flowRet.y "Return air flowrate measurement for AHU";
-	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAHU_dp_y(unit="Pa") = mod.hva.floor2.reaAHU.dp.y "Discharge pressure of supply fan for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAHU_dp_y(unit="Pa") = mod.hva.floor2.reaAHU.dp.y "Static pressure of supply fan for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAHU_PFanTot_y(unit="W") = mod.hva.floor2.reaAHU.PFanTot.y "Total electrical power measurement of supply and return fans for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAHU_TCooCoiSup_y(unit="K") = mod.hva.floor2.reaAHU.TCooCoiSup.y "Cooling coil supply water temperature measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAHU_TCooCoiRet_y(unit="K") = mod.hva.floor2.reaAHU.TCooCoiRet.y "Cooling coil return water temperature measurement for AHU";
@@ -288,7 +288,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAHU_TRet_y(unit="K") = mod.hva.floor3.reaAHU.TRet.y "Return air temperature measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAHU_V_flowSup_y(unit="m3/s") = mod.hva.floor3.reaAHU.V_flowSup.y "Supply air flowrate measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAHU_V_flowRet_y(unit="m3/s") = mod.hva.floor3.reaAHU.V_flowRet.y "Return air flowrate measurement for AHU";
-	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAHU_dp_y(unit="Pa") = mod.hva.floor3.reaAHU.dp.y "Discharge pressure of supply fan for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAHU_dp_y(unit="Pa") = mod.hva.floor3.reaAHU.dp.y "Static pressure of supply fan for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAHU_PFanTot_y(unit="W") = mod.hva.floor3.reaAHU.PFanTot.y "Total electrical power measurement of supply and return fans for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAHU_TCooCoiSup_y(unit="K") = mod.hva.floor3.reaAHU.TCooCoiSup.y "Cooling coil supply water temperature measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAHU_TCooCoiRet_y(unit="K") = mod.hva.floor3.reaAHU.TCooCoiRet.y "Cooling coil return water temperature measurement for AHU";
