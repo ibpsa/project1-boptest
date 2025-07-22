@@ -54,7 +54,6 @@ model TestCase "Single zone residential hydronic example model"
   IDEAS.Fluid.Movers.FlowControlled_dp pump(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     addPowerToMedium=false,
-    use_riseTime=false,
     redeclare package Medium = MediumWater,
     m_flow_nominal=rad.m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
@@ -590,6 +589,12 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and IDEAS 3.0.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/442>
+BOPTEST issue #442</a>.
+</li>
 <li>
 October 30, 2024, by Lucas Verleyen:<br/>
 Updates according to <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\\\">IBPSA</a>.<br/>

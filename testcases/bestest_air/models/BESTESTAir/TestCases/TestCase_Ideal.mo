@@ -22,11 +22,7 @@ equation
           2.88889},{-21.4286,2.88889}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
-    experiment(
-      StopTime=31536000,
-      Interval=300,
-      Tolerance=1e-06,
-      __Dymola_Algorithm="Cvode"),
+  experiment(StopTime = 3.1536e+07, Interval = 300, Tolerance = 1e-06, StartTime = 0),
 Documentation(info="<html>
 General model description.
 <h3>Building Design and Use</h3>
@@ -770,6 +766,12 @@ see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 revisions="<html>
 <ul>
 <li>
+May 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/442>
+BOPTEST issue #442</a>.
+</li>
+<li>
 October 18, 2024, by Ettore Zanetti:<br/>
 Update <code>min</code> and <code>max</code> for ovewrite blocks <code>oveTSetHea_u</code> and <code>oveTSetCoo_u</code>.
 This is for <a href=https://github.com/ibpsa/project1-boptest/issues/658>
@@ -804,5 +806,7 @@ December 15, 2019, by David Blum:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+  __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian --maxSizeLinearization=10000",
+  __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "cvode", variableFilter = ".*"));
 end TestCase_Ideal;

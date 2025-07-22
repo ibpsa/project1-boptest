@@ -229,65 +229,70 @@ partial model PartialHVAC
   Buildings.Examples.VAVReheat.BaseClasses.VAVReheatBox cor(
     redeclare package MediumA = MediumA,
     redeclare package MediumW = MediumW,
-    m_flow_nominal=mCor_flow_nominal,
+    mCooAir_flow_nominal=mCor_flow_nominal,
+    mHeaAir_flow_nominal=mCor_flow_nominal,
+    THeaWatInl_nominal=THotWatInl_nominal,
+    THeaWatOut_nominal=THotWatInl_nominal - 10,
+    THeaAirInl_nominal(displayUnit="K") = 12 + 273.15,
+    THeaAirDis_nominal(displayUnit="K") = 28 + 273.15,
     VRoo=VRooCor,
     allowFlowReversal=allowFlowReversal,
-    ratVFloHea=ratVFloHea,
-    THotWatInl_nominal=THotWatInl_nominal,
-    THotWatOut_nominal=THotWatInl_nominal-10,
-    TAirInl_nominal=12+273.15,
     QHea_flow_nominal=mCor_flow_nominal*ratVFloHea*cpAir*(32-12))
     "Zone for core of building"
     annotation (Placement(transformation(extent={{570,22},{610,62}})));
   Buildings.Examples.VAVReheat.BaseClasses.VAVReheatBox sou(
     redeclare package MediumA = MediumA,
     redeclare package MediumW = MediumW,
-    m_flow_nominal=mSou_flow_nominal,
+    mCooAir_flow_nominal=mSou_flow_nominal,
+    mHeaAir_flow_nominal=mSou_flow_nominal,
+    THeaWatInl_nominal=THotWatInl_nominal,
+    THeaWatOut_nominal=THotWatInl_nominal - 10,
+    THeaAirInl_nominal(displayUnit="K") = 12 + 273.15,
+    THeaAirDis_nominal=(28 + 273.15) + 273.15,
     VRoo=VRooSou,
     allowFlowReversal=allowFlowReversal,
-    ratVFloHea=ratVFloHea,
-    THotWatInl_nominal=THotWatInl_nominal,
-    THotWatOut_nominal=THotWatInl_nominal-10,
-    TAirInl_nominal=12+273.15,
     QHea_flow_nominal=mSou_flow_nominal*ratVFloHea*cpAir*(32-12))
     "South-facing thermal zone"
     annotation (Placement(transformation(extent={{750,20},{790,60}})));
   Buildings.Examples.VAVReheat.BaseClasses.VAVReheatBox eas(
     redeclare package MediumA = MediumA,
     redeclare package MediumW = MediumW,
-    m_flow_nominal=mEas_flow_nominal,
+    mCooAir_flow_nominal=mEas_flow_nominal,
+    mHeaAir_flow_nominal=mEas_flow_nominal,
+    THeaWatInl_nominal=THotWatInl_nominal,
+    THeaWatOut_nominal=THotWatInl_nominal - 10,
+    THeaAirInl_nominal=(12 + 273.15) + 273.15,
+    THeaAirDis_nominal=(28 + 273.15) + 273.15,
     VRoo=VRooEas,
     allowFlowReversal=allowFlowReversal,
-    ratVFloHea=ratVFloHea,
-    THotWatInl_nominal=THotWatInl_nominal,
-    THotWatOut_nominal=THotWatInl_nominal-10,
-    TAirInl_nominal=12+273.15,
     QHea_flow_nominal=mEas_flow_nominal*ratVFloHea*cpAir*(32-12))
     "East-facing thermal zone"
     annotation (Placement(transformation(extent={{930,20},{970,60}})));
   Buildings.Examples.VAVReheat.BaseClasses.VAVReheatBox nor(
     redeclare package MediumA = MediumA,
     redeclare package MediumW = MediumW,
-    m_flow_nominal=mNor_flow_nominal,
+    mCooAir_flow_nominal=mNor_flow_nominal,
+    mHeaAir_flow_nominal=mNor_flow_nominal,
+    THeaWatInl_nominal=THotWatInl_nominal,
+    THeaWatOut_nominal=THotWatInl_nominal - 10,
+    THeaAirInl_nominal=(12 + 273.15) + 273.15,
+    THeaAirDis_nominal=(28 + 273.15) + 273.15,
     VRoo=VRooNor,
     allowFlowReversal=allowFlowReversal,
-    ratVFloHea=ratVFloHea,
-    THotWatInl_nominal=THotWatInl_nominal,
-    THotWatOut_nominal=THotWatInl_nominal-10,
-    TAirInl_nominal=12+273.15,
     QHea_flow_nominal=mNor_flow_nominal*ratVFloHea*cpAir*(32-12))
     "North-facing thermal zone"
     annotation (Placement(transformation(extent={{1090,20},{1130,60}})));
   Buildings.Examples.VAVReheat.BaseClasses.VAVReheatBox wes(
     redeclare package MediumA = MediumA,
     redeclare package MediumW = MediumW,
-    m_flow_nominal=mWes_flow_nominal,
+    mCooAir_flow_nominal=mWes_flow_nominal,
+    mHeaAir_flow_nominal=mWes_flow_nominal,
+    THeaWatInl_nominal=THotWatInl_nominal,
+    THeaWatOut_nominal=THotWatInl_nominal - 10,
+    THeaAirInl_nominal(displayUnit="K") = 12 + 273.15,
+    THeaAirDis_nominal(displayUnit="K") = 28 + 273.15,
     VRoo=VRooWes,
     allowFlowReversal=allowFlowReversal,
-    ratVFloHea=ratVFloHea,
-    THotWatInl_nominal=THotWatInl_nominal,
-    THotWatOut_nominal=THotWatInl_nominal-10,
-    TAirInl_nominal=12+273.15,
     QHea_flow_nominal=mWes_flow_nominal*ratVFloHea*cpAir*(32-12))
     "West-facing thermal zone"
     annotation (Placement(transformation(extent={{1290,20},{1330,60}})));
@@ -444,7 +449,6 @@ partial model PartialHVAC
     redeclare package Medium = MediumA,
     m_flow_nominal=m_flow_nominal,
     from_dp=false,
-    riseTime=15,
     dpDamper_nominal=5,
     dpFixed_nominal=5) "Return air damper" annotation (Placement(transformation(
         origin={0,-10},
@@ -454,7 +458,6 @@ partial model PartialHVAC
     redeclare package Medium = MediumA,
     m_flow_nominal=m_flow_nominal,
     from_dp=false,
-    riseTime=15,
     dpDamper_nominal=5,
     dpFixed_nominal=5) "Outdoor air damper"
     annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
@@ -682,7 +685,7 @@ equation
       smooth=Smooth.None,
       thickness=0.5));
   connect(amb.ports[1], VOut1.port_a) annotation (Line(
-      points={{-114,-42.8},{-94,-42.8},{-94,-40},{-90,-40}},
+      points={{-114,-46.1},{-94,-46.1},{-94,-40},{-90,-40}},
       color={0,127,255},
       smooth=Smooth.None,
       thickness=0.5));
@@ -746,7 +749,7 @@ equation
       smooth=Smooth.None,
       thickness=0.5));
   connect(weaBus.TDryBul, TOut.u) annotation (Line(
-      points={{-320,180},{-302,180}},
+      points={{-319.95,180.05},{-310,180.05},{-310,180},{-302,180}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
@@ -769,8 +772,8 @@ equation
   connect(senSupFlo.port_b, splSupRoo1.port_1)
     annotation (Line(points={{420,-40},{580,-40}}, color={0,127,255}));
   connect(dpDisSupFan.port_b, amb.ports[2]) annotation (Line(
-      points={{320,10},{320,14},{-106,14},{-106,-48},{-110,-48},{-110,-47.2},{
-          -114,-47.2}},
+      points={{320,10},{320,14},{-106,14},{-106,-48},{-110,-48},{-110,-43.9},{-114,
+          -43.9}},
       color={0,0,0},
       pattern=LinePattern.Dot));
   connect(senRetFlo.port_b, TRet.port_a) annotation (Line(points={{340,140},{
@@ -801,28 +804,25 @@ equation
   connect(splHeaRet.port_3, splHeaSup.port_3)
     annotation (Line(points={{98,-170},{118,-170}}, color={0,127,255}));
   connect(sou.port_bAir, port_supAir[1]) annotation (Line(points={{770,60},{770,
-          152},{1420,152}}, color={0,127,255}));
-  connect(eas.port_bAir, port_supAir[2]) annotation (Line(points={{950,60},{950,
           156},{1420,156}}, color={0,127,255}));
+  connect(eas.port_bAir, port_supAir[2]) annotation (Line(points={{950,60},{950,
+          158},{1420,158}}, color={0,127,255}));
   connect(nor.port_bAir, port_supAir[3]) annotation (Line(points={{1110,60},{1112,
           60},{1112,160},{1420,160}}, color={0,127,255}));
-  connect(wes.port_bAir, port_supAir[4]) annotation (Line(points={{1310,60},{
-          1310,164},{1420,164}},
-                            color={0,127,255}));
+  connect(wes.port_bAir, port_supAir[4]) annotation (Line(points={{1310,60},{1310,
+          162},{1420,162}}, color={0,127,255}));
   connect(cor.port_bAir, port_supAir[5]) annotation (Line(points={{590,62},{592,
-          62},{592,168},{1420,168}}, color={0,127,255}));
-  connect(splRetSou.port_3, port_retAir[1]) annotation (Line(points={{822,10},{
-          822,112},{1420,112}},
-                            color={0,127,255}));
-  connect(splRetEas.port_3, port_retAir[2]) annotation (Line(points={{1002,10},
-          {1002,116},{1420,116}},color={0,127,255}));
+          62},{592,164},{1420,164}}, color={0,127,255}));
+  connect(splRetSou.port_3, port_retAir[1]) annotation (Line(points={{822,10},{822,
+          116},{1420,116}}, color={0,127,255}));
+  connect(splRetEas.port_3, port_retAir[2]) annotation (Line(points={{1002,10},{
+          1002,118},{1420,118}}, color={0,127,255}));
   connect(splRetNor.port_3, port_retAir[3]) annotation (Line(points={{1152,10},{
           1152,120},{1420,120}}, color={0,127,255}));
-  connect(splRetNor.port_2, port_retAir[4]) annotation (Line(points={{1162,0},{
-          1360,0},{1360,124},{1420,124}},
-                                     color={0,127,255}));
-  connect(splRetRoo1.port_3, port_retAir[5]) annotation (Line(points={{640,10},
-          {640,128},{1420,128}},color={0,127,255}));
+  connect(splRetNor.port_2, port_retAir[4]) annotation (Line(points={{1162,0},{1360,
+          0},{1360,122},{1420,122}}, color={0,127,255}));
+  connect(splRetRoo1.port_3, port_retAir[5]) annotation (Line(points={{640,10},{
+          640,124},{1420,124}}, color={0,127,255}));
   connect(splHeaSup.port_1, valHeaCoi.port_b)
     annotation (Line(points={{128,-180},{128,-200}}, color={0,127,255}));
   connect(splCooSup.port_1, valCooCoi.port_b)
@@ -837,15 +837,15 @@ equation
           {200,-260},{220,-260},{220,-220}}, color={0,127,255}));
   connect(portCooCoiRet, splCooRet.port_1) annotation (Line(points={{240,-300},
           {240,-240},{180,-240},{180,-180}}, color={0,127,255}));
-  connect(portHeaTerRet, cor.port_bHotWat) annotation (Line(points={{500,-300},
+  connect(portHeaTerRet, cor.port_bHeaWat) annotation (Line(points={{500,-300},
           {500,-186},{526,-186},{526,30},{570,30}}, color={0,127,255}));
-  connect(portHeaTerRet, sou.port_bHotWat) annotation (Line(points={{500,-300},
+  connect(portHeaTerRet, sou.port_bHeaWat) annotation (Line(points={{500,-300},
           {500,-186},{726,-186},{726,28},{750,28}}, color={0,127,255}));
-  connect(portHeaTerRet, eas.port_bHotWat) annotation (Line(points={{500,-300},
+  connect(portHeaTerRet, eas.port_bHeaWat) annotation (Line(points={{500,-300},
           {500,-186},{906,-186},{906,28},{930,28}}, color={0,127,255}));
-  connect(portHeaTerRet, nor.port_bHotWat) annotation (Line(points={{500,-300},
+  connect(portHeaTerRet, nor.port_bHeaWat) annotation (Line(points={{500,-300},
           {500,-186},{1066,-186},{1066,28},{1090,28}}, color={0,127,255}));
-  connect(portHeaTerRet, wes.port_bHotWat) annotation (Line(points={{500,-300},{
+  connect(portHeaTerRet, wes.port_bHeaWat) annotation (Line(points={{500,-300},{
           500,-186},{1278,-186},{1278,28},{1290,28}}, color={0,127,255}));
   connect(splCooSup.port_2, senTemCooCoiSup.port_a)
     annotation (Line(points={{220,-160},{220,-100}}, color={0,127,255}));
@@ -863,15 +863,15 @@ equation
     annotation (Line(points={{128,-110},{128,-100}}, color={0,127,255}));
   connect(senTemHeaCoiSup.port_b, heaCoi.port_a1) annotation (Line(points={{128,
           -80},{128,-52},{118,-52}}, color={0,127,255}));
-  connect(portHeaTerSup, cor.port_aHotWat) annotation (Line(points={{460,-300},
+  connect(portHeaTerSup, cor.port_aHeaWat) annotation (Line(points={{460,-300},
           {460,-180},{520,-180},{520,42},{570,42}}, color={0,127,255}));
-  connect(portHeaTerSup, sou.port_aHotWat) annotation (Line(points={{460,-300},
+  connect(portHeaTerSup, sou.port_aHeaWat) annotation (Line(points={{460,-300},
           {460,-180},{724,-180},{724,40},{750,40}}, color={0,127,255}));
-  connect(portHeaTerSup, eas.port_aHotWat) annotation (Line(points={{460,-300},
+  connect(portHeaTerSup, eas.port_aHeaWat) annotation (Line(points={{460,-300},
           {460,-180},{900,-180},{900,40},{930,40}}, color={0,127,255}));
-  connect(nor.port_aHotWat, portHeaTerSup) annotation (Line(points={{1090,40},{
+  connect(nor.port_aHeaWat, portHeaTerSup) annotation (Line(points={{1090,40},{
           1060,40},{1060,-180},{460,-180},{460,-300}}, color={0,127,255}));
-  connect(wes.port_aHotWat, portHeaTerSup) annotation (Line(points={{1290,40},{
+  connect(wes.port_aHeaWat, portHeaTerSup) annotation (Line(points={{1290,40},{
           1274,40},{1274,-180},{460,-180},{460,-300}}, color={0,127,255}));
   annotation (
   Diagram(

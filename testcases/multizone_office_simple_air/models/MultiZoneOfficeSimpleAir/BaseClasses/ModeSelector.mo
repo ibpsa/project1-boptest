@@ -1,6 +1,6 @@
 within MultiZoneOfficeSimpleAir.BaseClasses;
 model ModeSelector "Finite State Machine for the operational modes"
-  Modelica.StateGraph.InitialStepWithSignal initialStepWithSignal(nIn=0)
+  Modelica.StateGraph.InitialStepWithSignal initialStepWithSignal(nIn=0, nOut=1)
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
   Modelica.StateGraph.Transition start "Starts the system"
     annotation (Placement(transformation(extent={{-50,20},{-30,40}})));
@@ -202,27 +202,23 @@ model ModeSelector "Finite State Machine for the operational modes"
     annotation (Placement(transformation(extent={{140,50},{120,70}})));
 equation
   connect(start.outPort, unOccOff.inPort[1]) annotation (Line(
-      points={{-38.5,30},{-29.75,30},{-29.75,30.75},{-21,30.75}},
-      color={0,0,0},
-      smooth=Smooth.None));
-  connect(initialStepWithSignal.outPort[1], start.inPort) annotation (Line(
-      points={{-59.5,30},{-44,30}},
+      points={{-38.5,30},{-29.75,30},{-29.75,29.625},{-21,29.625}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(unOccOff.outPort[1], t2.inPort)         annotation (Line(
-      points={{0.5,30.4},{8.25,30.4},{8.25,30},{34,30}},
+      points={{0.5,29.8},{8.25,29.8},{8.25,30},{34,30}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(t2.outPort, unOccNigSetBac.inPort[1])  annotation (Line(
-      points={{39.5,30},{60,30},{60,30.5},{79,30.5}},
+      points={{39.5,30},{60,30},{60,29.75},{79,29.75}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(unOccNigSetBac.outPort[1], t1.inPort)   annotation (Line(
-      points={{100.5,30.25},{112,30.25},{112,80},{44,80}},
+      points={{100.5,29.875},{112,29.875},{112,80},{44,80}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(t1.outPort, unOccOff.inPort[2])          annotation (Line(
-      points={{38.5,80},{-30,80},{-30,30.25},{-21,30.25}},
+      points={{38.5,80},{-30,80},{-30,29.875},{-21,29.875}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(cb.dTNexOcc, occThrSho.u)             annotation (Line(
@@ -234,20 +230,20 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}}));
   connect(t6.outPort, morWarUp.inPort[1]) annotation (Line(
-      points={{-64.5,-90},{-41,-90},{-41,-89.5}},
+      points={{-64.5,-90},{-41,-90},{-41,-90.25}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(t5.outPort, morWarUp.inPort[2]) annotation (Line(
-      points={{129.5,30},{140,30},{140,-60},{-48,-60},{-48,-90.5},{-41,-90.5}},
+      points={{129.5,30},{140,30},{140,-60},{-48,-60},{-48,-89.75},{-41,-89.75}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(unOccNigSetBac.outPort[2], t5.inPort)
                                          annotation (Line(
-      points={{100.5,29.75},{113.25,29.75},{113.25,30},{124,30}},
+      points={{100.5,30.125},{113.25,30.125},{113.25,30},{124,30}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(unOccOff.outPort[2], t6.inPort) annotation (Line(
-      points={{0.5,30.2},{12,30.2},{12,-48},{-80,-48},{-80,-90},{-70,-90}},
+      points={{0.5,29.9},{12,29.9},{12,-48},{-80,-48},{-80,-90},{-70,-90}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(morWarUp.outPort[1], t3.inPort) annotation (Line(
@@ -263,11 +259,11 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}}));
   connect(occ.outPort[1], t4.inPort) annotation (Line(
-      points={{80.5,-89.6667},{146,-89.6667},{146,130},{112,130}},
+      points={{80.5,-90.1667},{146,-90.1667},{146,130},{112,130}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(t4.outPort, unOccOff.inPort[3]) annotation (Line(
-      points={{106.5,130},{-30,130},{-30,29.75},{-21,29.75}},
+      points={{106.5,130},{-30,130},{-30,30.125},{-21,30.125}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(cb.TRooAve, TRooAve.u) annotation (Line(
@@ -279,7 +275,7 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}}));
   connect(t9.outPort, morPreCoo.inPort[1]) annotation (Line(
-      points={{-78.5,-130},{-59.75,-130},{-59.75,-129.5},{-41,-129.5}},
+      points={{-78.5,-130},{-59.75,-130},{-59.75,-130.25},{-41,-130.25}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(unOccOff.outPort[3], t9.inPort) annotation (Line(
@@ -299,11 +295,12 @@ equation
       color={0,0,0},
       smooth=Smooth.None));
   connect(t7.outPort, occ.inPort[2]) annotation (Line(
-      points={{21.5,-130},{30,-130},{30,-128},{46,-128},{46,-89.75},{59,-89.75}},
+      points={{21.5,-130},{30,-130},{30,-128},{46,-128},{46,-90.125},{59,
+          -90.125}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(t3.outPort, occ.inPort[1]) annotation (Line(
-      points={{21.5,-90},{42,-90},{42,-89.25},{59,-89.25}},
+      points={{21.5,-90},{42,-90},{42,-90.375},{59,-90.375}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(occThrSho.y, not1.u) annotation (Line(
@@ -311,11 +308,11 @@ equation
       color={255,0,255},
       smooth=Smooth.None));
   connect(t8.outPort, occ.inPort[3]) annotation (Line(
-      points={{41.5,-20},{52,-20},{52,-90.25},{59,-90.25}},
+      points={{41.5,-20},{52,-20},{52,-89.875},{59,-89.875}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(unOccOff.outPort[4], t8.inPort) annotation (Line(
-      points={{0.5,29.8},{12,29.8},{12,-20},{36,-20}},
+      points={{0.5,30.1},{12,30.1},{12,-20},{36,-20}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(occupied.y, t8.condition) annotation (Line(
@@ -323,17 +320,17 @@ equation
       color={255,0,255},
       smooth=Smooth.None));
   connect(morPreCoo.y, sum.u[1]) annotation (Line(
-      points={{-19,-136},{-8,-136},{-8,-68},{-212,-68},{-212,142},{-192,142},{-192,
-          143.6}},
+      points={{-19,-136},{-8,-136},{-8,-68},{-212,-68},{-212,142},{-192,142},{
+          -192,138.2}},
       color={255,127,0},
       smooth=Smooth.None));
   connect(morWarUp.y, sum.u[2]) annotation (Line(
-      points={{-19,-96},{-8,-96},{-8,-68},{-212,-68},{-212,144},{-192,144},{-192,
-          142.4}},
+      points={{-19,-96},{-8,-96},{-8,-68},{-212,-68},{-212,144},{-192,144},{
+          -192,138.8}},
       color={255,127,0},
       smooth=Smooth.None));
   connect(occ.y, sum.u[3]) annotation (Line(
-      points={{81,-96},{90,-96},{90,-108},{-212,-108},{-212,141.2},{-192,141.2}},
+      points={{81,-96},{90,-96},{90,-108},{-212,-108},{-212,139.4},{-192,139.4}},
       color={255,127,0},
       smooth=Smooth.None));
   connect(unOccOff.y, sum.u[4]) annotation (Line(
@@ -341,22 +338,22 @@ equation
       color={255,127,0},
       smooth=Smooth.None));
   connect(unOccNigSetBac.y, sum.u[5]) annotation (Line(
-      points={{101,24},{112,24},{112,8},{-212,8},{-212,138.8},{-192,138.8}},
+      points={{101,24},{112,24},{112,8},{-212,8},{-212,140.6},{-192,140.6}},
       color={255,127,0},
       smooth=Smooth.None));
   connect(yFan, or1.y)
     annotation (Line(points={{240,100},{200,100},{200,0},{191.5,0}},
                                                  color={255,0,255}));
   connect(unOccNigSetBac.active, or1.u[1]) annotation (Line(points={{90,19},{90,
-          5.6},{170,5.6}},   color={255,0,255}));
+          -2.8},{170,-2.8}}, color={255,0,255}));
   connect(occ.active, or1.u[2]) annotation (Line(points={{70,-101},{70,-104},{
-          156,-104},{156,-2},{170,-2},{170,2.8}},
+          156,-104},{156,-2},{170,-2},{170,-1.4}},
                                             color={255,0,255}));
   connect(morWarUp.active, or1.u[3]) annotation (Line(points={{-30,-101},{-30,
           -112},{160,-112},{160,-4},{170,-4},{170,0}},
                                                      color={255,0,255}));
   connect(morPreCoo.active, or1.u[4]) annotation (Line(points={{-30,-141},{-30,
-          -146},{158,-146},{158,0},{170,0},{170,-2.8}},
+          -146},{158,-146},{158,0},{170,0},{170,1.4}},
                                                      color={255,0,255}));
   connect(yEco, and3.y) annotation (Line(points={{240,-100},{200,-100},{200,-82}},
                       color={255,0,255}));
@@ -365,7 +362,7 @@ equation
   connect(or2.y, and3.u2) annotation (Line(points={{191.5,-40},{192,-40},{192,
           -58}},           color={255,0,255}));
   connect(occ.active, or2.u[1]) annotation (Line(points={{70,-101},{70,-104},{
-          156,-104},{156,-35.3333},{170,-35.3333}},
+          156,-104},{156,-42.3333},{170,-42.3333}},
                                               color={255,0,255}));
   connect(morPreCoo.active, or2.u[2]) annotation (Line(points={{-30,-141},{-30,
           -146},{158,-146},{158,-40},{170,-40}},     color={255,0,255}));
@@ -377,84 +374,104 @@ equation
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(modIni.y, sum.u[6]) annotation (Line(points={{-181,20},{-200,20},{-200,
-          137.6},{-192,137.6}},      color={255,127,0}));
+  connect(modIni.y, sum.u[6]) annotation (Line(points={{-181,20},{-200,20},{
+          -200,141.2},{-192,141.2}}, color={255,127,0}));
   connect(t6.condition, booleanExpression.y) annotation (Line(points={{-66,-102},
           {-66,-209},{-94.8,-209}}, color={255,0,255}));
   connect(t5.condition, booleanExpression.y) annotation (Line(points={{128,18},
           {128,-209},{-94.8,-209}}, color={255,0,255}));
-  connect(TRooSetHeaNum[1], TRooErrHeaSou.u1) annotation (Line(points={{-240,204},
-          {-160,204},{-160,200},{-138,200}}, color={0,0,127}));
-  connect(TRooSetHeaNum[2], TRooErrHeaEas.u1) annotation (Line(points={{-240,212},
-          {-110,212},{-110,200},{-98,200}}, color={0,0,127}));
+  connect(TRooSetHeaNum[1], TRooErrHeaSou.u1) annotation (Line(points={{-240,
+          212},{-160,212},{-160,200},{-138,200}},
+                                             color={0,0,127}));
+  connect(TRooSetHeaNum[2], TRooErrHeaEas.u1) annotation (Line(points={{-240,
+          216},{-110,216},{-110,200},{-98,200}},
+                                            color={0,0,127}));
   connect(TRooSetHeaNum[3], TRooErrHeaNor.u1) annotation (Line(points={{-240,220},
           {-70,220},{-70,200},{-58,200}}, color={0,0,127}));
-  connect(TRooSetHeaNum[4], TRooErrHeaWes.u1) annotation (Line(points={{-240,228},
-          {-30,228},{-30,200},{-18,200}}, color={0,0,127}));
-  connect(TRooSetHeaNum[5], TRooErrHeaCor.u1) annotation (Line(points={{-240,236},
-          {10,236},{10,200},{22,200}}, color={0,0,127}));
-  connect(TRoo[1], TRooErrHeaSou.u2) annotation (Line(points={{-240,124},{-214,124},
-          {-214,180},{-130,180},{-130,192}}, color={0,0,127}));
-  connect(TRoo[2], TRooErrHeaEas.u2) annotation (Line(points={{-240,132},{-214,132},
-          {-214,180},{-90,180},{-90,192}}, color={0,0,127}));
+  connect(TRooSetHeaNum[4], TRooErrHeaWes.u1) annotation (Line(points={{-240,
+          224},{-30,224},{-30,200},{-18,200}},
+                                          color={0,0,127}));
+  connect(TRooSetHeaNum[5], TRooErrHeaCor.u1) annotation (Line(points={{-240,
+          228},{10,228},{10,200},{22,200}},
+                                       color={0,0,127}));
+  connect(TRoo[1], TRooErrHeaSou.u2) annotation (Line(points={{-240,132},{-214,
+          132},{-214,180},{-130,180},{-130,192}},
+                                             color={0,0,127}));
+  connect(TRoo[2], TRooErrHeaEas.u2) annotation (Line(points={{-240,136},{-214,
+          136},{-214,180},{-90,180},{-90,192}},
+                                           color={0,0,127}));
   connect(TRoo[3], TRooErrHeaNor.u2) annotation (Line(points={{-240,140},{-214,140},
           {-214,180},{-50,180},{-50,192}}, color={0,0,127}));
-  connect(TRoo[4], TRooErrHeaWes.u2) annotation (Line(points={{-240,148},{-214,148},
-          {-214,180},{-10,180},{-10,192}}, color={0,0,127}));
-  connect(TRoo[5], TRooErrHeaCor.u2) annotation (Line(points={{-240,156},{-214,156},
-          {-214,180},{30,180},{30,192}}, color={0,0,127}));
-  connect(TRoo[1], TRooErrCooSou.u1) annotation (Line(points={{-240,124},{-214,124},
-          {-214,170},{-150,170},{-150,160},{-138,160}}, color={0,0,127}));
-  connect(TRoo[2], TRooErrCooEas.u1) annotation (Line(points={{-240,132},{-214,132},
-          {-214,170},{-106,170},{-106,160},{-98,160}}, color={0,0,127}));
+  connect(TRoo[4], TRooErrHeaWes.u2) annotation (Line(points={{-240,144},{-214,
+          144},{-214,180},{-10,180},{-10,192}},
+                                           color={0,0,127}));
+  connect(TRoo[5], TRooErrHeaCor.u2) annotation (Line(points={{-240,148},{-214,
+          148},{-214,180},{30,180},{30,192}},
+                                         color={0,0,127}));
+  connect(TRoo[1], TRooErrCooSou.u1) annotation (Line(points={{-240,132},{-214,
+          132},{-214,170},{-150,170},{-150,160},{-138,160}},
+                                                        color={0,0,127}));
+  connect(TRoo[2], TRooErrCooEas.u1) annotation (Line(points={{-240,136},{-214,
+          136},{-214,170},{-106,170},{-106,160},{-98,160}},
+                                                       color={0,0,127}));
   connect(TRoo[3], TRooErrCooNor.u1) annotation (Line(points={{-240,140},{-214,140},
           {-214,170},{-68,170},{-68,160},{-58,160}}, color={0,0,127}));
-  connect(TRoo[4], TRooErrCooWes.u1) annotation (Line(points={{-240,148},{-214,148},
-          {-214,170},{-26,170},{-26,160},{-18,160}}, color={0,0,127}));
-  connect(TRoo[5], TRooErrCooCor.u1) annotation (Line(points={{-240,156},{-214,156},
-          {-214,170},{12,170},{12,160},{22,160}}, color={0,0,127}));
-  connect(TRooSetCooNum[1], TRooErrCooSou.u2) annotation (Line(points={{-240,164},
-          {-218,164},{-218,148},{-130,148},{-130,152}}, color={0,0,127}));
-  connect(TRooSetCooNum[2], TRooErrCooEas.u2) annotation (Line(points={{-240,172},
-          {-218,172},{-218,148},{-90,148},{-90,152}}, color={0,0,127}));
+  connect(TRoo[4], TRooErrCooWes.u1) annotation (Line(points={{-240,144},{-214,
+          144},{-214,170},{-26,170},{-26,160},{-18,160}},
+                                                     color={0,0,127}));
+  connect(TRoo[5], TRooErrCooCor.u1) annotation (Line(points={{-240,148},{-214,
+          148},{-214,170},{12,170},{12,160},{22,160}},
+                                                  color={0,0,127}));
+  connect(TRooSetCooNum[1], TRooErrCooSou.u2) annotation (Line(points={{-240,
+          172},{-218,172},{-218,148},{-130,148},{-130,152}},
+                                                        color={0,0,127}));
+  connect(TRooSetCooNum[2], TRooErrCooEas.u2) annotation (Line(points={{-240,
+          176},{-218,176},{-218,148},{-90,148},{-90,152}},
+                                                      color={0,0,127}));
   connect(TRooSetCooNum[3], TRooErrCooNor.u2) annotation (Line(points={{-240,180},
           {-218,180},{-218,148},{-50,148},{-50,152}}, color={0,0,127}));
-  connect(TRooSetCooNum[4], TRooErrCooWes.u2) annotation (Line(points={{-240,188},
-          {-218,188},{-218,148},{-10,148},{-10,152}}, color={0,0,127}));
-  connect(TRooSetCooNum[5], TRooErrCooCor.u2) annotation (Line(points={{-240,196},
-          {-218,196},{-218,148},{30,148},{30,152}}, color={0,0,127}));
+  connect(TRooSetCooNum[4], TRooErrCooWes.u2) annotation (Line(points={{-240,
+          184},{-218,184},{-218,148},{-10,148},{-10,152}},
+                                                      color={0,0,127}));
+  connect(TRooSetCooNum[5], TRooErrCooCor.u2) annotation (Line(points={{-240,
+          188},{-218,188},{-218,148},{30,148},{30,152}},
+                                                    color={0,0,127}));
   connect(preCooSta.y, t9.condition) annotation (Line(points={{-119,-150},{-80,-150},
           {-80,-142}}, color={255,0,255}));
   connect(t10.outPort, unOccNigSetUp.inPort[1])
-    annotation (Line(points={{81.5,-20},{90,-20},{90,-19.5},{99,-19.5}},
+    annotation (Line(points={{81.5,-20},{90,-20},{90,-20.25},{99,-20.25}},
                                                    color={0,0,0}));
-  connect(unOccOff.outPort[5], t10.inPort) annotation (Line(points={{0.5,29.6},{
-          12,29.6},{12,4},{68,4},{68,-20},{76,-20}}, color={0,0,0}));
-  connect(unOccNigSetUp.y, sum.u[7]) annotation (Line(points={{121,-26},{124,-26},
-          {124,-36},{-210,-36},{-210,136.4},{-192,136.4}}, color={255,127,0}));
+  connect(unOccOff.outPort[5], t10.inPort) annotation (Line(points={{0.5,30.2},
+          {12,30.2},{12,4},{68,4},{68,-20},{76,-20}},color={0,0,0}));
+  connect(unOccNigSetUp.y, sum.u[7]) annotation (Line(points={{121,-26},{124,
+          -26},{124,-36},{-210,-36},{-210,141.8},{-192,141.8}},
+                                                           color={255,127,0}));
   connect(unOccNigSetUp.active, or1.u[5]) annotation (Line(points={{110,-31},{
-          110,-44},{154,-44},{154,-5.6},{170,-5.6}},
+          110,-44},{154,-44},{154,2.8},{170,2.8}},
                                                  color={255,0,255}));
   connect(unOccNigSetUp.active, or2.u[3]) annotation (Line(points={{110,-31},{
-          110,-44.6667},{170,-44.6667}},
+          110,-37.6667},{170,-37.6667}},
                                      color={255,0,255}));
-  connect(t11.outPort, unOccOff.inPort[4]) annotation (Line(points={{78.5,64},{-24,
-          64},{-24,29.25},{-21,29.25}}, color={0,0,0}));
+  connect(t11.outPort, unOccOff.inPort[4]) annotation (Line(points={{78.5,64},{
+          -24,64},{-24,30.375},{-21,30.375}},
+                                        color={0,0,0}));
   connect(t11.inPort, unOccNigSetUp.outPort[1]) annotation (Line(points={{84,64},
-          {122,64},{122,-19.6667},{120.5,-19.6667}}, color={0,0,0}));
+          {122,64},{122,-20.1667},{120.5,-20.1667}}, color={0,0,0}));
   connect(unOccNigSetUp.outPort[2], t12.inPort) annotation (Line(points={{120.5,
           -20},{126,-20},{126,-128},{122,-128}}, color={0,0,0}));
-  connect(t12.outPort, morPreCoo.inPort[2]) annotation (Line(points={{116.5,-128},
-          {62,-128},{62,-114},{-46,-114},{-46,-130.5},{-41,-130.5}}, color={0,0,
+  connect(t12.outPort, morPreCoo.inPort[2]) annotation (Line(points={{116.5,
+          -128},{62,-128},{62,-114},{-46,-114},{-46,-129.75},{-41,-129.75}},
+                                                                     color={0,0,
           0}));
   connect(preCooSta.y, t12.condition) annotation (Line(points={{-119,-150},{118,
           -150},{118,-140}}, color={255,0,255}));
   connect(occupied.y, t13.condition) annotation (Line(points={{-59,90},{-50,90},
           {-50,-40},{100,-40},{100,-84},{112,-84},{112,-78}}, color={255,0,255}));
   connect(unOccNigSetUp.outPort[3], t13.inPort) annotation (Line(points={{120.5,
-          -20.3333},{126,-20.3333},{126,-66},{116,-66}}, color={0,0,0}));
-  connect(t13.outPort, occ.inPort[4]) annotation (Line(points={{110.5,-66},{56,-66},
-          {56,-90.75},{59,-90.75}}, color={0,0,0}));
+          -19.8333},{126,-19.8333},{126,-66},{116,-66}}, color={0,0,0}));
+  connect(t13.outPort, occ.inPort[4]) annotation (Line(points={{110.5,-66},{56,
+          -66},{56,-89.625},{59,-89.625}},
+                                    color={0,0,0}));
   connect(cb.TRooMin, TRooMin.u) annotation (Line(
       points={{-158,140},{-120,140},{-120,60},{-82,60}},
       color={255,204,51},
@@ -467,14 +484,17 @@ equation
           {20,14},{38,14},{38,18}}, color={255,0,255}));
   connect(booSetUp.y, t10.condition) annotation (Line(points={{2,-24},{24,-24},
           {24,-44},{80,-44},{80,-32}}, color={255,0,255}));
-  connect(t14.outPort, unOccNigSetBac.inPort[2]) annotation (Line(points={{
-          118.5,100},{60,100},{60,29.5},{79,29.5}}, color={0,0,0}));
+  connect(t14.outPort, unOccNigSetBac.inPort[2]) annotation (Line(points={{118.5,
+          100},{60,100},{60,30.25},{79,30.25}},     color={0,0,0}));
   connect(t14.inPort, occ.outPort[2]) annotation (Line(points={{124,100},{144,
           100},{144,-90},{80.5,-90}}, color={0,0,0}));
   connect(t15.outPort, unOccNigSetUp.inPort[2]) annotation (Line(points={{128.5,
-          60},{116,60},{116,-2},{94,-2},{94,-20.5},{99,-20.5}}, color={0,0,0}));
+          60},{116,60},{116,-2},{94,-2},{94,-19.75},{99,-19.75}},
+                                                                color={0,0,0}));
   connect(t15.inPort, occ.outPort[3]) annotation (Line(points={{134,60},{142,60},
-          {142,-90.3333},{80.5,-90.3333}}, color={0,0,0}));
+          {142,-89.8333},{80.5,-89.8333}}, color={0,0,0}));
+  connect(initialStepWithSignal.outPort[1], start.inPort)
+    annotation (Line(points={{-59.5,30},{-44,30}}, color={0,0,0}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-220,
             -220},{220,220}})), Icon(coordinateSystem(
           preserveAspectRatio=true, extent={{-220,-220},{220,220}}), graphics={

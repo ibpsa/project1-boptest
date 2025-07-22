@@ -15,6 +15,7 @@ read any associated signals for KPIs, units, min/max, and descriptions.
 """
 
 from pyfmi import load_fmu
+from pymodelica import compile_fmu #To be put in if condition
 import os
 import json
 from data.data_manager import Data_Manager
@@ -52,14 +53,11 @@ def parse_instances(model_path, file_name, tool='JModelica'):
 
     # Compile fmu
     if tool == 'JModelica':
-        from pymodelica import compile_fmu
-        fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
-    elif tool == 'OpenModelica':
-        fmu_path = _compile_fmu(model_path, file_name)
-    if tool == 'JModelica':
         fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
     elif tool == 'OCT':
         fmu_path = compile_fmu(model_path, file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
+    elif tool == 'OpenModelica':
+        fmu_path = _compile_fmu(model_path, file_name)
     else:
         raise ValueError('Tool {0} unknown.'.format(tool))
     # Load fmu
@@ -208,9 +206,11 @@ def write_wrapper(model_path, file_name, instances, tool='JModelica'):
             fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, jvm_args="-Xmx8g", target='cs')
         elif tool == 'OCT':
             fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
+        elif tool == 'OpenModelica':
+            fmu_path = _compile_fmu('wrapped', [wrapped_path]+file_name)
         else:
             raise ValueError('Tool {0} unknown.'.format(tool))
-        fmu_path = _compile_fmu('wrapped', [wrapped_path]+file_name)
+
     # If there are not, write and export wrapper model
     else:
         # Warn user
@@ -220,13 +220,10 @@ def write_wrapper(model_path, file_name, instances, tool='JModelica'):
             fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
         elif tool == 'OCT':
             fmu_path = compile_fmu(model_path, file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
-        else:
-            raise ValueError('Tool {0} unknown.'.format(tool))
-        if tool == 'JModelica':
-            from pymodelica import compile_fmu
-            fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
         elif tool == 'OpenModelica':
             fmu_path = _compile_fmu(model_path, file_name)
+        else:
+            raise ValueError('Tool {0} unknown.'.format(tool))
         wrapped_path = None
 
     return fmu_path, wrapped_path

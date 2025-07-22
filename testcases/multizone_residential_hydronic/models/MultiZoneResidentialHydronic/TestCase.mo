@@ -836,7 +836,6 @@ public
     redeclare package Medium = MediumW,
     dpValve_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal,
-    use_inputFilter=false,
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{-6,-118},{4,-128}})));
   Building.Control.ConHeaZon conHeaRo1(Khea=1,
@@ -860,7 +859,6 @@ public
     redeclare package Medium = MediumW,
     dpValve_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal,
-    use_inputFilter=false,
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{52,-118},{62,-128}})));
   Building.Control.ConHeaZon conHeaRo2(Khea=1,
@@ -884,7 +882,6 @@ public
     redeclare package Medium = MediumW,
     dpValve_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal,
-    use_inputFilter=false,
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{54,-198},{64,-208}})));
   Building.Control.ConHeaZon conHeaRo3(Khea=1,
@@ -908,7 +905,6 @@ public
     redeclare package Medium = MediumW,
     dpValve_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal,
-    use_inputFilter=false,
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{4,-198},{14,-208}})));
   Building.Control.ConHeaZon conHeaBth(Khea=1,
@@ -1068,7 +1064,6 @@ public
     redeclare package Medium = MediumW,
     dpValve_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal,
-    use_inputFilter=false,
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{-64,-114},{-54,-124}})));
   Buildings.Fluid.FixedResistances.Junction outSplVal1(
@@ -1167,8 +1162,7 @@ public
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Entering,
     m_flow_nominal=mBoi_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    from_dp=false,
-    use_inputFilter=false) "Boiler valve"
+    from_dp=false)         "Boiler valve"
     annotation (Placement(transformation(extent={{-118,-144},{-108,-134}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort temRet(
     redeclare package Medium = MediumW,
@@ -1225,7 +1219,6 @@ public
     constantMassFlowRate=0.15,
     m_flow_nominal=mBoi_flow_nominal,
     redeclare Buildings.Fluid.Movers.Data.Generic per,
-    use_inputFilter=false,
     nominalValuesDefineDefaultPressureCurve=true) "Pump for emission system"
     annotation (Placement(transformation(extent={{5,5},{-5,-5}}, origin={-83,-175})));
   Modelica.Blocks.Sources.RealExpression HeaSetLiv(y=schGeneral.HeaSetRT12 +
@@ -1403,7 +1396,7 @@ public
         origin={-176,-184})));
   Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea1
     annotation (Placement(transformation(extent={{-210,-148},{-198,-136}})));
-  Buildings.Controls.OBC.CDL.Continuous.GreaterThreshold greThr(t=0.05, h=0.025)
+  Buildings.Controls.OBC.CDL.Reals.GreaterThreshold greThr(t=0.05, h=0.025)
     annotation (Placement(transformation(extent={{-184,-194},{-204,-174}})));
 equation
   // Heating production
@@ -1437,10 +1430,6 @@ equation
       thickness=0.5));
   connect(weaDat.weaBus, ro1.weaBus) annotation (Line(
       points={{-276,56},{-0.84,56},{-0.84,25.16}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(weaDat.weaBus, gar.weaBus) annotation (Line(
-      points={{-276,56},{-164,56},{-164,-94},{-122.84,-94},{-122.84,-40.84}},
       color={255,204,51},
       thickness=0.5));
   connect(weaDat.weaBus,bth. weaBus) annotation (Line(
@@ -1662,7 +1651,7 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}}));
   connect(weaBus.TDryBul, prescribedText.T) annotation (Line(
-      points={{-164,56},{-154,56},{-154,64},{-136.8,64}},
+      points={{-163.97,56.03},{-154,56.03},{-154,64},{-136.8,64}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -1772,10 +1761,6 @@ equation
       thickness=0.5));
   connect(weaDat.weaBus,bth. weaBus) annotation (Line(
       points={{-276,56},{-164,56},{-164,-94},{-2.84,-94},{-2.84,-46.84}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(weaDat.weaBus, ro3.weaBus) annotation (Line(
-      points={{-276,56},{-164,56},{-164,-94},{57.16,-94},{57.16,-46.84}},
       color={255,204,51},
       thickness=0.5));
   connect(radRo1.port_b, valRo1.port_a) annotation (Line(points={{-8,-123},{-8,
@@ -1947,7 +1932,7 @@ equation
   connect(spl.port_3, valBoi.port_3)
     annotation (Line(points={{-113,-170},{-113,-144}}, color={0,127,255}));
   connect(weaBus.TDryBul,heaCha. TOut) annotation (Line(
-      points={{-164,56},{-164,-94},{-146,-94},{-146,-110.8},{-144.4,-110.8}},
+      points={{-163.97,56.03},{-163.97,-94},{-146,-94},{-146,-110.8},{-144.4,-110.8}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -2017,7 +2002,7 @@ equation
                              color={0,127,255}));
   connect(expCooLiv.y, conCooLiv.TSet) annotation (Line(points={{-73.8,16},{-70,
           16},{-70,18.3333},{-66.32,18.3333}}, color={0,0,127}));
-  connect(TRo1.T, conCooRo1.T) annotation (Line(points={{6,18},{8,18},{8,15},{
+  connect(TRo1.T, conCooRo1.T) annotation (Line(points={{6.2,18},{8,18},{8,15},{
           9.68,15}}, color={0,0,127}));
   connect(massFlowRate.port_b, inSplVal1.port_1) annotation (Line(points={{-91,
           -124},{-92,-124},{-92,-119},{-88,-119}}, color={0,127,255}));
@@ -2083,10 +2068,6 @@ equation
           {42,-6},{42,-13.2667},{46,-13.2667}}, color={0,127,255}));
   connect(extBth.ports_b, bth.ports[3:4]) annotation (Line(points={{-24.2,-60},
           {-20,-60},{-20,-57.4},{-16,-57.4}}, color={0,127,255}));
-  connect(extBth.weaBus, bth.weaBus) annotation (Line(
-      points={{-28,-60},{-32,-60},{-32,-94},{-2.84,-94},{-2.84,-46.84}},
-      color={255,204,51},
-      thickness=0.5));
   connect(infHal.weaBus, hal.weaBus) annotation (Line(
       points={{36,-6},{34,-6},{34,0},{48,0},{48,-2.84},{59.16,-2.84}},
       color={255,204,51},
@@ -2157,16 +2138,24 @@ equation
   connect(pumEmiSystem.m_flow_actual, gaiHea1.u) annotation (Line(points={{-88.5,
           -177.5},{-88.5,-196},{-166,-196},{-166,-184},{-171.2,-184}},
         color={0,0,127}));
-  connect(switch1.y, product2.u1) annotation (Line(points={{-239.5,-119},{
-          -239.5,-120},{-212,-120},{-212,-130},{-192,-130}}, color={0,0,127}));
+  connect(switch1.y, product2.u1) annotation (Line(points={{-239.5,-119},{-239.5,
+          -120},{-212,-120},{-212,-130},{-198,-130}},        color={0,0,127}));
   connect(product2.y, boi.y)
-    annotation (Line(points={{-169,-136},{-152,-136}}, color={0,0,127}));
+    annotation (Line(points={{-175,-136},{-152,-136}}, color={0,0,127}));
   connect(booToRea1.y, product2.u2)
-    annotation (Line(points={{-196.8,-142},{-192,-142}}, color={0,0,127}));
+    annotation (Line(points={{-196.8,-142},{-198,-142}}, color={0,0,127}));
   connect(gaiHea1.y, greThr.u)
     annotation (Line(points={{-180.4,-184},{-182,-184}}, color={0,0,127}));
   connect(greThr.y, booToRea1.u) annotation (Line(points={{-206,-184},{-212,
           -184},{-212,-142},{-211.2,-142}}, color={255,0,255}));
+  connect(weaBus, extBth.weaBus) annotation (Line(
+      points={{-164,56},{-164,-94},{-30,-94},{-30,-60},{-28,-60}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
@@ -3259,8 +3248,8 @@ First implementation.
 </ul>
 </html>"),
     experiment(
-      StopTime=86400,
-      Interval=300,
+      StopTime=31536000,
+      Interval=299.999808,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     __Dymola_experimentSetupOutput,

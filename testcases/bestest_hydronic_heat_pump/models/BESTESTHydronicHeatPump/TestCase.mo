@@ -273,7 +273,7 @@ model TestCase
 initial equation
   heaPum.con.T=293.15;
   heaPum.eva.T=278.15;
-  heaPum.eva.port_a.C_outflow=outAir.Medium.C_default;
+  heaPum.eva.port_a.C_outflow=MediumAir.C_default;
   heaPum.eva.port_a.Xi_outflow={0.01};
 
 equation
@@ -375,10 +375,9 @@ equation
     annotation (Line(points={{60,-20},{-20,-20},{-20,10}}, color={0,127,255}));
   annotation (
     experiment(
-      StopTime=1728000,
-      __Dymola_NumberOfIntervals=5000,
-      Tolerance=1e-06,
-      __Dymola_Algorithm="Lsodar"),
+      StopTime=31536000,
+      Interval=599.999616,
+      __Dymola_Algorithm="Dassl"),
     Documentation(info="<html>
 <p>
 This is a single zone residential hydronic system model with an air-source 
@@ -888,6 +887,18 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and IDEAS 3.0.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/442>
+BOPTEST issue #442</a>.
+</li>
+<li>
+October 30, 2024, by Lucas Verleyen:<br/>
+Updates according to <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\\\">IBPSA</a>.<br/>
+See <a href=\\\"https://github.com/open-ideas/IDEAS/pull/1383\\\">#1383</a> 
+(and <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\\\">IBPSA, #1926</a>).
+</li>
 <li>
 October 18, 2024, by Ettore Zanetti:<br/>
 Add <code>activate</code> inputs to documentation.

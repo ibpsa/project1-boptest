@@ -39,8 +39,8 @@ model DayZone "Milan day zone thermal zone istance"
         each stateAtSurface_a=false),
       surBou(
         A={Afloor},
-        absIR=0.9,
-        absSol=0.9,
+        each absIR=0.9,
+        each absSol=0.9,
         til={F_})));
   parameter BaseClasses.Data.Window24 Wind600
     annotation (Placement(transformation(extent={{40,84},{54,98}})));
