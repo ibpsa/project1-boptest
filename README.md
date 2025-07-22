@@ -1,6 +1,6 @@
 # Building Optimization Performance Tests (BOPTEST)
 
-[![Build Status](https://travis-ci.com/ibpsa/project1-boptest.svg?branch=master)](https://travis-ci.com/ibpsa/project1-boptest)
+[![Build Status](https://app.travis-ci.com/ibpsa/project1-boptest.svg?token=8LDXY9mTsfqAs1MYxozX&branch=master)](https://app.travis-ci.com/ibpsa/project1-boptest)
 
 This repository contains code for the BOPTEST framework that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io/project1-boptest/ibpsa/index.html) and was previously developed as part of the [IBPSA Project 1](https://ibpsa.github.io/project1/).
 
@@ -33,6 +33,7 @@ BOPTEST can be deployed and used on your own computing resource by following the
 
 - If you want to be able to deploy multiple test cases at the same time, append the argument ``--scale worker=n`` to the command above where ``n`` equals the number of test cases you want to be able to have running at the same time.
 - If no request is made to a running test case for some time, the test case will be automatically stopped and the associated worker will be freed up.  By default this timeout is 15 minutes.  If you would like to change this timeout period, you can edit the environment variable ``BOPTEST_TIMEOUT`` in the ``.env`` file before starting BOPTEST with the command above.
+- If you want to re-build the docker containers before deployment, for example to include updates to source code, append the argument ``--build`` to the command above.
 
 4) In a separate process, use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``http://127.0.0.1:80/<request>``
 
@@ -63,7 +64,7 @@ API requests that interact with a running test case (those that require a ``test
 | Receive boundary condition forecast from current communication step for the given point names for the horizon and at the interval in seconds.   |  PUT ``forecast/{testid}`` with required arguments ``point_names=<list of strings>``, ``horizon=<value>``, ``interval=<value>``|
 | Receive boundary condition forecast available point names and metadata. |  GET ``forecast_points/{testid}``                              |
 | Receive current test scenario.                                         |  GET ``scenario/{testid}``                                   |
-| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario/{testid}`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See the [Test Case](https://ibpsa.github.io/project1-boptest/testcases/index.html) page for options and documentation.|
+| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario/{testid}`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``, ``temperature_uncertainty=<string>``, ``solar_uncertainty=<string>``, ``seed=<int>``.  See the [Test Case](https://ibpsa.github.io/project1-boptest/testcases/index.html) page for options and documentation.|
 | Get test status as `Running` or `Queued`                                                                                    | GET ``status/{testid}``                                    |
 | Stop a queued or running test.  Needed to deploy a new test case when no more idle workers are avaiable.                                                                                              | PUT ``stop/{testid}``                                      |
 | Receive BOPTEST version.                                               |  GET ``version/{testid}``                                             |

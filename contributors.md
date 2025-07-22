@@ -15,6 +15,7 @@ Thank you to all who have provided guidance on the development of this software.
 - Valentin Gavan, ENGIE
 - Lieve Helsen, KU Leuven
 - Sen Huang, Pacific Northwest National Laboratory
+- Weiping Huang, Lawrence Berkeley National Laboratory
 - Filip Jorissen, KU Leuven
 - Donghun Kim, Lawrence Berkeley National Laboratory
 - Yanfei Li, National Renewable Energy Laboratory
@@ -30,6 +31,9 @@ Thank you to all who have provided guidance on the development of this software.
 - Christian Veje, University of Southern Denmark
 - Draguna Vrabie, Pacific Northwest National Laboratory
 - Harald Walnum, SINTEF
+- Zhe Wang, The Hong Kong University of Science and Technology
 - Michael Wetter, Lawrence Berkeley National Laboratory
 - Tao Yang, University of Southern Denmark
+- Laura Zabala, R2M Solution Spain
 - Ettore Zanetti, Lawrence Berkeley National Laboratory
+- Wanfu Zheng, The Hong Kong University of Science and Technology

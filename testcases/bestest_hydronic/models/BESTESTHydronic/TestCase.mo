@@ -235,35 +235,35 @@ equation
       StopTime=31500000),
     Documentation(info="<html>
 <p>
-This is a single zone residential hydronic system model 
-for WP 1.2 of IBPSA project 1. 
+This is a single zone residential hydronic system model
+for WP 1.2 of IBPSA project 1.
 </p>
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
 <p>
-This building envelope model corresponds to the BESTEST case 900 test case. 
-It consists of a single zone with a rectangular floor plan of 6 by 8 meters 
-and a height of 2.7 m. The zone further consists of two south-oriented windows 
-of 6 m2 each, which are modelled using a single window of 12 m2. 
+This building envelope model corresponds to the BESTEST case 900 test case.
+It consists of a single zone with a rectangular floor plan of 6 by 8 meters
+and a height of 2.7 m. The zone further consists of two south-oriented windows
+of 6 m2 each, which are modelled using a single window of 12 m2.
 </p>
 <h4>Constructions</h4>
 <p>
-The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation. 
-For more details see 
+The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation.
+For more details see
 <a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
-IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>. 
-The floor consists of 8 cm of concrete and 1 m of insulation, representing a 
-perfectly insulated floor. The roof consists of a light construction and 11 cm 
-of fibreglass. 
+IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>.
+The floor consists of 8 cm of concrete and 1 m of insulation, representing a
+perfectly insulated floor. The roof consists of a light construction and 11 cm
+of fibreglass.
 </p>
 <h4>Occupancy schedules</h4>
 <p>
-The zone is occupied by one person before 7 am and after 8 pm each weekday 
-and full time during weekends. 
+The zone is occupied by one person before 7 am and after 8 pm each weekday
+and full time during weekends.
 </p>
 <h4>Internal loads and schedules</h4>
 <p>
-There are no internal loads other than the occupants. 
+There are no internal loads other than the occupants.
 </p>
 <h4>Climate data</h4>
 <p>
@@ -273,18 +273,18 @@ of weather data for Brussels, Belgium.
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
-The model only has a primary heating system that heats the zone using a 
+The model only has a primary heating system that heats the zone using a
 single radiator with thermostatic valve, a circulation pump and a water heater.
 The system is presented in Figure 1 below.
-The radiator nominal thermal power and heater maximum thermal power is 5 kW. 
-The heating setpoint is set to 21 &#176;C during occupied 
-periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to 
-24 &#176;C during occupied peridos and 30 &#176;C during unoccupied periods. 
-The gas heater efficiency is computed using a polynomial curve and it uses a PI 
-controller to modulate supply water temperature between 20 and 80 &#176;C to 
-track a reference for the operative zone temperature 
-that equals the heating setpoint plus an offset 
-of 0.1 &#176;C by default. 
+The radiator nominal thermal power and heater maximum thermal power is 5 kW.
+The heating setpoint is set to 21 &#176;C during occupied
+periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to
+24 &#176;C during occupied peridos and 30 &#176;C during unoccupied periods.
+The gas heater efficiency is computed using a polynomial curve and it uses a PI
+controller to modulate supply water temperature between 20 and 80 &#176;C to
+track a reference for the operative zone temperature
+that equals the heating setpoint plus an offset
+of 0.1 &#176;C by default.
 
 <p>
 <br>
@@ -303,22 +303,22 @@ of 0.1 &#176;C by default.
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
-The heating system circulation pump has the default efficiency of the pump 
-model, which is 49%; at the time of writing. The heater efficiency is 
-computed using a polynomial curve. 
+The heating system circulation pump has the default efficiency of the pump
+model, which is 49%; at the time of writing. The heater efficiency is
+computed using a polynomial curve.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
-The model assumes a pump with a constant head, 
+The model assumes a pump with a constant head,
 which results in a fixed flow rate due to the fixed pressure drop coefficient of the radiator.
 The supply water temperature set point of the boiler is modulated using a PI
 controller that tracks zone operative temperature to follow the zone operative temperature setpoint,
 depicted as controller C1 in Figure 1 and shown in Figure 2 below.
-For baseline control, this setpoint is defined as 
-the heating comfort setpoint plus an offset of 0.1 &#176;C. 
-The pump is switched on and off with hysteresis based on the indoor 
+For baseline control, this setpoint is defined as
+the heating comfort setpoint plus an offset of 0.1 &#176;C.
+The pump is switched on and off with hysteresis based on the indoor
 temperature with the heating set point as the low point and the cooling set point
-as the high point.  It is assumed that the boiler exactly 
+as the high point.  It is assumed that the boiler exactly
 outputs the supply water temperature set point using an ideal controller
 depicted as C2 in Figure 1.
 </p>
@@ -461,11 +461,11 @@ No shading model is included.
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
 <p>
-The model uses moist air despite that no condensation is modelled in any of the used components. 
+The model uses moist air despite that no condensation is modelled in any of the used components.
 </p>
 <h4>Pressure-flow models</h4>
 <p>
-A simple, single circulation loop is used to model the heating system. 
+A simple, single circulation loop is used to model the heating system.
 </p>
 <h4>Infiltration models</h4>
 <p>
@@ -492,7 +492,7 @@ End Time: Day 325.
 The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
 <ul>
 This testing time period is a two-week test with one-week warmup period utilizing
-baseline control.  The two-week period is centered on the day with 
+baseline control.  The two-week period is centered on the day with
 the maximum 15-minute system heating load that is closest from below to the
 median of all 15-minute maximum heating loads of all days in the year.
 </ul>
@@ -506,86 +506,98 @@ End Time: Day 348.
 <h4>Energy Pricing</h4>
 <p>
 All pricing scenarios include the same constant value for transmission fees and taxes
-of each commodity. The used value is the typical price that household users pay 
-for the network, taxes and levies, as calculateed by Eurostat and obtained from: 
+of each commodity. The used value is the typical price that household users pay
+for the network, taxes and levies, as calculateed by Eurostat and obtained from:
 <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN\">
 \"The energy prices and costs in Europe report\"</a>.
 For the assumed location of the test case, this value is of
-0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas. 
+0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas.
 </p>
 <p>
 The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
 <ul>
 The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
-as obtained from the \"Easy Indexed\" deal for electricity (normal rate) in 
+as obtained from the \"Easy Indexed\" deal for electricity (normal rate) in
 <a href=\"https://www.energyprice.be/products-list/Engie\">
-https://www.energyprice.be/products-list/Engie</a> 
-(accessed on June 2020). 
+https://www.energyprice.be/products-list/Engie</a>
+(accessed on June 2020).
 Adding up the transmission fees and taxes, the final constant electricity price is
-of 0.2535 EUR/kWh. 
+of 0.2535 EUR/kWh.
 </ul>
 </p>
 <p>
 The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
 <ul>
-The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during 
+The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during
 day time and 0.0383 EUR/kWh during night time,
-as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in 
+as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in
 <a href=\"https://www.energyprice.be/products-list/Engie\">
-https://www.energyprice.be/products-list/Engie</a> 
-(accessed on June 2020). 
+https://www.energyprice.be/products-list/Engie</a>
+(accessed on June 2020).
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
-The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
 Adding up the transmission fees and taxes, the final dynamic electricity prices are
-of 0.2666 EUR/kWh during on-peak periods and of 0.2383 during off-peak periods. 
+of 0.2666 EUR/kWh during on-peak periods and of 0.2383 during off-peak periods.
 </ul>
 </p>
 <p>
 The <b>Highly Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'highly_dynamic'</code>) profile is:
 <ul>
 The highly dynamic electricity price scenario is based on the the
-Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity 
+Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity
 market in the year 2019.
 Obtained from:
 <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
-https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
-Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are 
-added up on top of these prices. 
+https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a>
+Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are
+added up on top of these prices.
 </ul>
 </p>
 The <b>Gas Price</b> profile is:
 <p>
 <ul>
-The gas price is assumed constant and of 0.0198 EUR/kWh 
+The gas price is assumed constant and of 0.0198 EUR/kWh
 as obtained from the \"Easy Indexed\" deal for gas
 <a href=\"https://www.energyprice.be/products-list/Engie\">
-https://www.energyprice.be/products-list/Engie</a> 
-(accessed on June 2020). 
+https://www.energyprice.be/products-list/Engie</a>
+(accessed on June 2020).
 Adding up the transmission fees and taxes, the final constant gas price is
-of 0.0498 EUR/kWh. 
+of 0.0498 EUR/kWh.
 </ul>
 </p>
 <h4>Emission Factors</h4>
 <p>
 The <b>Electricity Emissions Factor</b> profile is:
 <ul>
-It is used a constant emission factor for electricity of 0.167 kgCO2/kWh 
+It is used a constant emission factor for electricity of 0.167 kgCO2/kWh
 which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
 for year 2018. For reference, see:
  <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
-https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
+https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a>
 </ul>
 </p>
 <p>
 The <b>Gas Emissions Factor</b> profile is:
 <ul>
-Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+Based on the kgCO2 emitted per amount of natural gas burned in terms of
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
 see:
 <a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
-https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
+https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </ul>
+</p>
+<h4>Weather Forecast Uncertainty: Temperature</h4>
+<p>
+Options for <code>/scenario</code> API are <code>'low'</code>, <code>'medium'</code>, or <code>'high'</code>.
+Empty or <code>None</code> will lead to deterministic forecasts.
+See the BOPTEST design documentation for more information.
+</p>
+<h4>Weather Forecast Uncertainty: Global Horizontal Irradiation (GHI)</h4>
+<p>
+Options for <code>/scenario</code> API are <code>'low'</code>, <code>'medium'</code>, or <code>'high'</code>.
+Empty or <code>None</code> will lead to deterministic forecasts.
+See the BOPTEST design documentation for more information.
 </p>
 </html>", revisions="<html>
 <ul>
@@ -611,27 +623,27 @@ BOPTEST issue #658</a>.
 October 18, 2024, by Ettore Zanetti:<br/>
 Add <code>activate</code> inputs to documentation.
 This is for
-<a href=\"https://github.com/ibpsa/project1-boptest/issues/625\">BOPTEST issue #625</a>. 
+<a href=\"https://github.com/ibpsa/project1-boptest/issues/625\">BOPTEST issue #625</a>.
 </li>
 <li>
 October 18, 2024, by Ettore Zanetti:<br/>
 Changed IDEAS dependency from extending <code>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</code>
 to duplicating the model.
 This is for
-<a href=\"https://github.com/ibpsa/project1-boptest/issues/680\">BOPTEST issue #680</a>. 
+<a href=\"https://github.com/ibpsa/project1-boptest/issues/680\">BOPTEST issue #680</a>.
 </li>
 <li>
 December 2, 2021, by David Blum:<br/>
 Remove read blocks for control signals.
 This is for
-<a href=\"https://github.com/ibpsa/project1-boptest/issues/364\">BOPTEST issue #364</a>. 
+<a href=\"https://github.com/ibpsa/project1-boptest/issues/364\">BOPTEST issue #364</a>.
 </li>
 <li>
 June 23, 2021, by David Blum:<br/>
-Add schematics to documentation and move heating set point offset to 
+Add schematics to documentation and move heating set point offset to
 before overwrite block.
 This is for
-<a href=\"https://github.com/open-ideas/IDEAS/issues/1220\">#1220</a>. 
+<a href=\"https://github.com/open-ideas/IDEAS/issues/1220\">#1220</a>.
 </li>
 <li>
 April 22, 2021, by Javier Arroyo:<br/>
@@ -639,36 +651,36 @@ Add time period documentation.
 </li>
 <li>
 April 2, 2021 by Javier Arroyo<br/>
-Add CO2 to air medium. 
+Add CO2 to air medium.
 </li>
 <li>
 February 22, 2021 by Javier Arroyo<br/>
-Add transmission fees and taxes to pricing scenarios. 
+Add transmission fees and taxes to pricing scenarios.
 </li>
 <li>
 December 1, 2020 by David Blum:<br/>
-Added weather station. 
+Added weather station.
 </li>
 <li>
 June 12, 2020 by Javier Arroyo:<br/>
-Implemented PI controller for boiler supply temperature. 
+Implemented PI controller for boiler supply temperature.
 </li>
 <li>
 June 2, 2020 by Javier Arroyo:<br/>
-Implemented temperature setpoint setback. 
+Implemented temperature setpoint setback.
 </li>
 <li>
 March 21, 2019 by Filip Jorissen:<br/>
-Revised implementation based on first review for 
-<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>. 
+Revised implementation based on first review for
+<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>.
 </li>
 <li>
 January 22nd, 2019 by Filip Jorissen:<br/>
-Revised implementation by adding external inputs. 
+Revised implementation by adding external inputs.
 </li>
 <li>
 May 2, 2018 by Filip Jorissen:<br/>
-First implementation. 
+First implementation.
 </li>
 </ul>
 </html>"),

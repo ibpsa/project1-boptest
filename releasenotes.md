@@ -1,13 +1,26 @@
 # Release Notes
 
-## BOPTEST v0.7.1-dev
+## BOPTEST v0.8.0-dev
 
 Released on xx/xx/xxxx.
 
 **The following changes are backwards compatible and do not significantly change benchmark results:**
 
-- Update heat pump documentation to BESTEST Hydronic Heat Pump testcase. This is for [#704](https://github.com/ibpsa/project1-boptest/issues/704).
-- Enable BACnet interface to work with test case ``multizone_hydronic_simple_hydronic`` by creating the ``bacnet.ttl``. This is for [#735](https://github.com/ibpsa/project1-boptest/issues/735).
+- For ``twozone_apartment_hydronic`` test case, update control documentation. This is for [#766](https://github.com/ibpsa/project1-boptest/issues/766).
+- For BACnet interface, add support for faster-than-real-time and on-command simulation advance. Optional arguments ``--app_interval`` and ``--simulation_step`` were added to ``BopTestProxy.py`` to support this feature. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
+
+**The following changes are not backwards compatible, but do not change benchmark results:**
+- For BACnet interface, add advance command and simulation time as an available BACnet points. The BACnet point for advancing was added as the first BACnet point object and simulation time was added as the second BACnet point object for each test case by updating all ``bacnet.ttl`` files.  This is not backwards compatible for the BACnet interface for clients referencing BACnet object numbers, since the object numbers are shifted by +2. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
+
+
+## BOPTEST v0.8.0
+
+Released on 06/02/2025.
+
+**The following changes are backwards compatible and do not significantly change benchmark results:**
+
+- For ``bestest_hydronic_heat_pump`` test case, update heat pump documentation. This is for [#704](https://github.com/ibpsa/project1-boptest/issues/704).
+- For ``multizone_hydronic_simple_hydronic`` test case, enable BACnet interface to work by creating the ``bacnet.ttl``. This is for [#735](https://github.com/ibpsa/project1-boptest/issues/735).
 - Remove the ``scenario`` field from the test case ``config.json``. This is for [#719](https://github.com/ibpsa/project1-boptest/issues/719).
 - Update dependencies and environment of ``worker`` container.  This is for [#663](https://github.com/ibpsa/project1-boptest/issues/663).  Changes are summarized as follows:
   - Remove scipy and matplotlib dependencies from ``worker`` container.
@@ -15,6 +28,21 @@ Released on xx/xx/xxxx.
   - Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3.
   - Update Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64.
   - Update unit tests such that ``test_kpis.py``, ``test_forecast.py``, and ``test_testcase.py`` are run in the ``worker`` container, instead of the ``jm`` container.
+- Update Spawn version to ``light-0.3.0-0fa49be497``, which uses a smaller file size and is used in Modelica Buildings Library v9.1.0.  This is for [#718](https://github.com/ibpsa/project1-boptest/issues/718).
+- Add weather forecast uncertainty as new scenario options for dry bulb temperature and global horizontal irradiation.  The corresponding new scenario keys are ``temperature_uncertainty`` and ``solar_uncertainty``, which can take values ``None`` (default), ``'low'``, ``'medium'``, or ``'high'``.  A new scenario key ``seed`` is also added to set an integer seed for reproducible uncertainty generation.  The uncertainty models are based on [Zheng et al. (2025)](https://doi.org/10.1080/19401493.2025.2453537). This is for [#135](https://github.com/ibpsa/project1-boptest/issues/135).
+- Add status flags properties to bacnet objects for all ``bacnet.ttl`` files. This is for [#762](https://github.com/ibpsa/project1-boptest/issues/762).
+- Add support to ``parsing/parser.py`` for test case compilation using Dymola.  The parser can take argument ``tool='Dymola'``.  A user of the parser choosing Dymola requires access to a Dymola license with binary model export capability.  This is for [#755](https://github.com/ibpsa/project1-boptest/issues/755).
+- Tag version for ``minio/minio`` and ``minio/mc`` docker images.  This is for [#769](https://github.com/ibpsa/project1-boptest/issues/769).
+
+**The following changes are backwards compatible, but may change benchmark results:**
+
+- For ``multizone_office_simple_hydronic`` test case, correct occupancy count .csv file within the resource directory of the test case FMU.  This will change the forecast of occupancy count provided to a test controller.  This is for [#726](https://github.com/ibpsa/project1-boptest/issues/726).
+
+**The following changes are not backwards compatible, but do not change benchmark results:**
+
+- Written and clarified ``testcase1`` and ``testcase3`` documentation. This is for [#582](https://github.com/ibpsa/project1-boptest/issues/582).
+  - For ``testcase1``, changed naming of ``PHea`` to ``PHeaCoo`` for clarity regarding allowed heating and cooling regimes.
+  - Similarly for ``testcase3``, changed ``PHeaNor`` and ``PHeaSou`` to ``PHeaCooNor`` and ``PHeaCooSou`` respectively.
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 

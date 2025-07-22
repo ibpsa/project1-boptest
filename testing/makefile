@@ -221,6 +221,7 @@ test_forecast:
 	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
 	docker cp ../testcases/testcase2 project1-boptest-worker-1:/boptest/lib/testcases
 	docker cp ../testcases/testcase3 project1-boptest-worker-1:/boptest/lib/testcases
+	docker cp ../forecast project1-boptest-worker-1:/boptest/lib/forecast
 # Run test_forecast.py
 	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_forecast.py && exit"
 	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/forecast ./references
@@ -231,6 +232,18 @@ test_forecast:
 	if [ $(SINGLE) = true ]; then\
         	python report.py;\
 	fi
+
+test_forecast_uncertainty:
+# Build and deploy testcase image
+	cd .. && TESTCASE=testcase2 docker-compose up -d
+	python sleep10.py
+# Run test_forecast_uncertainty.py
+	cd .. && python testing/test_forecast_uncertainty.py $(ARG)
+# Stop testcase container and report results
+	cd .. && docker-compose down
+	if [ $(SINGLE) = true ]; then\
+	     python report.py;\
+	fi\
 
 test_kpis:
 # Compile testcase model
@@ -246,6 +259,7 @@ test_kpis:
 	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
 	docker cp ../testcases/testcase2 project1-boptest-worker-1:/boptest/lib/testcases
 	docker cp ../testcases/testcase3 project1-boptest-worker-1:/boptest/lib/testcases
+	docker cp ../forecast project1-boptest-worker-1:/boptest/lib/forecast
 # Run test_kpis.py
 	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_kpis.py && exit"
 	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/kpis ./references
@@ -261,8 +275,8 @@ test_bacnet:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
+	cd .. && docker compose build -q web worker provision 
+	cd .. && docker compose up -d --quiet-pull web worker provision --scale worker=3
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_bacnet.py

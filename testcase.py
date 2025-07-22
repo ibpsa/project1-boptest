@@ -29,13 +29,18 @@ class TestCase(object):
 
     '''
 
-    def __init__(self, fmupath='models/wrapped.fmu'):
+    def __init__(self,
+                 fmupath='models/wrapped.fmu',
+                 forecast_uncertainty_params_path='forecast/forecast_uncertainty_params.json'):
         '''Constructor.
 
         Parameters
         ----------
         fmupath : str, optional
             Path to the test case fmu.
+            Default is assuming a particular directory structure.
+        forecast_uncertainty_params_path : str, optional
+            Path to the JSON file containing the uncertainty parameters.
             Default is assuming a particular directory structure.
 
         '''
@@ -52,7 +57,8 @@ class TestCase(object):
         # Load data and the kpis_json for the test case
         self.data_manager.load_data_and_jsons()
         # Instantiate a forecaster for this test case
-        self.forecaster = Forecaster(testcase=self)
+        self.forecaster = Forecaster(testcase=self,
+                                     forecast_uncertainty_params_path=forecast_uncertainty_params_path)
         # Define name
         self.name = self.config_json['name']
         # Load fmu
@@ -91,7 +97,10 @@ class TestCase(object):
         self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
         # Set default scenario
         scenario_default = {'electricity_price':'constant',
-                            'time_period': None}
+                            'time_period': None,
+                            'temperature_uncertainty': None,
+                            'solar_uncertainty': None,
+                            'seed': None}
         self.set_scenario(scenario_default)
 
     def __initilize_data(self):
@@ -850,6 +859,7 @@ class TestCase(object):
 
         '''
 
+
         # Get the forecast
         status = 200
         message = "Queried the forecast data successfully."
@@ -892,10 +902,44 @@ class TestCase(object):
             message = "Invalid point name(s) {} in parameter point_names.  Check list of available forecast points.".format(wrong_points)
             logging.error(message)
             return status, message, payload
+        # Check that horizon and interval ok if variable under forecast uncertainty scenario
+        _,_,scenario = self.get_scenario()
+        if (scenario['temperature_uncertainty']) and ('TDryBul' in point_names):
+            if horizon > 48*3600:
+                payload = None
+                status = 400
+                message = "Invalid value {} for parameter horizon. Value must <= 48 hours in a temperature_uncertainty scenario.".format(horizon)
+                logging.error(message)
+                return status, message, payload
+            if interval != 3600:
+                payload = None
+                status = 200
+                message = "Value {} for parameter interval. Note that error model for temperature_uncertainty scenario validated at hourly intervals.".format(interval)
+                logging.info(message)
+        if (scenario['solar_uncertainty']) and ('HGloHor' in point_names):
+            if horizon > 48*3600:
+                payload = None
+                status = 400
+                message = "Invalid value {} for parameter horizon. Value must <= 48 hours in a solar_uncertainty scenario.".format(horizon)
+                logging.error(message)
+                return status, message, payload
+            if interval != 3600:
+                payload = None
+                status = 200
+                message = "Value {} for parameter interval. Note that error model for solar_uncertainty scenario validated at hourly intervals.".format(interval)
+                logging.info(message)
+        # Get forecast
         try:
+            if scenario['seed'] is not None:
+                applied_seed = int(scenario['seed']+self.start_time)
+            else:
+                applied_seed = None
             payload = self.forecaster.get_forecast(point_names,
                                                    horizon=horizon,
-                                                   interval=interval)
+                                                   interval=interval,
+                                                   wea_tem_dry_bul=scenario['temperature_uncertainty'],
+                                                   wea_sol_glo_hor=scenario['solar_uncertainty'],
+                                                   seed=applied_seed)
         except:
             status = 500
             message = "Failed to query the test case forecast data: {}".format(traceback.format_exc())
@@ -912,7 +956,10 @@ class TestCase(object):
         ----------
         scenario : dict
             {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
-             'time_period': see available <str> keys for test case
+             'time_period': see available <str> keys for test case,
+             'temperature_uncertainty':<'low' or 'medium' or 'high'>,
+             'solar_uncertainty':<'low' or 'medium' or 'high'>,
+             'seed': int, used for uncertainty sampling
             }
             If any value is None, it will not change existing.
 
@@ -921,25 +968,46 @@ class TestCase(object):
         status: int
             Indicates whether a request for setting the scenario has been completed
             If 200, the scenario was successfully set.
-            If 400, invalid electricity_price and/or time_period (non-numeric) were identified.
+            If 400, invalid scenario entry was identified.
             If 500, an internal error occurred.
         message: str
             Includes the detailed debug information
         payload: dict
-            {'electricity_price': if succeeded in changing then True, else None,
-             'time_period': if succeeded then initial measurements, else None
+            {'electricity_price': if succeeded in changing then value, else None,
+             'time_period': if succeeded then initial measurements, else None,
+             'temperature_uncertainty': if succeeded in changing then value, else None,
+             'solar_uncertainty': if succeeded in changing then value, else None,
+             'seed': if succeeded then value, else None
             }
+
         '''
 
         status = 200
         message = "Test case scenario was set successfully."
         payload = {
             'electricity_price': None,
-            'time_period': None
+            'time_period': None,
+            'temperature_uncertainty': None,
+            'solar_uncertainty': None,
+            'seed':None,
         }
+
         if not hasattr(self, 'scenario'):
             self.scenario = {}
         try:
+            # Handle weather forecast uncertainty weather variables
+            if (scenario['temperature_uncertainty'] and 'TDryBul' not in self.forecast_names) or \
+                    (scenario['solar_uncertainty'] and 'HGloHor' not in self.forecast_names):
+                missing_variables = []
+                if scenario['temperature_uncertainty'] and 'TDryBul' not in self.forecast_names:
+                    missing_variables.append('TDryBul for temperature uncertainty')
+                if scenario['solar_uncertainty'] and 'HGloHor' not in self.forecast_names:
+                    missing_variables.append('HGloHor for solar uncertainty')
+                status = 400
+                message = "Scenario parameters are set for uncertainty, but the forecast variables do not include: {}.".format(
+                    ', '.join(missing_variables))
+                logging.error(message)
+                return status, message, payload
             # Handle electricity price
             if scenario['electricity_price']:
                 if scenario['electricity_price'] not in ['constant', 'dynamic', 'highly_dynamic']:
@@ -965,6 +1033,45 @@ class TestCase(object):
                 key = self.scenario['time_period']
                 start_time = self.days_json[key]*24*3600.-7*24*3600.
                 end_time = start_time + 14*24*3600.
+            # Handle temperature uncertainty levels
+            if scenario['temperature_uncertainty']:
+                if scenario['temperature_uncertainty'] not in ['low', 'medium', 'high']:
+                    status = 400
+                    message = "Scenario parameter temperature_uncertainty is {}, " \
+                              "but should be 'low', 'medium', or 'high'.". \
+                              format(scenario['temperature_uncertainty'])
+                    logging.error(message)
+                    return status, message, payload
+                self.scenario['temperature_uncertainty'] = scenario['temperature_uncertainty']
+                payload['temperature_uncertainty'] = self.scenario['temperature_uncertainty']
+            else:
+                self.scenario['temperature_uncertainty'] = None
+            # Handle solar uncertainty levels
+            if scenario['solar_uncertainty']:
+                if scenario['solar_uncertainty'] not in ['low', 'medium', 'high']:
+                    status = 400
+                    message = "Scenario parameter solar_uncertainty is {}, " \
+                              "but should be 'low', 'medium', or 'high'.". \
+                        format(scenario['solar_uncertainty'])
+                    logging.error(message)
+                    return status, message, payload
+                self.scenario['solar_uncertainty'] = scenario['solar_uncertainty']
+                payload['solar_uncertainty'] = self.scenario['solar_uncertainty']
+            else:
+                self.scenario['solar_uncertainty'] = None
+            # Handle seed for uncertainty
+            if scenario['seed']:
+                if isinstance(scenario['seed'], int) and scenario['seed'] >= 0:
+                    self.scenario['seed'] = scenario['seed']
+                    payload['seed'] = self.scenario['seed']
+                else:
+                    status = 400
+                    message = "Scenario parameter seed is {}, " \
+                              "but should be a non-negative integer.".format(scenario['seed'])
+                    logging.error(message)
+                    return status, message, payload
+            else:
+                self.scenario['seed'] = None
         except:
             status = 400
             message = "Invalid values for the scenario parameters: {}".format(traceback.format_exc())
@@ -1006,9 +1113,12 @@ class TestCase(object):
         message: str
             Includes detailed debugging information
         payload: dict
-            {'electricity_price': <str>,
-             'time_period': <str>
-             }
+            {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
+             'time_period': see available <str> keys for test case,
+             'temperature_uncertainty':<'low' or 'medium' or 'high'>,
+             'solar_uncertainty':<'low' or 'medium' or 'high'>,
+             'seed': int, used for uncertainty sampling
+            }
 
         '''
 
@@ -1234,7 +1344,15 @@ class TestCase(object):
                 mini = None
                 maxi = None
             else:
-                unit = fmu.get_variable_unit(var)
+                try:
+                    unit = fmu.get_variable_unit(var)
+                except Exception as e:
+                    if 'CO2' in var:
+                        logging.warning('Getting unit via FMI failed for variable "{0}". Assuming unit is "ppm" since variable name contains "CO2".'.format(var))
+                        unit = 'ppm'
+                    else:
+                        logging.error(e)
+                        raise Exception(e)
                 description = fmu.get_variable_description(var)
                 if inputs:
                     mini = fmu.get_variable_min(var)

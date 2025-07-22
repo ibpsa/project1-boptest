@@ -14,7 +14,6 @@ import pandas as pd
 import re
 from datetime import datetime
 
-
 def get_root_path():
     '''Returns the path to the root repository directory.
 
@@ -75,7 +74,6 @@ def run_tests(test_file_name, test_names=[]):
     log_file = os.path.splitext(test_file_name)[0] + '.log'
     with open(os.path.join(get_root_path(),'testing',log_file), 'w') as f:
         json.dump(log_json, f)
-
 
 def compare_references(vars_timeseries = ['reaTRoo_y'],
                        refs_old = 'multizone_residential_hydronic_old',
@@ -443,7 +441,7 @@ class partialTestAPI(partialChecks):
         result = requests.get('{0}/version'.format(self.url)).json()['payload']
         # Create a regex object as three decimal digits seperated by period
         r_num = re.compile('\d.\d.\d')
-        r_dev = re.compile('0.7.1-dev\n')
+        r_dev = re.compile('0.8.0-dev\n')
         # Test that the returned version matches the expected string format
         if r_num.match(result['version']) or r_dev.match(result['version']):
             self.assertTrue(True)
@@ -619,6 +617,72 @@ class partialTestAPI(partialChecks):
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
+    def test_get_forecast_uncertain(self):
+        '''Check that the forecaster is able to GET uncertain forecasts.
+
+        'medium' temperature uncertainty tested with seed.
+        'low' solar uncertainty tested with seed.
+        'high' not tested for either. Forecaster tested in more detail in Forecaster unit tests.
+
+        '''
+
+        horizon = 86400
+        interval = 3600
+        # Initialize
+        if self.name in ['testcase1','testcase3']:
+            scenario = {'temperature_uncertainty':'medium', 'seed':1}
+        else:
+            scenario = {'temperature_uncertainty':'medium', 'solar_uncertainty':'low', 'seed':1}
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        # Test case forecast
+        forecast_points = list(requests.get('{0}/forecast_points/{1}'.format(self.url,self.testid)).json()['payload'].keys())
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain.csv')
+        # Check the forecast
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        # Check if advance 5 min and re-take forecast, TDryBul and HGloHor won't change
+        step_current = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': 300})
+        requests.post('{0}/advance/{1}'.format(self.url,self.testid))
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain_5min.csv')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        # Check if advance another hour and re-take forecast, TDryBul and HGloHor do change
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': 3600})
+        requests.post('{0}/advance/{1}'.format(self.url,self.testid))
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set new reference file path
+        ref_filepath_next_hour = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain_next_hour.csv')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath_next_hour)
+        # Set step back to reference
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': step_current})
+        # Test invalid horizon (<= 48 hours ) and different interval and changing horizon
+        horizon = 50*3600
+        interval = 3600
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval})
+        self.compare_error_code(payload, "Invalid horizon in forecast request did not return 400 message.")
+        # Test different interval
+        horizon = 24*3600
+        interval = 1800
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set new reference file path
+        ref_filepath_interval = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain_interval.csv')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath_interval)
+        # Test changing horizon
+        horizon =48*3600
+        interval = 3600
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set new reference file path
+        ref_filepath_horizon = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain_horizon.csv')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath_horizon)
+
     def test_get_forecast_points(self):
         '''Check GET of forecast points.
 
@@ -636,7 +700,10 @@ class partialTestAPI(partialChecks):
         # Set scenario
         scenario_current = requests.get('{0}/scenario/{1}'.format(self.url,self.testid)).json()['payload']
         scenario = {'electricity_price':'highly_dynamic',
-                    'time_period':self.test_time_period}
+                    'time_period':self.test_time_period,
+                    'solar_uncertainty': None,
+                    'temperature_uncertainty': None,
+                    'seed': None}
         requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
         scenario_set = requests.get('{0}/scenario/{1}'.format(self.url,self.testid)).json()['payload']
         self.assertEqual(scenario, scenario_set)
@@ -801,6 +868,33 @@ class partialTestAPI(partialChecks):
         payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
         self.compare_error_code(payload,
                                "Invalid value for time_period in set_scenario request did not return 400 message.")
+        # Try setting invalid temperature forecast uncertainty
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'temperature_uncertainty': 'invalid_uncertainty'}
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value for temperature_uncertainty in set_scenario request did not return 400 message.")
+        # Try setting invalid solar forecast uncertainty
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'solar_uncertainty': 'invalid_uncertainty'}
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value for solar_uncertainty in set_scenario request did not return 400 message.")
+        # Try setting invalid uncertainty seed
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'seed': 'invalid_seed'}
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value (string) for seed in set_scenario request did not return 400 message.")
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'seed': -1}
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value (negative) for seed in set_scenario request did not return 400 message.")
         # Return scenario to original
         requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario_current)
 

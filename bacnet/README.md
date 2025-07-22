@@ -22,11 +22,34 @@ The BACnet objects are configured based on a .ttl file for each test case locate
 
 1. Deploy a BOPTEST test case of your choice.
 
-2. Configure ``BACpypes.ini``, particularly the address to define where the BACnet device will sit on the network.
+2. Configure ``BACpypes.ini``, particularly the IP address to define where the BACnet device will sit on the network.
 
 3. In a new terminal, run ``$ python BopTestProxy.py bestest_air 0 0`` to deploy the BACnet device and objects for the test case ``bestest_air`` (or choose another) and initialize it with start time of 0 and warmup period of 0.
 
-4. Use a BACnet application to locate the device and objects on the network and communicate with them.
+4. Use a BACnet application to locate the device and objects on the network and communicate with them. The simulation time in seconds is exposed through the interface as the second BACnet object ``time`` for all test cases.
+
+5. By default, the BACnet device will advance the BOPTEST simulation 5 seconds in simulation every 5 seconds of real time.  See the section below for additional time management options.  Note that the first BACnet object ``advance`` is reserved for optional use as described below.
+
+## Faster-than-real-time simulation and advancing on-demand
+
+Two additional command line arguments for the BACnet interface can be used to control time advancement of the simulation. ``--app_interval(-ai)`` is the application refresh interval time in seconds and ``--simulation_step(-s)`` is the simulation advance time step in seconds with each application refresh. These arguments can be used in two ways:
+
+1. Accelerate the simulation speed with respect to real time: For example, if ``-ai=1`` and ``-s=2``, the application will refresh every one second and advance the simulation by two seconds with each refresh, effectively running it at a speed of 2x with respect to real time.
+
+    This example can be deployed with the following command:
+
+    ```
+    $ python BopTestProxy.py bestest_air 0 0 --app_interval=1 --simulation_step=2
+    ```
+
+2. Advance the simulation on-command: The argument ``--app_interval(-ai)`` can be set equal to ``oncommand``. This will make use of the first BACnet input object called ``advance`` on the BACnet interface device. ``advance`` is an integer that starts at 0.  A client can advance the simulation one step (the value of ``--simulation_step(-s)``) by writing an integer greater than the current value to ``advance`` (i.e. a value of 1, then a value of 2, and so on). The BACnet interface checks the value of ``advance`` every 100ms to see if the simulation needs to be advanced. The value of ``advance`` can be reset by writing a 0 to it, to avoid a client needing to write ever-increasing numbers. Resetting the value to 0 does not advance the simulation, until the client increments once again.
+
+    An example for on-command advancement with a simulation step of 60 seconds can be deployed with the following command:
+
+    ```
+    $ python BopTestProxy.py bestest_air 0 0 --app_interval=oncommand --simulation_step=60
+    ```
+
 
 ## References
 
@@ -35,4 +58,7 @@ and is based on the BACpypes Python package distributed under an
 MIT License.  See license.md in the root of this repositoriy for details.
 
 ``/example/SimpleReadWrite.py`` is based on the BACpypes Python package distributed under an
+MIT License.  See license.md in the root of this repositoriy for details.
+
+``/example/SimpleRead.py`` is based on the BACpypes Python package distributed under an
 MIT License.  See license.md in the root of this repositoriy for details.

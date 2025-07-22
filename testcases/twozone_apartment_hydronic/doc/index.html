@@ -586,8 +586,9 @@ equally between convective and radiative contributions. These values are taken f
 <p>The climate is assumed to be near Milan, Italy with a latitude and longitude of 45.44,9.27. The climate data comes from the Milano Linate TMY set. </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
-<p>Only heating is considered. The HVAC system is made up of two floor heating circuits, one per thermal zone that can be controlled with an on-off valve.
-The generation system is an air source heat pump with a nominal heat capacity of 5kW modelled after a Daikin heat pump. Below is reported a schematic view of the HVAC system.</p>
+<p>Only heating is considered. The HVAC system is made up of two floor heating circuits, one per thermal zone that can be controlled with a valve.
+The generation system is an air source heat pump with a nominal heat capacity of 5kW modelled after a Daikin heat pump. Below is reported a schematic view of the HVAC system.
+Although the baseline controller controls the valves as on-off and the pump with discrete stages, the user can overwrite all control inputs independently with continuous variables, resulting in continuous control.</p>
 <p align="center">
 <img src="images/HVACscheme.png"
      alt="HVACscheme.png" />
@@ -1039,6 +1040,16 @@ see <a href="https://www.isprambiente.gov.it/en">
 https://www.isprambiente.gov.it/en</a>
 </ul>
 </p>
-
-
+<h4>Weather Forecast Uncertainty: Temperature</h4>
+<p>
+Options for <code>/scenario</code> API are <code>'low'</code>, <code>'medium'</code>, or <code>'high'</code>.
+Empty or <code>None</code> will lead to deterministic forecasts.
+See the BOPTEST design documentation for more information.
+</p>
+<h4>Weather Forecast Uncertainty: Global Horizontal Irradiation (GHI)</h4>
+<p>
+Options for <code>/scenario</code> API are <code>'low'</code>, <code>'medium'</code>, or <code>'high'</code>.
+Empty or <code>None</code> will lead to deterministic forecasts.
+See the BOPTEST design documentation for more information.
+</p>
 </html>

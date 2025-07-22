@@ -1,4 +1,5 @@
-{"name"         : "testcase1",
+{
+"name"         : "testcase1",
 "area"          : 10.0,
 "start_time"    : 0.0,
 "warmup_period" : 0.0,
