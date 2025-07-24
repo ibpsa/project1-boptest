@@ -10,11 +10,23 @@ permalink: /ibpsa/project/meetings/general/
 
 <img src="../../../../images/project2logo.png" alt="drawing" width="50%"/>
 
-# Upcoming Meetings
+# Upcoming Meetings & Events
 
-Coming soon...
+### August 28, 2025: BOPTEST Workshop at the Building Simulation Conference, Brisbane
 
-# Past Meetings
+**Location**
+Brisbane Convention & Exhibition Centre (BCEC)
+
+**Time**
+August 28, 1:00-3:00 pm (Brisbane time) / 3:00-5:00 am (UTC)
+
+**Information and Agenda:** [PDF](/ibpsa_project/meetings/general/20250828_Brisbane/Workshop_agenda.pdf)
+
+[**Registration Link**](https://docs.google.com/forms/d/e/1FAIpQLSfh7GC1TO-TZCSd3aW5bDdEBmV9ScDmE7Q5OHPWrEcQAZ1rKw/viewform?usp=dialog)
+
+[**Zoom Link**](https://hkust.zoom.us/j/95913301179?pwd=uH6hdIPfJNmsAofI1voIm2AvbbvYGv.1)
+
+# Past Meetings & Events
 
 ### November 20-21, 2024: In-Person Expert Meeting, Denmark
 
