@@ -24,7 +24,8 @@ August 28, 1:00-3:00 pm (Brisbane time) / 3:00-5:00 am (UTC)
 
 [**Registration Link**](https://docs.google.com/forms/d/e/1FAIpQLSfh7GC1TO-TZCSd3aW5bDdEBmV9ScDmE7Q5OHPWrEcQAZ1rKw/viewform?usp=dialog)
 
-[**Zoom Link**](https://hkust.zoom.us/j/95913301179?pwd=uH6hdIPfJNmsAofI1voIm2AvbbvYGv.1)
+**Zoom Link**:
+Link will be sent out to registrants before the workshop
 
 # Past Meetings & Events
 
