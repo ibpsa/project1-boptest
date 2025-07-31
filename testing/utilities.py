@@ -441,7 +441,7 @@ class partialTestAPI(partialChecks):
         result = requests.get('{0}/version'.format(self.url)).json()['payload']
         # Create a regex object as three decimal digits seperated by period
         r_num = re.compile('\d.\d.\d')
-        r_dev = re.compile('0.7.1-dev\n')
+        r_dev = re.compile('0.8.0-dev\n')
         # Test that the returned version matches the expected string format
         if r_num.match(result['version']) or r_dev.match(result['version']):
             self.assertTrue(True)
@@ -708,12 +708,15 @@ class partialTestAPI(partialChecks):
         scenario_set = requests.get('{0}/scenario/{1}'.format(self.url,self.testid)).json()['payload']
         self.assertEqual(scenario, scenario_set)
         # Check initialized correctly
-        points = self.get_all_points(self.testid, self.url)
-        # Don't check weather
-        points_check = []
-        for key in points:
-            if 'weaSta' not in key:
-                points_check.append(key)
+        if self.name == 'multizone_office_complex_air':
+            points_check = self.points_check
+        else:
+            points = self.get_all_points(self.testid, self.url)
+            # Don't check weather
+            points_check = []
+            for key in points:
+                if 'weaSta' not in key:
+                    points_check.append(key)
         df = self.results_to_df(points_check, -np.inf, np.inf, self.testid, self.url)
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_set_scenario.csv')
