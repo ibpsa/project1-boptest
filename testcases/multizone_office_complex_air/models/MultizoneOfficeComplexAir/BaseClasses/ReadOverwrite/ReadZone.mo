@@ -21,7 +21,7 @@ model ReadZone "Collection of zone measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read V_flow(
     description="Air flowrate measurement for zone " + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="m3/s")) "Zone air flowrate to zone measurement"
+    y(unit="m3/s")) "Zone air flowrate measurement"
     annotation (Placement(transformation(extent={{0,-38},{20,-18}})));
   Modelica.Blocks.Interfaces.RealInput TSup_in
     "Supply air temperature to zone measurement"
@@ -51,7 +51,7 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     annotation (Placement(transformation(extent={{-140,70},{-100,110}})));
 
   Buildings.Utilities.IO.SignalExchange.Read V_flowSet(
-    description="Zone airflow setpoint  for zone " + zone,
+    description="Zone airflow setpoint for zone " + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s"),
     zone=zone) "Zone airflow setpoint"
