@@ -14,15 +14,14 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     RadiativeZoneTemperature, OperativeZoneTemperature, RelativeHumidity,
     or CO2Concentration";
   Buildings.Utilities.IO.SignalExchange.Read TSup(
-    description="Discharge air temperature to zone measurement for zone " +
-        zone,
+    description="Discharge air temperature measurement for zone " + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="K")) "Supply air temperature to zone measurement"
+    y(unit="K")) "Zone discharge air temperature measurement"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   Buildings.Utilities.IO.SignalExchange.Read V_flow(
-    description="Discharge air flowrate to zone measurement for zone " + zone,
+    description="Air flowrate measurement for zone " + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="m3/s")) "Supply air flowrate to zone measurement"
+    y(unit="m3/s")) "Zone air flowrate measurement"
     annotation (Placement(transformation(extent={{0,-38},{20,-18}})));
   Modelica.Blocks.Interfaces.RealInput TSup_in
     "Supply air temperature to zone measurement"
@@ -35,7 +34,7 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     description="Reheat valve position measurement for zone " + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1"),
-    zone=zone) "Reheat valve position measurement"
+    zone=zone) "Zone reheat valve position measurement"
     annotation (Placement(transformation(extent={{0,50},{20,70}})));
 
   Buildings.Utilities.IO.SignalExchange.Read yDam(
@@ -52,10 +51,10 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     annotation (Placement(transformation(extent={{-140,70},{-100,110}})));
 
   Buildings.Utilities.IO.SignalExchange.Read V_flowSet(
-    description="Airflow setpoint " + zone,
+    description="Zone airflow setpoint for zone " + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s"),
-    zone=zone) "Minimum airflow setpoint"
+    zone=zone) "Zone airflow setpoint"
     annotation (Placement(transformation(extent={{0,-64},{20,-44}})));
 
   Modelica.Blocks.Interfaces.RealInput V_flowSet_in "Airflow setpoint"

@@ -139,7 +139,7 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read CO2_AHURet(
     description="Return air CO2 measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="ppm")) "Air CO2 concentration measurement"
+    y(unit="ppm")) "Return air CO2 concentration measurement"
     annotation (Placement(transformation(extent={{0,-210},{20,-190}})));
 
   Modelica.Blocks.Interfaces.RealInput CO2_AHURet_in
