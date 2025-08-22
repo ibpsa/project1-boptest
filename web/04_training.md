@@ -24,8 +24,6 @@ We provide a small description for each so you know what material suits you best
 - 📝 **Brief description**: This is an introductory, hands-on tutorial to guide you through usage of the BOPTEST framework for performance benchmarking of control algorithms. The first part of the workshop is an introductory hands-on tutorial on the software. The second part is a  presentation on IBPSA Project 2 Task 3 and Test case development.
 
 
-
-
 #### RLEM2023 Workshop: Introduction to the BOPTEST Framework
 
 - 🗓️ **Last updated**: 2024/09/03
