@@ -17,16 +17,13 @@ We provide a small description for each so you know what material suits you best
 
 - ⚙️ **Compatible with**: `BOPTEST-v0.8.0`
 
-- 🔗 **Links**: <a href="https://colab.research.google.com/drive/1uqQtKcFl0fEWG_eRjDaokl8GH6ZT4UH6?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>, [presentation BOPTEST project](https://github.com/ibpsa/project1-boptest/blob/master/docs/workshops/BS25Workshop_20250828/presentations/IBPSAProject2Task3_testcase_development_20250828.pdf)
+- 🔗 **Links**: <a href="https://colab.research.google.com/drive/1uqQtKcFl0fEWG_eRjDaokl8GH6ZT4UH6?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>, [presentation IBPSA Project 2 Task 3 and Test Case Development](https://github.com/ibpsa/project1-boptest/blob/master/docs/workshops/BS25Workshop_20250828/presentations/IBPSAProject2Task3_testcase_development_20250828.pdf)
 
 - ⏰ **Duration**: 45 minutes
 
-- 📝 **Brief description**: This is an introductory, hands-on tutorial to guide you through usage of the BOPTEST framework for performance benchmarking of control algorithms. 
+- 📝 **Brief description**: This is an introductory, hands-on tutorial to guide you through usage of the BOPTEST framework for performance benchmarking of control algorithms. The first part of the workshop is an introductory hands-on tutorial on the software. The second part is a  presentation on IBPSA Project 2 Task 3 and Test case development.
 
-The tutorial is split into four main parts:
 
-    1. Exercise 1: Introductory hands-on tutorial on the software
-    2. Presentation: IBPSA Project 2 Task 3 and Test case development
 
 
 #### RLEM2023 Workshop: Introduction to the BOPTEST Framework
