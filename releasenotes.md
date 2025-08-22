@@ -6,7 +6,7 @@ Released on xx/xx/xxxx.
 
 **The following changes are backwards compatible and do not significantly change benchmark results:**
 
-- Add materials for BS2025 workshop at ``docs/workshops/BS25Workshop_20250828``. This is for [#785](https://github.com/ibpsa/project1-boptest/issues/785).
+- Add materials for BS2025 workshop at ``docs/workshops/BS25Workshop_20250828`` and add link for test case review document in ``testcases/README.md``. This is for [#785](https://github.com/ibpsa/project1-boptest/issues/785).
 
 - For ``twozone_apartment_hydronic`` test case, update control documentation. This is for [#766](https://github.com/ibpsa/project1-boptest/issues/766).
 - For BACnet interface, add support for faster-than-real-time and on-command simulation advance. Optional arguments ``--app_interval`` and ``--simulation_step`` were added to ``BopTestProxy.py`` to support this feature. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
