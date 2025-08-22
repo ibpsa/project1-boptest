@@ -12,27 +12,50 @@ permalink: /ibpsa/project/meetings/task3/
 
 
 ### General Info
-If you want to submit a new test case application here is the [**form**](https://docs.google.com/forms/d/e/1FAIpQLSdJpGsaJRflkn1shAos86gPjFEvEMH-gblKPq5tjt8kob8-Pg/viewform?usp=sf_link) and if you want to download the test case review document here is the [**review document**](https://docs.google.com/document/d/1zUrHAhI_bthPTCPmkEFU7h_H3GKmp19Ex3sOOuZkOFk/edit?usp=sharing) link.
+If you want to submit a new test case application here is the [**form**](https://docs.google.com/forms/d/e/1FAIpQLSdJpGsaJRflkn1shAos86gPjFEvEMH-gblKPq5tjt8kob8-Pg/viewform?usp=sf_link) and if you want to download the test case review document here is the [**review document**](https://docs.google.com/document/d/1SPhtU2IDnMDy7igW94jN-zUaN7mAuQfgab6iyZD5oEk/edit?usp=sharing) link.
 
 
 
 
 # Upcoming Meetings
 
+### September 2, 2025
 
+**Location:** Online
+
+**Time:** 7:30-8:30 pacific
+[**Link to join the meeting**](https://lbnl.zoom.us/j/2197244139?omn=94527917917),
+[**Calendar Invite**](/ibpsa_project/meetings/task3/20250902_Progress/20250902_invite.ics)
+
+### October 6, 2025
+
+**Location:** Online
+
+**Time:** 7:30-8:30 pacific
+[**Link to join the meeting**](https://lbnl.zoom.us/j/2197244139?omn=94527917917),
+[**Calendar Invite**](/ibpsa_project/meetings/task3/20251006_Progress/20251006_invite.ics)
+
+### November 3, 2025
+
+**Location:** Online
+
+**Time:** 7:30-8:30 pacific
+[**Link to join the meeting**](https://lbnl.zoom.us/j/2197244139?omn=94527917917),
+[**Calendar Invite**](/ibpsa_project/meetings/task3/20251103_Progress/20251103_invite.ics)
+
+
+
+
+# Past Meetings
 
 ### June 30, 2025
 
 **Location:** Online
 
 **Time:** 6:00-7:00 pacific
-[**Link to join the meeting**](https://lbnl.zoom.us/j/2197244139),
-[**Calendar Invite**](/ibpsa_project/meetings/task3/20250630_Progress/20250630_invite.ics)
+- [Minutes](/ibpsa_project/meetings/task3/20250630_Progress/20250630_IBPSA-BOPTEST_Task3_minutes.pdf)
 
 
-
-
-# Past Meetings
 
 ### May 20, 2025
 
