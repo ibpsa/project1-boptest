@@ -20,11 +20,11 @@ Brisbane Convention & Exhibition Centre (BCEC)
 **Time**
 August 28, 1:00-3:00 pm (Brisbane time) / 3:00-5:00 am (UTC)
 
-**Information and Agenda:** [PDF](/ibpsa_project/meetings/general/20250828_Brisbane/Workshop_agenda.pdf)
+**Information and Agenda:** [PDF](/ibpsa_project/meetings/general/20250828_Brisbane/IBPSAProject2_BS25_Workshop_Agenda_v2.pdf)
 
-[**Registration Link**](https://docs.google.com/forms/d/e/1FAIpQLSfh7GC1TO-TZCSd3aW5bDdEBmV9ScDmE7Q5OHPWrEcQAZ1rKw/viewform?usp=dialog)
+**Registration:** [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSfh7GC1TO-TZCSd3aW5bDdEBmV9ScDmE7Q5OHPWrEcQAZ1rKw/viewform?usp=dialog)
 
-**Zoom Link**:
+**Zoom Link:**
 Link will be sent out to registrants before the workshop
 
 # Past Meetings & Events
