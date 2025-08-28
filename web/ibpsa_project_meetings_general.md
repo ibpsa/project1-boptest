@@ -22,10 +22,10 @@ August 28, 1:00-3:00 pm (Brisbane time) / 3:00-5:00 am (UTC)
 
 **Information and Agenda:** [PDF](/ibpsa_project/meetings/general/20250828_Brisbane/IBPSAProject2_BS25_Workshop_Agenda_v2.pdf)
 
-**Registration:** [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSfh7GC1TO-TZCSd3aW5bDdEBmV9ScDmE7Q5OHPWrEcQAZ1rKw/viewform?usp=dialog)
+**Materials:**
 
-**Zoom Link:**
-Link will be sent out to registrants before the workshop
+- Introductory slides: [PDF](/ibpsa_project/meetings/general/20250828_Brisbane/Overview_20250828.pdf)
+- Tutorial content: see the [Training](/project1-boptest/training/index.html) page
 
 # Past Meetings & Events
 
