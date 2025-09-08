@@ -187,16 +187,18 @@ Actuator travel
    is turned on and off. This measure is important to assess the wear and 
    tear of the equipment, because frequent and erratic switching of control
    signals can lead to equipment damages and shorter equipment lifespan. 
-   Actuator travel also gives a measure of phenomena such as cycling and hunting. 
 
-   The actuator travel :math:`AT(u)` of a trajectory :math:`u(t)` is calculated as 
-   the ratio of the arc of :math:`u(t)` from :math:`t_0` to :math:`t_f`
-   to the time passed :math:`t_f-t_0`:
+   We propose using displacement, which measures the total distance the actuator travels 
+   in its control signal over the entire evaluation period. 
+   This metric is calculated by integrating the absolute value of the rate of change
+   of the actuator position :math:`y(t)`, and is both straightforward to compute and
+   independent of arbitrary thresholds. The displacement is defined as follows:
 
-   .. math:: AT(u) = \frac{\int_{t_0}^{t_f} \left \sqrt{(1+(u'(t))^2)} \right  dt}{t_f-t_0}, 
+   .. math:: D = \int_{t_0}^{t_f} \left| y'(t) \right| \, dt
 
-   where :math:`\int_{t_0}^{t_f} \left \sqrt{(1+(u'(t))^2)` is the formula for
-   calculating the arc of function :math:`u(t)` by integration. 
+   where :math:`D` represents the displacement over the time period
+   :math:`[t_0, t_f]`. :math:`y'(t)` is the time derivative of actuator position
+   :math:`y(t)`, representing the rate of change in position.
    
 Installation metrics
 ~~~~~~~~~~~~~~~~~~~~

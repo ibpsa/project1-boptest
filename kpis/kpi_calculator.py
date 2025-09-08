@@ -11,9 +11,7 @@ performance indicators.
 
 import numpy as np
 import pandas as pd
-
 from collections import OrderedDict
-
 
 class KPI_Calculator(object):
     '''This class calculates the KPIs as a post-process after
@@ -69,14 +67,14 @@ class KPI_Calculator(object):
         self.initialize_kpi_vars('pele')
         self.initialize_kpi_vars('pgas')
         self.initialize_kpi_vars('pdih')
-        self.initialize_kpi_vars('ltra', store="u_store") # "ltra" represents the length of actuator travel. Perhaps Dave could suggest a more fitting name.
+        self.initialize_kpi_vars('ltra') # "ltra" represents the length of actuator travel. Perhaps Dave could suggest a more fitting name.
 
-    def initialize_kpi_vars(self, label='ener', store="y_store"):
+    def initialize_kpi_vars(self, label='ener'):
         '''Initialize variables required for KPI calculation
 
         '''
         # Initialize index
-        self._set_last_index(label, set_initial=True, store="y_store")
+        self._set_last_index(label, set_initial=True)
         # Dictionary to store energy usage by element
         setattr(self, '{}_dict'.format(label), OrderedDict())
         # Dictionary to store energy usage by source
@@ -184,76 +182,32 @@ class KPI_Calculator(object):
             self.ltra_dict_by_source = {}
             self.ltra_source_key_mapping = {}
             
-            config_file_path = '/home/user/kpis/control_actuators.json'
+            for source in self.case.kpi_json.keys():
+                if source.startswith('ControlActuator'):
+                    actuator_name = source.split('[')[1][:-1]  # Extract the name inside the brackets
+                    self.sources_ltra.append(actuator_name)          
 
-            # Load the configuration data from the JSON file
-            try:
-                with open(config_file_path, 'r') as f:
-                    config_data = json.load(f)
-            except FileNotFoundError:
-                print(f"Error: The file {config_file_path} was not found.")
-                config_data = {}
-            except json.JSONDecodeError:
-                print(f"Error: The file {config_file_path} is not a valid JSON file.")
-                config_data = {}
+                    # Access the list of values corresponding to the source
+                    values = self.case.kpi_json[source]
 
-            # Existing test cases
-            if self.case.name in config_data:
-                config_data = config_data[self.case.name]
-
-                u_store_keys = self.case.u_store.keys()
-
-                # Create actuator list from config_data
-                ltra_list = [item for sublist in config_data.values() for item in sublist]
-
-                # Check if every item in actuator list is a key in u_store_keys
-                not_existing_items = [item for item in ltra_list if item not in u_store_keys]
-
-                # Raise an error if any items are not existing
-                if not_existing_items:
-                    raise ValueError(
-                        f"Please check the control actuator name list in control_actuators.json for the testcase {self.case.name}. "
-                        f"Not existing items: {', '.join(not_existing_items)}"
-                    )
-                # Define sources_ltra as a list of control actuator categories, e.g., ['Fan', 'Pump']
-                self.sources_ltra = [source for source, items in config_data.items() if items]
-                # Create a dictionary with control actuator variables, e.g., {'oveFan_u': 0.0, 'ovePum_u': 0.0}
-                self.ltra_dict = {item: 0.0 for item in ltra_list}
-                # Create a dictionary with combined keys from sources, e.g., {'Fan_oveFan_u': 0.0, 'Pump_ovePum_u': 0.0}
-                self.ltra_dict_by_source = {f"{source}_{item}": 0.0 
-                            for source in self.sources_ltra 
-                            for item in config_data[source]}
-                # Create a mapping of sources to their corresponding items, e.g., {'Fan': ['oveFan_u'], 'Pump': ['ovePum_u']}
-                self.ltra_source_key_mapping = {source: config_data[source] for source in self.sources_ltra}
-
-            else:
-                # New testcases: 
-                for source in self.case.kpi_json.keys():
-                    if source.startswith('ControlActuator'):
-                        actuator_name = source.split('[')[1][:-1]  # Extract the name inside the brackets
-                        self.sources_ltra.append(actuator_name)          
-
-                        # Access the list of values corresponding to the source
-                        values = self.case.kpi_json[source]
-
-                        # Check if the value is a list and iterate through it
-                        if isinstance(values, list):
-                            for value in values:
-                                self.ltra_dict[value] = 0.0
-                                self.ltra_dict_by_source[f"{actuator_name}_{value}"] = 0.0
+                    # Check if the value is a list and iterate through it
+                    if isinstance(values, list):
+                        for value in values:
+                            self.ltra_dict[value] = 0.0
+                            self.ltra_dict_by_source[f"{actuator_name}_{value}"] = 0.0
                                 
-                                # Initialize and append to the mapping
-                                if actuator_name in self.ltra_source_key_mapping:
-                                    self.ltra_source_key_mapping[actuator_name].append(value)
-                                else:
-                                    self.ltra_source_key_mapping[actuator_name] = [value]
-                        else:
-                            # In case it's not a list
-                            self.ltra_dict[values] = 0.0  
-                            self.ltra_dict_by_source[f"{actuator_name}_{values}"] = 0.0
+                            # Initialize and append to the mapping
+                            if actuator_name in self.ltra_source_key_mapping:
+                                self.ltra_source_key_mapping[actuator_name].append(value)
+                            else:
+                                self.ltra_source_key_mapping[actuator_name] = [value]
+                    else:
+                        # In case it's not a list
+                        self.ltra_dict[values] = 0.0  
+                        self.ltra_dict_by_source[f"{actuator_name}_{values}"] = 0.0
                             
-                            # Initialize the mapping for a single value
-                            self.ltra_source_key_mapping[actuator_name] = [values]                          
+                        # Initialize the mapping for a single value
+                        self.ltra_source_key_mapping[actuator_name] = [values]                          
 
     def initialize(self):
         '''
@@ -713,7 +667,7 @@ class KPI_Calculator(object):
         return time_rat
 
     def get_actuator_travel(self):
-        '''This method returns the measure of the actuator travel arc length when accounting for the sum of all
+        '''This method returns the measure of the actuator travel displacement when accounting for the sum of all
         the actuators present in the test case.
 
         Parameters
@@ -723,36 +677,20 @@ class KPI_Calculator(object):
         Returns
         -------
         ltra_tot: float
-            total arc length of actuator travel
+            displacement of actuator travel
 
         '''
         self.ltra_tot = 0.
-        # Calculate total arc length of actuator travel
+        # Calculate displacement of actuator travel
 
         for source in self.sources_ltra:
             for signal in self.ltra_source_key_mapping[source]:
-                ltra_data = np.array(self._get_data_from_last_index(signal,self.i_last_ltra, store="u_store"))
-                index_data = np.array(self._get_data_from_last_index('time',self.i_last_ltra, store="u_store"))
-                
-                # Normalize ltra_data to [0, 1] with division by zero handling
-                ltra_data_min = self.case.inputs_metadata[signal]['Minimum']
-                ltra_data_max = self.case.inputs_metadata[signal]['Maximum']
-                if ltra_data_max > ltra_data_min:
-                    normalized_ltra_data = (ltra_data - ltra_data_min) / (ltra_data_max - ltra_data_min)
-                else:
-                    normalized_ltra_data = np.zeros_like(ltra_data)  # or np.ones_like(ltra_data), based on your logic
-                
-                # Normalize index_data to [0, 1] with division by zero handling
-                index_data_min = np.min(index_data)
-                index_data_max = np.max(index_data)               
-                if index_data_max > index_data_min:
-                    normalized_index_data = (index_data - index_data_min) / (index_data_max - index_data_min)
-                else:
-                    normalized_index_data = np.zeros_like(index_data)  # or np.ones_like(index_data), based on your logic
+                ltra_data = np.array(self._get_data_from_last_index(signal,self.i_last_ltra))
+                index_data = np.array(self._get_data_from_last_index('time',self.i_last_ltra))
 
-                # Calculate arc length and update dictionaries
-                arc_length = self._arclength(normalized_index_data, normalized_ltra_data, 0, normalized_index_data[-1])
-                self.ltra_dict[signal] += arc_length
+                # Calculate displacement and update dictionaries
+                displacement = self._displacement(index_data, ltra_data, index_data[0], index_data[-1])
+                self.ltra_dict[signal] += displacement
                 self.ltra_dict_by_source[source + '_' + signal] += self.ltra_dict[signal]
                 self.ltra_tot += self.ltra_dict[signal]
 
@@ -762,14 +700,14 @@ class KPI_Calculator(object):
         self.case.ltra_dict_by_source = self.ltra_dict_by_source
 
         # Update last integration index
-        self._set_last_index('ltra', set_initial=False, store="u_store")
+        self._set_last_index('ltra', set_initial=False)
 
         return self.ltra_tot/len(self.ltra_dict)
 
 
-    def _arclength(self, x, y, a, b):
+    def _displacement(self, x, y, a, b):
         """
-        Computes the arclength of the given curve
+        Computes the displacement of the given curve
         defined by (x0, y0), (x1, y1) ... (xn, yn)
         over the provided bounds, `a` and `b`.
 
@@ -790,18 +728,17 @@ class KPI_Calculator(object):
         Returns
         -------
         numpy.float64
-            The arclength of the curve
+            The displacement of the curve
 
         """
-        # Check if there is only one point in the x and y arrays
-        if len(x) == 1:
-            return 0  # Return 0 if there's only one data point
-            
         bounds = (x >= a) & (x <= b)
+        grad = np.gradient(y[bounds], x[bounds])
+        integrand = np.abs(grad)
+        value = np.trapezoid(integrand, x[bounds])
+        return float(value)
 
-        return trapz(np.sqrt(1 + np.gradient(y[bounds], x[bounds]) ** 2),x[bounds])
 
-    def _set_last_index(self,label, set_initial=False, store="y_store"):
+    def _set_last_index(self,label, set_initial=False):
         '''Set last index for kpi calcualtion.
 
         Parameters
@@ -810,28 +747,22 @@ class KPI_Calculator(object):
             Suffix of last index variable for which to set.
         set_initial: boolean
             True to force index to be set at initial testing time.
-        store: str, optional
-            Store to get data from, either "y_store" or "u_store". Default is "y_store".
+
         '''
 
-        if store not in ["y_store", "u_store"]:
-            raise ValueError("store must be 'y_store' or 'u_store'")
-
-        data_store = getattr(self.case, store)
-
         # Initialize index
-        if len(data_store['time']) > 0:
+        if len(self.case.y_store['time']) > 0:
             if set_initial:
                 # Find initial testing time index
-                i = len([x for x in data_store['time'] if x < self.case.initial_time])
+                i = len([x for x in self.case.y_store['time'] if x < self.case.initial_time])
             else:
                 # Use index since last integration
-                i = len(data_store['time'])-1
+                i = len(self.case.y_store['time'])-1
         else:
             i = 0
         setattr(self, 'i_last_{}'.format(label),i)
 
-    def _get_data_from_last_index(self,point,i, store="y_store"):
+    def _get_data_from_last_index(self,point,i):
         '''Get data from last index indicated by i.
 
         Parameters
@@ -840,8 +771,6 @@ class KPI_Calculator(object):
             Name of point to get data for from case.y_store
         i: int
             Integer to indicate the first time to get data
-        store: str, optional
-            Store to get data from, either "y_store" or "u_store". Default is "y_store".
 
         Returns
         -------
@@ -849,11 +778,8 @@ class KPI_Calculator(object):
             Array of data from key from i onward
 
         '''
-        if store not in ["y_store", "u_store"]:
-            raise ValueError("store must be 'y_store' or 'u_store'")
 
-        data_store = getattr(self.case, store)
-        data = data_store[point][i:]
+        data=self.case.y_store[point][i:]
 
         return data
 
