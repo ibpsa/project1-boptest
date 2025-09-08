@@ -19,7 +19,7 @@ def compare(testcase='bestest_air'):
     '''
 
     if testcase == 'testcase1':
-        compare_references(vars_timeseries = ['PHea_y',
+        compare_references(vars_timeseries = ['PHeaCoo_y',
                                               'TRooAir_y',
                                               'CO2RooAir_y',
                                               'oveAct_u',
@@ -141,6 +141,21 @@ def compare(testcase='bestest_air'):
                                               'hvac_reaZonNor_TZon_y'],
                            refs_old = 'multizone_office_simple_air_old',
                            refs_new = 'multizone_office_simple_air')
+
+    elif testcase == 'multizone_office_simple_hydronic':
+        compare_references(vars_timeseries = ['heating_cooling_reaPProHea_y', 'heating_cooling_reaPProCoo_y',
+                                              'heating_cooling_reaPPumProHea_y', 'heating_cooling_reaPPumProCoo_y',
+                                              'heating_cooling_reaTSupEmiHeaNz_y', 'heating_cooling_reaTSupEmiHeaSz_y',
+                                              'heating_cooling_reaTSupEmiCooNz_y', 'heating_cooling_reaTSupEmiCooSz_y',
+                                              'heating_cooling_reaTSupAhuHeaNz_y', 'heating_cooling_reaTSupAhuHeaSz_y',
+                                              'heating_cooling_reaTSupAhuCooNz_y', 'heating_cooling_reaTSupAhuCooSz_y',
+                                              'structure_reaTZonNz_y', 'structure_reaTZonSz_y',
+                                              'structure_reaCO2Nz_y', 'structure_reaCO2Sz_y',
+                                              'ventilation_reaTSupAhuNz_y', 'ventilation_reaTSupAhuSz_y',
+                                              'ventilation_reaPAhuSupNz_y', 'ventilation_reaPAhuSupSz_y',
+                                              'weaSta_reaWeaTDryBul_y', ],
+                           refs_old = 'multizone_office_simple_hydronic_old',
+                           refs_new = 'multizone_office_simple_hydronic')
 
 if __name__ == '__main__':
     compare(testcase='multizone_office_simple_air')

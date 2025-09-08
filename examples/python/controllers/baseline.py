@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This module implements a supervisory controller for room temperature set points
-specifically for testcase2.
+This module implements the baseline control for testcases.
 
 """
 
@@ -27,8 +26,7 @@ def compute_control(y, forecasts=None):
     """
 
     # Compute control
-    u = {
-    }
+    u = {}
 
     return u
 
@@ -47,7 +45,6 @@ def initialize():
         {<input_name> : <input_value>}
 
     """
-    u = {
-    }
+    u = {}
 
     return u

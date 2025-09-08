@@ -1,0 +1,7 @@
+{
+"name"          : "multizone_office_simple_hydronic",
+"area"          : 5000,
+"start_time"    : 0.0,
+"warmup_period" : 0.0,
+"step"          : 3600.0
+}

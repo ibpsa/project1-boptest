@@ -1,0 +1,205 @@
+<html>
+General model description.
+<h3>Building Design and Use</h3>
+<h4>Architecture</h4>
+<p>
+The considered building is a simple fixed capacitance which models the zone air temperature
+  which is separated from the ambient by a fixed resistance. This is a trivial test case intended
+  for a first exploration of BOPTEST.
+</p>
+<h4>Constructions</h4>
+<p>
+The value of the R and C parameters are given below:
+</p>
+<p>
+<b>R and C parameters</b>
+<table>
+  <tr>
+  <th>Name</th>
+  <th>Value</th>
+  </tr>
+  <tr>
+  <th>Zone capacitance [J/K]</th>
+  <td>10^6</td>
+  </tr>
+  <tr>
+  <th>Transmission loss resistance [K/W]</th>
+  <td>0.01</td>
+  </tr>
+  </table>
+
+<h4>Occupancy schedules</h4>
+<p>
+No occupancy is considered in this test case.
+</p>
+<h4>Internal loads and schedules</h4>
+<p>
+No internal loads and schedules are considered in this test case.
+
+</p>
+<h4>Climate data</h4>
+<p>
+Climate data is limited to an assumed sinusoidal temperature profile with a 24-hour period with an offset of
+  20 degree C and an amplitude of 10 degree C.
+</p>
+<h3>HVAC System Design</h3>
+<h4>Primary and secondary system designs</h4>
+<p>
+The HVAC system in question consists of a simple prescribed heat flow into the zone air capacitance. This heat flow
+  can attain both positive and negative values, representing heating and cooling respectively. This heat flow is
+  powered by an electric heater/cooler with a fixed efficiency of 99% in both operating regimes.
+</p>
+
+
+<h4>Equipment specifications and performance maps</h4>
+<p>
+The electric heater/cooler is modeled as a simple fixed efficiency device. The efficiency is 99% in both heating and cooling modes.
+</p>
+
+<h4>Rule-based or local-loop controllers (if included)</h4>
+<p>
+A baseline proportional feedback controller (P-controller) is implemented to control the prescribed heat flow. This
+  baseline implementation only transmits a signal when the observed air temperature is lower than a certain setpoint.
+  Therefore, the heating system only operates in heating mode using the baseline controller, but cooling mode can be
+  activated with a custom user-implemented controller.
+  <br>
+  A step function is implemented as a baseline, which is 20 degree C initially. After one day, the setpoint changes to
+  22 degree C.
+</p>
+
+<h3>Model IO's</h3>
+<h4>Inputs</h4>
+The model inputs are:
+<ul>
+<li>
+<code>oveAct_activate</code> [1] [min=0, max=1]: Activation signal for heater/cooler thermal power oveAct_u where 1 activates (default value), 0 deactivates
+</li>
+<li>
+<code>oveAct_u</code> [W] [min=-10000, max=10000]: Heater/cooler thermal power
+</li>
+
+</ul>
+<h4>Outputs</h4>
+The model outputs are:
+<ul>
+<li>
+<code>CO2rooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
+</li>
+<li>
+<code>PHeaCoo_y</code> [W] [min=None, max=None]: Electrical heater/cooler power
+</li>
+<li>
+<code>TRooAir_y</code> [K] [min=None, max=None]:Zone air temperature
+</li>
+</ul>
+<h4>Forecasts</h4>
+The model forecasts are:
+<ul>
+  <li><code>EmissionsBiomassPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from biomass</li>
+  <li><code>EmissionsDistrictHeatingPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal district heating</li>
+  <li><code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity</li>
+  <li><code>EmissionsGasPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from gas</li>
+  <li><code>EmissionsSolarThermalPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from solar irradiation</li>
+  <li><code>InternalGainsCon[1]</code> [W]: Convective internal gains of zone</li>
+  <li><code>InternalGainsLat[1]</code> [W]: Latent internal gains of zone</li>
+  <li><code>InternalGainsRad[1]</code> [W]: Radiative internal gains of zone</li>
+  <li><code>LowerSetp[1]</code> [K]: Lower temperature set point for thermal comfort of zone</li>
+  <li><code>Occupancy[1]</code> [number of people]: Number of occupants of zone</li>
+  <li><code>PriceBiomassPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from biomass</li>
+  <li><code>PriceDistrictHeatingPower</code> [($/Euro)/kWh]: Price of 1 kWh thermal from district heating</li>
+  <li><code>PriceElectricPowerConstant</code> [($/Euro)/kWh]: Completely constant electricity price</li>
+  <li><code>PriceElectricPowerDynamic</code> [($/Euro)/kWh]: Electricity price for a day/night tariff</li>
+  <li><code>PriceElectricPowerHighlyDynamic</code> [($/Euro)/kWh]: Spot electricity price</li>
+  <li><code>PriceGasPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from gas</li>
+  <li><code>PriceSolarThermalPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from solar irradiation</li>
+  <li><code>TDryBul</code> [K]: Dry bulb temperature at ground level</li>
+  <li><code>UpperCO2[1]</code> [ppm]: Upper CO2 set point for indoor air quality of zone</li>
+  <li><code>UpperSetp[1]</code> [K]: Upper temperature set point for thermal comfort of zone</li>
+</ul>
+
+<h3>Additional System Design</h3>
+<h4>Lighting</h4>
+<p>
+No lighting included in this test case.
+</p>
+<h4>Shading</h4>
+<p>
+There are no shades on the building.
+</p>
+<h4>Onsite Generation and Storage</h4>
+<p>
+There is no energy generation or storage on the site.
+</p>
+<h3>Model Implementation Details</h3>
+<h4>Moist vs. dry air</h4>
+<p>
+Not applicable.
+
+</p>
+<h4>Pressure-flow models</h4>
+<p>
+Not applicable
+</p>
+<h4>Infiltration models</h4>
+<p>
+Not applicable
+</p>
+<h4>Other assumptions</h4>
+<p>
+None
+</p>
+
+<h3>Scenario Information</h3>
+<h4>Time Periods</h4>
+<p>
+The <b>Test day</b> (specifier for <code>/scenario</code> API is <code>'test_day'</code>) period is:
+<ul>
+This testing time period is a two-week test utilizing
+baseline control, starting on the 13th day of the year.
+</ul>
+<ul>
+Start Time: Day 13.
+</ul>
+<ul>
+End Time: Day 27.
+</ul>
+</p>
+
+<h4>Energy Pricing</h4>
+<p>
+The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
+<ul>
+It is $0.02/kWh.
+</ul>
+</p>
+<p>
+The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
+<ul>
+Based on a TOU type of tariff, each day it is $0.03/kWh between 8am and 5pm and $0.01/kWh otherwise.
+</ul>
+</p>
+<p>
+The <b>Highly Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'highly_dynamic'</code>) profile is:
+<ul>
+Based on a real-time price, each day it is a sinusoid starting at $0.00/kWh with an amplitude of +/- $0.03/kWh and a period of one day
+</ul>
+</p>
+The <b>Gas Price</b> profile is:
+<ul>
+It is $0.07/kWh.
+</ul>
+</p>
+<h4>Emission Factors</h4>
+<p>
+The <b>Electricity Emissions Factor</b> profile is:
+<ul>
+It is 0.5 kgCO2/kWh.
+</ul>
+</p>
+<p>
+The <b>Gas Emissions Factor</b> profile is:
+<ul>
+It is 0.2 kgCO2/kWh.
+</ul>
+</p>
+</html>

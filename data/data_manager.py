@@ -9,11 +9,10 @@ test case FMU.
 
 '''
 
-import matplotlib.pyplot as plt
+
 import pandas as pd
 import numpy as np
 import zipfile
-from scipy import interpolate
 import warnings
 import os
 import json
@@ -256,7 +255,7 @@ class Data_Manager(object):
         self.z_fmu.close()
 
     def get_data(self, horizon=24*3600, interval=None, index=None,
-                 variables=None, category=None, plot=False):
+                 variables=None, category=None):
         '''Retrieve test case data from the fmu. The data
         is stored within the csv files that are
         located in the resources folder of the test case fmu.
@@ -285,9 +284,7 @@ class Data_Manager(object):
             The possible options are specified at categories.json.
             This argument cannot be used together with the `variables`
             argument.
-        plot : Boolean, default is False
-            True if desired to plot the retrieved data
-
+            
         Returns
         -------
         data: dict
@@ -363,16 +360,6 @@ class Data_Manager(object):
             data_slice_reindexed = self.interpolate_data(data_slice_reindexed,index_norm)
         # Add starting year back to index desired by user
         data_slice_reindexed.index = data_slice_reindexed.index + year_start
-
-        if plot:
-            if category is None:
-                to_plot = data_slice_reindexed.keys()
-            else:
-                to_plot = self.categories[category]
-            for var in to_plot:
-                data_slice_reindexed[var].plot()
-                plt.legend()
-                plt.show()
 
         # Reset the index to keep the 'time' column in the data
         # Transform data frame to dictionary
@@ -455,17 +442,16 @@ class Data_Manager(object):
                         for category in self.categories:
                             # Use linear interpolation for continuous variables
                             if any(col.startswith(key) for key in self.categories['weather']):
-                                g = interpolate.interp1d(df['time'],df[col],
-                                    kind='linear')
-                                self.case.data.loc[:,col] = \
-                                    g(self.case.data.index)
+                                
+                                self.case.data.loc[:,col] = np.interp(self.case.data.index,\
+                                                                     df['time'],df[col])
                             # Use forward fill for discrete variables
                             elif any(col.startswith(key) for key in self.categories[category]):
-                                g = interpolate.interp1d(df['time'],df[col],
-                                    kind='zero')
-                                self.case.data.loc[:,col] = \
-                                    g(self.case.data.index)
-            else:
+
+                                self.case.data.loc[:,col] = self.interp0(self.case.data.index,\
+                                                                     df['time'].values,df[col].values)
+
+            else:                        
                 warnings.warn('The following file does not have '\
                 'time column and therefore no data is going to '\
                 'be used from this file as test case data.', Warning)
@@ -539,14 +525,50 @@ class Data_Manager(object):
         for key in df.keys():
             # Use linear interpolation for continuous variables
             if key in self.categories['weather']:
-                f = interpolate.interp1d(self.case.data.index,
-                    self.case.data[key], kind='linear')
+                df.loc[:,key] = np.interp(index,self.case.data.index,
+                self.case.data[key])
             # Use forward fill for discrete variables
             else:
-                f = interpolate.interp1d(self.case.data.index,
-                    self.case.data[key], kind='zero')
-            df.loc[:,key] = f(index)
+                df.loc[:,key] = self.interp0(index,self.case.data.index.values,
+                self.case.data[key].values)
         return df
+    
+    def interp0(self,x, xp, yp):
+        """ Zeroth order hold interpolation w/ same
+        (base)   signature  as numpy.interp.
+        Parameters
+        ----------
+        x : np.array
+            The x-coordinates at which to evaluate the interpolated values.
+            
+        xp : np.array
+            The x-coordinates of the data points, must be increasing.
+        
+        yp : np.array
+            The y-coordinates of the data points, same length as xp.
+            
+        Returns
+        -------
+        y : np.array
+            The interpolated values, same length as x.
+        """
+    
+        def func(x0,k):
+            if x0 <= xp[0]:
+                return yp[0], k
+            if x0 >= xp[-1]:
+                return yp[-1], k
+           
+            while x0 >= xp[k]:
+                k += 1
+            return yp[k-1], k
+        k = 0
+        y = list()
+        for x0 in x:           
+            y0,k = func(x0,k)
+            y.append(y0)
+        return np.array(y)
+
 
 if __name__ == "__main__":
     import sys

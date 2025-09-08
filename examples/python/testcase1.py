@@ -50,7 +50,8 @@ def run(plot=False):
 
     # RUN THE CONTROL TEST
     # --------------------
-    kpi, df_res, custom_kpi_result, forecasts = control_test(control_module,
+    kpi, df_res, custom_kpi_result, forecasts = control_test('testcase1',
+                                                             control_module,
                                                              start_time=start_time,
                                                              warmup_period=warmup_period,
                                                              length=length,
@@ -60,7 +61,7 @@ def run(plot=False):
     # --------------------
     time = df_res.index.values/3600  # convert s --> hr
     zone_temperature = df_res['TRooAir_y'].values - 273.15  # convert K --> C
-    heating_power = df_res['PHea_y'].values
+    heating_power = df_res['PHeaCoo_y'].values
     # Plot results if needed
     if plot:
         try:

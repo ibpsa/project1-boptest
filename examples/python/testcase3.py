@@ -49,7 +49,8 @@ def run(plot=False):
 
     # RUN THE CONTROL TEST
     # --------------------
-    kpi, df_res, custom_kpi_result, forecasts = control_test(control_module,
+    kpi, df_res, custom_kpi_result, forecasts = control_test('testcase3',
+                                                             control_module,
                                                              start_time=start_time,
                                                              warmup_period=warmup_period,
                                                              length=length,
@@ -62,9 +63,9 @@ def run(plot=False):
     time = df_res.index.values/3600  # convert s --> hr
     setpoints.index = setpoints.index/3600  # convert s --> hr
     zone_temp_north = df_res['TRooAirNor_y'].values-273.15  # convert K --> C
-    power_heat_north = df_res['PHeaNor_y'].values
+    power_heat_north = df_res['PHeaCooNor_y'].values
     zone_temp_south = df_res['TRooAirSou_y'].values-273.15  # convert K --> C
-    power_heat_south = df_res['PHeaSou_y'].values
+    power_heat_south = df_res['PHeaCooSou_y'].values
     setpoints = setpoints - 273.15  # convert K --> C
     # Plot results if needed
     if plot:
@@ -80,9 +81,9 @@ def run(plot=False):
             plt.xlabel('Time [hr]')
             plt.legend()
             plt.figure(2)
-            plt.title('Heater Powers')
-            plt.plot(time, power_heat_north, label='PHeatNor')
-            plt.plot(time, power_heat_south, label='PHeatSou')
+            plt.title('Heater / Cooler Powers')
+            plt.plot(time, power_heat_north, label='PHeatCoolNor')
+            plt.plot(time, power_heat_south, label='PHeatCoolSou')
             plt.ylabel('Electrical Power [W]')
             plt.xlabel('Time [hr]')
             plt.legend()

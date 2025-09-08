@@ -321,7 +321,10 @@ class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
         # Change directory to testcase 2
         os.chdir(os.path.join(testing_root_dir,'testcase2'))
         from testcase2.testcase import TestCase
-        self.case=TestCase()
+        forecast_uncertainty_params_path = os.path.join(testing_root_dir,
+                                                        'forecast',
+                                                        'forecast_uncertainty_params.json')
+        self.case=TestCase(forecast_uncertainty_params_path=forecast_uncertainty_params_path)
 
         # Instantiate a data manager
         self.man = Data_Manager(self.case)
@@ -354,7 +357,10 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
         # Change directory to testcase 3
         os.chdir(os.path.join(testing_root_dir,'testcase3'))
         from testcase3.testcase import TestCase
-        self.case=TestCase()
+        forecast_uncertainty_params_path = os.path.join(testing_root_dir,
+                                                        'forecast',
+                                                        'forecast_uncertainty_params.json')
+        self.case=TestCase(forecast_uncertainty_params_path=forecast_uncertainty_params_path)
 
         # Instantiate a data manager
         self.man = Data_Manager(self.case)
@@ -389,8 +395,13 @@ class FindDaysTest(unittest.TestCase, utilities.partialChecks):
         self.sim_data = os.path.join(testing_root_dir,'references',
                             'data', 'find_days', 'sim_test_days.csv')
 
-        self.days_ref = os.path.join(testing_root_dir,'references',
+        self.sim_data_ncool = os.path.join(testing_root_dir,'references',
+                            'data', 'find_days', 'sim_test_days_ncool.csv')
+
+        self.days_basic_ref = os.path.join(testing_root_dir,'references',
                             'data', 'find_days', 'days_ref.json')
+        self.days_limits_ref = os.path.join(testing_root_dir,'references',
+                            'data', 'find_days', 'days_limits_ref.json')
 
 
     def test_find_days(self):
@@ -399,10 +410,28 @@ class FindDaysTest(unittest.TestCase, utilities.partialChecks):
 
         '''
 
-        days = find_days(heat='fcu.powHeaThe.y', cool='fcu.powCooThe.y',
+        # Basic
+        days_basic = find_days(heat='fcu.powHeaThe.y',
+                         cool='fcu.powCooThe.y',
                          data=self.sim_data)
+        self.compare_ref_json(days_basic, self.days_basic_ref)
 
-        self.compare_ref_json(days, self.days_ref)
+        # With lower and upper limits
+        days_limits = find_days(heat='fcu.powHeaThe.y',
+                         cool='fcu.powCooThe.y',
+                         data=self.sim_data,
+                         cool_day_low_limit=10,
+                         cool_day_high_limit=20,
+                         heat_day_low_limit=10,
+                         heat_day_high_limit=20)
+        self.compare_ref_json(days_limits, self.days_limits_ref)
+
+        # With negative cooling
+        days_ncool = find_days(heat='fcu.powHeaThe.y',
+                         cool='fcu.powCooThe.y',
+                         data=self.sim_data_ncool,
+                         cooling_negative=True)
+        self.compare_ref_json(days_ncool, self.days_basic_ref)
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

@@ -1,13 +1,183 @@
 # Release Notes
 
-## BOPTEST v0.6.0-dev
+## BOPTEST v0.8.0-dev
 
 Released on xx/xx/xxxx.
+
+**The following changes are backwards compatible and do not significantly change benchmark results:**
+
+- Add materials for BS2025 workshop at ``docs/workshops/BS25Workshop_20250828`` and add link for test case review document in ``testcases/README.md``. This is for [#785](https://github.com/ibpsa/project1-boptest/issues/785).
+
+- For ``twozone_apartment_hydronic`` test case, update control documentation. This is for [#766](https://github.com/ibpsa/project1-boptest/issues/766).
+- For BACnet interface, add support for faster-than-real-time and on-command simulation advance. Optional arguments ``--app_interval`` and ``--simulation_step`` were added to ``BopTestProxy.py`` to support this feature. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
+- Update support to ``parsing/parser.py`` for test case compilation using Dymola to be able to specify solver and tolerance and to be able to use references to other string parameters in defining a string parameter.  This is for [#777](https://github.com/ibpsa/project1-boptest/issues/777).
+- For unit tests on travis, remove custom installation of Docker.  This is for [#787](https://github.com/ibpsa/project1-boptest/issues/787).
+
+**The following changes are not backwards compatible, but do not change benchmark results:**
+
+- For BACnet interface, add advance command and simulation time as an available BACnet points. The BACnet point for advancing was added as the first BACnet point object and simulation time was added as the second BACnet point object for each test case by updating all ``bacnet.ttl`` files.  This is not backwards compatible for the BACnet interface for clients referencing BACnet object numbers, since the object numbers are shifted by +2. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
+
+**The following new test cases have been added:**
+
+- ``multizone_office_complex_air``, a DOE reference large office building in Chicago, IL, modeled with 3 floors and 15 zones, with each floor served by a 5-zone AHU VAV system with single-duct terminal box reheat. A water-cooled chiller plant serves chilled water to cooling coils and a gas-fired boiler plant serves hot water to heating coils. Spawn is used to model the envelope in EnergyPlus and the HVAC and controls in Modelica. The test case FMU is compiled by Dymola.  This is for [#218](https://github.com/ibpsa/project1-boptest/issues/218).
+
+
+## BOPTEST v0.8.0
+
+Released on 06/02/2025.
+
+**The following changes are backwards compatible and do not significantly change benchmark results:**
+
+- For ``bestest_hydronic_heat_pump`` test case, update heat pump documentation. This is for [#704](https://github.com/ibpsa/project1-boptest/issues/704).
+- For ``multizone_hydronic_simple_hydronic`` test case, enable BACnet interface to work by creating the ``bacnet.ttl``. This is for [#735](https://github.com/ibpsa/project1-boptest/issues/735).
+- Remove the ``scenario`` field from the test case ``config.json``. This is for [#719](https://github.com/ibpsa/project1-boptest/issues/719).
+- Update dependencies and environment of ``worker`` container.  This is for [#663](https://github.com/ibpsa/project1-boptest/issues/663).  Changes are summarized as follows:
+  - Remove scipy and matplotlib dependencies from ``worker`` container.
+  - Substitute scipy.integrate.trapz with numpy.trapezoid in ``kpis/kpi_calculator.py``, scipy.interp1d linear with numpy.interp, and scipy.inter1d zero with a custom zero hold interpolation in ``data/data_manager.py``.
+  - Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3.
+  - Update Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64.
+  - Update unit tests such that ``test_kpis.py``, ``test_forecast.py``, and ``test_testcase.py`` are run in the ``worker`` container, instead of the ``jm`` container.
+- Update Spawn version to ``light-0.3.0-0fa49be497``, which uses a smaller file size and is used in Modelica Buildings Library v9.1.0.  This is for [#718](https://github.com/ibpsa/project1-boptest/issues/718).
+- Add weather forecast uncertainty as new scenario options for dry bulb temperature and global horizontal irradiation.  The corresponding new scenario keys are ``temperature_uncertainty`` and ``solar_uncertainty``, which can take values ``None`` (default), ``'low'``, ``'medium'``, or ``'high'``.  A new scenario key ``seed`` is also added to set an integer seed for reproducible uncertainty generation.  The uncertainty models are based on [Zheng et al. (2025)](https://doi.org/10.1080/19401493.2025.2453537). This is for [#135](https://github.com/ibpsa/project1-boptest/issues/135).
+- Add status flags properties to bacnet objects for all ``bacnet.ttl`` files. This is for [#762](https://github.com/ibpsa/project1-boptest/issues/762).
+- Add support to ``parsing/parser.py`` for test case compilation using Dymola.  The parser can take argument ``tool='Dymola'``.  A user of the parser choosing Dymola requires access to a Dymola license with binary model export capability.  This is for [#755](https://github.com/ibpsa/project1-boptest/issues/755).
+- Tag version for ``minio/minio`` and ``minio/mc`` docker images.  This is for [#769](https://github.com/ibpsa/project1-boptest/issues/769).
+
+**The following changes are backwards compatible, but may change benchmark results:**
+
+- For ``multizone_office_simple_hydronic`` test case, correct occupancy count .csv file within the resource directory of the test case FMU.  This will change the forecast of occupancy count provided to a test controller.  This is for [#726](https://github.com/ibpsa/project1-boptest/issues/726).
+
+**The following changes are not backwards compatible, but do not change benchmark results:**
+
+- Written and clarified ``testcase1`` and ``testcase3`` documentation. This is for [#582](https://github.com/ibpsa/project1-boptest/issues/582).
+  - For ``testcase1``, changed naming of ``PHea`` to ``PHeaCoo`` for clarity regarding allowed heating and cooling regimes.
+  - Similarly for ``testcase3``, changed ``PHeaNor`` and ``PHeaSou`` to ``PHeaCooNor`` and ``PHeaCooSou`` respectively.
+
+**The following changes are not backwards-compatible and significantly change benchmark results:**
+
+- Update ``singlezone_commercial_hydronic`` test case according to changes made for the Adrenalin competition and various issues. This is for [#702](https://github.com/ibpsa/project1-boptest/issues/702),
+[#635](https://github.com/ibpsa/project1-boptest/issues/635),
+[#432](https://github.com/ibpsa/project1-boptest/issues/432), and
+[#733](https://github.com/ibpsa/project1-boptest/issues/733).
+The changes are summarized as follows:
+  - Hydronic system:
+    - Added piping segments in hydronic system to increase thermal delay
+    -	Resized valves and switched to two-way valves
+    -	Switched to pressure driven pump in hydronic system
+    -	Switched DH heat exchanger from constant effectiveness to plate HX model
+  -	Ventilation:
+    -	Added internal control of rotary heat exchanger
+    -	Linked control of supply and extract fan for baseline controller
+  -	Occupancy profile:
+    -	Fixed missing data that resulted in day of week mismatch
+  - Control I/O:
+    - Changes to input and measurement names
+    - Added new measurement points
+  - Scenario changes for time periods
+    - Peak Heat Day now centered around day 42
+    - Typical Heat Day now centered around day 308
+
+  Impacts on KPIs calculated compared to v0.7.1 for indicated scenarios are as follows:
+
+  **Peak Heat Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+3.26%  |
+  |emis_tot               |+3.16%  |
+  |tdis_tot               |-98.5%  |
+  |idis_tot               |-99.5%  |
+  |pele_tot               |-37.2%  |
+  |pdih_tot               |-60.5%  |
+  |cost_tot_constant      |+3.32%  |
+  |cost_tot_dynamic       |+3.26%  |
+  |cost_tot_highly_dynamic|+3.16%  |
+
+  **Typical Heat Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+8.01%  |
+  |emis_tot               |-2.86%  |
+  |tdis_tot               |-99.8%  |
+  |idis_tot               |-100%   |
+  |pele_tot               |-12.7%  |
+  |pdih_tot               |-59.0%  |
+  |cost_tot_constant      |+16.6%  |
+  |cost_tot_dynamic       |+15.3%  |
+  |cost_tot_highly_dynamic|+14.6%  |
+
+
+## BOPTEST v0.7.1
+
+Released on 01/21/2025.
+
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Add note to ``README.md`` about using environment variable ``BOPTEST_TIMEOUT`` to edit the timeout period for idle workers.  This is for [#715](https://github.com/ibpsa/project1-boptest/issues/715).
+- Add note to ``README.md`` about a Julia interface implemented by [BOPTestAPI.jl](https://terion-io.github.io/BOPTestAPI.jl/stable/).  This is for [#707](https://github.com/ibpsa/project1-boptest/issues/707).
+- Add github actions to build docker images for web and worker and post them as packages in the ibpsa repository.  This is for [#712](https://github.com/ibpsa/project1-boptest/issues/712).
+
+
+## BOPTEST v0.7.0
+
+Released on 11/25/2024.
 
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
 - Update pyfmi version from 2.11 to 2.12 and miniconda version from py310_23.1.0-1-Linux-x86_64 to py310_24.3.0-0-Linux-x86_64. This is for [#643](https://github.com/ibpsa/project1-boptest/issues/643).
 - Remove support and unit testing of example python controllers using Python 2. This is for [#634](https://github.com/ibpsa/project1-boptest/issues/634).
+
+- Add a warning message upon test case compilation in ``data/data_manager.py`` that is displayed if any of the weather variables in ``data/categories.json`` is not in ``<testcase_folder>/resources/weather.csv``. This is for [#500](https://github.com/ibpsa/project1-boptest/issues/500).
+- Remove matplotlib requirement from travis unit testing. This is for [#655](https://github.com/ibpsa/project1-boptest/issues/655).
+- Specify version of scipy to 1.13.0 in test case Dockerfile.  This is for [#657](https://github.com/ibpsa/project1-boptest/issues/657).
+- Remove javascript controller example.  This is for [#664](https://github.com/ibpsa/project1-boptest/issues/664).
+- Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
+- Add support to ``parsing/parser.py`` for test case compilation using [Modelon's OPTIMICA Compiler Toolkit (OCT)](https://help.modelon.com/latest/reference/oct/).  The parser can take arguments ``'JModelica'`` or ``'OCT'``, with ``'JModelica'`` as default.  A user still requires access to an OCT license and software on their set up.  This is for [#675](https://github.com/ibpsa/project1-boptest/issues/675).
+- Changed ``bestest_hydronic`` and ``bestest_hydronic_heat_pump`` Modelica implementations in this repository to utilize the Modelica IDEAS Library as a dependency for component models, instead of serving as extensions from the Modelica IDEAS Library.  This is to simplify dependencies for maintaining the models, and is how other test cases are implemented.  It required duplication of the model implementations from the Modelica IDEAS Library into this repository.  This is for [#680](https://github.com/ibpsa/project1-boptest/issues/680).
+- Add ``activate`` control inputs that were missing in ``bestest_hydronic`` and ``bestest_hydronic_heat_pump`` Modelica documentation.  This is for [#625](https://github.com/ibpsa/project1-boptest/issues/625).
+- Updated ``examples/python/interface.py`` to print correct simulation time step, this is for [#686](https://github.com/ibpsa/project1-boptest/issues/686). Also removed clutter by printed custom KPI results, which is for [#692](https://github.com/ibpsa/project1-boptest/issues/692).
+
+**The following new test cases have been added:**
+
+- ``multizone_office_simple_hydronic``, a 2-zone typical office building in Brussels, Belgium, served by fan-coil units for space heating and cooling, air handling units for space ventilation, an air-source heat pump for hot water production, and an air-cooled chiller for chilled water production. FMU compiled by [OCT](https://help.modelon.com/latest/reference/oct/).  This is for [#465](https://github.com/ibpsa/project1-boptest/issues/465).
+
+**The following changes are backwards-compatible, but might change benchmark results:**
+
+- Fix calculation of computational time ratio (``time_rat``) in the case of a test where the test case was initialized after a test or simulation (use of ``/advance``) had already been done using the same test case deployment (i.e. the docker container had not been shutdown first and newly deployed).  The wait time between the last ``/advance`` before the new initialization and first ``/advance`` of the new initialization was incorrectly incorporated into the calculation as a control step and has been fixed, resulting in a lower computational time ratio.  The extent of impact depends on wait time between tests and control step and number of steps taken in the new test.  This is for [#673](https://github.com/ibpsa/project1-boptest/issues/673).
+ - Update ``min`` and ``max`` parameters for heating (``oveTSetHea_u``) and cooling (``oveTSetCoo_u``) setpoints in ``bestest_air`` and ``bestest_hydronic`` test cases to ``min=278.15`` and ``max=308.15``.  This may change benchmark results as it expands the allowable min and max set points for these test cases from previous versions.  This is for [#658](https://github.com/ibpsa/project1-boptest/issues/658).
+
+**The following changes are not backwards-compatible, but do not change benchmark results:**
+
+> [!IMPORTANT]
+> - Refactor the deployment architecture so as to migrate [BOPTEST-Service](https://github.com/NREL/boptest-service) code to the BOPTEST repository and make it the only deployment architecture for BOPTEST.  This is for [#617](https://github.com/ibpsa/project1-boptest/issues/617). Notable changes are for those who deploy and use BOPTEST locally, and they include:
+>   - To use BOPTEST locally, users now deploy the web-service locally and select a test case to run using the appropriate API request.
+>   - Users can run multiple test cases at the same time.
+>   - The API requests to interact with a running test case now require the use of a ``testid``, which is received when selecting a test case and is used to uniquely route API requests the intended test case.
+>   - Users can stop a test case with the appropriate API request without shutting down the web-service as a whole.  This is especially needed if a user wants to run a new test case, but has not allocated enough workers (command option when starting deploying web-service).
+
+**The following changes are not backwards-compatible and significantly change benchmark results:**
+
+- Update ``multizone_residential_hydronic`` test case overwrite input ``oveTSetPum`` to ``oveTSetPumBoi`` so that this set point change will control thermostat activating both the boiler and the circulation pump. Furthermore, pump control logic is changed from PI following error on set point to on/off depending on thermostat control signal. Lastly, a safety on boiler control is added, allowing it to turn on only if there is flow through the boiler. This safety is bypassed if controlling the boiler directly via ``boi_oveBoi_u``. This is for [#653](https://github.com/ibpsa/project1-boptest/issues/653) and [#660](https://github.com/ibpsa/project1-boptest/issues/660).  Impacts on KPIs calculated compared to v0.6.0 for indicated scenarios are as follows:
+
+  Peak Heat Day
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+1.27%  |
+  |emis_tot               |+0.47%  |
+  |tdis_tot               |-2.70%  |
+  |cost_tot_constant      |+2.78%  |
+  |cost_tot_dynamic       |+2.96%  |
+  |cost_tot_highly_dynamic|+2.26%  |
+
+  Typical Heat Day
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot	              |+0.98%  |
+  |emis_tot	              |+0.47%  |
+  |tdis_tot	              |+3.58%  |
+  |cost_tot_constant	  |+1.94%  |
+  |cost_tot_dynamic	      |+2.06%  |
+  |cost_tot_highly_dynamic|+1.59%  |
+
 
 
 ## BOPTEST v0.6.0

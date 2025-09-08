@@ -10,7 +10,7 @@ from data.find_days import find_days
 import json
 
 days = find_days(heat='hydronicSystem.AirHeaPum.heatFlowSensor.Q_flow', cool=None,
-                 data='simulation.csv', img_name='boptest_testcasehydronicMilan')
+                 data='simulation.csv')
 
 with open('days.json', 'w') as f:
     json.dump(days, f)

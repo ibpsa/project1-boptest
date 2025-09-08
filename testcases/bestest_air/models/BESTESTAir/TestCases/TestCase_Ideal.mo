@@ -1,4 +1,4 @@
-﻿within BESTESTAir.TestCases;
+within BESTESTAir.TestCases;
 model TestCase_Ideal "Testcase model with ideal airflow"
   extends Modelica.Icons.Example;
   BaseClasses.Case900FF zon(mAir_flow_nominal=fcu.mAir_flow_nominal)
@@ -294,13 +294,13 @@ The model inputs are:
 <code>con_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input con_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>con_oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+<code>con_oveTSetCoo_u</code> [K] [min=278.15, max=308.15]: Zone temperature setpoint for cooling
 </li>
 <li>
 <code>con_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input con_oveTSetHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>con_oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+<code>con_oveTSetHea_u</code> [K] [min=278.15, max=308.15]: Zone temperature setpoint for heating
 </li>
 <li>
 <code>fcu_oveFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input fcu_oveFan_u where 1 activates, 0 deactivates (default value)
@@ -765,9 +765,27 @@ For reference,
 see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </ul>
 </p>
+<h4>Weather Forecast Uncertainty: Temperature</h4>
+<p>
+Options for <code>/scenario</code> API are <code>'low'</code>, <code>'medium'</code>, or <code>'high'</code>.
+Empty or <code>None</code> will lead to deterministic forecasts.
+See the BOPTEST design documentation for more information.
+</p>
+<h4>Weather Forecast Uncertainty: Global Horizontal Irradiation (GHI)</h4>
+<p>
+Options for <code>/scenario</code> API are <code>'low'</code>, <code>'medium'</code>, or <code>'high'</code>.
+Empty or <code>None</code> will lead to deterministic forecasts.
+See the BOPTEST design documentation for more information.
+</p>
 </html>",
 revisions="<html>
 <ul>
+<li>
+October 18, 2024, by Ettore Zanetti:<br/>
+Update <code>min</code> and <code>max</code> for ovewrite blocks <code>oveTSetHea_u</code> and <code>oveTSetCoo_u</code>.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/658>
+BOPTEST issue #658</a>.
+</li>
 <li>
 August 25, 2022, by David Blum:<br/>
 Add forecast point documentation.
