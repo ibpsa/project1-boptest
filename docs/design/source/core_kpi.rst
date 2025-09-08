@@ -227,6 +227,24 @@ Maximum allowed capital cost
    relies on the BOPTEST user, who can use the objective quantification
    of this KPI to take the decision.
 
+Actuator travel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   The actuator travel measures how frequent and how strong an actuator
+   is turned on and off. This measure is important to assess the wear and 
+   tear of the equipment, because frequent and erratic switching of control
+   signals can lead to equipment damages and shorter equipment lifespan. 
+   Actuator travel also gives a measure of phenomena such as cycling and hunting. 
+
+   The actuator travel :math:`AT(u)` of a trajectory :math:`u(t)` is calculated as 
+   the ratio of the arc of :math:`u(t)` from :math:`t_0` to :math:`t_f`
+   to the time passed :math:`t_f-t_0`:
+
+   .. math:: AT(u) = \frac{\int_{t_0}^{t_f} \left \sqrt{(1+(u'(t))^2)} \right  dt}{t_f-t_0}, 
+
+   where :math:`\int_{t_0}^{t_f} \left \sqrt{(1+(u'(t))^2)` is the formula for
+   calculating the arc of function :math:`u(t)` by integration. 
+   
 Calculation Module
 ---------------------
 
