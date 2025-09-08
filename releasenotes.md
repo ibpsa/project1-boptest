@@ -12,6 +12,7 @@ Released on xx/xx/xxxx.
 - For BACnet interface, add support for faster-than-real-time and on-command simulation advance. Optional arguments ``--app_interval`` and ``--simulation_step`` were added to ``BopTestProxy.py`` to support this feature. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
 - Update support to ``parsing/parser.py`` for test case compilation using Dymola to be able to specify solver and tolerance and to be able to use references to other string parameters in defining a string parameter.  This is for [#777](https://github.com/ibpsa/project1-boptest/issues/777).
 - For unit tests on travis, remove custom installation of Docker.  This is for [#787](https://github.com/ibpsa/project1-boptest/issues/787).
+- Copy ``kpis.json`` from ``jm`` Docker container to test case ``/models`` directory upon compilation and update ``kpis.json`` files where necessary in repo.  This is for [#789](https://github.com/ibpsa/project1-boptest/issues/789).
 
 **The following changes are not backwards compatible, but do not change benchmark results:**
 
