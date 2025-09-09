@@ -69,6 +69,7 @@ compile_testcase_model:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	make exec_jm ARGS="python set_library_versions.py ${TESTCASE} && cd ${TESTCASE}/models && python compile_fmu.py"
+	make copy_testcase_from_jm ARGS=${TESTCASE}/models/kpis.json
 	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
 	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.mo
 	make stop_jm
@@ -275,7 +276,7 @@ test_bacnet:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision 
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision --scale worker=3
 	python sleep10.py
 # Run testcase tests
