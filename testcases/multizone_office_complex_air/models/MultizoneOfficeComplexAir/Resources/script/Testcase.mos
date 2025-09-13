@@ -1,9 +1,9 @@
 ﻿Advanced.CompileWith64 = 2
 simulateModel("MultizoneOfficeComplexAir.TestCases.TestCase", stopTime=864000, numberOfIntervals=1440, method="Cvode", tolerance=1e-06, resultFile="TestCase");
-createPlot(id=1, position={0, 0, 1690, 687}, y={"hva.floor1.TZon[1]", "hva.floor1.TZon[4]", "hva.floor2.TZon[2]", 
-"hva.floor2.TZon[5]", "hva.floor3.TZon[3]", "hva.floor3.TZon[4]", 
-"hva.floor2.zonVAVCon[1].TCooSetPoi", "hva.floor2.zonVAVCon[1].THeaSetPoi"}, range={0.0, 900000.0, 285.0, 305.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}, {162,29,33}, 
+createPlot(id=1, position={0, 0, 1690, 687}, y={"floor1.TZon[1]", "floor1.TZon[4]", "floor2.TZon[2]", 
+"floor2.TZon[5]", "floor3.TZon[3]", "floor3.TZon[4]", 
+"floor2.zonVAVCon[1].TCooSet", "floor2.zonVAVCon[1].THeaSet"}, range={0.0, 900000.0, 285.0, 305.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}, {162,29,33}, 
 {244,125,35}, {102,44,145}});
-createPlot(id=1, position={0, 0, 1690, 687}, y={"hva.PBoi.y", "hva.PHWPum.y"}, range={0.0, 900000.0, -2000000.0, 4000000.0}, grid=true, subPlot=102, colors={{28,108,200}, {238,46,47}});
-createPlot(id=1, position={0, 0, 1690, 687}, y={"hva.PCHWPum.y", "hva.PCooTow.y", "hva.PChi.y"}, range={0.0, 900000.0, -500000.0, 1000000.0}, grid=true, subPlot=103, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 1690, 687}, y={"PBoi.y", "PHWPum.y"}, range={0.0, 900000.0, -2000000.0, 4000000.0}, grid=true, subPlot=102, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1690, 687}, y={"PCHWPum.y", "PCooTow.y", "PChi.y"}, range={0.0, 900000.0, -500000.0, 1000000.0}, grid=true, subPlot=103, colors={{28,108,200}, {238,46,47}, {0,140,72}});
 
