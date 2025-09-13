@@ -206,9 +206,9 @@ It takes the hot water measurements and set points as inputs. It takes the heati
 <p>Boiler pump speed is controlled by a PI controller to maintain the static pressure of the boiler water loop at setpoint. 
 It takes the heat water loop pressure drop measurements and setpoints as inputs. It takes the pump speed as the output. All the boiler pumps share the same speed. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.Boiler.MultiBoilers\">
-MultizoneOfficeComplexAir.BaseClasses.BaseClasses.Component.WaterSide.Boiler.MultiBoilers</a> for a description of the multiple boiler. </p>
+MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.Boiler.MultiBoilers</a> for a description of the multiple boiler. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.Control.PlantStageN\">
-MultizoneOfficeComplexAir.BaseClasses.BaseClasses.Component.WaterSide.Control.PlantStageN</a> for a description of the boiler stage control. </p>
+MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.Control.PlantStageN</a> for a description of the boiler stage control. </p>
 </html>", revisions="<html>
 <ul>
 <li>August 17, 2023, by Xing Lu, Sen Huang: </li>

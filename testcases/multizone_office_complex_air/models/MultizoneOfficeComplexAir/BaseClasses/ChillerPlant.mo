@@ -438,17 +438,17 @@ rated chiller cooling capacity of chiller k (cck, kW), threshold to start chille
 <p>Cooling tower fan speed is controlled by a PI controller to maintain the cooling tower supply water temperature at setpoint. </p>
 <p>Three-way valve position is controlled by a PI controller to maintain the temperature of the condenser water leaving the condenser water loop to be larger than 15.56 &deg;C. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.Chiller.MultiChillers\">
-MultizoneOfficeComplexAir.BaseClasses.BaseClasses.Component.WaterSide.Chiller.MultiChillers</a> for a description of the multiple chillers.</p>
+MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.Chiller.MultiChillers</a> for a description of the multiple chillers.</p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.CoolingTower.CoolingTowersWithBypass\">
-MultizoneOfficeComplexAir.BaseClasses.BaseClasses.Component.WaterSide.CoolingTower.CoolingTowersWithBypass</a> for a description of the multiple cooling towers with the bypass.</p>
+MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.CoolingTower.CoolingTowersWithBypass</a> for a description of the multiple cooling towers with the bypass.</p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.Pump.SimPumpSystem\">
-MultizoneOfficeComplexAir.BaseClasses.BaseClasses.Component.FlowMover.Pump.SimPumpSystem</a> for a description of the primary chilled water pump and condensed water pump model.</p>
+MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.Pump.SimPumpSystem</a> for a description of the primary chilled water pump and condensed water pump model.</p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.Pump.PumpSystem\">
-MultizoneOfficeComplexAir.BaseClasses.BaseClasses.Component.FlowMover.Pump.PumpSystem</a> for a description of the secondary chilled water pump model.</p>
+MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.Pump.PumpSystem</a> for a description of the secondary chilled water pump model.</p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.Control.PlantStageN\">
-MultizoneOfficeComplexAir.BaseClasses.BaseClasses.Component.WaterSide.Control.PlantStageN</a> for a description of the chiller stage control.</p>
+MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.Control.PlantStageN</a> for a description of the chiller stage control.</p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.Pump.Control.SecPumCon\">
-MultizoneOfficeComplexAir.BaseClasses.BaseClasses.Component.FlowMover.Pump.Control.SecPumCon</a> for a description of the chilled water secondary pump control. </p>
+MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.Pump.Control.SecPumCon</a> for a description of the chilled water secondary pump control. </p>
 </html>", revisions="<html>
 <ul>
 <li>August 17, 2023, by Xing Lu, Sen Huang: </li>
