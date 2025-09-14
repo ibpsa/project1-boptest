@@ -621,22 +621,19 @@
 </p>
 <p>
     The VAV reheat is controlled based on the
-    "single maximum VAV reheat control logic".
+    "single maximum VAV reheat control logic". Note that the heating airflow setpoint differs from the zone/cooling minimum airflow setpoint.
 </p>
-    <li>
-    When the Zone State is cooling, the cooling-loop output shall be mapped to the active
-    airflow setpoint from the cooling minimum endpoint to the cooling maximum endpoint.
-    Heating coil is disabled.
-    </li>
-    <li>
-    When the Zone State is deadband, the active airflow setpoint shall be the minimum
-    endpoint. Heating coil is disabled.
-    </li>
-    <li>
-    When the Zone State is heating, the active airflow setpoint shall be the minimum endpoint.
-    The reheat valve position shall be mapped to the supply air temperature setpoint from the
-    heating minimum endpoint to the heating maximum endpoint.
-    </li>
+	<li>
+	When the Zone State is <b>Cooling</b>, the cooling-loop output is mapped to the active airflow setpoint, ranging from the cooling minimum (0.3 of the design flow rate) to the cooling maximum.  
+	The heating coil remains disabled.
+	</li>
+	<li>  
+	When the Zone State is <b>Deadband</b>, the active airflow setpoint is set to the zone minimum (0.3 of the design flow rate), and the heating coil remains disabled.
+	</li>
+	<li>
+	When the Zone State is <b>Heating</b>, the active airflow setpoint is set to the constant heating setpoint (0.5 of the design flow rate).  
+	The reheat valve position is modulated to maintain the supply air temperature setpoint, varying between the heating minimum and maximum endpoints.
+	</li>
 <p align=\"center\">
     <img alt=\"SingleMax.\"
     src="images/SingleMax.png" width=300>
@@ -665,10 +662,15 @@
     <i>AHU duct static pressure control</i>
 </p>
 <p>
-    Supply fan speed is controlled by a PI controller to maintain duct static pressure
-    (DSP) at setpoint when the fan is proven ON. It takes the static pressure measurements
+    The supply fan speed is regulated by a PI controller to maintain the duct static pressure at its setpoint of 400 Pa (or 1.61 in. w.c.). 
+	It takes the static pressure measurements
     and setpoints as inputs. It takes the supply fan speed as the output. The AHU return
-    fan speed is set as a constant ratio (0.9) of the supply fan speed  .
+    fan speed is set as a constant ratio (0.9) of the supply fan speed.
+</p>
+    During unoccupied hours, the night-cycle control is activated. 
+	If any zone air temperature falls outside the setback temperature bounds, the fans are switched on to bring the zone air temperature back within the allowable range
+<p>
+
 </p>
 <p>
   <i>AHU supply air temperature control</i>
@@ -686,16 +688,14 @@
     to meet the cooling load when outdoor conditions are favorable.
 </p>
 <p>
-    Outdoor air damper position is controlled by a PI controller to maintain the mixed air
-    temperature at setpoint. It takes the mixed and outdoor air temperature measurements,
-    as well as the mixed air temperature setpoints as inputs. It takes the outdoor air damper
-     position as the output. The return air damper are interlocked with the outdoor air damper
-      while exhausted air damper share the same opening position with the outdoor air damper.
+	The outdoor air damper position is regulated by a PI controller to maintain the mixed air temperature at its setpoint, with a minimum damper position of 0.3. 
+	The controller uses the mixed air temperature, outdoor air temperature, and the mixed air temperature setpoint as inputs. 
+	It output is the commanded outdoor air damper position.
+	The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. 
 </p>
 <p>
     On top of that, an economizer control based on the fixed dry-bulb outdoor air
-    temperature-based is adopted. The economizer higher temperature limit is set as
-    21 ℃ according to ASHRAE 90.1-2019 for Climate Zone 5A.
+    temperature-based is adopted. The economizer higher temperature limit is set as 15.58 degC (60 degF).
 </p>
 <h4>Water-side system control</h4>
 <p align=\"center\">

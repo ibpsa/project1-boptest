@@ -110,6 +110,8 @@ equation
           extent={{-152,106},{148,146}},
           textString="%name",
           textColor={0,0,255})}), Documentation(info="<html>
-This model consists a supply fan with its fan speed controller.  
+This model includes a supply fan and a return fan, each with its own speed control. 
+The supply fan speed is regulated by a PI controller to maintain the duct static pressure at its setpoint, while the return fan speed operates in proportion to the supply fan speed. 
+The fans are activated during unoccupied hours whenever any zone air temperature falls outside the setback temperature setpoints.
 </html>"));
 end VAVSupFan;

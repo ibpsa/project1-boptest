@@ -525,12 +525,24 @@ equation
     Documentation(info="<html>
 <p>There are two fans (i.e., one supply fan, and one return fan) in the AHU system. Note that there is no heating coil in the AHU system level.</p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AHUControl.png\" width=\"600\"/></p>
-<p>Supply fan speed is controlled by a PI controller to maintain duct static pressure (DSP) at setpoint when the fan is proven ON. Cooling coil valve position is controlled by a PI controller to maintain the AHU supply air temperature at setpoint.</p>
-<p>In the mixing box of the AHU, an economizer is implemented to use the outdoor air to meet the cooling load when outdoor conditions are favorable. Outdoor air damper position is controlled by a PI controller to maintain the mixed air temperature at setpoint. It takes the mixed and outdoor air temperature measurements, as well as the mixed air temperature setpoints as inputs. It takes the outdoor air damper position as the output. The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. On top of that, an economizer control based on the fixed dry-bulb outdoor air temperature-based is adopted. The economizer higher temperature limit is set as 21 degC according to ASHRAE 90.1-2019 for Climate Zone 5A.</p>
+<h4>Occupied hours</h4>
+<p> The supply fan speed is regulated by a PI controller to maintain the duct static pressure at its setpoint of 400 Pa (or 1.61 in. w.c.). 
+The return fan speed is set proportional to the supply fan speed, operating at 90% of the supply fan speed.</p>
+<p> Cooling coil valve position is controlled by a PI controller to maintain the AHU supply air temperature at setpoint.</p>
+<p>In the mixing box of the AHU, an economizer is implemented to use the outdoor air to meet the cooling load when outdoor conditions are favorable. 
+The outdoor air damper position is regulated by a PI controller to maintain the mixed air temperature at its setpoint, with a minimum damper position of 0.3. 
+The controller uses the mixed air temperature, outdoor air temperature, and the mixed air temperature setpoint as inputs. 
+Its output is the commanded outdoor air damper position.
+The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. 
+On top of that, an economizer control based on the fixed dry-bulb outdoor air temperature-based is adopted. 
+The economizer higher temperature limit is set as 15.58 degC (60 degF).</p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.VAVSupFan\">MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.VAVSupFan</a> for a description of the supply fan model. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.BaseClasses.WithoutMotor\">MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.BaseClasses.WithoutMotor</a> for a description of the return fan model. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.Coil.CoolingCoil\">MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.Coil.CoolingCoil</a> for a description of the cooling coil model. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.MixingBox.MixingBoxWithControl\">MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.MixingBox.MixingBoxWithControl</a> for a description of the mixing box model. </p>
+<h4>Unoccupied hours</h4>
+<p>During unoccupied hours, the night-cycle control is activated. 
+If any zone air temperature falls outside the setback temperature bounds, the fans are switched on to bring the zone air temperature back within the allowable range.</p>
 </html>", revisions="<html>
 <ul>
 <li> August 17, 2023, by Xing Lu, Sen Huang:

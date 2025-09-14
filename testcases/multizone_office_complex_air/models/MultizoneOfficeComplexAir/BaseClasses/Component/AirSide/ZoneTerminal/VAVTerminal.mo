@@ -190,11 +190,20 @@ equation
         coordinateSystem(preserveAspectRatio=false, extent={{-100,-80},{100,100}})),
     Documentation(info="<html>
 <p>This Modelica model implements a variable-air-volume (VAV) terminal unit with an integral reheat coil. The system layout and its control components are shown in the figure below:</p>
-<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/VAVControl.png\"/ width=\"500\"></p>
-<p>The controller for terminal VAV box is based on the &quot;single maximum VAV reheat control logic&quot;.</p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/VAVControl.png\" width=\"800\"></p>
+The terminal VAV box is controlled using the \"single maximum VAV reheat\" logic. Note that the heating airflow setpoint differs from the zone/cooling minimum airflow setpoint.
 <ul>
-<li>When the Zone State is cooling, the cooling-loop output shall be mapped to the active airflow setpoint from the cooling minimum endpoint to the cooling maximum endpoint. Heating coil is disabled. When the Zone State is deadband, the active airflow setpoint shall be the minimum endpoint. Heating coil is disabled.</li>
-<li>When the Zone State is heating, the active airflow setpoint shall be the minimum endpoint. The reheat valve position shall be mapped to the supply air temperature setpoint from the heating minimum endpoint to the heating maximum endpoint.</li>
+<li>
+When the Zone State is <b>Cooling</b>, the cooling-loop output is mapped to the active airflow setpoint, ranging from the cooling minimum (0.3 of the design flow rate) to the cooling maximum.  
+The heating coil remains disabled.
+</li>
+<li>  
+When the Zone State is <b>Deadband</b>, the active airflow setpoint is set to the zone minimum (0.3 of the design flow rate), and the heating coil remains disabled.
+</li>
+<li>
+When the Zone State is <b>Heating</b>, the active airflow setpoint is set to the heating minimum (0.5 of the design flow rate).  
+The reheat valve position is modulated to maintain the supply air temperature setpoint, varying between the heating minimum and maximum endpoints.
+</li>
 </ul>
 <p>VAV damper position is controlled by a PI controller to maintain the air flow rate at setpoint. Heating coil valve position is controlled by a PI controller to maintain the supply air temperature at setpoint. </p>
 </html>"));
