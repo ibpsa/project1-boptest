@@ -3,6 +3,7 @@ import os
 import shutil
 import tarfile
 from datetime import datetime
+from uuid import uuid4
 import boto3
 import redis
 import numpy as np
@@ -132,6 +133,13 @@ class Job:
         # ipmlementation which is slower.
         return msgpack.packb(data)
 
+    def persist_payload(self, payload, prefix):
+        object_key = "%s/%s/%s.msgpack" % (prefix, self.testid, uuid4().hex)
+        body = self.pack(payload)
+        # S3 stores msgpack blob; web fetches and relays to client
+        self.s3_bucket.put_object(Key=object_key, Body=body, ContentType="application/msgpack")
+        return object_key
+
     class InvalidRequestError(Exception):
         pass
 
@@ -208,8 +216,15 @@ class Job:
         point_names = params["point_names"]
         start_time = params["start_time"]
         final_time = params["final_time"]
+        response = self.package_response(self.tc.get_results(point_names, start_time, final_time))
+        object_key = self.persist_payload(response, "results")
 
-        return self.package_response(self.tc.get_results(point_names, start_time, final_time))
+        payload = {
+            "storage": "s3",
+            "bucket": self.s3_bucket_name,
+            "key": object_key
+        }
+        return {"status": response["status"], "message": response["message"], "payload": payload}
 
     def get_kpis(self, params):
         return self.package_response(self.tc.get_kpis())
