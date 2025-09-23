@@ -620,8 +620,7 @@
   <i>VAV reheat control</i>
 </p>
 <p>
-    The VAV reheat is controlled based on the
-    "single maximum VAV reheat control logic". Note that the heating airflow setpoint differs from the zone/cooling minimum airflow setpoint.
+    The VAV reheat is controlled based on the "single maximum VAV reheat control logic". 
 </p>
 	<li>
 	When the Zone State is <b>Cooling</b>, the cooling-loop output is mapped to the active airflow setpoint, ranging from the cooling minimum (0.3 of the design flow rate) to the cooling maximum.  
@@ -631,13 +630,10 @@
 	When the Zone State is <b>Deadband</b>, the active airflow setpoint is set to the zone minimum (0.3 of the design flow rate), and the heating coil remains disabled.
 	</li>
 	<li>
-	When the Zone State is <b>Heating</b>, the active airflow setpoint is set to the constant heating setpoint (0.5 of the design flow rate).  
+	When the Zone State is <b>Heating</b>, the active airflow setpoint is set to the constant heating setpoint (0.3 of the design flow rate).  
 	The reheat valve position is modulated to maintain the supply air temperature setpoint, varying between the heating minimum and maximum endpoints.
 	</li>
-<p align=\"center\">
-    <img alt=\"SingleMax.\"
-    src="images/SingleMax.png" width=300>
-</p>
+
 
 <p>
     <i>VAV air flow rate control</i>
@@ -2463,10 +2459,10 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
     median of all 15-minute maximum heating loads of all days in the year.
     </ul>
     <ul>
-    Start Time: Day 76.
+    Start Time: Day 215.
     </ul>
     <ul>
-    End Time: Day 90.
+    End Time: Day 229.
     </ul>
     </p>
     <p>
@@ -2496,10 +2492,10 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
     due to start up).
     </ul>
     <ul>
-    Start Time: Day 251.
+    Start Time: Day 277.
     </ul>
     <ul>
-    End Time: Day 265.
+    End Time: Day 291.
     </ul>
     </p>
     <p>
@@ -2512,10 +2508,10 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
     and cooling loads.
     </ul>
     <ul>
-    Start Time: Day 22.
+    Start Time: Day 18.
     </ul>
     <ul>
-    End Time: Day 36.
+    End Time: Day 32.
     </ul>
     </p>
     <h4>Energy Pricing</h4>

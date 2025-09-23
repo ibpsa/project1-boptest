@@ -358,7 +358,7 @@ model Floor "Thermal zones and corresponding air side HVAC systems"
   MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.ZoneTerminal.Control.ZonCon
     zonVAVCon[5](
     each MinFlowRateSetPoi=0.3,
-    each HeatingFlowRateSetPoi=0.5,
+    each HeatingFlowRateSetPoi=0.3,
     heaCon(Ti=60, yMin=0.001),
     cooCon(k=11, Ti=60))
     "Zone terminal VAV controller (airflow rate, reheat valve)l "
