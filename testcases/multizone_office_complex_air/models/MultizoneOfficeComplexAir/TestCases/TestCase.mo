@@ -521,7 +521,6 @@ equation
 </html>"),
     __Dymola_Commands(file="Resources/script/Testcase.mos" "Simulate and Plot"),
     experiment(
-      StartTime=14515200,
       StopTime=14860800,
       __Dymola_NumberOfIntervals=1440,
       Tolerance=1e-06,
