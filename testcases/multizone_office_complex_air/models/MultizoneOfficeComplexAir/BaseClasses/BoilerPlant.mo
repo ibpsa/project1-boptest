@@ -112,8 +112,6 @@ model BoilerPlant "Boiler hot water plant"
   Modelica.Blocks.Sources.RealExpression PTot(y=sum(pumSecHW.P) + sum(
         mulBoi.boi.boi.QFue_flow))
     annotation (Placement(transformation(extent={{140,-120},{160,-100}})));
-  Modelica.Blocks.Continuous.Integrator ETot
-    annotation (Placement(transformation(extent={{180,-120},{200,-100}})));
   Modelica.Blocks.Interfaces.RealOutput THW_ret
     "Temperature of the passing fluid" annotation (Placement(transformation(
           extent={{240,-10},{260,10}}), iconTransformation(extent={{100,-10},{
@@ -174,9 +172,6 @@ equation
           -24.4},{-220,60},{-300,60}}, color={0,0,127}));
   connect(secPumCon.dpSet, dpSet) annotation (Line(points={{58,52},{-240,52},
           {-240,-60},{-300,-60}}, color={0,0,127}));
-  connect(PTot.y,ETot. u) annotation (Line(
-      points={{161,-110},{178,-110}},
-      color={0,0,127}));
   connect(senTHWBuiLea.T, THW_ret) annotation (Line(points={{120,33},{120,36},{
           220,36},{220,0},{250,0}}, color={0,0,127}));
   connect(senMasFlo.m_flow, mHW_tot) annotation (Line(points={{82,35.2},{100,
@@ -201,9 +196,9 @@ equation
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/BoilerControl.PNG\" width=\"450\"/> </p>
 <p>The number of operating boilers is determined via a state machine based on the thermal load(Q, kW), rated heating capacity of boiler k (hck, kW),
  threshold to start boiler k+1 (&xi;k = 0.9), and waiting time (30 min). The maximum operating boiler number is N, which is equal to 2.</p>
-<p>Boiler heating power is controlled by a PI controller to maintain the temperature of the hot water leaving each boiler to be 80 &deg;C. 
+<p>Boiler heating power is controlled by a PI controller to maintain the temperature of the hot water leaving each boiler to be 80 &deg;C.
 It takes the hot water measurements and set points as inputs. It takes the heating power as the output. </p>
-<p>Boiler pump speed is controlled by a PI controller to maintain the static pressure of the boiler water loop at setpoint. 
+<p>Boiler pump speed is controlled by a PI controller to maintain the static pressure of the boiler water loop at setpoint.
 It takes the heat water loop pressure drop measurements and setpoints as inputs. It takes the pump speed as the output. All the boiler pumps share the same speed. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.Boiler.MultiBoilers\">
 MultizoneOfficeComplexAir.BaseClasses.Component.WaterSide.Boiler.MultiBoilers</a> for a description of the multiple boiler. </p>

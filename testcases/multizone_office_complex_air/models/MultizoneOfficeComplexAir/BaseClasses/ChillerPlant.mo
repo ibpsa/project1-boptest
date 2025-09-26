@@ -174,31 +174,19 @@ model ChillerPlant
     annotation (Placement(transformation(extent={{80,88},{100,108}})));
   Modelica.Blocks.Sources.RealExpression PCh(y=sum(mulChiSys.P))
     annotation (Placement(transformation(extent={{140,90},{160,110}})));
-  Modelica.Blocks.Continuous.Integrator ECh
-    annotation (Placement(transformation(extent={{200,90},{220,110}})));
   Modelica.Blocks.Sources.RealExpression PConSpePum(y=sum(pumPriCHW.P) + sum(
         pumCW.P))
     annotation (Placement(transformation(extent={{140,48},{160,68}})));
-  Modelica.Blocks.Continuous.Integrator EConSpePum
-    annotation (Placement(transformation(extent={{200,48},{220,68}})));
   Modelica.Blocks.Sources.RealExpression PVarSpePum(y=sum(pumSecCHW.P))
     annotation (Placement(transformation(extent={{140,10},{160,30}})));
-  Modelica.Blocks.Continuous.Integrator EVarSpePum
-    annotation (Placement(transformation(extent={{200,10},{220,30}})));
   Modelica.Blocks.Sources.RealExpression PCooTow(y=sum(cooTowWithByp.mulCooTowSys.P))
     annotation (Placement(transformation(extent={{140,-34},{160,-14}})));
-  Modelica.Blocks.Continuous.Integrator ECooTow
-    annotation (Placement(transformation(extent={{200,-34},{220,-14}})));
   Modelica.Blocks.Sources.RealExpression PTot(y=PCh.y + PConSpePum.y +
         PVarSpePum.y + PCooTow.y)
     annotation (Placement(transformation(extent={{160,-90},{180,-70}})));
-  Modelica.Blocks.Continuous.Integrator ETot
-    annotation (Placement(transformation(extent={{200,-90},{220,-70}})));
   Modelica.Blocks.Sources.RealExpression runCh
     annotation (Placement(transformation(extent={{160,-130},{180,-110}})));
 
-  Modelica.Blocks.Continuous.Integrator maiCos
-    annotation (Placement(transformation(extent={{200,-130},{220,-110}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
         MediumCHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
@@ -333,23 +321,6 @@ equation
       color={0,127,255},
       thickness=1));
 
-  connect(PCh.y, ECh.u) annotation (Line(
-      points={{161,100},{198,100}},
-      color={0,0,127}));
-  connect(PConSpePum.y, EConSpePum.u) annotation (Line(
-      points={{161,58},{198,58}},
-      color={0,0,127}));
-  connect(PVarSpePum.y, EVarSpePum.u) annotation (Line(
-      points={{161,20},{198,20}},
-      color={0,0,127}));
-  connect(PCooTow.y, ECooTow.u) annotation (Line(
-      points={{161,-24},{198,-24}},
-      color={0,0,127}));
-  connect(PTot.y, ETot.u) annotation (Line(
-      points={{181,-80},{189.5,-80},{198,-80}},
-      color={0,0,127}));
-  connect(runCh.y, maiCos.u)
-    annotation (Line(points={{181,-120},{198,-120}}, color={0,0,127}));
   connect(cooTowWithByp.TCWSet, TCWSet) annotation (Line(
       points={{-191.26,-30},{-244,-30},{-244,-60},{-296,-60}},
       color={0,0,127}));
@@ -427,10 +398,10 @@ equation
       __Dymola_Algorithm="Dassl"),
     __Dymola_experimentSetupOutput,
     Documentation(info="<html>
-<p>The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, 
+<p>The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps,
 a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps.</p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChillerControl.PNG\" width=\"500\"/> </p>
-<p><br>The number of operating chillers is determined via a state machine based on the thermal load (Q, kW), 
+<p><br>The number of operating chillers is determined via a state machine based on the thermal load (Q, kW),
 rated chiller cooling capacity of chiller k (cck, kW), threshold to start chiller k+1 (&xi;k = 0.9), and waiting time (30 min). The maximum operating chiller number is N, which is equal to 3. </p>
 <p>The chiller model takes as an input the set point for the leaving chilled water temperature, which is met if the chiller has sufficient capacity. Thus, the model has a built-in, ideal temperature control. </p>
 <p>The number of secondary chilled water pump is determined via a state machine based on the pump speed (S, rpm) and waiting time (30 min). The maximum operating pump number is M, which is equal to 2. </p>
