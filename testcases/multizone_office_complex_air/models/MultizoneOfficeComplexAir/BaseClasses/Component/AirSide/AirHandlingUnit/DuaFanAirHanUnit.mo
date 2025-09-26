@@ -155,7 +155,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     final displayUnit="degC",
     final quantity="ThermodynamicTemperature")
     "AHU supply air temperature"
-    annotation (Placement(transformation(extent={{100,52},{120,72}})));
+    annotation (Placement(transformation(extent={{100,86},{120,106}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTMixAir(redeclare package
       Medium =         MediumAir, m_flow_nominal=mAirFloRat)
     annotation (Placement(transformation(extent={{-60,14},{-44,30}})));
@@ -163,12 +163,12 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     final unit="K",
     final displayUnit="degC",
     final quantity="ThermodynamicTemperature") "Mixing air temperature"
-    annotation (Placement(transformation(extent={{100,40},{120,60}})));
+    annotation (Placement(transformation(extent={{100,74},{120,94}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTRetAir(redeclare package
       Medium = MediumAir, m_flow_nominal=mAirFloRat)
     annotation (Placement(transformation(extent={{94,-66},{78,-50}})));
   Modelica.Blocks.Interfaces.RealOutput TRetAir "AHU return air temperature"
-    annotation (Placement(transformation(extent={{100,-42},{120,-22}})));
+    annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
   Buildings.Fluid.Sensors.VolumeFlowRate senVolFloSupAir(
     redeclare package Medium = MediumAir,
     m_flow_nominal=mAirFloRat,
@@ -177,7 +177,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     final min=0,
     final unit = "m3/s",
     final quantity = "VolumeFlowRate") "Supply air volume flow rate"
-    annotation (Placement(transformation(extent={{100,28},{120,48}})));
+    annotation (Placement(transformation(extent={{100,62},{120,82}})));
   Buildings.Fluid.Sensors.VolumeFlowRate senVolFloRetAir(
     redeclare package Medium = MediumAir,
     m_flow_nominal=mAirFloRat,
@@ -185,26 +185,24 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     annotation (Placement(transformation(extent={{46,-66},{30,-50}})));
   Modelica.Blocks.Interfaces.RealOutput V_flowRetAir
     "Return air volume flow rate "
-    annotation (Placement(transformation(extent={{100,-54},{120,-34}})));
+    annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
   Modelica.Blocks.Sources.RealExpression yDamOutAirMea(y=mixingBox.mixBox.valFre.y_actual)
-    annotation (Placement(transformation(extent={{40,106},{60,126}})));
+    annotation (Placement(transformation(extent={{40,130},{60,150}})));
   Modelica.Blocks.Interfaces.RealOutput yDamOutAir(
     final min=0,
     final max=1,
     final unit="1")
     "AHU OA damper position measurement"
-    annotation (Placement(transformation(extent={{100,110},{120,130}}),
-        iconTransformation(extent={{100,110},{120,130}})));
-  Modelica.Blocks.Sources.RealExpression PFanTot(y=supFan.P + retFan.P)
-    annotation (Placement(transformation(extent={{-34,-20},{-14,0}})));
-  Modelica.Blocks.Interfaces.RealOutput PFan "Total fan power"
+    annotation (Placement(transformation(extent={{100,130},{120,150}}),
+        iconTransformation(extent={{100,130},{120,150}})));
+  Modelica.Blocks.Interfaces.RealOutput PFanSup "Supply fan power"
     annotation (Placement(transformation(extent={{100,-16},{120,4}})));
   Modelica.Blocks.Interfaces.RealOutput TSupCHW(
     final unit="K",
     final displayUnit="degC",
     final quantity="ThermodynamicTemperature")
     "AHU supply chilled water temperature"
-    annotation (Placement(transformation(extent={{100,92},{120,112}})));
+    annotation (Placement(transformation(extent={{100,114},{120,134}})));
   Modelica.Blocks.Interfaces.RealOutput TRetCHW(
     final unit="K",
     final displayUnit="degC",
@@ -212,14 +210,14 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     "AHU return chilled water temperature"
     annotation (Placement(transformation(extent={{100,-2},{120,18}})));
   Modelica.Blocks.Sources.RealExpression TSupCHWMea(y=cooCoi.coi.TEntWat.T)
-    annotation (Placement(transformation(extent={{72,92},{92,112}})));
+    annotation (Placement(transformation(extent={{72,114},{92,134}})));
   Modelica.Blocks.Sources.RealExpression TRetCHWMea(y=cooCoi.coi.TLeaWat.T)
-    annotation (Placement(transformation(extent={{70,-10},{90,10}})));
+    annotation (Placement(transformation(extent={{72,-2},{92,18}})));
   Modelica.Blocks.Sources.RealExpression yCooValMea(y=cooCoi.val.y_actual)
-    annotation (Placement(transformation(extent={{70,-28},{90,-8}})));
+    annotation (Placement(transformation(extent={{74,-46},{94,-26}})));
   Modelica.Blocks.Interfaces.RealOutput yCooVal
     "AHU cooling coil valve position measurement" annotation (Placement(
-        transformation(extent={{100,-28},{120,-8}})));
+        transformation(extent={{100,-46},{120,-26}})));
   Buildings.Fluid.Sensors.VolumeFlowRate senVolFloOutAir(
     redeclare package Medium = MediumAir,
     m_flow_nominal=mAirFloRat,
@@ -231,7 +229,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     final min=0,
     final unit="m3/s",
     final quantity="VolumeFlowRate") "Outdoor air volume flow rate"
-    annotation (Placement(transformation(extent={{100,72},{120,92}})));
+    annotation (Placement(transformation(extent={{100,100},{120,120}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveSpeRetFan(
       description="AHU return fan speed control signal", u(
       min=0,
@@ -252,8 +250,8 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     annotation (Placement(transformation(extent={{60,-84},{72,-72}})));
   Modelica.Blocks.Interfaces.RealOutput CO2_AHURetAir
     "AHU return air CO2 volume fraction PPM" annotation (Placement(
-        transformation(extent={{100,-78},{120,-58}}),  iconTransformation(
-          extent={{100,-78},{120,-58}})));
+        transformation(extent={{100,-110},{120,-90}}), iconTransformation(
+          extent={{100,-110},{120,-90}})));
   Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2FreAir(redeclare package
       Medium =         MediumAir,
     allowFlowReversal=false,      m_flow_nominal=mAirFloRat,
@@ -271,8 +269,8 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     annotation (Placement(transformation(extent={{60,-104},{72,-92}})));
   Modelica.Blocks.Interfaces.RealOutput CO2_AHUFreAir
     "AHU fresh air CO2 volume fraction PPM" annotation (Placement(
-        transformation(extent={{100,-94},{120,-74}}),
-        iconTransformation(extent={{100,-94},{120,-74}})));
+        transformation(extent={{100,-120},{120,-100}}),
+        iconTransformation(extent={{100,-120},{120,-100}})));
   Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra2(each
       MMMea=Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
     "Conversion from mass fraction CO2 to volume fraction CO2"
@@ -281,8 +279,8 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     annotation (Placement(transformation(extent={{60,-122},{72,-110}})));
   Modelica.Blocks.Interfaces.RealOutput CO2_AHUSupAir
     "AHU supply air CO2 volume fraction PPM" annotation (Placement(
-        transformation(extent={{100,-108},{120,-88}}),
-        iconTransformation(extent={{100,-128},{120,-108}})));
+        transformation(extent={{100,-130},{120,-110}}),
+        iconTransformation(extent={{100,-130},{120,-110}})));
   Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2SupAir(redeclare package
       Medium =         MediumAir, m_flow_nominal=mAirFloRat,
     C_start=400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
@@ -296,12 +294,12 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     annotation (Placement(transformation(extent={{52,-66},{68,-50}})));
   Modelica.Blocks.Interfaces.RealOutput phiRetAir(final unit="1", min=0)
     "Relative humidity in return air" annotation (Placement(transformation(
-          extent={{100,-112},{120,-92}}),  iconTransformation(extent={{100,-112},
-            {120,-92}})));
-  Modelica.Blocks.Interfaces.RealOutput phiSupAir(final unit="1", min=0)
-    "Relative humidity in supply air" annotation (Placement(transformation(
           extent={{100,-140},{120,-120}}), iconTransformation(extent={{100,-140},
             {120,-120}})));
+  Modelica.Blocks.Interfaces.RealOutput phiSupAir(final unit="1", min=0)
+    "Relative humidity in supply air" annotation (Placement(transformation(
+          extent={{100,-150},{120,-130}}), iconTransformation(extent={{100,-150},
+            {120,-130}})));
   Buildings.Fluid.Sensors.RelativeHumidityTwoPort senRelHumSupAir(redeclare
       package Medium = MediumAir, m_flow_nominal=mAirFloRat)
     annotation (Placement(transformation(extent={{56,34},{66,44}})));
@@ -314,6 +312,10 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     annotation (Placement(transformation(extent={{-40,14},{-24,30}})));
   BaseClasses.FreezeProtection freezeProtection(lockoutTime=300, TSet=278.15)
     annotation (Placement(transformation(extent={{-24,2},{-12,14}})));
+  Modelica.Blocks.Interfaces.RealOutput PFanRet "Return fan power"
+    annotation (Placement(transformation(extent={{100,-30},{120,-10}})));
+  Modelica.Blocks.Interfaces.RealOutput PFreCoi "Freeze coil power"
+    annotation (Placement(transformation(extent={{100,50},{120,70}})));
 equation
   connect(cooCoi.port_b_Air, supFan.port_a) annotation (Line(
       points={{-1.82,22},{18,22}},
@@ -353,35 +355,32 @@ equation
   connect(onFanOcc, supFan.onFanOcc) annotation (Line(points={{-110,-78},{4,-78},
           {4,28},{16,28}},
                          color={255,0,255}));
-  connect(senTDisAir.T, TSupAir) annotation (Line(points={{82,28.6},{82,62},{
-          110,62}},      color={0,0,127},
+  connect(senTDisAir.T, TSupAir) annotation (Line(points={{82,28.6},{82,96},{
+          110,96}},      color={0,0,127},
       pattern=LinePattern.Dash));
   connect(mixingBox.port_Sup, senTMixAir.port_a) annotation (Line(
       points={{-59.8,28},{-60,28},{-60,22}},
       color={0,140,72},
       thickness=0.5));
   connect(senTMixAir.T, TMixAir) annotation (Line(points={{-52,30.8},{-52,48},{
-          94,48},{94,50},{110,50}},
+          94,48},{94,84},{110,84}},
                          color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(senTRetAir.T, TRetAir) annotation (Line(points={{86,-49.2},{86,-32},{
-          110,-32}},  color={0,0,127},
+  connect(senTRetAir.T, TRetAir) annotation (Line(points={{86,-49.2},{86,-80},{
+          110,-80}},  color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senVolFloSupAir.port_b, senTDisAir.port_a)
     annotation (Line(points={{72,22},{76,22}},
                                              color={0,127,255}));
   connect(senVolFloSupAir.V_flow, V_flowSupAir) annotation (Line(points={{66,28.6},
-          {66,38},{110,38}},         color={0,0,127},
+          {66,72},{110,72}},         color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senVolFloRetAir.V_flow, V_flowRetAir) annotation (Line(points={{38,
-          -49.2},{38,-44},{110,-44}},   color={0,0,127},
+          -49.2},{38,-90},{110,-90}},   color={0,0,127},
       pattern=LinePattern.Dash));
   connect(yDamOutAirMea.y, yDamOutAir)
-    annotation (Line(points={{61,116},{86,116},{86,120},{110,120}},
+    annotation (Line(points={{61,140},{110,140}},
                                                 color={0,0,127},
-      pattern=LinePattern.Dash));
-  connect(PFanTot.y, PFan) annotation (Line(points={{-13,-10},{-8,-10},{-8,-6},
-          {110,-6}},  color={0,0,127},
       pattern=LinePattern.Dash));
   connect(cooCoi.port_a_Wat, port_a_Wat) annotation (Line(
       points={{-2,38},{20,38},{20,140}},
@@ -392,20 +391,19 @@ equation
       color={0,127,255},
       thickness=1));
   connect(TSupCHWMea.y, TSupCHW)
-    annotation (Line(points={{93,102},{110,102}},
+    annotation (Line(points={{93,124},{110,124}},
                                                 color={0,0,127},
       pattern=LinePattern.Dash));
   connect(TRetCHWMea.y, TRetCHW)
-    annotation (Line(points={{91,0},{96,0},{96,8},{110,8}},
-                                                  color={0,0,127},
+    annotation (Line(points={{93,8},{110,8}},     color={0,0,127},
       pattern=LinePattern.Dash));
   connect(yCooValMea.y, yCooVal)
-    annotation (Line(points={{91,-18},{110,-18}}, color={0,0,127},
+    annotation (Line(points={{95,-36},{110,-36}}, color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senVolFloOutAir.port_b, mixingBox.port_Fre)
     annotation (Line(points={{-80,42},{-80,28}},        color={0,127,255}));
   connect(senVolFloOutAir.V_flow, V_flowOutAir) annotation (Line(points={{-71.2,
-          50},{80,50},{80,82},{110,82}},      color={0,0,127},
+          50},{80,50},{80,110},{110,110}},    color={0,0,127},
       pattern=LinePattern.Dash));
   connect(supFan.yRet, oveSpeRetFan.u) annotation (Line(points={{39,13.8},{42,
           13.8},{42,-26},{46.4,-26}},           color={0,0,127}));
@@ -420,7 +418,7 @@ equation
     annotation (Line(points={{36.6,-78},{58.8,-78}},   color={0,0,127},
       pattern=LinePattern.Dash));
   connect(gaiPPM.y, CO2_AHURetAir)
-    annotation (Line(points={{72.6,-78},{78,-78},{78,-68},{110,-68}},
+    annotation (Line(points={{72.6,-78},{92,-78},{92,-100},{110,-100}},
                                                       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(port_a_Air, senTRetAir.port_a)
@@ -437,14 +435,14 @@ equation
     annotation (Line(points={{36.6,-98},{58.8,-98}},   color={0,0,127},
       pattern=LinePattern.Dash));
   connect(gaiPPM1.y, CO2_AHUFreAir)
-    annotation (Line(points={{72.6,-98},{90,-98},{90,-84},{110,-84}},
+    annotation (Line(points={{72.6,-98},{92,-98},{92,-110},{110,-110}},
                                                       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(conMasVolFra2.V, gaiPPM2.u)
     annotation (Line(points={{36.6,-116},{58.8,-116}}, color={0,0,127},
       pattern=LinePattern.Dash));
   connect(gaiPPM2.y, CO2_AHUSupAir)
-    annotation (Line(points={{72.6,-116},{94,-116},{94,-98},{110,-98}},
+    annotation (Line(points={{72.6,-116},{92,-116},{92,-120},{110,-120}},
                                                       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senCO2FreAir.C, conMasVolFra1.m) annotation (Line(
@@ -463,7 +461,7 @@ equation
   connect(senRelHumRetAir.port_a, senVolFloRetAir.port_a)
     annotation (Line(points={{52,-58},{46,-58}}, color={0,127,255}));
   connect(senRelHumRetAir.phi, phiRetAir) annotation (Line(
-      points={{60.08,-49.2},{60.08,-42},{86,-42},{86,-102},{110,-102}},
+      points={{60.08,-49.2},{60.08,-42},{86,-42},{86,-130},{110,-130}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senCO2SupAir.port_b, senRelHumSupAir.port_a)
@@ -472,7 +470,7 @@ equation
     annotation (Line(points={{66,39},{66,22},{60,22}},
                                                      color={0,127,255}));
   connect(senRelHumSupAir.phi, phiSupAir) annotation (Line(
-      points={{61.05,44.5},{61.05,56},{82,56},{82,-130},{110,-130}},
+      points={{61.05,44.5},{61.05,56},{82,56},{82,-140},{110,-140}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(pMea, supFan.pMea) annotation (Line(points={{-110,116},{10,116},{10,
@@ -488,6 +486,12 @@ equation
           30.8},{-52,36},{-44,36},{-44,10.4},{-25.2,10.4}}, color={0,0,127}));
   connect(supFan.Rat, freezeProtection.fanSpe) annotation (Line(points={{39,16},
           {44,16},{44,-2},{-32,-2},{-32,5.48},{-25.2,5.48}}, color={0,0,127}));
+  connect(supFan.P, PFanSup) annotation (Line(points={{39,26},{46,26},{46,-6},{
+          110,-6}}, color={0,0,127}));
+  connect(retFan.P, PFanRet) annotation (Line(points={{-31,-52},{-38,-52},{-38,
+          -20},{110,-20}}, color={0,0,127}));
+  connect(freCoi.Q_flow, PFreCoi) annotation (Line(points={{-23.2,26.8},{-22,
+          26.8},{-22,60},{110,60}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -140},{100,140}}),                                  graphics={
         Rectangle(
