@@ -310,7 +310,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     Q_flow_nominal=mAirFloRat*1000*20)
     "Electric resistance heating coil for freeze protection"
     annotation (Placement(transformation(extent={{-40,14},{-24,30}})));
-  BaseClasses.FreezeProtection freezeProtection(lockoutTime=300, TSet=278.15)
+  BaseClasses.FreezeProtection freezeProtection(lockoutTime=300, TSet=276.48)
     annotation (Placement(transformation(extent={{-24,2},{-12,14}})));
   Modelica.Blocks.Interfaces.RealOutput PFanRet "Return fan power"
     annotation (Placement(transformation(extent={{100,-30},{120,-10}})));
