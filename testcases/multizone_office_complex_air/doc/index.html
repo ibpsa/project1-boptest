@@ -19,16 +19,15 @@
 <h4>Architecture</h4>
 <p>
     The layout is representative of the large commercial office building
-    stock and is consistent with the building prototypes. 
-	The test case building is located in Chicago, IL and based on the DOE Reference Large Office Building Model (Constructed In or After 1980). 
-	The original model has 12 floors with a basement. 
+    stock and is consistent with the building prototypes.
+	The test case building is located in Chicago, IL and based on the DOE Reference Large Office Building Model
+    (Constructed In or After 1980).	The original model has 12 floors with a basement.
 	For simplicity, the middle 10 floors are modeled as a single representative floor using floor multiplier (
-	i.e., mass flow rate multiplier in Modelica), resulting in three modeled floors (ground, middle, and top), 
-	each served by a dedicated AHU. The ground floor is assumed to be adiabatic with the basement. 
-	EnergyPlus (V9.6) calculates the building’s thermal loads and please see detailed input file wholebuilding96_spawn.idf 
-	for building geometry, constructions, occupancy and internal schedules, internal mass, etc. 
-	The infiltration is modeled in Modelica. 
-	
+	i.e., mass flow rate multiplier in Modelica), resulting in three modeled floors (ground, middle, and top),
+	each served by a dedicated AHU. The ground floor is assumed to be adiabatic with the basement.
+	EnergyPlus (V9.6) calculates the building’s thermal loads.  The detailed input file is wholebuilding96_spawn.idf,
+	containing building geometry, constructions, occupancy and internal schedules, internal mass, etc.
+
 </p>
 <p>
     The represented floor has five zones, with four perimeter zones and one core zone.
@@ -64,16 +63,17 @@
 
 <h4>Occupancy and internal loads schedules</h4>
 <p>
-    The design occupancy density is 0.05 people/m<sup>2</sup>. The people internal gain is calucalted
+    The design occupancy density is 0.05 people/m<sup>2</sup>. The people internal gain is calculated
     based on the activity level of 120 W. The number of occupants
     present in each zone at any time coincides with the internal gain schedule.
-    The occupied time for the HVAC system is between 6:00 and 22:00  each day.
+    The occupied time for the HVAC system is between 6:00 and 22:00 each weekday
+    and 6:00 and 18:00 on Saturday.
     The unoccupied time is outside of this period.
 </p>
 <p>
   The design internal gains include lighting, plug loads, and people. The lighting load is
   with a radiant-convective-visible split of 70%-10%-20%. The plug load is with a
-  radiant-convective-latent split of 50%-50%-0%. The people load is with a radiant-convective
+  radiant-convective-latent split of 50%-50%-0%. The people sensible load is with a radiant-convective
   split of 30%-70%. The occupancy and the internal gains are activated according to the
   schedule in the figure below.
 </p>
@@ -115,10 +115,9 @@
     The air-side systems are VAV systems with terminal reheat. Each floor is served
     by a dedicated AHU and each zone of the test case is served by a dedicated VAV box.
     The following figure depicts how the VAVs, AHU, and zones are connected on each floor
-    in general. There are two fans (i.e., one supply fan, and one return fan) in the AHU
-    system. A mixing box carries out the economizer function of providing cooling and
-    ventilation. It is noted that no pre-heating coil is installed in the AHU and the
-    heating is provided by the reheat coils in the VAV terminals.
+    in general. Each AHU has a supply and return fan. A mixing box carries out the economizer function of providing cooling and
+    ventilation. The heating is provided by the water-based reheat coils in the VAV terminals,
+    while an electric resistance freeze protection coil is located in the AHU.
 </p>
 <p align=\"center\">
         <img alt=\"AirSide.\"
@@ -356,6 +355,29 @@
     </tbody>
     </table>
 <br>  
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
+    <thead>
+      <tr>
+        <th>AHU Freeze Protection Coils</th>
+        <th>Design Coil Capacity [W]</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bot Floor Freeze Coil</td>
+        <td>1,650,000</td>
+      </tr>
+      <tr>
+        <td>Mid Floor Freeze Coil</td>
+        <td>16,500,000</td>
+      </tr>
+      <tr>
+        <td>Top Floor Freeze Coil</td>
+        <td>1,650,000</td>
+      </tr>
+    </tbody>
+    </table>
+<br> 
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
         <thead>
           <tr>
@@ -620,18 +642,22 @@
   <i>VAV reheat control</i>
 </p>
 <p>
-    The VAV reheat is controlled based on the "single maximum VAV reheat control logic". 
+    The VAV reheat is controlled based on the "single maximum VAV reheat control logic".
 </p>
 	<li>
-	When the Zone State is <b>Cooling</b>, the cooling-loop output is mapped to the active airflow setpoint, ranging from the cooling minimum (0.3 of the design flow rate) to the cooling maximum.  
+	When the Zone State is <b>Cooling</b>, the cooling-loop output is mapped to the active
+    airflow setpoint, ranging from the cooling minimum (0.3 of the design flow rate) to the cooling maximum.
 	The heating coil remains disabled.
 	</li>
-	<li>  
-	When the Zone State is <b>Deadband</b>, the active airflow setpoint is set to the zone minimum (0.3 of the design flow rate), and the heating coil remains disabled.
+	<li>
+	When the Zone State is <b>Deadband</b>, the active airflow setpoint is set to the zone
+    minimum (0.3 of the design flow rate), and the heating coil remains disabled.
 	</li>
 	<li>
-	When the Zone State is <b>Heating</b>, the active airflow setpoint is set to the constant heating setpoint (0.3 of the design flow rate).  
-	The reheat valve position is modulated to maintain the supply air temperature setpoint, varying between the heating minimum and maximum endpoints.
+	When the Zone State is <b>Heating</b>, the active airflow setpoint is set to the constant
+    heating setpoint (0.3 of the design flow rate).
+	The reheat valve position is modulated to maintain the supply air temperature setpoint,
+    varying between the heating minimum and maximum endpoints.
 	</li>
 
 
@@ -658,13 +684,15 @@
     <i>AHU duct static pressure control</i>
 </p>
 <p>
-    The supply fan speed is regulated by a PI controller to maintain the duct static pressure at its setpoint of 400 Pa (or 1.61 in. w.c.). 
+    The supply fan speed is regulated by a PI controller to maintain the duct static pressure at
+    its setpoint of 400 Pa (or 1.61 in. w.c.).
 	It takes the static pressure measurements
     and setpoints as inputs. It takes the supply fan speed as the output. The AHU return
     fan speed is set as a constant ratio (0.9) of the supply fan speed.
 </p>
-    During unoccupied hours, the night-cycle control is activated. 
-	If any zone air temperature falls outside the setback temperature bounds, the fans are switched on to bring the zone air temperature back within the allowable range
+    During unoccupied hours, the night-cycle control is activated.
+	If any zone air temperature falls outside the setback temperature bounds, the fans are
+    switched on to bring the zone air temperature back within the allowable range.
 <p>
 
 </p>
@@ -680,18 +708,28 @@
   <i>Mixing box damper and economizer control</i>
 </p>
 <p>
-    In the mixing box of the AHU, an economizer is implemented to use the outdoor air
-    to meet the cooling load when outdoor conditions are favorable.
-</p>
-<p>
-	The outdoor air damper position is regulated by a PI controller to maintain the mixed air temperature at its setpoint, with a minimum damper position of 0.3. 
-	The controller uses the mixed air temperature, outdoor air temperature, and the mixed air temperature setpoint as inputs. 
-	It output is the commanded outdoor air damper position.
-	The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. 
-</p>
-<p>
+	The minimum outdoor air damper position is 0.3 in order to provide ventilation.
+
     On top of that, an economizer control based on the fixed dry-bulb outdoor air
     temperature-based is adopted. The economizer higher temperature limit is set as 15.58 degC (60 degF).
+    Under economizer control, the outdoor air damper position is regulated by a PI controller to maintain the
+    mixed air temperature at its setpoint, with a minimum damper position of 0.3.
+    The controller uses the mixed air temperature, outdoor air temperature, and the
+    mixed air temperature setpoint as inputs. Its output is the commanded outdoor air
+    damper position.
+
+    The return air damper are interlocked with the outdoor air
+    damper while exhausted air damper share the same opening position with the
+    outdoor air damper.
+</p>
+<p>
+  <i>AHU freeze protection coil control</i>
+</p>
+<p>
+    The freeze protection coil is turned on if the mixed air tempeature is measured to be below
+    the freeze protection temperature set point (3.33 C) and the supply fan speed is at or above
+    a minimum fan speed (0.1).  Once activated, the coil remains on for at least 5 minutes and
+    until the mixed air temperature raises above the set point.
 </p>
 <h4>Water-side system control</h4>
 <p align=\"center\">
@@ -2388,11 +2426,11 @@ The model forecasts are:
 <h3>Model Implementation Details</h3>
 
 <h4>Internal mass</h4>
-<p>Building internal mass is modeled in EnergyPlus using two approaches: the InternalMass object and the Zone Air Capacitance Multiplier. 
-Internal mass surface area values are taken from the DOE Reference Buildings, 
+<p>Building internal mass is modeled in EnergyPlus using two approaches: the InternalMass object and the Zone Air Capacitance Multiplier.
+Internal mass surface area values are taken from the DOE Reference Buildings,
 and a zone air capacitance multiplier of 8 is applied to represent typical internal-mass levels (Chen et al., 2022). </p>
 
-Chen, Z. , Wen, J. , Bushby, S. , Lo, L. , O'Neill, Z. , Payne, V. , Pertzborn, A. , Calfa, C. , Fu, Y. , Grajewski, G. , Li, Y. and Yang, Z. (2022), 
+Chen, Z. , Wen, J. , Bushby, S. , Lo, L. , O'Neill, Z. , Payne, V. , Pertzborn, A. , Calfa, C. , Fu, Y. , Grajewski, G. , Li, Y. and Yang, Z. (2022),
 An Analysis of the Hybrid Internal Mass Modeling Approach in EnergyPlus, Proceedings of eSim 2022: 12th Conference of IBPSA-Canada, Ottawa, CA, [online]
 , https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=934193 (Accessed September 12, 2025)
 
