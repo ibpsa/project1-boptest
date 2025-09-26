@@ -17,7 +17,7 @@ Released on xx/xx/xxxx.
 
 **The following new test cases have been added:**
 
-- ``multizone_office_complex_air``, a DOE reference large office building in Chicago, IL, modeled with 3 floors and 15 zones, with each floor served by a 5-zone AHU VAV system with single-duct terminal box reheat. A water-cooled chiller plant serves chilled water to cooling coils and a gas-fired boiler plant serves hot water to heating coils. Spawn is used to model the envelope in EnergyPlus and the HVAC and controls in Modelica. The test case FMU is compiled by Dymola.  This is for [#218](https://github.com/ibpsa/project1-boptest/issues/218).
+- ``multizone_office_complex_air``, a DOE reference large office building in Chicago, IL, modeled with 3 floors and 15 zones, with each floor served by a 5-zone AHU VAV system with single-duct terminal box reheat. A water-cooled chiller plant serves chilled water to cooling coils and a gas-fired boiler plant serves hot water to heating coils. Spawn is used to model the envelope in EnergyPlus and the HVAC and controls in Modelica. The test case FMU is compiled by Dymola.  This is for [#218](https://github.com/ibpsa/project1-boptest/issues/218), [#782](https://github.com/ibpsa/project1-boptest/issues/782), and [#792](https://github.com/ibpsa/project1-boptest/issues/792).
 
 
 ## BOPTEST v0.8.0
