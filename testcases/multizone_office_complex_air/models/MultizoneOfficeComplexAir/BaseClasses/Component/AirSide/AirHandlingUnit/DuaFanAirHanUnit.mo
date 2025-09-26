@@ -101,7 +101,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     Ti=MixingBox_Ti) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={-60,22})));
+        origin={-70,22})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium =
                 MediumWat)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
@@ -158,7 +158,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     annotation (Placement(transformation(extent={{100,52},{120,72}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTMixAir(redeclare package
       Medium =         MediumAir, m_flow_nominal=mAirFloRat)
-    annotation (Placement(transformation(extent={{-44,12},{-24,32}})));
+    annotation (Placement(transformation(extent={{-60,14},{-44,30}})));
   Modelica.Blocks.Interfaces.RealOutput TMixAir(
     final unit="K",
     final displayUnit="degC",
@@ -305,12 +305,21 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
   Buildings.Fluid.Sensors.RelativeHumidityTwoPort senRelHumSupAir(redeclare
       package Medium = MediumAir, m_flow_nominal=mAirFloRat)
     annotation (Placement(transformation(extent={{56,34},{66,44}})));
+  Buildings.Fluid.HeatExchangers.HeaterCooler_u freCoi(
+    redeclare package Medium = MediumAir,
+    m_flow_nominal=mAirFloRat,
+    dp_nominal=0,
+    Q_flow_nominal=mAirFloRat*1000*20)
+    "Electric resistance heating coil for freeze protection"
+    annotation (Placement(transformation(extent={{-40,14},{-24,30}})));
+  BaseClasses.FreezeProtection freezeProtection(lockoutTime=300, TSet=278.15)
+    annotation (Placement(transformation(extent={{-24,2},{-12,14}})));
 equation
   connect(cooCoi.port_b_Air, supFan.port_a) annotation (Line(
       points={{-1.82,22},{18,22}},
       color={0,140,72},
       thickness=0.5));
-  connect(mixingBox.TMix, disTSet) annotation (Line(points={{-60,10},{-60,2},{
+  connect(mixingBox.TMix, disTSet) annotation (Line(points={{-70,10},{-70,2},{
           -110,2}},    color={0,0,127}));
   connect(cooCoi.SetPoi, disTSet) annotation (Line(points={{-0.2,28},{6,28},{6,
           2},{-110,2}},           color={0,0,127}));
@@ -319,11 +328,11 @@ equation
   connect(supFan.pSet, pSet) annotation (Line(points={{16,24},{12,24},{12,-38},
           {-110,-38}},      color={0,0,127}));
   connect(port_Exh_Air, mixingBox.port_Exh) annotation (Line(
-      points={{-102,22},{-82,22},{-82,16},{-70,16}},
+      points={{-102,22},{-94,22},{-94,16},{-80,16}},
       color={0,140,72},
       thickness=0.5));
   connect(mixingBox.port_Ret, retFan.port_b) annotation (Line(
-      points={{-50,16.2},{-42,16.2},{-42,-58},{-30,-58}},
+      points={{-60,16.2},{-60,-58},{-30,-58}},
       color={0,140,72},
       thickness=0.5));
   connect(port_b_Air, senTDisAir.port_b) annotation (Line(
@@ -336,27 +345,24 @@ equation
           -46,62},{-110,62}},      color={0,0,127}));
   connect(booleanExpression.y, cooCoi.On) annotation (Line(points={{-13,-28},{8,
           -28},{8,34},{-0.2,34}},         color={255,0,255}));
-  connect(mixingBox.TOut, TOut) annotation (Line(points={{-54,10},{-54,-58},{
+  connect(mixingBox.TOut, TOut) annotation (Line(points={{-64,10},{-64,-58},{
           -110,-58}},
                  color={0,0,127}));
-  connect(onFanOcc, mixingBox.On) annotation (Line(points={{-110,-78},{-68,-78},
-          {-68,10}},  color={255,0,255}));
+  connect(onFanOcc, mixingBox.On) annotation (Line(points={{-110,-78},{-78,-78},
+          {-78,10}},  color={255,0,255}));
   connect(onFanOcc, supFan.onFanOcc) annotation (Line(points={{-110,-78},{4,-78},
           {4,28},{16,28}},
                          color={255,0,255}));
   connect(senTDisAir.T, TSupAir) annotation (Line(points={{82,28.6},{82,62},{
           110,62}},      color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(senTMixAir.port_b, cooCoi.port_a_Air) annotation (Line(
-      points={{-24,22},{-20,22}},
-      color={0,140,72},
-      thickness=0.5));
   connect(mixingBox.port_Sup, senTMixAir.port_a) annotation (Line(
-      points={{-49.8,28},{-48,28},{-48,22},{-44,22}},
+      points={{-59.8,28},{-60,28},{-60,22}},
       color={0,140,72},
       thickness=0.5));
-  connect(senTMixAir.T, TMixAir) annotation (Line(points={{-34,33},{-34,50},{
-          110,50}},      color={0,0,127},
+  connect(senTMixAir.T, TMixAir) annotation (Line(points={{-52,30.8},{-52,48},{
+          94,48},{94,50},{110,50}},
+                         color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senTRetAir.T, TRetAir) annotation (Line(points={{86,-49.2},{86,-32},{
           110,-32}},  color={0,0,127},
@@ -397,8 +403,7 @@ equation
     annotation (Line(points={{91,-18},{110,-18}}, color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senVolFloOutAir.port_b, mixingBox.port_Fre)
-    annotation (Line(points={{-80,42},{-80,28},{-70,28}},
-                                                        color={0,127,255}));
+    annotation (Line(points={{-80,42},{-80,28}},        color={0,127,255}));
   connect(senVolFloOutAir.V_flow, V_flowOutAir) annotation (Line(points={{-71.2,
           50},{80,50},{80,82},{110,82}},      color={0,0,127},
       pattern=LinePattern.Dash));
@@ -473,6 +478,16 @@ equation
   connect(pMea, supFan.pMea) annotation (Line(points={{-110,116},{10,116},{10,
           12},{16,12}},
                      color={0,0,127}));
+  connect(senTMixAir.port_b, freCoi.port_a)
+    annotation (Line(points={{-44,22},{-40,22}}, color={0,127,255}));
+  connect(freCoi.port_b, cooCoi.port_a_Air)
+    annotation (Line(points={{-24,22},{-20,22}}, color={0,127,255}));
+  connect(freezeProtection.yHea, freCoi.u) annotation (Line(points={{-10.8,8},{
+          -8,8},{-8,16},{-41.6,16},{-41.6,26.8}}, color={0,0,127}));
+  connect(senTMixAir.T, freezeProtection.TMea) annotation (Line(points={{-52,
+          30.8},{-52,36},{-44,36},{-44,10.4},{-25.2,10.4}}, color={0,0,127}));
+  connect(supFan.Rat, freezeProtection.fanSpe) annotation (Line(points={{39,16},
+          {44,16},{44,-2},{-32,-2},{-32,5.48},{-25.2,5.48}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -140},{100,140}}),                                  graphics={
         Rectangle(
@@ -526,22 +541,22 @@ equation
 <p>There are two fans (i.e., one supply fan, and one return fan) in the AHU system. Note that there is no heating coil in the AHU system level.</p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AHUControl.png\" width=\"600\"/></p>
 <h4>Occupied hours</h4>
-<p> The supply fan speed is regulated by a PI controller to maintain the duct static pressure at its setpoint of 400 Pa (or 1.61 in. w.c.). 
+<p> The supply fan speed is regulated by a PI controller to maintain the duct static pressure at its setpoint of 400 Pa (or 1.61 in. w.c.).
 The return fan speed is set proportional to the supply fan speed, operating at 90% of the supply fan speed.</p>
 <p> Cooling coil valve position is controlled by a PI controller to maintain the AHU supply air temperature at setpoint.</p>
-<p>In the mixing box of the AHU, an economizer is implemented to use the outdoor air to meet the cooling load when outdoor conditions are favorable. 
-The outdoor air damper position is regulated by a PI controller to maintain the mixed air temperature at its setpoint, with a minimum damper position of 0.3. 
-The controller uses the mixed air temperature, outdoor air temperature, and the mixed air temperature setpoint as inputs. 
+<p>In the mixing box of the AHU, an economizer is implemented to use the outdoor air to meet the cooling load when outdoor conditions are favorable.
+The outdoor air damper position is regulated by a PI controller to maintain the mixed air temperature at its setpoint, with a minimum damper position of 0.3.
+The controller uses the mixed air temperature, outdoor air temperature, and the mixed air temperature setpoint as inputs.
 Its output is the commanded outdoor air damper position.
-The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. 
-On top of that, an economizer control based on the fixed dry-bulb outdoor air temperature-based is adopted. 
+The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper.
+On top of that, an economizer control based on the fixed dry-bulb outdoor air temperature-based is adopted.
 The economizer higher temperature limit is set as 15.58 degC (60 degF).</p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.VAVSupFan\">MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.VAVSupFan</a> for a description of the supply fan model. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.BaseClasses.WithoutMotor\">MultizoneOfficeComplexAir.BaseClasses.Component.FlowMover.BaseClasses.WithoutMotor</a> for a description of the return fan model. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.Coil.CoolingCoil\">MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.Coil.CoolingCoil</a> for a description of the cooling coil model. </p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.MixingBox.MixingBoxWithControl\">MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.MixingBox.MixingBoxWithControl</a> for a description of the mixing box model. </p>
 <h4>Unoccupied hours</h4>
-<p>During unoccupied hours, the night-cycle control is activated. 
+<p>During unoccupied hours, the night-cycle control is activated.
 If any zone air temperature falls outside the setback temperature bounds, the fans are switched on to bring the zone air temperature back within the allowable range.</p>
 </html>", revisions="<html>
 <ul>
