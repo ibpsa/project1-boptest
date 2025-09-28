@@ -67,7 +67,7 @@ class KPI_Calculator(object):
         self.initialize_kpi_vars('pele')
         self.initialize_kpi_vars('pgas')
         self.initialize_kpi_vars('pdih')
-        self.initialize_kpi_vars('ltra') # "ltra" represents the length of actuator travel. Perhaps Dave could suggest a more fitting name.
+        self.initialize_kpi_vars('ltra')
 
     def initialize_kpi_vars(self, label='ener'):
         '''Initialize variables required for KPI calculation
@@ -183,7 +183,7 @@ class KPI_Calculator(object):
             self.ltra_source_key_mapping = {}
             
             for source in self.case.kpi_json.keys():
-                if source.startswith('ControlActuator'):
+                if source.startswith('ActuatorTravel'):
                     actuator_name = source.split('[')[1][:-1]  # Extract the name inside the brackets
                     self.sources_ltra.append(actuator_name)          
 
@@ -667,7 +667,7 @@ class KPI_Calculator(object):
         return time_rat
 
     def get_actuator_travel(self):
-        '''This method returns the measure of the actuator travel displacement when accounting for the sum of all
+        '''This method returns the measure of the actuator travel displacement when accounting for the average of all
         the actuators present in the test case.
 
         Parameters
@@ -680,6 +680,7 @@ class KPI_Calculator(object):
             displacement of actuator travel
 
         '''
+        
         self.ltra_tot = 0.
         # Calculate displacement of actuator travel
 
@@ -693,16 +694,17 @@ class KPI_Calculator(object):
                 self.ltra_dict[signal] += displacement
                 self.ltra_dict_by_source[source + '_' + signal] += self.ltra_dict[signal]
                 self.ltra_tot += self.ltra_dict[signal]
+                self.ltra_tot = self.ltra_tot/len(self.ltra_dict) #Divide by the number of the actuators
 
         # Assign to case
-        self.case.ltra_tot            = self.ltra_tot/len(self.ltra_dict) #Divide by the number of the control actuators
+        self.case.ltra_tot            = self.ltra_tot
         self.case.ltra_dict           = self.ltra_dict
         self.case.ltra_dict_by_source = self.ltra_dict_by_source
 
         # Update last integration index
         self._set_last_index('ltra', set_initial=False)
 
-        return self.ltra_tot/len(self.ltra_dict)
+        return self.ltra_tot
 
 
     def _displacement(self, x, y, a, b):
@@ -715,13 +717,10 @@ class KPI_Calculator(object):
         ----------
         x: numpy.ndarray
             The array of x values
-
         y: numpy.ndarray
             The array of y values corresponding to each value of x
-
         a: int
             The lower limit to integrate from
-
         b: int
             The upper limit to integrate to
 
@@ -731,10 +730,12 @@ class KPI_Calculator(object):
             The displacement of the curve
 
         """
+        
         bounds = (x >= a) & (x <= b)
         grad = np.gradient(y[bounds], x[bounds])
         integrand = np.abs(grad)
         value = np.trapezoid(integrand, x[bounds])
+        
         return float(value)
 
 

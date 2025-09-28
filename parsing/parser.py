@@ -284,7 +284,7 @@ def parse_instances(model_path, file_name, tool='JModelica', algorithm='Cvode', 
                 else:
                     signal_type = '{0}[{1}]'.format(signal_type, fmu.get(instance+'.zone')[0])
 
-            if signal_type == 'ControlActuatorTravel':
+            if signal_type == 'ActuatorTravel':
                 if tool == 'Dymola':
                     __cat_val = int(get_parameter_dymola(scalar_variables, instance, 'CAT', 'Enumeration'))
                 else:
@@ -293,7 +293,7 @@ def parse_instances(model_path, file_name, tool='JModelica', algorithm='Cvode', 
                     1: 'None', 2: 'Damper', 3: 'Valve', 4: 'Fan',
                     5: 'Pump', 6: 'HVACEquipment', 7: 'Others'
                 }
-                signal_type = 'ControlActuator[{0}]'.format(__cat_map.get(__cat_val, str(__cat_val)))
+                signal_type = 'ActuatorTravel[{0}]'.format(__cat_map.get(__cat_val, str(__cat_val)))
 
             if signal_type == 'None':
                 continue
