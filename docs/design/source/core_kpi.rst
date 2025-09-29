@@ -202,8 +202,7 @@ Actuator travel
    
    To compute the final KPI value across multiple actuators, the average displacement is used:  
 
-   .. math::  
-   D_\text{avg} = \frac{1}{N} \sum_{i=1}^{N} D_i  
+   .. math::  D_\text{avg} = \frac{1}{N} \sum_{i=1}^{N} D_i  
 
    where :math:`N` is the number of actuators and :math:`D_i` is the displacement of actuator :math:`i`.  
    
