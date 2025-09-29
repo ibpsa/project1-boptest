@@ -67,7 +67,7 @@ class KPI_Calculator(object):
         self.initialize_kpi_vars('pele')
         self.initialize_kpi_vars('pgas')
         self.initialize_kpi_vars('pdih')
-        self.initialize_kpi_vars('ltra')
+        self.initialize_kpi_vars('atvl') # Initialize actuator travel (atvl)
 
     def initialize_kpi_vars(self, label='ener'):
         '''Initialize variables required for KPI calculation
@@ -175,39 +175,23 @@ class KPI_Calculator(object):
                         self.emis_dict[signal] = 0.
                         self.emis_dict_by_source[source+'_'+signal] = 0.
 
-        elif label=='ltra':
+        elif label=='atvl':
             # Initialize sources of actuator variables
-            self.sources_ltra = []
-            self.ltra_dict = {}
-            self.ltra_dict_by_source = {}
-            self.ltra_source_key_mapping = {}
-            
+            self.sources_atvl = []
+            self.atvl_dict = {}
+            self.atvl_dict_by_source = {}
+            self.atvl_source_key_mapping = {}
             for source in self.case.kpi_json.keys():
                 if source.startswith('ActuatorTravel'):
                     actuator_name = source.split('[')[1][:-1]  # Extract the name inside the brackets
-                    self.sources_ltra.append(actuator_name)          
-
-                    # Access the list of values corresponding to the source
-                    values = self.case.kpi_json[source]
-
-                    # Check if the value is a list and iterate through it
-                    if isinstance(values, list):
-                        for value in values:
-                            self.ltra_dict[value] = 0.0
-                            self.ltra_dict_by_source[f"{actuator_name}_{value}"] = 0.0
-                                
-                            # Initialize and append to the mapping
-                            if actuator_name in self.ltra_source_key_mapping:
-                                self.ltra_source_key_mapping[actuator_name].append(value)
-                            else:
-                                self.ltra_source_key_mapping[actuator_name] = [value]
-                    else:
-                        # In case it's not a list
-                        self.ltra_dict[values] = 0.0  
-                        self.ltra_dict_by_source[f"{actuator_name}_{values}"] = 0.0
-                            
-                        # Initialize the mapping for a single value
-                        self.ltra_source_key_mapping[actuator_name] = [values]                          
+                    self.sources_atvl.append(actuator_name)          
+                    for signal in self.case.kpi_json[source]:
+                        self.atvl_dict[signal] = 0.0
+                        self.atvl_dict_by_source[f"{actuator_name}_{signal}"] = 0.
+                        if actuator_name in self.atvl_source_key_mapping:
+                            self.atvl_source_key_mapping[actuator_name].append(signal)
+                        else:
+                            self.atvl_source_key_mapping[actuator_name] = [signal]
 
     def initialize(self):
         '''
@@ -246,7 +230,7 @@ class KPI_Calculator(object):
         ckpi['pgas_tot'] = self.get_peak_gas()
         ckpi['pdih_tot'] = self.get_peak_district_heating()
         ckpi['time_rat'] = self.get_computational_time_ratio()
-        ckpi['ltra_tot'] = self.get_actuator_travel()
+        ckpi['atvl_tot'] = self.get_actuator_travel()
 
         return ckpi
 
@@ -676,35 +660,32 @@ class KPI_Calculator(object):
 
         Returns
         -------
-        ltra_tot: float
+        atvl_tot: float
             displacement of actuator travel
 
         '''
         
-        self.ltra_tot = 0.
-        # Calculate displacement of actuator travel
-
-        for source in self.sources_ltra:
-            for signal in self.ltra_source_key_mapping[source]:
-                ltra_data = np.array(self._get_data_from_last_index(signal,self.i_last_ltra))
-                index_data = np.array(self._get_data_from_last_index('time',self.i_last_ltra))
-
+        self.atvl_tot = 0.
+        
+        for source in self.sources_atvl:
+            for signal in self.atvl_source_key_mapping[source]:
+                atvl_data = np.array(self._get_data_from_last_index(signal,self.i_last_atvl))
+                index_data = np.array(self._get_data_from_last_index('time',self.i_last_atvl))
                 # Calculate displacement and update dictionaries
-                displacement = self._displacement(index_data, ltra_data, index_data[0], index_data[-1])
-                self.ltra_dict[signal] += displacement
-                self.ltra_dict_by_source[source + '_' + signal] += self.ltra_dict[signal]
-                self.ltra_tot += self.ltra_dict[signal]
-                self.ltra_tot = self.ltra_tot/len(self.ltra_dict) #Divide by the number of the actuators
+                displacement = self._displacement(index_data, atvl_data, index_data[0], index_data[-1])
+                self.atvl_dict[signal] += displacement
+                self.atvl_dict_by_source[source + '_' + signal] += self.atvl_dict[signal]
+                self.atvl_tot = self.atvl_tot + self.atvl_dict[signal]/len(self.atvl_dict) #Divide by the number of the actuators
 
         # Assign to case
-        self.case.ltra_tot            = self.ltra_tot
-        self.case.ltra_dict           = self.ltra_dict
-        self.case.ltra_dict_by_source = self.ltra_dict_by_source
+        self.case.atvl_tot            = self.atvl_tot
+        self.case.atvl_dict           = self.atvl_dict
+        self.case.atvl_dict_by_source = self.atvl_dict_by_source
 
         # Update last integration index
-        self._set_last_index('ltra', set_initial=False)
+        self._set_last_index('atvl', set_initial=False)
 
-        return self.ltra_tot
+        return self.atvl_tot
 
 
     def _displacement(self, x, y, a, b):
