@@ -67,6 +67,7 @@ class KPI_Calculator(object):
         self.initialize_kpi_vars('pele')
         self.initialize_kpi_vars('pgas')
         self.initialize_kpi_vars('pdih')
+        self.initialize_kpi_vars('atvl') # Initialize actuator travel (atvl)
 
     def initialize_kpi_vars(self, label='ener'):
         '''Initialize variables required for KPI calculation
@@ -174,6 +175,24 @@ class KPI_Calculator(object):
                         self.emis_dict[signal] = 0.
                         self.emis_dict_by_source[source+'_'+signal] = 0.
 
+        elif label=='atvl':
+            # Initialize sources of actuator variables
+            self.sources_atvl = []
+            self.atvl_dict = {}
+            self.atvl_dict_by_source = {}
+            self.atvl_source_key_mapping = {}
+            for source in self.case.kpi_json.keys():
+                if source.startswith('ActuatorTravel'):
+                    actuator_name = source.split('[')[1][:-1]  # Extract the name inside the brackets
+                    self.sources_atvl.append(actuator_name)          
+                    for signal in self.case.kpi_json[source]:
+                        self.atvl_dict[signal] = 0.0
+                        self.atvl_dict_by_source[f"{actuator_name}_{signal}"] = 0.
+                        if actuator_name in self.atvl_source_key_mapping:
+                            self.atvl_source_key_mapping[actuator_name].append(signal)
+                        else:
+                            self.atvl_source_key_mapping[actuator_name] = [signal]
+
     def initialize(self):
         '''
         Method to reset all kpi variables while maintaining pointer to
@@ -211,6 +230,7 @@ class KPI_Calculator(object):
         ckpi['pgas_tot'] = self.get_peak_gas()
         ckpi['pdih_tot'] = self.get_peak_district_heating()
         ckpi['time_rat'] = self.get_computational_time_ratio()
+        ckpi['atvl_tot'] = self.get_actuator_travel()
 
         return ckpi
 
@@ -629,6 +649,76 @@ class KPI_Calculator(object):
         self.case.time_rat = time_rat
 
         return time_rat
+
+    def get_actuator_travel(self):
+        '''This method returns the measure of the actuator travel displacement when accounting for the average of all
+        the actuators present in the test case.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        atvl_tot: float
+            displacement of actuator travel
+
+        '''
+        
+        self.atvl_tot = 0.
+        
+        for source in self.sources_atvl:
+            for signal in self.atvl_source_key_mapping[source]:
+                atvl_data = np.array(self._get_data_from_last_index(signal,self.i_last_atvl))
+                index_data = np.array(self._get_data_from_last_index('time',self.i_last_atvl))
+                # Calculate displacement and update dictionaries
+                displacement = self._displacement(index_data, atvl_data, index_data[0], index_data[-1])
+                self.atvl_dict[signal] += displacement
+                self.atvl_dict_by_source[source + '_' + signal] += self.atvl_dict[signal]
+                self.atvl_tot = self.atvl_tot + self.atvl_dict[signal]/len(self.atvl_dict) #Divide by the number of the actuators
+
+        # Assign to case
+        self.case.atvl_tot            = self.atvl_tot
+        self.case.atvl_dict           = self.atvl_dict
+        self.case.atvl_dict_by_source = self.atvl_dict_by_source
+
+        # Update last integration index
+        self._set_last_index('atvl', set_initial=False)
+
+        return self.atvl_tot
+
+
+    def _displacement(self, x, y, a, b):
+        """
+        Computes the displacement of the given curve
+        defined by (x0, y0), (x1, y1) ... (xn, yn)
+        over the provided bounds, `a` and `b`.
+
+        Parameters
+        ----------
+        x: numpy.ndarray
+            The array of x values
+        y: numpy.ndarray
+            The array of y values corresponding to each value of x
+        a: int
+            The lower limit to integrate from
+        b: int
+            The upper limit to integrate to
+
+        Returns
+        -------
+        numpy.float64
+            The displacement of the curve
+
+        """
+        
+        bounds = (x >= a) & (x <= b)
+        grad = np.gradient(y[bounds], x[bounds])
+        integrand = np.abs(grad)
+        value = np.trapezoid(integrand, x[bounds])
+        
+        return float(value)
+
 
     def _set_last_index(self,label, set_initial=False):
         '''Set last index for kpi calcualtion.
