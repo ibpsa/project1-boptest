@@ -727,9 +727,10 @@
 </p>
 <p>
     The freeze protection coil is turned on if the mixed air tempeature is measured to be below
-    the freeze protection temperature set point (3.33 C) and the supply fan speed is at or above
-    a minimum fan speed (0.1).  Once activated, the coil remains on for at least 5 minutes and
-    until the mixed air temperature raises above the set point.
+    the freeze protection temperature set point (3.33 C) and the supply airflow rate is at or above
+    10% of the design value.  Once activated, the coil remains on for at least 5 minutes and
+    until the mixed air temperature raises above the set point.  Overwriting the freeze Coil
+    control signal will bypass the minimum on-time, but will not bypass the airflow switch as a safety.
 </p>
 <h4>Water-side system control</h4>
 <p align=\"center\">
@@ -902,6 +903,12 @@ The model inputs are:
 <code>floor1_duaFanAirHanUni_cooCoi_yCoo_u</code> [1] [min=0, max=1]: Cooling coil valve control signal for AHU
 </li>
 <li>
+<code>floor1_duaFanAirHanUni_frePro_oveFrePro_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_duaFanAirHanUni_frePro_oveFrePro_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>floor1_duaFanAirHanUni_frePro_oveFrePro_u</code> [1] [min=0, max=1]: Control signal for freeze protection coil
+</li>
+<li>
 <code>floor1_duaFanAirHanUni_mixingBox_mixBox_yEA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_duaFanAirHanUni_mixingBox_mixBox_yEA_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
@@ -1070,6 +1077,12 @@ The model inputs are:
 <code>floor2_duaFanAirHanUni_cooCoi_yCoo_u</code> [1] [min=0, max=1]: Cooling coil valve control signal for AHU
 </li>
 <li>
+<code>floor2_duaFanAirHanUni_frePro_oveFrePro_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_duaFanAirHanUni_frePro_oveFrePro_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>floor2_duaFanAirHanUni_frePro_oveFrePro_u</code> [1] [min=0, max=1]: Control signal for freeze protection coil
+</li>
+<li>
 <code>floor2_duaFanAirHanUni_mixingBox_mixBox_yEA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_duaFanAirHanUni_mixingBox_mixBox_yEA_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
@@ -1236,6 +1249,12 @@ The model inputs are:
 </li>
 <li>
 <code>floor3_duaFanAirHanUni_cooCoi_yCoo_u</code> [1] [min=0, max=1]: Cooling coil valve control signal for AHU
+</li>
+<li>
+<code>floor3_duaFanAirHanUni_frePro_oveFrePro_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_duaFanAirHanUni_frePro_oveFrePro_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>floor3_duaFanAirHanUni_frePro_oveFrePro_u</code> [1] [min=0, max=1]: Control signal for freeze protection coil
 </li>
 <li>
 <code>floor3_duaFanAirHanUni_mixingBox_mixBox_yEA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_duaFanAirHanUni_mixingBox_mixBox_yEA_u where 1 activates, 0 deactivates (default value)
@@ -1440,6 +1459,9 @@ The model outputs are:
 <code>floor1_reaAHU_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
 </li>
 <li>
+<code>floor1_reaAHU_TFreCoiLea_y</code> [K] [min=None, max=None]: Temperature of air leaving freeze protection coil
+</li>
+<li>
 <code>floor1_reaAHU_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
 </li>
 <li>
@@ -1605,6 +1627,9 @@ The model outputs are:
 <code>floor2_reaAHU_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
 </li>
 <li>
+<code>floor2_reaAHU_TFreCoiLea_y</code> [K] [min=None, max=None]: Temperature of air leaving freeze protection coil
+</li>
+<li>
 <code>floor2_reaAHU_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
 </li>
 <li>
@@ -1768,6 +1793,9 @@ The model outputs are:
 </li>
 <li>
 <code>floor3_reaAHU_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
+</li>
+<li>
+<code>floor3_reaAHU_TFreCoiLea_y</code> [K] [min=None, max=None]: Temperature of air leaving freeze protection coil
 </li>
 <li>
 <code>floor3_reaAHU_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU

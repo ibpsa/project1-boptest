@@ -73,42 +73,57 @@ package BaseClasses
       final quantity="ThermodynamicTemperature",
       final unit="K",
       displayUnit="degC") = 276.15 "Temperature below which the freeze protection starts";
-    parameter Real minFanSpe=0.1 "Minimum fan speed needed to turn on freeze protection";
+    parameter Modelica.Units.SI.VolumeFlowRate minAirFlow "Minimum volumetric air flow needed to turn on freeze protection";
     Buildings.Examples.VAVReheat.BaseClasses.Controls.FreezeStat
                         freSta(lockoutTime=lockoutTime, TSet=TSet)
                                "Freeze stat for heating coil"
-      annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
+      annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
     Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea
-      annotation (Placement(transformation(extent={{40,-20},{60,0}})));
-    Buildings.Controls.OBC.CDL.Logical.And and2
-      annotation (Placement(transformation(extent={{0,-20},{20,0}})));
+      annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
     Buildings.Controls.OBC.CDL.Interfaces.RealOutput yHea
       "Control signal for freeze protection heating coil"
       annotation (Placement(transformation(extent={{100,-20},{140,20}})));
-    Buildings.Controls.OBC.CDL.Continuous.GreaterThreshold greThr(t=minFanSpe, h=0.05
-          *minFanSpe)
+    Buildings.Controls.OBC.CDL.Continuous.GreaterThreshold greThr(t=minAirFlow, h
+        =0.05*minAirFlow)
       annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
 
-    Buildings.Controls.OBC.CDL.Interfaces.RealInput TMea
+    Buildings.Controls.OBC.CDL.Interfaces.RealInput TMea(final quantity="ThermodynamicTemperature",
+                                                 final unit="K")
       "Measured temperature for which to base freeze protection on"
       annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
-    Buildings.Controls.OBC.CDL.Interfaces.RealInput fanSpe
-      "Measured fan speed on which to base freeze protection on"
-      annotation (Placement(transformation(extent={{-140,-62},{-100,-22}})));
+    Buildings.Controls.OBC.CDL.Interfaces.RealInput V_flow(final quantity="VolumeFlowRate",
+                                                 final unit="m3/s")
+      "Measured volumetric air flow for which to base freeze protection on"
+      annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
+    Buildings.Controls.OBC.CDL.Continuous.Switch swi
+      annotation (Placement(transformation(extent={{40,-10},{60,10}})));
+    Buildings.Controls.OBC.CDL.Continuous.Sources.Constant zero(k=0)
+      "Zero constant"
+      annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
+    Buildings.Utilities.IO.SignalExchange.Overwrite oveFrePro(description=
+          "Control signal for freeze protection coil", u(
+        min=0,
+        max=1,
+        unit="1")) "Overwrite freeze protection signal"
+      annotation (Placement(transformation(extent={{0,20},{20,40}})));
   equation
-    connect(freSta.y, and2.u1) annotation (Line(points={{-18,30},{-10,30},{-10,-10},
-            {-2,-10}}, color={255,0,255}));
-    connect(booToRea.y, yHea) annotation (Line(points={{62,-10},{80,-10},{80,0},{120,
-            0}}, color={0,0,127}));
-    connect(and2.y, booToRea.u)
-      annotation (Line(points={{22,-10},{38,-10}}, color={255,0,255}));
-    connect(greThr.y, and2.u2) annotation (Line(points={{-18,-30},{-10,-30},{-10,-18},
-            {-2,-18}}, color={255,0,255}));
-    connect(freSta.u, TMea) annotation (Line(points={{-42,30},{-94,30},{-94,40},{-120,
-            40}}, color={0,0,127}));
-    connect(fanSpe, greThr.u) annotation (Line(points={{-120,-42},{-82,-42},{
-            -82,-30},{-42,-30}},
-                        color={0,0,127}));
+    connect(freSta.u, TMea) annotation (Line(points={{-82,30},{-94,30},{-94,40},
+            {-120,40}},
+                  color={0,0,127}));
+    connect(freSta.y, booToRea.u)
+      annotation (Line(points={{-58,30},{-42,30}}, color={255,0,255}));
+    connect(greThr.y, swi.u2) annotation (Line(points={{-18,-30},{-10,-30},{-10,
+            0},{38,0}}, color={255,0,255}));
+    connect(zero.y, swi.u3) annotation (Line(points={{22,-30},{32,-30},{32,-8},
+            {38,-8}}, color={0,0,127}));
+    connect(swi.y, yHea)
+      annotation (Line(points={{62,0},{120,0}}, color={0,0,127}));
+    connect(booToRea.y, oveFrePro.u)
+      annotation (Line(points={{-18,30},{-2,30}}, color={0,0,127}));
+    connect(oveFrePro.y, swi.u1) annotation (Line(points={{21,30},{32,30},{32,8},
+            {38,8}}, color={0,0,127}));
+    connect(V_flow, greThr.u) annotation (Line(points={{-120,-40},{-80,-40},{
+            -80,-30},{-42,-30}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
             Rectangle(
             extent={{-100,100},{100,-100}},

@@ -63,30 +63,30 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     description="Cooling coil supply water temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Cooling coil water supply temperature measurement"
-    annotation (Placement(transformation(extent={{0,-48},{20,-28}})));
+    annotation (Placement(transformation(extent={{0,-70},{20,-50}})));
 
   Modelica.Blocks.Interfaces.RealInput TCooCoiSup_in
     "Cooling coil water supply temperature measurement"
-    annotation (Placement(transformation(extent={{-140,-58},{-100,-18}})));
+    annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
   Modelica.Blocks.Interfaces.RealInput TCooCoiRet_in
     "Cooling coil water return temperature measurement"
-    annotation (Placement(transformation(extent={{-140,-88},{-100,-48}})));
+    annotation (Placement(transformation(extent={{-140,-110},{-100,-70}})));
   Buildings.Utilities.IO.SignalExchange.Read TCooCoiRet(
     description="Cooling coil return water temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Cooling coil water return temperature measurement"
-    annotation (Placement(transformation(extent={{0,-78},{20,-58}})));
+    annotation (Placement(transformation(extent={{0,-100},{20,-80}})));
 
   Buildings.Utilities.IO.SignalExchange.Read yCooVal(
     description="AHU cooling coil valve position measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None, y(unit="1"))
     "AHU cooling coil valve position measurement"
-    annotation (Placement(transformation(extent={{0,-108},{20,-88}})));
+    annotation (Placement(transformation(extent={{0,-130},{20,-110}})));
 
   Modelica.Blocks.Interfaces.RealInput yCooVal_in
     "AHU cooling coil valve position measurement"
-    annotation (Placement(transformation(extent={{-140,-118},{-100,-78}}),
-        iconTransformation(extent={{-140,-118},{-100,-78}})));
+    annotation (Placement(transformation(extent={{-140,-140},{-100,-100}}),
+        iconTransformation(extent={{-140,-140},{-100,-100}})));
 
   Buildings.Utilities.IO.SignalExchange.Read occ(
     description="Occupancy status (1 occupied, 0 unoccupied)",
@@ -106,12 +106,12 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     description="Supply outdoor airflow rate measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s")) "Supply outdoor airflow rate measurement"
-    annotation (Placement(transformation(extent={{0,-138},{20,-118}})));
+    annotation (Placement(transformation(extent={{0,-160},{20,-140}})));
 
   Modelica.Blocks.Interfaces.RealInput V_flowOA_in
     "Supply outdoor airflow rate measurement" annotation (Placement(
-        transformation(extent={{-140,-148},{-100,-108}}),iconTransformation(
-          extent={{-140,-148},{-100,-108}})));
+        transformation(extent={{-140,-170},{-100,-130}}),iconTransformation(
+          extent={{-140,-170},{-100,-130}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal
     annotation (Placement(transformation(extent={{-50,260},{-30,280}})));
   Modelica.Blocks.Interfaces.BooleanInput occ_in "Occupancy status"
@@ -120,45 +120,45 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     description="Supply air CO2 measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm")) "Air CO2 concentration measurement"
-    annotation (Placement(transformation(extent={{0,-168},{20,-148}})));
+    annotation (Placement(transformation(extent={{0,-190},{20,-170}})));
 
   Modelica.Blocks.Interfaces.RealInput CO2_AHUSup_in
     "Volume fraction of CO2 (PPM)"
-    annotation (Placement(transformation(extent={{-140,-178},{-100,-138}})));
+    annotation (Placement(transformation(extent={{-140,-200},{-100,-160}})));
   Buildings.Utilities.IO.SignalExchange.Read CO2_AHUFre(
     description="Fresh air CO2 measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm")) "Air CO2 concentration measurement"
-    annotation (Placement(transformation(extent={{0,-198},{20,-178}})));
+    annotation (Placement(transformation(extent={{0,-220},{20,-200}})));
 
   Modelica.Blocks.Interfaces.RealInput CO2_AHUFre_in
     "Volume fraction of CO2 (PPM)"
-    annotation (Placement(transformation(extent={{-140,-208},{-100,-168}})));
+    annotation (Placement(transformation(extent={{-140,-230},{-100,-190}})));
   Buildings.Utilities.IO.SignalExchange.Read CO2_AHURet(
     description="Return air CO2 measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm")) "Return air CO2 concentration measurement"
-    annotation (Placement(transformation(extent={{0,-228},{20,-208}})));
+    annotation (Placement(transformation(extent={{0,-250},{20,-230}})));
 
   Modelica.Blocks.Interfaces.RealInput CO2_AHURet_in
     "Volume fraction of CO2 (PPM)"
-    annotation (Placement(transformation(extent={{-140,-238},{-100,-198}})));
+    annotation (Placement(transformation(extent={{-140,-260},{-100,-220}})));
   Buildings.Utilities.IO.SignalExchange.Read phiAHUSup(
     description="Supply air relative humidity for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Supply air relative humidity"
-    annotation (Placement(transformation(extent={{0,-258},{20,-238}})));
+    annotation (Placement(transformation(extent={{0,-280},{20,-260}})));
   Buildings.Utilities.IO.SignalExchange.Read phiAHURet(
     description="Return air relative humidity for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Return air relative humidity"
-    annotation (Placement(transformation(extent={{0,-290},{20,-270}})));
+    annotation (Placement(transformation(extent={{0,-312},{20,-292}})));
   Modelica.Blocks.Interfaces.RealInput phiAHUSup_in
     "Supply air relative humidity measurement"
-    annotation (Placement(transformation(extent={{-140,-268},{-100,-228}})));
+    annotation (Placement(transformation(extent={{-140,-290},{-100,-250}})));
   Modelica.Blocks.Interfaces.RealInput phiAHURet_in
     "Return air relative humidity measurement"
-    annotation (Placement(transformation(extent={{-140,-300},{-100,-260}})));
+    annotation (Placement(transformation(extent={{-140,-322},{-100,-282}})));
   Buildings.Utilities.IO.SignalExchange.Read PFanSup(
     description="Electrical power measurement of supply fan for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
@@ -175,6 +175,14 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput PFreCoi_in
     "Freeze coil electrical power"
     annotation (Placement(transformation(extent={{-140,-32},{-100,8}})));
+  Modelica.Blocks.Interfaces.RealInput TFreCoiLea_in
+    "Temperature of air leaving freeze protection coil"
+    annotation (Placement(transformation(extent={{-140,-56},{-100,-16}})));
+  Buildings.Utilities.IO.SignalExchange.Read TFreCoiLea(
+    description="Temperature of air leaving freeze protection coil",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    y(unit="K")) "Temperature of air leaving freeze protection coil"
+    annotation (Placement(transformation(extent={{0,-46},{20,-26}})));
 equation
   connect(TSup.u, TSup_in)
     annotation (Line(points={{-2,240},{-120,240}}, color={0,0,127}));
@@ -193,38 +201,40 @@ equation
       color={0,0,127},
       smooth=Smooth.Bezier));
   connect(TCooCoiRet_in, TCooCoiRet.u)
-    annotation (Line(points={{-120,-68},{-2,-68}},   color={0,0,127}));
-  connect(TCooCoiSup_in, TCooCoiSup.u) annotation (Line(points={{-120,-38},{-2,
-          -38}},                           color={0,0,127}));
+    annotation (Line(points={{-120,-90},{-2,-90}},   color={0,0,127}));
+  connect(TCooCoiSup_in, TCooCoiSup.u) annotation (Line(points={{-120,-60},{-2,
+          -60}},                           color={0,0,127}));
   connect(yCooVal_in, yCooVal.u)
-    annotation (Line(points={{-120,-98},{-2,-98}},   color={0,0,127}));
+    annotation (Line(points={{-120,-120},{-2,-120}}, color={0,0,127}));
   connect(yOA_in, yOA.u)
     annotation (Line(points={{-120,94},{-2,94}},color={0,0,127}));
   connect(V_flowOA_in, V_flowOA.u)
-    annotation (Line(points={{-120,-128},{-2,-128}}, color={0,0,127}));
+    annotation (Line(points={{-120,-150},{-2,-150}}, color={0,0,127}));
   connect(booleanToReal.y, occ.u)
     annotation (Line(points={{-29,270},{-2,270}}, color={0,0,127}));
   connect(booleanToReal.u, occ_in)
     annotation (Line(points={{-52,270},{-120,270}}, color={255,0,255}));
   connect(CO2_AHUSup_in, CO2_AHUSup.u)
-    annotation (Line(points={{-120,-158},{-2,-158}}, color={0,0,127}));
+    annotation (Line(points={{-120,-180},{-2,-180}}, color={0,0,127}));
   connect(CO2_AHUFre_in, CO2_AHUFre.u)
-    annotation (Line(points={{-120,-188},{-2,-188}}, color={0,0,127}));
+    annotation (Line(points={{-120,-210},{-2,-210}}, color={0,0,127}));
   connect(CO2_AHURet_in, CO2_AHURet.u)
-    annotation (Line(points={{-120,-218},{-2,-218}}, color={0,0,127}));
+    annotation (Line(points={{-120,-240},{-2,-240}}, color={0,0,127}));
   connect(phiAHUSup.u, phiAHUSup_in)
-    annotation (Line(points={{-2,-248},{-120,-248}}, color={0,0,127}));
+    annotation (Line(points={{-2,-270},{-120,-270}}, color={0,0,127}));
   connect(phiAHURet.u, phiAHURet_in)
-    annotation (Line(points={{-2,-280},{-120,-280}}, color={0,0,127}));
+    annotation (Line(points={{-2,-302},{-120,-302}}, color={0,0,127}));
   connect(PFanSup_in, PFanSup.u) annotation (Line(
       points={{-120,40},{-62,40},{-2,40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
   connect(PFreCoi_in, PFreCoi.u)
     annotation (Line(points={{-120,-12},{-2,-12}}, color={0,0,127}));
+  connect(TFreCoiLea_in, TFreCoiLea.u)
+    annotation (Line(points={{-120,-36},{-2,-36}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -280},{100,280}}), graphics={Rectangle(
-          extent={{-98,278},{100,-280}},
+            -300},{100,300}}), graphics={Rectangle(
+          extent={{-98,298},{100,-300}},
           lineColor={0,0,0},
           fillColor={255,170,170},
           fillPattern=FillPattern.Solid),
@@ -236,5 +246,5 @@ AHU"),  Text(
           extent={{-156,290},{144,330}},
           textString="%name",
           textColor={0,0,255})}),Diagram(coordinateSystem(preserveAspectRatio=
-            false, extent={{-100,-280},{100,280}})));
+            false, extent={{-100,-300},{100,300}})));
 end ReadAhu;

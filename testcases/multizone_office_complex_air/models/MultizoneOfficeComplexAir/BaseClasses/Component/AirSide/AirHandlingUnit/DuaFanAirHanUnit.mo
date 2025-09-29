@@ -72,7 +72,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     VolFloCur=VolFloCur,
     PreCur=SupPreCur,
     withoutMotor(varSpeFloMov(use_inputFilter=true)))
-    annotation (Placement(transformation(extent={{18,12},{38,32}})));
+    annotation (Placement(transformation(extent={{24,12},{44,32}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium =
                MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
@@ -87,7 +87,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     k=Coi_k,
     Ti=Coi_Ti,
     UA=UA*1.2*eps)
-    annotation (Placement(transformation(extent={{-2,20},{-20,40}})));
+    annotation (Placement(transformation(extent={{2,20},{-16,40}})));
   MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.MixingBox.MixingBoxWithControl
     mixingBox(
     mTotAirFloRat=mAirFloRat,
@@ -142,7 +142,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
         transformation(extent={{-120,-28},{-100,-8}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTDisAir(redeclare package
       Medium =         MediumAir, m_flow_nominal=mAirFloRat)
-    annotation (Placement(transformation(extent={{76,16},{88,28}})));
+    annotation (Placement(transformation(extent={{82,16},{94,28}})));
   Modelica.Blocks.Interfaces.RealInput heaTSet[numTemp]
     "Connector of setpoint input signal" annotation (Placement(
         transformation(extent={{-120,92},{-100,112}})));
@@ -158,7 +158,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     annotation (Placement(transformation(extent={{100,86},{120,106}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTMixAir(redeclare package
       Medium =         MediumAir, m_flow_nominal=mAirFloRat)
-    annotation (Placement(transformation(extent={{-60,14},{-44,30}})));
+    annotation (Placement(transformation(extent={{-60,16},{-52,24}})));
   Modelica.Blocks.Interfaces.RealOutput TMixAir(
     final unit="K",
     final displayUnit="degC",
@@ -172,7 +172,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
   Buildings.Fluid.Sensors.VolumeFlowRate senVolFloSupAir(
     redeclare package Medium = MediumAir,
     m_flow_nominal=mAirFloRat,
-    tau=1) annotation (Placement(transformation(extent={{60,16},{72,28}})));
+    tau=1) annotation (Placement(transformation(extent={{66,16},{78,28}})));
   Modelica.Blocks.Interfaces.RealOutput V_flowSupAir(
     final min=0,
     final unit = "m3/s",
@@ -288,7 +288,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     "Sensor at AHU supply air" annotation (Placement(transformation(
         extent={{6,6},{-6,-6}},
         rotation=180,
-        origin={50,22})));
+        origin={56,22})));
   Buildings.Fluid.Sensors.RelativeHumidityTwoPort senRelHumRetAir(redeclare
       package Medium = MediumAir, m_flow_nominal=mAirFloRat)
     annotation (Placement(transformation(extent={{52,-66},{68,-50}})));
@@ -302,32 +302,45 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
             {120,-130}})));
   Buildings.Fluid.Sensors.RelativeHumidityTwoPort senRelHumSupAir(redeclare
       package Medium = MediumAir, m_flow_nominal=mAirFloRat)
-    annotation (Placement(transformation(extent={{56,34},{66,44}})));
+    annotation (Placement(transformation(extent={{62,34},{72,44}})));
   Buildings.Fluid.HeatExchangers.HeaterCooler_u freCoi(
     redeclare package Medium = MediumAir,
     m_flow_nominal=mAirFloRat,
     dp_nominal=0,
     Q_flow_nominal=mAirFloRat*1000*20)
     "Electric resistance heating coil for freeze protection"
-    annotation (Placement(transformation(extent={{-40,14},{-24,30}})));
-  BaseClasses.FreezeProtection freezeProtection(lockoutTime=300, TSet=276.48)
+    annotation (Placement(transformation(extent={{-48,14},{-32,30}})));
+  BaseClasses.FreezeProtection frePro(
+    lockoutTime=300,
+    TSet=276.48,
+    minAirFlow=mAirFloRat/1.2*0.1)
     annotation (Placement(transformation(extent={{-24,2},{-12,14}})));
   Modelica.Blocks.Interfaces.RealOutput PFanRet "Return fan power"
     annotation (Placement(transformation(extent={{100,-30},{120,-10}})));
   Modelica.Blocks.Interfaces.RealOutput PFreCoi "Freeze coil power"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTFreCoiLea(redeclare package
+      Medium = MediumAir, m_flow_nominal=mAirFloRat)
+    "Temperature sensor for air leaving the freeze protection coil"
+    annotation (Placement(transformation(extent={{-28,18},{-20,26}})));
+  Modelica.Blocks.Interfaces.RealOutput TFreCoiLea(
+    final unit="K",
+    final displayUnit="degC",
+    final quantity="ThermodynamicTemperature")
+    "Temperature of air leaving the freeze coil"
+    annotation (Placement(transformation(extent={{100,36},{120,56}})));
 equation
   connect(cooCoi.port_b_Air, supFan.port_a) annotation (Line(
-      points={{-1.82,22},{18,22}},
+      points={{2.18,22},{24,22}},
       color={0,140,72},
       thickness=0.5));
   connect(mixingBox.TMix, disTSet) annotation (Line(points={{-70,10},{-70,2},{
           -110,2}},    color={0,0,127}));
-  connect(cooCoi.SetPoi, disTSet) annotation (Line(points={{-0.2,28},{6,28},{6,
+  connect(cooCoi.SetPoi, disTSet) annotation (Line(points={{3.8,28},{10,28},{10,
           2},{-110,2}},           color={0,0,127}));
-  connect(supFan.T, zonT) annotation (Line(points={{16,16},{16,-18},{-110,-18}},
+  connect(supFan.T, zonT) annotation (Line(points={{22,16},{22,-18},{-110,-18}},
                  color={0,0,127}));
-  connect(supFan.pSet, pSet) annotation (Line(points={{16,24},{12,24},{12,-38},
+  connect(supFan.pSet, pSet) annotation (Line(points={{22,24},{16,24},{16,-38},
           {-110,-38}},      color={0,0,127}));
   connect(port_Exh_Air, mixingBox.port_Exh) annotation (Line(
       points={{-102,22},{-94,22},{-94,16},{-80,16}},
@@ -338,31 +351,31 @@ equation
       color={0,140,72},
       thickness=0.5));
   connect(port_b_Air, senTDisAir.port_b) annotation (Line(
-      points={{100,22},{88,22}},
+      points={{100,22},{94,22}},
       color={0,127,255},
       thickness=1));
-  connect(supFan.heaTSet, heaTSet) annotation (Line(points={{16,32},{12,32},{12,
+  connect(supFan.heaTSet, heaTSet) annotation (Line(points={{22,32},{12,32},{12,
           102},{-110,102}},       color={0,0,127}));
-  connect(supFan.cooTSet, cooTSet) annotation (Line(points={{16,20},{-46,20},{
+  connect(supFan.cooTSet, cooTSet) annotation (Line(points={{22,20},{-46,20},{
           -46,62},{-110,62}},      color={0,0,127}));
-  connect(booleanExpression.y, cooCoi.On) annotation (Line(points={{-13,-28},{8,
-          -28},{8,34},{-0.2,34}},         color={255,0,255}));
+  connect(booleanExpression.y, cooCoi.On) annotation (Line(points={{-13,-28},{
+          12,-28},{12,34},{3.8,34}},      color={255,0,255}));
   connect(mixingBox.TOut, TOut) annotation (Line(points={{-64,10},{-64,-58},{
           -110,-58}},
                  color={0,0,127}));
   connect(onFanOcc, mixingBox.On) annotation (Line(points={{-110,-78},{-78,-78},
           {-78,10}},  color={255,0,255}));
-  connect(onFanOcc, supFan.onFanOcc) annotation (Line(points={{-110,-78},{4,-78},
-          {4,28},{16,28}},
+  connect(onFanOcc, supFan.onFanOcc) annotation (Line(points={{-110,-78},{8,-78},
+          {8,28},{22,28}},
                          color={255,0,255}));
-  connect(senTDisAir.T, TSupAir) annotation (Line(points={{82,28.6},{82,96},{
+  connect(senTDisAir.T, TSupAir) annotation (Line(points={{88,28.6},{88,96},{
           110,96}},      color={0,0,127},
       pattern=LinePattern.Dash));
   connect(mixingBox.port_Sup, senTMixAir.port_a) annotation (Line(
-      points={{-59.8,28},{-60,28},{-60,22}},
+      points={{-59.8,28},{-60,28},{-60,20}},
       color={0,140,72},
       thickness=0.5));
-  connect(senTMixAir.T, TMixAir) annotation (Line(points={{-52,30.8},{-52,48},{
+  connect(senTMixAir.T, TMixAir) annotation (Line(points={{-56,24.4},{-56,48},{
           94,48},{94,84},{110,84}},
                          color={0,0,127},
       pattern=LinePattern.Dash));
@@ -370,10 +383,10 @@ equation
           110,-80}},  color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senVolFloSupAir.port_b, senTDisAir.port_a)
-    annotation (Line(points={{72,22},{76,22}},
+    annotation (Line(points={{78,22},{82,22}},
                                              color={0,127,255}));
-  connect(senVolFloSupAir.V_flow, V_flowSupAir) annotation (Line(points={{66,28.6},
-          {66,72},{110,72}},         color={0,0,127},
+  connect(senVolFloSupAir.V_flow, V_flowSupAir) annotation (Line(points={{72,28.6},
+          {72,72},{110,72}},         color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senVolFloRetAir.V_flow, V_flowRetAir) annotation (Line(points={{38,
           -49.2},{38,-90},{110,-90}},   color={0,0,127},
@@ -383,11 +396,11 @@ equation
                                                 color={0,0,127},
       pattern=LinePattern.Dash));
   connect(cooCoi.port_a_Wat, port_a_Wat) annotation (Line(
-      points={{-2,38},{20,38},{20,140}},
+      points={{2,38},{20,38},{20,140}},
       color={0,127,255},
       thickness=1));
   connect(cooCoi.port_b_Wat, port_b_Wat) annotation (Line(
-      points={{-20,38},{-40,38},{-40,140}},
+      points={{-16,38},{-40,38},{-40,140}},
       color={0,127,255},
       thickness=1));
   connect(TSupCHWMea.y, TSupCHW)
@@ -405,7 +418,7 @@ equation
   connect(senVolFloOutAir.V_flow, V_flowOutAir) annotation (Line(points={{-71.2,
           50},{80,50},{80,110},{110,110}},    color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(supFan.yRet, oveSpeRetFan.u) annotation (Line(points={{39,13.8},{42,
+  connect(supFan.yRet, oveSpeRetFan.u) annotation (Line(points={{45,13.8},{42,
           13.8},{42,-26},{46.4,-26}},           color={0,0,127}));
   connect(oveSpeRetFan.y, retFan.u) annotation (Line(points={{64.8,-26},{70,-26},
           {70,-52},{-9,-52}},          color={0,0,127}));
@@ -450,10 +463,10 @@ equation
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(supFan.port_b, senCO2SupAir.port_a)
-    annotation (Line(points={{38,22},{44,22}},
+    annotation (Line(points={{44,22},{50,22}},
                                              color={0,127,255}));
   connect(senCO2SupAir.C, conMasVolFra2.m) annotation (Line(
-      points={{50,28.6},{50,46},{-46,46},{-46,-116},{23.4,-116}},
+      points={{56,28.6},{56,46},{-46,46},{-46,-116},{23.4,-116}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senRelHumRetAir.port_b, senTRetAir.port_b)
@@ -465,33 +478,38 @@ equation
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senCO2SupAir.port_b, senRelHumSupAir.port_a)
-    annotation (Line(points={{56,22},{56,39}},color={0,127,255}));
+    annotation (Line(points={{62,22},{62,39}},color={0,127,255}));
   connect(senRelHumSupAir.port_b, senVolFloSupAir.port_a)
-    annotation (Line(points={{66,39},{66,22},{60,22}},
+    annotation (Line(points={{72,39},{72,22},{66,22}},
                                                      color={0,127,255}));
   connect(senRelHumSupAir.phi, phiSupAir) annotation (Line(
-      points={{61.05,44.5},{61.05,56},{82,56},{82,-140},{110,-140}},
+      points={{67.05,44.5},{67.05,56},{82,56},{82,-140},{110,-140}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(pMea, supFan.pMea) annotation (Line(points={{-110,116},{10,116},{10,
-          12},{16,12}},
+          12},{22,12}},
                      color={0,0,127}));
   connect(senTMixAir.port_b, freCoi.port_a)
-    annotation (Line(points={{-44,22},{-40,22}}, color={0,127,255}));
-  connect(freCoi.port_b, cooCoi.port_a_Air)
-    annotation (Line(points={{-24,22},{-20,22}}, color={0,127,255}));
-  connect(freezeProtection.yHea, freCoi.u) annotation (Line(points={{-10.8,8},{
-          -8,8},{-8,16},{-41.6,16},{-41.6,26.8}}, color={0,0,127}));
-  connect(senTMixAir.T, freezeProtection.TMea) annotation (Line(points={{-52,
-          30.8},{-52,36},{-44,36},{-44,10.4},{-25.2,10.4}}, color={0,0,127}));
-  connect(supFan.Rat, freezeProtection.fanSpe) annotation (Line(points={{39,16},
-          {44,16},{44,-2},{-32,-2},{-32,5.48},{-25.2,5.48}}, color={0,0,127}));
-  connect(supFan.P, PFanSup) annotation (Line(points={{39,26},{46,26},{46,-6},{
+    annotation (Line(points={{-52,20},{-48,20},{-48,22}},
+                                                 color={0,127,255}));
+  connect(frePro.yHea, freCoi.u) annotation (Line(points={{-10.8,8},{-8,8},{-8,
+          14},{-49.6,14},{-49.6,26.8}}, color={0,0,127}));
+  connect(senTMixAir.T, frePro.TMea) annotation (Line(points={{-56,24.4},{-56,
+          36},{-44,36},{-44,10.4},{-25.2,10.4}}, color={0,0,127}));
+  connect(supFan.P, PFanSup) annotation (Line(points={{45,26},{46,26},{46,-6},{
           110,-6}}, color={0,0,127}));
   connect(retFan.P, PFanRet) annotation (Line(points={{-31,-52},{-38,-52},{-38,
           -20},{110,-20}}, color={0,0,127}));
-  connect(freCoi.Q_flow, PFreCoi) annotation (Line(points={{-23.2,26.8},{-22,
-          26.8},{-22,60},{110,60}}, color={0,0,127}));
+  connect(freCoi.Q_flow, PFreCoi) annotation (Line(points={{-31.2,26.8},{-32,
+          26.8},{-32,60},{110,60}}, color={0,0,127}));
+  connect(senVolFloSupAir.V_flow, frePro.V_flow) annotation (Line(points={{72,
+          28.6},{72,0},{-34,0},{-34,5.6},{-25.2,5.6}}, color={0,0,127}));
+  connect(freCoi.port_b, senTFreCoiLea.port_a)
+    annotation (Line(points={{-32,22},{-28,22}}, color={0,127,255}));
+  connect(senTFreCoiLea.port_b, cooCoi.port_a_Air)
+    annotation (Line(points={{-20,22},{-16,22}}, color={0,127,255}));
+  connect(senTFreCoiLea.T, TFreCoiLea)
+    annotation (Line(points={{-24,26.4},{-24,46},{110,46}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -140},{100,140}}),                                  graphics={
         Rectangle(
