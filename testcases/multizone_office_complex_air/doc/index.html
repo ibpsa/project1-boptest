@@ -147,7 +147,7 @@
     The HVAC sizing in Modelica is determined by the annual simulation results of
     EnergyPlus. The pressure loop related sizing parameters are estimated using a
     common HVAC design procedure. The following tables list all the sizing parameters
-    in detail.
+    in detail.  See later sections for specific control details.
 </p>
 
  <br>
@@ -156,7 +156,9 @@
     <tr>
       <th>VAV terminal with Reheat Coil</th>
       <th>Design Air Mass Flow Rate [kg/s]</th>
-      <th>Minimum Damper Position</th>
+      <th>Minimum Cooling Air Mass Flow Rate Setpoint [kg/s]</th>
+      <th>Heating Air Mass Flow Rate Setpoint [kg/s]</th>
+      <th>Minimum Damper Position [0-1]</th>
       <th>Design Reheat Coil Water Mass Flow Rate [kg/s]</th>
 
 
@@ -167,7 +169,9 @@
     <tr>
       <td>Bot Floor Core Zone VAV</td>
       <td>49.1</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>3.88</td>
 
 
@@ -178,7 +182,9 @@
     <tr>
       <td>Mid Floor Core Zone VAV</td>
       <td>491.4</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>38.8</td>
 
 
@@ -187,7 +193,9 @@
     <tr>
       <td>Top Floor Core Zone VAV</td>
       <td>49.1</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>3.88</td>
 
 
@@ -196,7 +204,9 @@
     <tr>
       <td>Bot Floor South Zone VAV</td>
       <td>10.1</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.8</td>
 
 
@@ -207,7 +217,9 @@
     <tr>
       <td>Bot Floor East Zone VAV</td>
       <td>6.7</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.53</td>
 
 
@@ -218,7 +230,9 @@
     <tr>
       <td>Bot Floor North Zone VAV</td>
       <td>8.6</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.68</td>
 
 
@@ -227,7 +241,9 @@
     <tr>
       <td>Bot Floor West Zone VAV</td>
       <td>7.8</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.62</td>
 
 
@@ -238,7 +254,9 @@
     <tr>
       <td>Mid Floor South Zone VAV</td>
       <td>101.2</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>8</td>
 
 
@@ -249,7 +267,9 @@
     <tr>
       <td>Mid Floor East Zone VAV</td>
       <td>67</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>5.3</td>
 
 
@@ -258,7 +278,9 @@
     <tr>
       <td>Mid Floor North Zone VAV</td>
       <td>85.5</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>6.8</td>
 
 
@@ -269,7 +291,9 @@
     <tr>
       <td>Mid Floor West Zone VAV</td>
       <td>77.9</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>6.2</td>
 
 
@@ -280,7 +304,9 @@
     <tr>
       <td>Top Floor South Zone VAV</td>
       <td>10.1</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.8</td>
 
 
@@ -291,7 +317,9 @@
     <tr>
       <td>Top Floor East Zone VAV</td>
       <td>6.7</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.53</td>
 
 
@@ -302,7 +330,9 @@
     <tr>
       <td>Top Floor North Zone VAV</td>
       <td>8.6</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.68</td>
 
 
@@ -313,7 +343,9 @@
     <tr>
         <td>Top Floor West Zone VAV</td>
         <td>7.8</td>
-        <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
         <td>0.62</td>
 
 
@@ -647,18 +679,17 @@
 </p>
 	<li>
 	When the Zone State is <b>Cooling</b>, the cooling-loop output is mapped to the active
-    airflow setpoint, ranging from the cooling minimum (0.3 of the design flow rate) to the cooling maximum.
+    airflow setpoint, ranging from the Minimum Cooling Air Mass Flow Rate Setpoint to the Design Air Mass Flow Rate.
 	The heating coil remains disabled.
 	</li>
 	<li>
-	When the Zone State is <b>Deadband</b>, the active airflow setpoint is set to the zone
-    minimum (0.3 of the design flow rate), and the heating coil remains disabled.
+	When the Zone State is <b>Deadband</b>, the active airflow setpoint is set to the Minimum Cooling Air Mass Flow Rate Setpoint,
+    and the heating coil remains disabled.
 	</li>
 	<li>
 	When the Zone State is <b>Heating</b>, the active airflow setpoint is set to the constant
-    heating setpoint (0.3 of the design flow rate).
-	The reheat valve position is modulated to maintain the supply air temperature setpoint,
-    varying between the heating minimum and maximum endpoints.
+    Heating Air Mass Flow Rate Setpoint.
+	The reheat valve position is modulated from between 0-1 to maintain the zone air temperature at the heating setpoint.
 	</li>
 
 
