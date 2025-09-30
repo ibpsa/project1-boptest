@@ -750,15 +750,16 @@
     mixed air temperature setpoint as inputs. Its output is the commanded outdoor air
     damper position.
 
-    The return air damper are interlocked with the outdoor air
-    damper while exhausted air damper share the same opening position with the
-    outdoor air damper.
+    The return air damper is interlocked with the outdoor air damper as the inverse,
+    while the exhaust air damper is interlocked with the outdoor air damper as sharing
+    the same opening position.  Note, however, that overwriting any of these damper positions
+    bypasses the interlocks, thus they should be controlled as a group.
 </p>
 <p>
   <i>AHU freeze protection coil control</i>
 </p>
 <p>
-    The freeze protection coil is turned on if the mixed air tempeature is measured to be below
+    The freeze protection coil is turned on if the mixed air temperature is measured to be below
     the freeze protection temperature set point (3.33 C) and the supply airflow rate is at or above
     10% of the design value.  Once activated, the coil remains on for at least 5 minutes and
     until the mixed air temperature raises above the set point.  Overwriting the freeze Coil
