@@ -184,7 +184,7 @@ class KPI_Calculator(object):
             for source in self.case.kpi_json.keys():
                 if source.startswith('ActuatorTravel'):
                     actuator_name = source.split('[')[1][:-1]  # Extract the name inside the brackets
-                    self.sources_atvl.append(actuator_name)          
+                    self.sources_atvl.append(actuator_name)
                     for signal in self.case.kpi_json[source]:
                         self.atvl_dict[signal] = 0.0
                         self.atvl_dict_by_source[f"{actuator_name}_{signal}"] = 0.
@@ -230,7 +230,7 @@ class KPI_Calculator(object):
         ckpi['pgas_tot'] = self.get_peak_gas()
         ckpi['pdih_tot'] = self.get_peak_district_heating()
         ckpi['time_rat'] = self.get_computational_time_ratio()
-        ckpi['atvl_tot'] = self.get_actuator_travel()
+#       ckpi['atvl_tot'] = self.get_actuator_travel()   // While implemented here, can't be used until test cases updated
 
         return ckpi
 
@@ -664,9 +664,9 @@ class KPI_Calculator(object):
             displacement of actuator travel
 
         '''
-        
+
         self.atvl_tot = 0.
-        
+
         for source in self.sources_atvl:
             for signal in self.atvl_source_key_mapping[source]:
                 atvl_data = np.array(self._get_data_from_last_index(signal,self.i_last_atvl))
@@ -711,12 +711,12 @@ class KPI_Calculator(object):
             The displacement of the curve
 
         """
-        
+
         bounds = (x >= a) & (x <= b)
         grad = np.gradient(y[bounds], x[bounds])
         integrand = np.abs(grad)
         value = np.trapezoid(integrand, x[bounds])
-        
+
         return float(value)
 
 
