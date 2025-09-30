@@ -605,11 +605,11 @@
     <tr>
     <th>Name</th>
     <th>Condition </th>
-    <th>TZonHeaSet [degC]</th>
-    <th>TZonCooSet [degC]</th>
+    <th>TZonHeaSet [<sup>o</sup>C]</th>
+    <th>TZonCooSet [<sup>o</sup>C]</th>
     <th>Fan</th>
     <th>Pump</th>
-    <th>TSupSet [degC]</th>
+    <th>TSupSet [<sup>o</sup>C]</th>
     <th>Economizer</th>
     <th>Min OA Flow</th>
     </tr>
@@ -743,7 +743,8 @@
 	The minimum outdoor air damper position is 0.3 in order to provide ventilation.
 
     On top of that, an economizer control based on the fixed dry-bulb outdoor air
-    temperature-based is adopted. The economizer higher temperature limit is set as 15.58 degC (60 degF).
+    temperature-based is adopted. The economizer higher temperature limit is set as 15.58 <sup>o</sup>C (60 <sup>o</sup>F),
+    while the lower temperature limit is set as 0 <sup>o</sup>C (32 <sup>o</sup>F).
     Under economizer control, the outdoor air damper position is regulated by a PI controller to maintain the
     mixed air temperature at its setpoint, with a minimum damper position of 0.3.
     The controller uses the mixed air temperature, outdoor air temperature, and the
@@ -760,7 +761,7 @@
 </p>
 <p>
     The freeze protection coil is turned on if the mixed air temperature is measured to be below
-    the freeze protection temperature set point (3.33 C) and the supply airflow rate is at or above
+    the freeze protection temperature set point (3.33 <sup>o</sup>C) and the supply airflow rate is at or above
     10% of the design value.  Once activated, the coil remains on for at least 5 minutes and
     until the mixed air temperature raises above the set point.  Overwriting the freeze coil
     control signal will bypass the minimum on-time, but will not bypass the airflow switch as a safety.
