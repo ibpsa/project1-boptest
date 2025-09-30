@@ -3215,6 +3215,12 @@ See the BOPTEST design documentation for more information.
 </html>", revisions="<html>
 <ul>
 <li>
+September 6th, 2025, by Ettore Zanetti:<br/>
+Update test case to Modelica 4.0
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
+<li>
 August 25, 2022, by David Blum:<br/>
 Add forecast point documentation.
 This is for <a href=https://github.com/ibpsa/project1-boptest/issues/356>

@@ -3,8 +3,8 @@ model RealOccupancy
   extends BuildingControl(occupancy(
       tableOnFile=true,
       tableName="occ",
-      fileName=ModelicaServices.ExternalReferences.loadResource(
-          "Resources/occ.txt"),
+      fileName=Modelica.Utilities.Files.loadResource(
+          "modelica://OU44Emulator/Resources/occ.txt"),
       smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
       extrapolation=Modelica.Blocks.Types.Extrapolation.LastTwoPoints,
       startTime=3*3600 + 3600*24));

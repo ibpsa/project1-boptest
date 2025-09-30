@@ -24,7 +24,7 @@ model EnergyMeter
     Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
           Water) "Return fluid outlet port"
       annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
-    parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1
+    parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=0.1
       "Nominal mass flow rate, used for regularization near zero flow";
     Modelica.Blocks.Math.Add add(k1=-1, k2=1)
       annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));

@@ -20,7 +20,6 @@ model BuildingControl
     Ti=600,
     k=0.005,
     yMin=0.3,
-    initType=Modelica.Blocks.Types.InitPID.InitialState,
     xi_start=0,
     xd_start=0,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,

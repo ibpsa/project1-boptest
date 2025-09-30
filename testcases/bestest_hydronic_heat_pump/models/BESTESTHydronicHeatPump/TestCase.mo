@@ -34,11 +34,12 @@ model TestCase
     w=6*sqrt(scalingFactor),
     lInt=3*case900Template.w + 2*case900Template.l,
     A_winA=24,
-    redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloorHeating
+    redeclare IDEAS.Buildings.Data.Constructions.InsulatedFloor
       conTypFlo(mats={IDEAS.Buildings.Data.Materials.Concrete(d=0.15),
           IDEAS.Buildings.Data.Insulation.Pur(d=0.2),
           IDEAS.Buildings.Data.Materials.Screed(d=0.05),
-          IDEAS.Buildings.Data.Materials.Tile(d=0.01)}),
+          IDEAS.Buildings.Data.Materials.Tile(d=0.01)},
+          locGain={2}),
     hasEmb=true)
     "Case 900 BESTEST model"
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
