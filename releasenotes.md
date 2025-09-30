@@ -13,6 +13,7 @@ Released on xx/xx/xxxx.
 - Update support to ``parsing/parser.py`` for test case compilation using Dymola to be able to specify solver and tolerance and to be able to use references to other string parameters in defining a string parameter.  This is for [#777](https://github.com/ibpsa/project1-boptest/issues/777).
 - For unit tests on travis, remove custom installation of Docker.  This is for [#787](https://github.com/ibpsa/project1-boptest/issues/787).
 - Copy ``kpis.json`` from ``jm`` Docker container to test case ``/models`` directory upon compilation and update ``kpis.json`` files where necessary in repo.  This is for [#789](https://github.com/ibpsa/project1-boptest/issues/789).
+- Add actuator travel KPI calculation spec to design docs, method to ``kpis/kpi_calculator.py``, and signal parsing process in ``parsing/parser.py``. Requires additional updates to test cases before available for use. This is for [#639](https://github.com/ibpsa/project1-boptest/issues/639).
 
 **The following changes are not backwards compatible, but do not change benchmark results:**
 
