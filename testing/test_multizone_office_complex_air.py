@@ -33,13 +33,13 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
         self.name = 'multizone_office_complex_air'
         self.url = 'http://127.0.0.1:80'
-        self.points_check = ['hva_reaChiWatSys_reaPChi_y', 'hva_reaHotWatSys_reaPBoi_y',
-                            'hva_reaChiWatSys_reaPPum_y','hva_reaChiWatSys_reaPCooTow_y',
-                            'hva_reaHotWatSys_reaPPum_y',
-                             'hva_floor1_reaZonCor_TZon_y', 'hva_floor1_reaZonNor_TZon_y',
-                             'hva_floor2_reaZonEas_TZon_y','hva_floor3_reaZonWes_TZon_y',
-                             'hva_floor1_reaAHU_TMix_y','hva_floor2_reaAHU_TMix_y','hva_floor3_reaAHU_TMix_y',
-                             'loaEnePlu_weaSta_reaWeaTDryBul_y', 'loaEnePlu_weaSta_reaWeaHGloHor_y']
+        self.points_check = ['reaChiWatSys_reaPChi_y', 'reaHotWatSys_reaPBoi_y',
+                            'reaChiWatSys_reaPPum_y','reaChiWatSys_reaPCooTow_y',
+                            'reaHotWatSys_reaPPum_y',
+                             'floor1_reaZonCor_TZon_y', 'floor1_reaZonNor_TZon_y',
+                             'floor2_reaZonEas_TZon_y','floor3_reaZonWes_TZon_y',
+                             'floor1_reaAHU_TMix_y','floor2_reaAHU_TMix_y','floor3_reaAHU_TMix_y',
+                             'weaSta_reaWeaTDryBul_y', 'weaSta_reaWeaHGloHor_y']
         self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
 
     def tearDown(self):
@@ -84,17 +84,17 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
-        self.input = {'hva_floor1_TSupAirSet_activate': 0,
-                      'hva_floor1_TSupAirSet_u': 273.15 + 22}
-        self.measurement = 'hva_reaHotWatSys_reaPBoi_y'
+        self.input = {'floor1_TSupAirSet_activate': 0,
+                      'floor1_TSupAirSet_u': 273.15 + 22}
+        self.measurement = 'reaHotWatSys_reaPBoi_y'
         self.forecast_point = 'EmissionsElectricPower'
-        self.points_check = ['hva_reaChiWatSys_reaPChi_y', 'hva_reaHotWatSys_reaPBoi_y',
-                            'hva_reaChiWatSys_reaPPum_y','hva_reaChiWatSys_reaPCooTow_y',
-                            'hva_reaHotWatSys_reaPPum_y',
-                             'hva_floor1_reaZonCor_TZon_y', 'hva_floor1_reaZonNor_TZon_y',
-                             'hva_floor2_reaZonEas_TZon_y','hva_floor3_reaZonWes_TZon_y',
-                             'hva_floor1_reaAHU_TMix_y','hva_floor2_reaAHU_TMix_y','hva_floor3_reaAHU_TMix_y',
-                             'loaEnePlu_weaSta_reaWeaTDryBul_y', 'loaEnePlu_weaSta_reaWeaHGloHor_y']
+        self.points_check = ['reaChiWatSys_reaPChi_y', 'reaHotWatSys_reaPBoi_y',
+                            'reaChiWatSys_reaPPum_y','reaChiWatSys_reaPCooTow_y',
+                            'reaHotWatSys_reaPPum_y',
+                             'floor1_reaZonCor_TZon_y', 'floor1_reaZonNor_TZon_y',
+                             'floor2_reaZonEas_TZon_y','floor3_reaZonWes_TZon_y',
+                             'floor1_reaAHU_TMix_y','floor2_reaAHU_TMix_y','floor3_reaAHU_TMix_y',
+                             'weaSta_reaWeaTDryBul_y', 'weaSta_reaWeaHGloHor_y']
         self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
 
     def tearDown(self):

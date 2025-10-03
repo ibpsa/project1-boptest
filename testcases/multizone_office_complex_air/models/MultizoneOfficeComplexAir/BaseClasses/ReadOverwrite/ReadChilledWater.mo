@@ -3,15 +3,14 @@ model ReadChilledWater
   "Collection of Chilled Water System measurements for BOPTEST"
 
   Buildings.Utilities.IO.SignalExchange.Read dp(
-    description="Differential pressure of chilled/hot water measurement",
+    description="Differential pressure of chilled water plant measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="Pa")) "Differential pressure of chilled/hot water measurement"
+    y(unit="Pa")) "Differential pressure of chilled water plant measurement"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
 
   Buildings.Utilities.IO.SignalExchange.Read TCHWSup(
     description="Chilled water supply temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Chilled water supply temperature measurement"
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
 
@@ -26,7 +25,8 @@ model ReadChilledWater
   Buildings.Utilities.IO.SignalExchange.Read reaPPum(
     description="Chilled water plant pump power consumption",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-    y(unit="W")) "Block for outputting the chilled water plant"
+    y(unit="W"))
+    "Block for outputting the chilled water plant pump power consumption"
     annotation (Placement(transformation(extent={{-10,-20},{10,0}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaPChi(
@@ -50,7 +50,6 @@ model ReadChilledWater
   Buildings.Utilities.IO.SignalExchange.Read TCHWRet(
     description="Chilled water return temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Chilled water return temperature measurement"
     annotation (Placement(transformation(extent={{-10,60},{10,80}})));
 
@@ -61,7 +60,6 @@ model ReadChilledWater
   Buildings.Utilities.IO.SignalExchange.Read mCHWTot(
     description="Total chilled water mass flow rate ",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="kg/s")) "Total chilled water mass flow rate"
     annotation (Placement(transformation(extent={{-10,130},{10,150}})));
 

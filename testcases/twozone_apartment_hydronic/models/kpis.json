@@ -1,0 +1,1 @@
+{"CO2Concentration[Day]": ["dayZon_reaCO2RooAir_y"], "AirZoneTemperature[Night]": ["nigZon_reaTRooAir_y"], "AirZoneTemperature[Day]": ["dayZon_reaTRooAir_y"], "ElectricPower": ["hydronicSystem_reaPPum_y", "hydronicSystem_reaPeleHeaPum_y"], "CO2Concentration[Night]": ["nigZon_reaCO2RooAir_y"]}

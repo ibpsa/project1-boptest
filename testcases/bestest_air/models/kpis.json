@@ -1,1 +1,1 @@
-{"AirZoneTemperature[1]": ["zon_reaTRooAir_y"], "None": ["con_reaTSetCoo_y", "con_reaTSetHea_y", "fcu_reaFanSet_y", "fcu_reaFloSup_y", "fcu_reaTSup_y", "zon_reaPLig_y", "zon_reaPPlu_y"], "ElectricPower": ["fcu_reaPCoo_y", "fcu_reaPFan_y"], "GasPower": ["fcu_reaPHea_y"], "CO2Concentration[1]": ["zon_reaCO2RooAir_y"]}
+{"AirZoneTemperature[1]": ["zon_reaTRooAir_y"], "GasPower": ["fcu_reaPHea_y"], "ElectricPower": ["fcu_reaPCoo_y", "fcu_reaPFan_y"], "CO2Concentration[1]": ["zon_reaCO2RooAir_y"]}
