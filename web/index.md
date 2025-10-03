@@ -39,6 +39,7 @@ Financial support provided in-part by:
 - EU-H2020
 - VLAIO
 - Arup
+- BEST Center
 
 BOPTEST uses the open modeling language [Modelica](https://modelica.org/) and standard [FMI](https://fmi-standard.org/).
 
