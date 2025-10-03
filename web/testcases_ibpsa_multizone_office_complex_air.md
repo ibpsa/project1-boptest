@@ -8,30 +8,44 @@ menubar: testcases_menubar
 permalink: /testcases/ibpsa/testcases_ibpsa_multizone_office_complex_air/
 ---
 
-
-<h1><span style="color:grey">Test Case Name</span></h1>
+# Test Case Name
 ``multizone_office_complex_air``
 
-<h1><span style="color:grey">Brief Description</span></h1>
-<span style="color:grey">
-This test case represents a variable air volume (VAV) system that serves a
-typical high-rise office building (46,320 m<sup>2</sup>). The building is
-based on the U.S. DOE prototype building for a large commercial building
-and has 12 floors with five zones per floor. The VAV system contains 12 AHUs.
-Each AHU serves one floor and is connected to five VAV terminal boxes. Each
-AHU consists of a supply fan, a return fan, a cooling coil, and a mixing box.
+# Brief Description
+This test case represents a typical high-rise office building with variable air volume (VAV) systems, chiller plant,
+and boiler plant.
+The test case is located in Chicago, IL and based on the DOE Reference
+Large Office Building Model (Constructed In or After 1980).
+The original model has 12 floors with a basement. For simplicity, the middle 10
+floors are treated as identical and are modeled as a single representative floor,
+resulting in three modeled floors (ground, middle, and top), each served by a dedicated AHU
+and associated VAV system.
+Each AHU consists of a supply fan, a return fan, a cooling coil, a mixing box, and a freeze protection coil.
 Each VAV terminal box serves one zone, adjusting the supply air flow rate via
 a damper and heating the supply air with a water-based reheat
-coil and modulating valve. The reheat coils are served by a boiler, while the
-cooling coils are served by three identical chillers.
-</span>
+coil and modulating valve. The reheat coils are served by a boiler plant, while the
+cooling coils are served by a water-cooled chiller plant with three identical chillers.
 
-<span style="color:grey">
-When implementing this higher-fidelity building model, we employ both
-EnergyPlus and Modelica Buildings Library. Specifically, we modeled the
-building envelope and internal heat gain with EnergyPlus and modeled
-the VAV system and its associated control with Modelica Buildings Library.
+The building envelope and internal heat gains are modeled with EnergyPlus and
+the HVAC system and its associated controls are modeled with the Modelica Buildings Library.
 The data exchange between the EnergyPlus model and the Modelica model is
-realized via Spawn-of-EnergyPlus.
-</span>
-<h1><span style="color:grey">(Under Development)</span></h1>
+realized via Spawn of EnergyPlus.
+
+[Click here](/docs-testcases/multizone_office_complex_air/index.html) to view detailed documentation.
+
+# Available Test Scenarios
+### Time Periods
+``peak_heat_day``
+``typical_heat_day``
+``peak_cool_day``
+``typical_cool_day``
+``mix_day``
+### Electricity Prices
+``constant``
+``dynamic``
+``highly_dynamic``
+
+# Dependencies
+The Modelica model for this test case uses the [Modelica Standard Library](https://github.com/modelica/ModelicaStandardLibrary) and the [Modelica Buildings Library](https://simulationresearch.lbl.gov/modelica/index.html), as well as [Spawn of EnergyPlus](https://doi.org/10.1080/19401493.2023.2266414).
+
+The FMU for this test case is compiled by [Dymola](https://www.3ds.com/products/catia/dymola) with binary model export.

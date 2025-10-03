@@ -95,4 +95,5 @@ cp -r ../testcases/singlezone_commercial_hydronic/doc $dir_testcases/singlezone_
 cp -r ../testcases/multizone_office_simple_air/doc $dir_testcases/multizone_office_simple_air
 cp -r ../testcases/twozone_apartment_hydronic/doc $dir_testcases/twozone_apartment_hydronic
 cp -r ../testcases/multizone_office_simple_hydronic/doc $dir_testcases/multizone_office_simple_hydronic
+cp -r ../testcases/multizone_office_complex_air/doc $dir_testcases/multizone_office_complex_air
 echo Finished test case design documentation.
