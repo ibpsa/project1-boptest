@@ -33,12 +33,14 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Filip Jorissen (KU Leuven, Belgium)** for framework development, test case implementation (bestest_hydronic), test case review.
 - **Amit Kapoor (Devetry, USA)** for online dashboard development.
 - **Donghun Kim (Lawrence Berkeley National Laboratory, USA)** for framework development, tutorial development.
+- **Guowen Li (Texas A&M University, USA)** for test case implementation (multizone_office_complex_air).
 - **Nicholas Long (National Renewable Energy Laboratory, USA)** for software implementation.
-- **Xing Lu (Pacific Northwest National Laboratory, USA)** for software implementation.
+- **Xing Lu (Pacific Northwest National Laboratory, USA)** for software implementation, test case implementation (multizone_office_complex_air).
 - **Robert Lutes (Pacific Northwest National Laboratory, USA)** for software implementation.
 - **Bart Merema (dnergy, Belgium)** for test case implementation (multizone_office_simple_hybrid).
 - **Kefei Mo (Pacific Northwest National Laboratory, USA)** for software implementation.
 - **Jaap Neven (KU Leuven, VITO, Belgium)** for software implementation.
+- **Robert Nirenberg (BEST Center, USA)** for test case review.
 - **Erik Paulson (Independent, USA)** for BACnet interface development and implementation.
 - **Matt Robinson (University of Colorado Boulder, USA)** for software implementation.
 - **Marjorie Schott (National Renewable Energy Laboratory, USA)** for online dashboard development.
@@ -51,4 +53,5 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Tao Yang (Southern Denmark University, Denmark)** for framework development, test case development (singlezone_commercial_hydronic).
 - **Laura Zabala (R2M Solution, Spain)** for framework development, software implementation, forecast uncertainty characterization.
 - **Ettore Zanetti (Lawrence Berkeley National Laboratory, USA)** for framework development, test case implementation (twozone_apartment_hydronic), test case review, controller testing, software implementation.
+- **Kun Zhang (École De Technologie Supérieure, Canada)** for test case review.
 - **Wanfu Zheng (The Hong Kong University of Science and Technology, China)** for software implementation, forecast uncertainty characterization.
