@@ -72,10 +72,11 @@ model ApartmentModelQHTyp "Hydronic Test case"
     annotation (Placement(transformation(extent={{-80,-40},{-100,-20}})));
 equation
   connect(hydronicSystem.ports_b[1],dayZon. supplyWater) annotation (Line(
-        points={{12.8667,16.6},{12,16.6},{12,16},{54,16},{54,22},{53.52,22}},
+        points={{12.8667,11.5},{12,11.5},{12,16},{54,16},{54,22},{53.0182,22}},
                                                    color={0,127,255}));
   connect(hydronicSystem.ports_b[2], nigZon.supplyWater) annotation (Line(
-        points={{12.8667,9.8},{24,9.8},{24,-64},{52,-64},{52,-58},{51.52,-58}},
+        points={{12.8667,14.9},{24,14.9},{24,-64},{52,-64},{52,-58},{51.0182,
+          -58}},
         color={0,127,255}));
   connect(weaBus, hydronicSystem.weaBus) annotation (Line(
       points={{-60,10},{-54,10},{-54,10.14},{-17.7333,10.14}},
@@ -86,7 +87,7 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(weaBus, nigZon.weaBus) annotation (Line(
-      points={{-60,10},{-60,-40},{35.2,-40}},
+      points={{-60,10},{-60,-40},{36.1818,-40}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -94,7 +95,7 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(weaBus,dayZon. weaBus) annotation (Line(
-      points={{-60,10},{-60,40},{37.2,40}},
+      points={{-60,10},{-60,40},{38.1818,40}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -102,13 +103,14 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(dayZon.returnWater, hydronicSystem.ports_a[1]) annotation (Line(
-        points={{66.48,22},{74,22},{74,-14},{14,-14},{14,-10.6},{12.8667,-10.6}},
+        points={{64.8,22},{74,22},{74,-14},{14,-14},{14,-8.9},{12.8667,-8.9}},
                                                                color={0,127,255}));
   connect(nigZon.returnWater, hydronicSystem.ports_a[2]) annotation (Line(
-        points={{64.48,-58},{66,-58},{66,-80},{20,-80},{20,-3.8},{12.8667,-3.8}},
+        points={{62.8,-58},{66,-58},{66,-80},{20,-80},{20,-5.5},{12.8667,-5.5}},
         color={0,127,255}));
-  connect(dayZon.surf_conBou[2], nigZon.surf_surBou) annotation (Line(points={{
-          61.44,37.36},{61.44,0},{67.6,0},{67.6,-42.88}}, color={191,0,0}));
+  connect(dayZon.surf_conBou[2], nigZon.surf_surBou) annotation (Line(points={{60.2182,
+          37.36},{60.2182,0},{65.6364,0},{65.6364,-42.88}},
+                                                          color={191,0,0}));
   connect(sim.weaDatBus, weaBus) annotation (Line(
       points={{-82.11,9},{-72,9},{-72,10},{-60,10}},
       color={255,204,51},
@@ -117,21 +119,22 @@ equation
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(nigZon.TRooAir, thermostatNigZon.TZon) annotation (Line(points={{78.4,
+  connect(nigZon.TRooAir, thermostatNigZon.TZon) annotation (Line(points={{75.4545,
           -35.44},{78,-35.44},{78,-100},{-80,-100},{-80,-70},{-62,-70}}, color=
           {0,0,127}));
-  connect(dayZon.TRooAir, thermostatDayZon.TZon) annotation (Line(points={{80.4,
-          44.56},{80.4,98},{-80,98},{-80,70},{-62,70}}, color={0,0,127}));
+  connect(dayZon.TRooAir, thermostatDayZon.TZon) annotation (Line(points={{77.4545,
+          44.56},{77.4545,98},{-80,98},{-80,70},{-62,70}},
+                                                        color={0,0,127}));
   connect(thermostatNigZon.ValCon, hydronicSystem.ValConNigZon) annotation (
       Line(points={{-39,-64},{-32,-64},{-32,-12},{-18.3567,-12},{-18.3567,
           -11.28}}, color={0,0,127}));
   connect(thermostatDayZon.ValCon, hydronicSystem.ValConDayZon) annotation (
       Line(points={{-39,76},{-32,76},{-32,-5.84},{-18.3567,-5.84}}, color={0,0,
           127}));
-  connect(thermostatNigZon.Occ, nigZon.occupation) annotation (Line(points={{-39,
-          -70},{-10,-70},{-10,-29.92},{41.2,-29.92}}, color={0,0,127}));
-  connect(thermostatDayZon.Occ, dayZon.occupation) annotation (Line(points={{-39,
-          70},{0,70},{0,50.08},{43.2,50.08}}, color={0,0,127}));
+  connect(thermostatNigZon.Occ, nigZon.occupation) annotation (Line(points={{-39,-70},
+          {-10,-70},{-10,-29.92},{41.6364,-29.92}},   color={0,0,127}));
+  connect(thermostatDayZon.Occ, dayZon.occupation) annotation (Line(points={{-39,70},
+          {0,70},{0,50.08},{43.6364,50.08}},  color={0,0,127}));
   connect(doo.port_b2,dayZon. supplyAir) annotation (Line(points={{36.6,5},{
           36.6,43.84},{48,43.84}}, color={0,127,255}));
   connect(doo.port_a1,dayZon. returnAir) annotation (Line(points={{47.4,5},{
@@ -845,6 +848,9 @@ The model outputs are:
 <code>dayZon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
+<code>dayZon_reaTRooOpe_y</code> [K] [min=None, max=None]: Zone operative temperature
+</li>
+<li>
 <code>dayZon_reaTavgFloHea_y</code> [K] [min=None, max=None]: Zone average floor temperature
 </li>
 <li>
@@ -885,6 +891,9 @@ The model outputs are:
 </li>
 <li>
 <code>nigZon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>nigZon_reaTRooOpe_y</code> [K] [min=None, max=None]: Zone operative temperature
 </li>
 <li>
 <code>nigZon_reaTavgFloHea_y</code> [K] [min=None, max=None]: Zone average floor temperature
