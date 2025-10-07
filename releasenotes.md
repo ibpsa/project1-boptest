@@ -20,7 +20,7 @@ Released on xx/xx/xxxx.
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 
-- For ``twozone_apartment_hydronic`` test case, added additional outputs for operative temperature of both zones. This means thermal discomfort will now be calculated based on operative instead of air temperature. BACnet structure has also been updated. This is for [#791](https://github.com/ibpsa/project1-boptest/issues/791)
+- For ``twozone_apartment_hydronic`` test case, added additional outputs for operative temperature of both zones. This means thermal discomfort will now be calculated based on operative instead of air temperature. BACnet structure has also been updated. This is for [#791](https://github.com/ibpsa/project1-boptest/issues/791).
 
 **The following new test cases have been added:**
 
