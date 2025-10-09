@@ -15,7 +15,6 @@ read any associated signals for KPIs, units, min/max, and descriptions.
 """
 
 from pyfmi import load_fmu
-from pymodelica import compile_fmu #To be put in if condition
 import subprocess
 import os
 import json
@@ -66,7 +65,7 @@ def compile_fmu_dymola(model_path, algorithm='Cvode', tolerance=1e-6):
             f.write('Advanced.FMI.CrossExport=true;\n')
         f.write('translateModelFMU("{0}", false, "", "2", "csSolver", false, 0, fill("",0));\n'.format(model_path))
         f.write('exit();')
-    process = subprocess.Popen(['dymola','compile_fmu.mos', '/nowindow'])
+    process = subprocess.Popen(['dmc','-r','compile_fmu.mos', '/nowindow'])
     while process.poll() == None:
         time.sleep(10)
         print('Waiting for Dymola to finish compiling {0}.  Checking again in 10 seconds...'.format(fmu_path))
@@ -201,7 +200,7 @@ def parse_instances(model_path, file_name, tool='JModelica', algorithm='Cvode', 
         from pymodelica import compile_fmu
         fmu_path = compile_fmu(model_path, file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
     elif tool == 'OpenModelica':
-        fmu_path = _compile_fmu(model_path, file_name)
+        fmu_path = compiler_fmu_OM(model_path, file_name)
     elif tool == 'Dymola':
         fmu_path = compile_fmu_dymola(model_path, algorithm=algorithm, tolerance=tolerance)
     else:
@@ -398,7 +397,7 @@ def write_wrapper(model_path, file_name, instances, tool='JModelica', algorithm=
             from pymodelica import compile_fmu
             fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
         elif tool == 'OpenModelica':
-            fmu_path = _compile_fmu('wrapped', [wrapped_path]+file_name)
+            fmu_path = compiler_fmu_OM('wrapped', [wrapped_path]+file_name)
         elif tool == 'Dymola':
             fmu_path = compile_fmu_dymola('wrapped', algorithm=algorithm, tolerance=tolerance)
         else:
@@ -416,7 +415,7 @@ def write_wrapper(model_path, file_name, instances, tool='JModelica', algorithm=
             from pymodelica import compile_fmu
             fmu_path = compile_fmu(model_path, file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
         elif tool == 'OpenModelica':
-            fmu_path = _compile_fmu(model_path, file_name)
+            fmu_path = compiler_fmu_OM(model_path, file_name)
         elif tool == 'Dymola':
             fmu_path = compile_fmu_dymola(model_path, algorithm=algorithm, tolerance=tolerance)
         else:
@@ -515,7 +514,7 @@ def _make_var_name(block, style, description='', attribute=''):
 
     return var_name
 
-def _compile_fmu(model_path, file_name):
+def compiler_fmu_OM(model_path, file_name):
     from OMPython import OMCSessionZMQ
     omc = OMCSessionZMQ()
     # Load libraries from MODELICAPATH
@@ -548,7 +547,7 @@ if __name__ == '__main__':
     model_path = 'SimpleRC'
     mo_path = 'SimpleRC.mo'
     # Parse and export
-    fmu_path, kpi_path = export_fmu(model_path, [mo_path])
+    fmu_path, kpi_path = export_fmu(model_path, [mo_path],'Dymola')
     # Print information
     print('Exported FMU path is: {0}'.format(fmu_path))
     print('KPI json path is: {0}'.format(kpi_path))
