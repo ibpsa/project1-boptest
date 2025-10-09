@@ -9,6 +9,8 @@ hero_height: is-fullwidth
 D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H.T. Walnum, Y. Chen, K. Benne, D. Vrabie, M. Wetter, and L. Helsen. (2021). ["Building optimization testing framework (BOPTEST) for simulation-based benchmarking of control strategies in buildings."](https://doi.org/10.1080/19401493.2021.1986574) *Journal of Building Performance Simulation*, 14(5), 586-610.
 
 ## Additional publications:
+X. Lu, B. Huang, and Y. Chen (2025). ["A reference large office building emulator within the BOPTEST framework for evaluating complex HVAC control systems."](https://doi.org/10.1080/23744731.2025.2511559) *Science and Technology for the Built Environment*, 31(9), 1110-1126.
+
 W. Zheng, L. Zabala, J. Febres, D. Blum, and Z. Wang (2025). ["Quantifying and simulating the weather forecast uncertainty for advanced building control."](https://doi.org/10.1080/19401493.2025.2453537) *Journal of Building Performance Simulation*, 18(4), 530-545.
 
 L. Maier, J. Brillert, E. Zanetti, and D. Müller (2023). ["Approximating model predictive control strategies for heat pump systems applied to the building optimization testing framework (BOPTEST)."](https://doi.org/10.1080/19401493.2023.2280577) *Journal of Building Performance Simulation*, 17(3), 338–360.
