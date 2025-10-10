@@ -10,10 +10,10 @@ model WriteZoneLoc "Collection of zone local overwrite points for BOPTEST"
     "Control signal for terminal box reheat"
     annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite yDam(description=
-        "Damper position setpoint for zone " + zonNam, u(
+        "Damper position signal for zone " + zonNam,   u(
       unit="1",
       min=0,
-      max=1)) "Damper position setpoint"
+      max=1)) "Damper position signal"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite yReaHea(description=
         "Reheat control signal for zone " + zonNam, u(
