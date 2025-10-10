@@ -1,0 +1,43 @@
+FROM project1-boptest-worker
+
+CMD ["tail", "-f", "/dev/null"]
+
+# Build arguments
+ARG VERSION=""
+
+ENV HOME=/home/boptest
+
+# Install common dependencies
+RUN apt-get update \
+    && apt-get install -y git-lfs \
+    && apt-get install -y zip unzip \
+    && . miniconda/bin/activate \
+	&& conda update -n base -c defaults conda \
+	&& conda activate pyfmi3 \
+	&& python -m pip install -U https://github.com/OpenModelica/OMPython/archive/master.zip
+
+# Install open-modelica
+RUN export DEBIAN_FRONTEND="noninteractive" && echo "VERSION: $VERSION" && test ! -z "$VERSION" && apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy \
+    && apt-get install -qy gnupg wget ca-certificates apt-transport-https \
+    && echo "deb https://build.openmodelica.org/omc/builds/linux/releases/$VERSION/ `cat /etc/lsb-release | grep CODENAME | cut -d= -f2` release" > /etc/apt/sources.list.d/openmodelica.list \
+    && wget https://build.openmodelica.org/apt/openmodelica.asc -O- | apt-key add - \
+    && apt-get update && apt-get upgrade && apt-get dist-upgrade \
+    && apt-get install --no-install-recommends -qy omc cmake \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+    
+WORKDIR $HOME
+
+RUN mkdir $HOME/MODELICAPATH && mkdir git && \
+    && cd git \
+    && git lfs install \
+    && git clone https://github.com/ibpsa/modelica-ibpsa.git \
+    && git clone https://github.com/open-ideas/IDEAS.git && cd IDEAS && git checkout BOPTEST && cd .. \
+    && git clone https://github.com/lbl-srg/modelica-buildings.git \
+    && ln -s $HOME/git/IDEAS/IDEAS $HOME/MODELICAPATH/IDEAS \
+    && ln -s $HOME/git/modelica-buildings/Buildings $HOME/MODELICAPATH/Buildings \
+    && ln -s $HOME/git/modelica-ibpsa/IBPSA $HOME/MODELICAPATH/IBPSA 
+
+ENV MODELICAPATH=$HOME/MODELICAPATH
+
+WORKDIR /
