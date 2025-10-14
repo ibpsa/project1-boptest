@@ -18,7 +18,7 @@ def compile_fmu():
     modelpath = 'MultizoneOfficeComplexAir.TestCases.TestCase'
 
     # COMPILE FMU
-    fmupath = parser.export_fmu(modelpath, [mopath], tool='Dymola', algorithm='Cvode', tolerance=1e-6)
+    fmupath = parser.export_fmu(modelpath, [mopath], tool= sys.argv[1], algorithm='Cvode', tolerance=1e-6)
 
     return fmupath
 

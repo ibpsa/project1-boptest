@@ -1,11 +1,11 @@
-# Utility Functions
-###############################################################################
+# Makefile for building Modelica Docker containers with libraries and run unit tests
 
-IMG_NAME=jm
-# Set SINGLE to true to run tests as single arguments (as is done in travis.)
-# Note that the target test_all sets SINGLE=false so as to run the tests in a batch.
-SINGLE=true
-TRAVIS=false
+# Default values
+COMPILER_TOOL?=openmodelica
+VERSION=1.21.0
+TOOL_SOURCE_PATH?=""
+TOOL_LICENSE_PATH?=""
+IMG_NAME=$(COMPILER_TOOL)_fmu_generator
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
@@ -13,75 +13,94 @@ COMMAND_RUN=docker run \
 	  --rm \
 	  -it \
 	  ${IMG_NAME}
+# Help target
+help:
+	@echo "Usage: make build_compiler_image COMPILER_TOOL=<tool> [OPTIONS]"
+	@echo ""
+	@echo "Tools:"
+	@echo "  openmodelica  - Build OpenModelica container (default)"
+	@echo ""
+	@echo "Options:"
+	@echo "  VERSION=<1.21.1>                   - TOOL version (Open Modelica)"
+	@echo "  TOOL_SOURCE_PATH=<source_path>     - TOOL source files path "
+	@echo "  TOOL_LICENSE_PATH=<license_path>   - TOOL license path "
+	@echo ""
+	@echo "Examples:"
+	@echo "  make build_compiler_image COMPILER_TOOL=OpenModelica VERSION=1.21.0"
+	@echo "=============================================================================================================="	
+	@echo "Usage: make compile_testcase_model COMPILER_TOOL=<tool> [OPTIONS]"
+	@echo ""
+	@echo "Tools:"
+	@echo "  OpenModelica  - Build OpenModelica container (default)"
+	@echo ""
+	@echo "Options:"
+	@echo "  TESTCASE=bestest_air                  - testcase to compile"
+	@echo ""
+	@echo "Example:"
+	@echo "  make compile_testcase_model COMPILER_TOOL=OpenModelica TESTCASE=bestest_air"
 
-build_jm_image:
-	docker build --no-cache --rm -q -t ${IMG_NAME} .
+# Build target
+
+build_compiler_image:
+	@echo "Building $(COMPILER_TOOL) compiler container with name $(IMG_NAME)..."
+	docker build -f Dockerfile.$(COMPILER_TOOL) \
+	--build-arg TOOL_SOURCE_PATH=$(TOOL_SOURCE_PATH) \
+	--build-arg TOOL_LICENSE_PATH=$(TOOL_LICENSE_PATH) \
+	--build-arg VERSION=$(VERSION) \
+	--tag $(IMG_NAME) .
+
 
 build_boptest_image:
 	cd .. && docker compose build
 
-remove_jm_image:
+remove_cimg_image:
 	docker rmi ${IMG_NAME}
 
 remove_boptest_image:
 	docker rmi project1-boptest-provision project1-boptest-web project1-boptest-worker minio/minio minio/mc redis pafortin/goaws
 
-run_jm:
+run_cimg:
 	$(COMMAND_RUN)
-	docker cp . ${IMG_NAME}:/usr/local/testing
 
-copy_to_jm:
-	docker cp ../${ARGS} ${IMG_NAME}:/usr/local/testing
-	docker exec -i ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing && exit"
+copy_to_cimg:
+	docker cp ../${ARGS} ${IMG_NAME}:/boptest/lib
 
-copy_testcase_to_jm:
-	make copy_to_jm ARGS=testcases/${TESTCASE}
-	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing/${TESTCASE}
-	docker cp ../version.txt ${IMG_NAME}:/usr/local/testing/${TESTCASE}
-	make exec_jm ARGS="touch ${TESTCASE}/__init__.py"
+copy_testcase_to_cimg:
+	make copy_to_cimg ARGS=testcases/${TESTCASE}
 
-copy_framework_with_testcase_to_jm:
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=kpis
-	make copy_to_jm ARGS=forecast
-	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing
-	docker cp ../version.txt ${IMG_NAME}:/usr/local/testing
-	docker exec -it ${IMG_NAME} /bin/bash -c "mkdir /usr/local/testing/testcases && exit"
-	docker cp ../testcases/${TESTCASE} ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}
+copy_from_cimg:
+	docker cp ${IMG_NAME}:/boptest/lib/${ARGS} ../${ARGS}
 
-copy_from_jm:
-	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
+copy_testcase_from_cimg:
+	docker cp ${IMG_NAME}:/boptest/lib/${ARGS} ../testcases/${ARGS}
 
-copy_testcase_from_jm:
-	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../testcases/${ARGS}
+exec_cimg:
+	docker exec -i ${IMG_NAME} /bin/bash -c "${ARGS}"
 
-exec_jm:
-	docker exec -i ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
-
-stop_jm:
+stop_cimg:
 	docker stop ${IMG_NAME}
-# Make sure jm image stops being used
+# Make sure cimg image stops being used
 	python sleep10.py
 
 compile_testcase_model:
-	make run_jm
-	make copy_to_jm ARGS=parsing
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=testcases/${TESTCASE}
-	make exec_jm ARGS="python set_library_versions.py ${TESTCASE} && cd ${TESTCASE}/models && python compile_fmu.py"
-	make copy_testcase_from_jm ARGS=${TESTCASE}/models/kpis.json
-	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
-	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.mo
-	make stop_jm
+	make run_cimg
+	make copy_to_cimg ARGS=parsing
+	make copy_to_cimg ARGS=testing/set_library_versions.py
+	make copy_to_cimg ARGS=testcases/${TESTCASE}
+	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib && python set_library_versions.py ${TESTCASE} && cd ${TESTCASE}/models && python compile_fmu.py $(COMPILER_TOOL) && exit"
+	make copy_testcase_from_cimg ARGS=${TESTCASE}/models/kpis.json
+	make copy_testcase_from_cimg ARGS=${TESTCASE}/models/wrapped.fmu
+	make copy_testcase_from_cimg ARGS=${TESTCASE}/models/wrapped.mo
+	make stop_cimg
 
 generate_testcase_data:
-	make run_jm
-	make copy_to_jm ARGS=parsing
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=testcases/${TESTCASE}
-	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
+	make run_cimg
+	make copy_to_cimg ARGS=parsing
+	make copy_to_cimg ARGS=data
+	make copy_to_cimg ARGS=testcases/${TESTCASE}
+	make exec_cimg ARGS="cd /boptest/lib && cd ${TESTCASE}/models && python generate_data.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
-	make stop_jm
+	make stop_cimg
 
 ###############################################################################
 

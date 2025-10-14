@@ -126,6 +126,24 @@ HeatBalanceAlgorithm,ConductionTransferFunction,200.0000;
 
 ZoneAirHeatBalanceAlgorithm,AnalyticalSolution;
 
+!-   ===========  ALL OBJECTS IN CLASS: ZONECAPACITANCEMULTIPLIER:RESEARCHSPECIAL ===========
+
+ZoneCapacitanceMultiplier:ResearchSpecial,Core_bot_TCM,Core_bot,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Core_mid_TCM,Core_mid,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Core_top_TCM,Core_top,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_bot_ZN_1_TCM,Perimeter_bot_ZN_1,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_bot_ZN_2_TCM,Perimeter_bot_ZN_2,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_bot_ZN_3_TCM,Perimeter_bot_ZN_3,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_bot_ZN_4_TCM,Perimeter_bot_ZN_4,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_mid_ZN_1_TCM,Perimeter_mid_ZN_1,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_mid_ZN_2_TCM,Perimeter_mid_ZN_2,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_mid_ZN_3_TCM,Perimeter_mid_ZN_3,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_mid_ZN_4_TCM,Perimeter_mid_ZN_4,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_top_ZN_1_TCM,Perimeter_top_ZN_1,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_top_ZN_2_TCM,Perimeter_top_ZN_2,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_top_ZN_3_TCM,Perimeter_top_ZN_3,8,1,1,1;
+ZoneCapacitanceMultiplier:ResearchSpecial,Perimeter_top_ZN_4_TCM,Perimeter_top_ZN_4,8,1,1,1;
+
 !-   ===========  ALL OBJECTS IN CLASS: TIMESTEP ===========
 
 Timestep,60;
