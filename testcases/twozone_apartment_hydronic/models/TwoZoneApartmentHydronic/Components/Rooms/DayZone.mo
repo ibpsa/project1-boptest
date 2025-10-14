@@ -57,5 +57,7 @@ First implementation.
       StopTime=31536000,
       Interval=3600.00288,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Dassl"));
+      __Dymola_Algorithm="Dassl"),
+    Diagram(coordinateSystem(extent={{-100,-100},{120,100}})),
+    Icon(coordinateSystem(extent={{-100,-100},{120,100}})));
 end DayZone;

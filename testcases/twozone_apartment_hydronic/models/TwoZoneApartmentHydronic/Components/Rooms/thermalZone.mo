@@ -585,6 +585,17 @@ model thermalZone "Reference Thermal zone model Milan"
           extent={{-160,64},{-120,104}})));
   parameter Modelica.Units.SI.PressureDifference dp_nominal=10000
     "Pressure difference";
+  Buildings.Utilities.IO.SignalExchange.Read reaTRooOpe(
+    description="Zone operative temperature",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
+    y(unit="K"),
+    zone=zonName) "Read room air temperature"
+    annotation (Placement(transformation(extent={{104,40},{116,52}})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooRadSen
+    "Room radiative temperature"
+    annotation (Placement(transformation(extent={{70,44},{80,54}})));
+  Modelica.Blocks.Math.Add add(k1=+0.5, k2=+0.5)
+    annotation (Placement(transformation(extent={{86,40},{98,52}})));
 equation
   connect(roo.uSha, replicator.y) annotation (Line(
       points={{32.8,34.5},{30,34.5},{30,34},{28,34},{28,70},{26.4,70}},
@@ -599,7 +610,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(density.port, roo.ports[1])  annotation (Line(
-      points={{-39,-20},{32,-20},{32,11.1},{37.75,11.1}},
+      points={{-39,-20},{32,-20},{32,12.3},{37.75,12.3}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(density.d, product.u2) annotation (Line(
@@ -620,35 +631,37 @@ equation
           {8,7.2}},                        color={0,0,127}));
   connect(gain.u, sinInf.m_flow_in) annotation (Line(points={{-16.8,6},{-30,6},{
           -30,-4.8},{8,-4.8}},      color={0,0,127}));
-  connect(souInf.ports[1], roo.ports[2]) annotation (Line(points={{16,4},{20,
-          4},{20,12.3},{37.75,12.3}},     color={0,127,255}));
+  connect(souInf.ports[1], roo.ports[2]) annotation (Line(points={{16,4},{20,4},
+          {20,12.9},{37.75,12.9}},        color={0,127,255}));
   connect(supplyAir, roo.ports[3]) annotation (Line(points={{-100,32},{-80,32},{
           -80,16},{38,16},{38,14},{37.75,14},{37.75,13.5}},
                                    color={0,127,255}));
   connect(occ.rad, sumRad.u[1]) annotation (Line(points={{-87.4,68.4},{-60,68.4},
-          {-60,80.4},{-48,80.4}},
+          {-60,78.3},{-48,78.3}},
                              color={0,0,127}));
   connect(equ.rad, sumRad.u[2]) annotation (Line(points={{-87.4,80.4},{-60,80.4},
           {-60,79},{-48,79}},
                          color={0,0,127}));
   connect(lig.rad, sumRad.u[3]) annotation (Line(points={{-87.4,56.4},{-58,56.4},
-          {-58,77.6},{-48,77.6}},
+          {-58,79.7},{-48,79.7}},
                              color={0,0,127}));
-  connect(occ.con, sumCon.u[1]) annotation (Line(points={{-87.4,66},{-64,66},{-64,
-          70.4},{-50,70.4}}, color={0,0,127}));
+  connect(occ.con, sumCon.u[1]) annotation (Line(points={{-87.4,66},{-64,66},{
+          -64,68.3},{-50,68.3}},
+                             color={0,0,127}));
   connect(equ.con, sumCon.u[2]) annotation (Line(points={{-87.4,78},{-64,78},{-64,
           72},{-56,72},{-56,69},{-50,69}},
                          color={0,0,127}));
-  connect(lig.con, sumCon.u[3]) annotation (Line(points={{-87.4,54},{-60,54},{-60,
-          67.6},{-50,67.6}}, color={0,0,127}));
+  connect(lig.con, sumCon.u[3]) annotation (Line(points={{-87.4,54},{-60,54},{
+          -60,69.7},{-50,69.7}},
+                             color={0,0,127}));
   connect(occ.lat, sumLat.u[1]) annotation (Line(points={{-87.4,63.6},{-72,63.6},
-          {-72,60.4},{-48,60.4}},
+          {-72,58.3},{-48,58.3}},
                              color={0,0,127}));
   connect(equ.lat, sumLat.u[2]) annotation (Line(points={{-87.4,75.6},{-74,75.6},
           {-74,59},{-48,59}},
                          color={0,0,127}));
   connect(lig.lat, sumLat.u[3]) annotation (Line(points={{-87.4,51.6},{-62,51.6},
-          {-62,52},{-54,52},{-54,58},{-48,58},{-48,57.6}},
+          {-62,52},{-54,52},{-54,58},{-48,58},{-48,59.7}},
                                     color={0,0,127}));
   connect(sumRad.y, Qints.u1[1]) annotation (Line(points={{-41.49,79},{-32,
           79},{-32,66.8},{-28.8,66.8}}, color={0,0,127}));
@@ -662,20 +675,20 @@ equation
   connect(sumPlu.y, reaPPlu.u)
     annotation (Line(points={{-41.49,91},{-38,91},{-38,92},{-26.8,92}},
                                                     color={0,0,127}));
-  connect(equ.con, sumPlu.u[1]) annotation (Line(points={{-87.4,78},{-68,78},{-68,
-          92.05},{-48,92.05}},
+  connect(equ.con, sumPlu.u[1]) annotation (Line(points={{-87.4,78},{-68,78},{
+          -68,90.475},{-48,90.475}},
                              color={0,0,127}));
   connect(equ.rad, sumPlu.u[2]) annotation (Line(points={{-87.4,80.4},{-70,80.4},
-          {-70,89.95},{-48,89.95}},
+          {-70,91.525},{-48,91.525}},
                            color={0,0,127}));
   connect(lig.rad, sumLig.u[1]) annotation (Line(points={{-87.4,56.4},{-80,56.4},
-          {-80,50.05},{-48,50.05}},
+          {-80,48.475},{-48,48.475}},
                              color={0,0,127}));
-  connect(lig.con, sumLig.u[2]) annotation (Line(points={{-87.4,54},{-82,54},{-82,
-          47.95},{-48,47.95}},
+  connect(lig.con, sumLig.u[2]) annotation (Line(points={{-87.4,54},{-82,54},{
+          -82,49.525},{-48,49.525}},
                              color={0,0,127}));
-  connect(TRooAirSen.T, reaTRooAir.u) annotation (Line(points={{76,23},{78,23},{
-          78,24},{84.8,24}},
+  connect(TRooAirSen.T, reaTRooAir.u) annotation (Line(points={{76.5,23},{78,23},
+          {78,24},{84.8,24}},
                            color={0,0,127}));
   connect(reaTRooAir.y, TRooAir)
     annotation (Line(points={{98.6,24},{134,24},{134,38},{170,38}},
@@ -683,12 +696,12 @@ equation
   connect(reaCO2RooAir.y, CO2RooAir) annotation (Line(points={{92.5,-1},{94,-1},
           {94,-16},{170,-16}},  color={0,0,127}));
   connect(returnAir, roo.ports[4]) annotation (Line(points={{-100,-20},{-80,-20},
-          {-80,14.7},{37.75,14.7}},   color={0,127,255}));
+          {-80,14.1},{37.75,14.1}},   color={0,127,255}));
   connect(sinInf.ports[1], senCO2.port_b)
     annotation (Line(points={{16,-8},{16,-5},{20,-5}},
                                                color={0,127,255}));
   connect(senCO2.port_a, roo.ports[5]) annotation (Line(points={{30,-5},{30,
-          15.9},{37.75,15.9}},       color={0,127,255}));
+          14.7},{37.75,14.7}},       color={0,127,255}));
   connect(occ.co2, gaiCO2Gen.u) annotation (Line(points={{-87.4,61.2},{-76,61.2},
           {-76,26},{-46.8,26}},
                            color={0,0,127}));
@@ -707,7 +720,7 @@ equation
     annotation (Line(points={{46.6,0},{50,0},{50,-1},{55,-1}},
                                                  color={0,0,127}));
   connect(roo.surf_surBou[1],radiantSlab. surf_a) annotation (Line(points={{46.15,
-          10.125},{46.15,-13.75},{22,-13.75},{22,-84}},
+          10.3125},{46.15,-13.75},{22,-13.75},{22,-84}},
                                                       color={191,0,0}));
   connect(surf_conBou, roo.surf_conBou) annotation (Line(points={{-15,-35},{34,-35},
           {34,-8},{54,-8},{54,9},{53.5,9}},
@@ -740,7 +753,7 @@ equation
           {28,-104},{28,-116},{24,-116},{24,-117},{21,-117}},
                                        color={191,0,0}));
   connect(surf_surBou, roo.surf_surBou[2]) annotation (Line(points={{91,-37},{
-          91,-27.5},{46.15,-27.5},{46.15,10.875}},  color={191,0,0}));
+          91,-27.5},{46.15,-27.5},{46.15,10.6875}}, color={191,0,0}));
   connect(radiantSlab.surf_a, Tfloor.port) annotation (Line(points={{22,-84},{26,
           -84},{26,-76}},          color={191,0,0}));
   connect(temSup.port_b, mflowTotin.port_a)
@@ -755,8 +768,8 @@ equation
           {54,-150}},           color={0,127,255}));
   connect(Qints.y, matrixGain.u)
     annotation (Line(points={{-19.6,64},{-17,64},{-17,67}}, color={0,0,127}));
-  connect(matrixGain.y, Qint.u[1:3]) annotation (Line(points={{-5.5,67},{-5.5,86},
-          {-6,86},{-6,88},{-2,88},{-2,87.6}},
+  connect(matrixGain.y, Qint.u[1:3]) annotation (Line(points={{-5.5,67},{-5.5,
+          86},{-6,86},{-6,88},{-2,88},{-2,89.7}},
                                 color={0,0,127}));
   connect(matrixGain.y, roo.qGai_flow) annotation (Line(points={{-5.5,67},{0,67},
           {0,68},{4,68},{4,27},{32.8,27}},
@@ -781,6 +794,14 @@ equation
           {-122,54},{-100.12,54}}, color={0,0,127}));
   connect(Qint.y, reaPowQint.u) annotation (Line(points={{4.51,89},{4,89},{4,90},
           {6,90},{6,89},{9,89}},         color={0,0,127}));
+  connect(reaTRooOpe.u,add. y)
+    annotation (Line(points={{102.8,46},{98.6,46}},  color={0,0,127}));
+  connect(TRooRadSen.T,add. u1) annotation (Line(points={{80.5,49},{82,49},{82,
+          49.6},{84.8,49.6}}, color={0,0,127}));
+  connect(TRooAirSen.T,add. u2) annotation (Line(points={{76.5,23},{78,23},{78,
+          42.4},{84.8,42.4}},                 color={0,0,127}));
+  connect(roo.heaPorRad, TRooRadSen.port) annotation (Line(points={{48.25,18.15},
+          {62,18.15},{62,32},{70,32},{70,49}}, color={191,0,0}));
   annotation (
 experiment(
       StopTime=1080000,
@@ -837,7 +858,8 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    Icon(graphics={
+    Icon(coordinateSystem(extent={{-100,-100},{120,100}}),
+         graphics={
         Rectangle(
           extent={{-160,-160},{160,160}},
           lineColor={95,95,95},
@@ -858,5 +880,6 @@ First implementation.
           extent={{146,70},{154,-70}},
           lineColor={95,95,95},
           fillColor={170,213,255},
-          fillPattern=FillPattern.Solid)}));
+          fillPattern=FillPattern.Solid)}),
+    Diagram(coordinateSystem(extent={{-100,-100},{120,100}})));
 end thermalZone;
