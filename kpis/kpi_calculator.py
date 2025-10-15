@@ -187,7 +187,7 @@ class KPI_Calculator(object):
                     self.sources_atvl.append(actuator_name)
                     for signal in self.case.kpi_json[source]:
                         self.atvl_dict[signal] = 0.0
-                        self.atvl_dict_by_source[f"{actuator_name}_{signal}"] = 0.
+                        self.atvl_dict_by_source['{0}_{1}'.format(actuator_name,signal)] = 0.
                         if actuator_name in self.atvl_source_key_mapping:
                             self.atvl_source_key_mapping[actuator_name].append(signal)
                         else:
