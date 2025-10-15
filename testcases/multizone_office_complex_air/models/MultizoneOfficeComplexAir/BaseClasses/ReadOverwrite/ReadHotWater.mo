@@ -3,16 +3,15 @@ model ReadHotWater
   "Collection of Hot Water System measurements for BOPTEST"
 
   Buildings.Utilities.IO.SignalExchange.Read dp(
-    description="Differential pressure of chilled/hot water measurement",
+    description="Differential pressure of hot water plant measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="Pa")) "Differential pressure of chilled/hot water measurement"
+    y(unit="Pa")) "Differential pressure of hot water measurement"
     annotation (Placement(transformation(extent={{-10,70},{10,90}})));
 
   Buildings.Utilities.IO.SignalExchange.Read THWSup(
-    description="Chilled water temperature measurement",
+    description="Hot water supply temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
-    y(unit="K")) "Chilled/hot water temperature measurement"
+    y(unit="K")) "Hot water supply temperature measurement"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
   Modelica.Blocks.Interfaces.RealInput dp_in
@@ -23,13 +22,13 @@ model ReadHotWater
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaPPum(
-    description="Chilled water plant pump power consumption",
+    description="Hot water plant pump power consumption",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Block for outputting the chilled water plant"
     annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaPBoi(
-    description="Multiple gas power consumption",
+    description="Multiple gas boiler power consumption",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     y(unit="W"))  "Block for outputting the multiple boilers"
     annotation (Placement(transformation(extent={{-10,-90},{10,-70}})));
@@ -42,7 +41,6 @@ model ReadHotWater
   Buildings.Utilities.IO.SignalExchange.Read THWRet(
     description="Hot water return temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Hot water return temperature measurement"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 
@@ -52,7 +50,6 @@ model ReadHotWater
   Buildings.Utilities.IO.SignalExchange.Read mHWTot(
     description="Total hot water mass flow rate ",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="kg/s")) "Total hot water mass flow rate"
     annotation (Placement(transformation(extent={{-10,110},{10,130}})));
 

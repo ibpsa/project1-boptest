@@ -13,6 +13,7 @@ Released on xx/xx/xxxx.
 - Update support to ``parsing/parser.py`` for test case compilation using Dymola to be able to specify solver and tolerance and to be able to use references to other string parameters in defining a string parameter.  This is for [#777](https://github.com/ibpsa/project1-boptest/issues/777).
 - For unit tests on travis, remove custom installation of Docker.  This is for [#787](https://github.com/ibpsa/project1-boptest/issues/787).
 - Copy ``kpis.json`` from ``jm`` Docker container to test case ``/models`` directory upon compilation and update ``kpis.json`` files where necessary in repo.  This is for [#789](https://github.com/ibpsa/project1-boptest/issues/789).
+- Update Spawn version to ``light-0.4.3-7048a72798``, which is used in Modelica Buildings Library v9.1.1. This is for [#782](https://github.com/ibpsa/project1-boptest/issues/782).
 - Add actuator travel KPI calculation spec to design docs, method to ``kpis/kpi_calculator.py``, and signal parsing process in ``parsing/parser.py``. Requires additional updates to test cases before available for use. This is for [#639](https://github.com/ibpsa/project1-boptest/issues/639).
 
 **The following changes are not backwards compatible, but do not change benchmark results:**
@@ -21,7 +22,7 @@ Released on xx/xx/xxxx.
 
 **The following new test cases have been added:**
 
-- ``multizone_office_complex_air``, a DOE reference large office building in Chicago, IL, modeled with 3 floors and 15 zones, with each floor served by a 5-zone AHU VAV system with single-duct terminal box reheat. A water-cooled chiller plant serves chilled water to cooling coils and a gas-fired boiler plant serves hot water to heating coils. Spawn is used to model the envelope in EnergyPlus and the HVAC and controls in Modelica. The test case FMU is compiled by Dymola.  This is for [#218](https://github.com/ibpsa/project1-boptest/issues/218).
+- ``multizone_office_complex_air``, a DOE reference large office building in Chicago, IL, modeled with 3 floors and 15 zones, with each floor served by a 5-zone AHU VAV system with single-duct terminal box reheat. A water-cooled chiller plant serves chilled water to cooling coils and a gas-fired boiler plant serves hot water to heating coils. Spawn is used to model the envelope in EnergyPlus and the HVAC and controls in Modelica. The test case FMU is compiled by Dymola.  This is for [#218](https://github.com/ibpsa/project1-boptest/issues/218), [#782](https://github.com/ibpsa/project1-boptest/issues/782), and [#792](https://github.com/ibpsa/project1-boptest/issues/792).
 
 
 ## BOPTEST v0.8.0

@@ -19,12 +19,16 @@
 <h4>Architecture</h4>
 <p>
     The layout is representative of the large commercial office building
-    stock and is consistent with the building prototypes. The test case is
-    located in Chicago, IL and based on the DOE Reference Large Office Building
-    Model (Constructed In or After 1980). The original model has 12 floors with a basement.
-	For simplicity, the middle 10 floors are treated as identical and are modeled as a single representative floor,
-	resulting in three modeled floors (ground, middle, and top), each served by a dedicated AHU.
-	The ground floor is assumed to be adiabatic with the basement.
+    stock and is consistent with the building prototypes.
+	The test case building is located in Chicago, IL and based on the DOE Reference Large Office Building Model
+    (Constructed In or After 1980).	The original model has 12 floors with a basement.
+	For simplicity, the middle 10 floors are modeled as a single representative floor using floor multiplier (
+	i.e., mass flow rate multiplier in Modelica), resulting in three modeled floors (ground, middle, and top),
+	each served by a dedicated AHU, representing 460,233 ft<sup>2</sup> (42,757 m<sup>2</sup>) of total conditioned floor area.
+    The ground floor is assumed to be adiabatic with the basement.
+	EnergyPlus (V9.6) calculates the building’s thermal loads.  The detailed input file is wholebuilding96_spawn.idf,
+	containing building geometry, constructions, occupancy and internal schedules, internal mass, etc.
+
 </p>
 <p>
     The represented floor has five zones, with four perimeter zones and one core zone.
@@ -60,16 +64,17 @@
 
 <h4>Occupancy and internal loads schedules</h4>
 <p>
-    The design occupancy density is 0.05 people/m<sup>2</sup>. The people internal gain is calucalted
+    The design occupancy density is 0.05 people/m<sup>2</sup>. The people internal gain is calculated
     based on the activity level of 120 W. The number of occupants
     present in each zone at any time coincides with the internal gain schedule.
-    The occupied time for the HVAC system is between 6:00 and 22:00  each day.
+    The occupied time for the HVAC system is between 6:00 and 22:00 each weekday
+    and 6:00 and 18:00 on Saturday.
     The unoccupied time is outside of this period.
 </p>
 <p>
   The design internal gains include lighting, plug loads, and people. The lighting load is
   with a radiant-convective-visible split of 70%-10%-20%. The plug load is with a
-  radiant-convective-latent split of 50%-50%-0%. The people load is with a radiant-convective
+  radiant-convective-latent split of 50%-50%-0%. The people sensible load is with a radiant-convective
   split of 30%-70%. The occupancy and the internal gains are activated according to the
   schedule in the figure below.
 </p>
@@ -111,10 +116,9 @@
     The air-side systems are VAV systems with terminal reheat. Each floor is served
     by a dedicated AHU and each zone of the test case is served by a dedicated VAV box.
     The following figure depicts how the VAVs, AHU, and zones are connected on each floor
-    in general. There are two fans (i.e., one supply fan, and one return fan) in the AHU
-    system. A mixing box carries out the economizer function of providing cooling and
-    ventilation. It is noted that no pre-heating coil is installed in the AHU and the
-    heating is provided by the reheat coils in the VAV terminals.
+    in general. Each AHU has a supply and return fan. A mixing box carries out the economizer function of providing cooling and
+    ventilation. The heating is provided by the water-based reheat coils in the VAV terminals,
+    while an electric resistance freeze protection coil is located in the AHU.
 </p>
 <p align=\"center\">
         <img alt=\"AirSide.\"
@@ -143,7 +147,7 @@
     The HVAC sizing in Modelica is determined by the annual simulation results of
     EnergyPlus. The pressure loop related sizing parameters are estimated using a
     common HVAC design procedure. The following tables list all the sizing parameters
-    in detail.
+    in detail.  See later sections for specific control details.
 </p>
 
  <br>
@@ -152,7 +156,9 @@
     <tr>
       <th>VAV terminal with Reheat Coil</th>
       <th>Design Air Mass Flow Rate [kg/s]</th>
-      <th>Minimum Damper Position</th>
+      <th>Minimum Cooling Air Mass Flow Rate Setpoint [kg/s]</th>
+      <th>Heating Air Mass Flow Rate Setpoint [kg/s]</th>
+      <th>Minimum Damper Position [0-1]</th>
       <th>Design Reheat Coil Water Mass Flow Rate [kg/s]</th>
 
 
@@ -163,7 +169,9 @@
     <tr>
       <td>Bot Floor Core Zone VAV</td>
       <td>49.1</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>3.88</td>
 
 
@@ -174,7 +182,9 @@
     <tr>
       <td>Mid Floor Core Zone VAV</td>
       <td>491.4</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>38.8</td>
 
 
@@ -183,7 +193,9 @@
     <tr>
       <td>Top Floor Core Zone VAV</td>
       <td>49.1</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>3.88</td>
 
 
@@ -192,7 +204,9 @@
     <tr>
       <td>Bot Floor South Zone VAV</td>
       <td>10.1</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.8</td>
 
 
@@ -203,7 +217,9 @@
     <tr>
       <td>Bot Floor East Zone VAV</td>
       <td>6.7</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.53</td>
 
 
@@ -214,7 +230,9 @@
     <tr>
       <td>Bot Floor North Zone VAV</td>
       <td>8.6</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.68</td>
 
 
@@ -223,7 +241,9 @@
     <tr>
       <td>Bot Floor West Zone VAV</td>
       <td>7.8</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.62</td>
 
 
@@ -234,7 +254,9 @@
     <tr>
       <td>Mid Floor South Zone VAV</td>
       <td>101.2</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>8</td>
 
 
@@ -245,7 +267,9 @@
     <tr>
       <td>Mid Floor East Zone VAV</td>
       <td>67</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>5.3</td>
 
 
@@ -254,7 +278,9 @@
     <tr>
       <td>Mid Floor North Zone VAV</td>
       <td>85.5</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>6.8</td>
 
 
@@ -265,7 +291,9 @@
     <tr>
       <td>Mid Floor West Zone VAV</td>
       <td>77.9</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>6.2</td>
 
 
@@ -276,7 +304,9 @@
     <tr>
       <td>Top Floor South Zone VAV</td>
       <td>10.1</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.8</td>
 
 
@@ -287,7 +317,9 @@
     <tr>
       <td>Top Floor East Zone VAV</td>
       <td>6.7</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.53</td>
 
 
@@ -298,7 +330,9 @@
     <tr>
       <td>Top Floor North Zone VAV</td>
       <td>8.6</td>
-      <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
       <td>0.68</td>
 
 
@@ -309,7 +343,9 @@
     <tr>
         <td>Top Floor West Zone VAV</td>
         <td>7.8</td>
-        <td>0.3</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3 of design air mass flow rate</td>
+      <td>0.3</td>
         <td>0.62</td>
 
 
@@ -352,6 +388,29 @@
     </tbody>
     </table>
 <br>  
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
+    <thead>
+      <tr>
+        <th>AHU Freeze Protection Coils</th>
+        <th>Design Coil Capacity [W]</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bot Floor Freeze Coil</td>
+        <td>1,650,000</td>
+      </tr>
+      <tr>
+        <td>Mid Floor Freeze Coil</td>
+        <td>16,500,000</td>
+      </tr>
+      <tr>
+        <td>Top Floor Freeze Coil</td>
+        <td>1,650,000</td>
+      </tr>
+    </tbody>
+    </table>
+<br> 
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
         <thead>
           <tr>
@@ -546,11 +605,11 @@
     <tr>
     <th>Name</th>
     <th>Condition </th>
-    <th>TZonHeaSet [degC]</th>
-    <th>TZonCooSet [degC]</th>
+    <th>TZonHeaSet [<sup>o</sup>C]</th>
+    <th>TZonCooSet [<sup>o</sup>C]</th>
     <th>Fan</th>
     <th>Pump</th>
-    <th>TSupSet [degC]</th>
+    <th>TSupSet [<sup>o</sup>C]</th>
     <th>Economizer</th>
     <th>Min OA Flow</th>
     </tr>
@@ -616,27 +675,23 @@
   <i>VAV reheat control</i>
 </p>
 <p>
-    The VAV reheat is controlled based on the
-    "single maximum VAV reheat control logic".
+    The VAV reheat is controlled based on the "single maximum VAV reheat control logic".
 </p>
-    <li>
-    When the Zone State is cooling, the cooling-loop output shall be mapped to the active
-    airflow setpoint from the cooling minimum endpoint to the cooling maximum endpoint.
-    Heating coil is disabled.
-    </li>
-    <li>
-    When the Zone State is deadband, the active airflow setpoint shall be the minimum
-    endpoint. Heating coil is disabled.
-    </li>
-    <li>
-    When the Zone State is heating, the active airflow setpoint shall be the minimum endpoint.
-    The reheat valve position shall be mapped to the supply air temperature setpoint from the
-    heating minimum endpoint to the heating maximum endpoint.
-    </li>
-<p align=\"center\">
-    <img alt=\"SingleMax.\"
-    src="images/SingleMax.png" width=300>
-</p>
+	<li>
+	When the Zone State is <b>Cooling</b>, the cooling-loop output is mapped to the active
+    airflow setpoint, ranging from the Minimum Cooling Air Mass Flow Rate Setpoint to the Design Air Mass Flow Rate.
+	The heating coil remains disabled.
+	</li>
+	<li>
+	When the Zone State is <b>Deadband</b>, the active airflow setpoint is set to the Minimum Cooling Air Mass Flow Rate Setpoint,
+    and the heating coil remains disabled.
+	</li>
+	<li>
+	When the Zone State is <b>Heating</b>, the active airflow setpoint is set to the constant
+    Heating Air Mass Flow Rate Setpoint.
+	The reheat valve position is modulated from between 0-1 to maintain the zone air temperature at the heating setpoint.
+	</li>
+
 
 <p>
     <i>VAV air flow rate control</i>
@@ -661,10 +716,17 @@
     <i>AHU duct static pressure control</i>
 </p>
 <p>
-    Supply fan speed is controlled by a PI controller to maintain duct static pressure
-    (DSP) at setpoint when the fan is proven ON. It takes the static pressure measurements
+    The supply fan speed is regulated by a PI controller to maintain the duct static pressure at
+    its setpoint of 400 Pa (or 1.61 in. w.c.).
+	It takes the static pressure measurements
     and setpoints as inputs. It takes the supply fan speed as the output. The AHU return
-    fan speed is set as a constant ratio (0.9) of the supply fan speed  .
+    fan speed is set as a constant ratio (0.9) of the supply fan speed.
+</p>
+    During unoccupied hours, the night-cycle control is activated.
+	If any zone air temperature falls outside the setback temperature bounds, the fans are
+    switched on to bring the zone air temperature back within the allowable range.
+<p>
+
 </p>
 <p>
   <i>AHU supply air temperature control</i>
@@ -678,20 +740,31 @@
   <i>Mixing box damper and economizer control</i>
 </p>
 <p>
-    In the mixing box of the AHU, an economizer is implemented to use the outdoor air
-    to meet the cooling load when outdoor conditions are favorable.
-</p>
-<p>
-    Outdoor air damper position is controlled by a PI controller to maintain the mixed air
-    temperature at setpoint. It takes the mixed and outdoor air temperature measurements,
-    as well as the mixed air temperature setpoints as inputs. It takes the outdoor air damper
-     position as the output. The return air damper are interlocked with the outdoor air damper
-      while exhausted air damper share the same opening position with the outdoor air damper.
-</p>
-<p>
+	The minimum outdoor air damper position is 0.3 in order to provide ventilation.
+
     On top of that, an economizer control based on the fixed dry-bulb outdoor air
-    temperature-based is adopted. The economizer higher temperature limit is set as
-    21 ℃ according to ASHRAE 90.1-2019 for Climate Zone 5A.
+    temperature-based is adopted. The economizer higher temperature limit is set as 15.58 <sup>o</sup>C (60 <sup>o</sup>F),
+    while the lower temperature limit is set as 0 <sup>o</sup>C (32 <sup>o</sup>F).
+    Under economizer control, the outdoor air damper position is regulated by a PI controller to maintain the
+    mixed air temperature at its setpoint, with a minimum damper position of 0.3.
+    The controller uses the mixed air temperature, outdoor air temperature, and the
+    mixed air temperature setpoint as inputs. Its output is the commanded outdoor air
+    damper position.
+
+    The return air damper is interlocked with the outdoor air damper as the inverse,
+    while the exhaust air damper is interlocked with the outdoor air damper as sharing
+    the same opening position.  Note, however, that overwriting any of these damper positions
+    bypasses the interlocks, thus they should be controlled as a group.
+</p>
+<p>
+  <i>AHU freeze protection coil control</i>
+</p>
+<p>
+    The freeze protection coil is turned on if the mixed air temperature is measured to be below
+    the freeze protection temperature set point (3.33 <sup>o</sup>C) and the supply airflow rate is at or above
+    10% of the design value.  Once activated, the coil remains on for at least 5 minutes and
+    until the mixed air temperature raises above the set point.  Overwriting the freeze coil
+    control signal will bypass the minimum on-time, but will not bypass the airflow switch as a safety.
 </p>
 <h4>Water-side system control</h4>
 <p align=\"center\">
@@ -846,1121 +919,1166 @@
 The model inputs are:
 <ul>
 <li>
-<code>hva_floor1_TSupAirSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_TSupAirSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_TSupAirSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_TSupAirSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
+<code>floor1_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
 </li>
 <li>
-<code>hva_floor1_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_dpSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_dpSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_dpSet_u</code> [Pa] [min=50, max=410]: Supply duct pressure setpoint for AHU
+<code>floor1_dpSet_u</code> [Pa] [min=50, max=410]: Supply duct pressure setpoint for AHU
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_cooCoi_yCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_duaFanAirHanUni_cooCoi_yCoo_u where 1 activates, 0 deactivates (default value)
+<code>floor1_duaFanAirHanUni_cooCoi_yCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_duaFanAirHanUni_cooCoi_yCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_cooCoi_yCoo_u</code> [1] [min=0, max=1]: Cooling coil valve control signal for AHU
+<code>floor1_duaFanAirHanUni_cooCoi_yCoo_u</code> [1] [min=0, max=1]: Cooling coil valve control signal for AHU
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_mixingBox_mixBox_yEA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_duaFanAirHanUni_mixingBox_mixBox_yEA_u where 1 activates, 0 deactivates (default value)
+<code>floor1_duaFanAirHanUni_frePro_oveFrePro_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_duaFanAirHanUni_frePro_oveFrePro_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_mixingBox_mixBox_yEA_u</code> [1] [min=0, max=1]: Exhaust air damper position setpoint for AHU
+<code>floor1_duaFanAirHanUni_frePro_oveFrePro_u</code> [1] [min=0, max=1]: Control signal for freeze protection coil
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_mixingBox_mixBox_yOA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_duaFanAirHanUni_mixingBox_mixBox_yOA_u where 1 activates, 0 deactivates (default value)
+<code>floor1_duaFanAirHanUni_mixingBox_mixBox_yEA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_duaFanAirHanUni_mixingBox_mixBox_yEA_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_mixingBox_mixBox_yOA_u</code> [1] [min=0, max=1]: Outside air damper position setpoint for AHU
+<code>floor1_duaFanAirHanUni_mixingBox_mixBox_yEA_u</code> [1] [min=0, max=1]: Exhaust air damper position setpoint for AHU
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_mixingBox_mixBox_yRet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_duaFanAirHanUni_mixingBox_mixBox_yRet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_duaFanAirHanUni_mixingBox_mixBox_yOA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_duaFanAirHanUni_mixingBox_mixBox_yOA_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_mixingBox_mixBox_yRet_u</code> [1] [min=0, max=1]: Return air damper position setpoint for AHU
+<code>floor1_duaFanAirHanUni_mixingBox_mixBox_yOA_u</code> [1] [min=0, max=1]: Outside air damper position setpoint for AHU
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_oveSpeRetFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_duaFanAirHanUni_oveSpeRetFan_u where 1 activates, 0 deactivates (default value)
+<code>floor1_duaFanAirHanUni_mixingBox_mixBox_yRet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_duaFanAirHanUni_mixingBox_mixBox_yRet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_oveSpeRetFan_u</code> [1] [min=0, max=1]: AHU return fan speed control signal
+<code>floor1_duaFanAirHanUni_mixingBox_mixBox_yRet_u</code> [1] [min=0, max=1]: Return air damper position setpoint for AHU
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_supFan_oveSpeSupFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_duaFanAirHanUni_supFan_oveSpeSupFan_u where 1 activates, 0 deactivates (default value)
+<code>floor1_duaFanAirHanUni_oveSpeRetFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_duaFanAirHanUni_oveSpeRetFan_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_duaFanAirHanUni_supFan_oveSpeSupFan_u</code> [1] [min=0, max=1]: AHU supply fan speed control signal
+<code>floor1_duaFanAirHanUni_oveSpeRetFan_u</code> [1] [min=0, max=1]: AHU return fan speed control signal
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV1_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_fivZonVAV_vAV1_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor1_duaFanAirHanUni_supFan_oveSpeSupFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_duaFanAirHanUni_supFan_oveSpeSupFan_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone cor
+<code>floor1_duaFanAirHanUni_supFan_oveSpeSupFan_u</code> [1] [min=0, max=1]: AHU supply fan speed control signal
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV1_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_fivZonVAV_vAV1_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor1_fivZonVAV_vAV1_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_fivZonVAV_vAV1_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone cor
+<code>floor1_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone cor
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV2_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_fivZonVAV_vAV2_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor1_fivZonVAV_vAV1_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_fivZonVAV_vAV1_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone sou
+<code>floor1_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone cor
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV2_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_fivZonVAV_vAV2_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor1_fivZonVAV_vAV2_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_fivZonVAV_vAV2_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone sou
+<code>floor1_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone sou
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV3_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_fivZonVAV_vAV3_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor1_fivZonVAV_vAV2_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_fivZonVAV_vAV2_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone eas
+<code>floor1_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone sou
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV3_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_fivZonVAV_vAV3_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor1_fivZonVAV_vAV3_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_fivZonVAV_vAV3_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone eas
+<code>floor1_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone eas
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV4_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_fivZonVAV_vAV4_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor1_fivZonVAV_vAV3_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_fivZonVAV_vAV3_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone nor
+<code>floor1_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone eas
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV4_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_fivZonVAV_vAV4_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor1_fivZonVAV_vAV4_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_fivZonVAV_vAV4_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone nor
+<code>floor1_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone nor
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV5_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_fivZonVAV_vAV5_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor1_fivZonVAV_vAV4_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_fivZonVAV_vAV4_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone wes
+<code>floor1_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone nor
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV5_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_fivZonVAV_vAV5_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor1_fivZonVAV_vAV5_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_fivZonVAV_vAV5_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone wes
+<code>floor1_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone wes
 </li>
 <li>
-<code>hva_floor1_oveZonCor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_oveZonCor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_fivZonVAV_vAV5_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_fivZonVAV_vAV5_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_cor
+<code>floor1_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone wes
 </li>
 <li>
-<code>hva_floor1_oveZonCor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_oveZonCor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_oveZonCor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_oveZonCor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_cor
+<code>floor1_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_cor
 </li>
 <li>
-<code>hva_floor1_oveZonEas_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_oveZonEas_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_oveZonCor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_oveZonCor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_eas
+<code>floor1_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_cor
 </li>
 <li>
-<code>hva_floor1_oveZonEas_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_oveZonEas_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_oveZonEas_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_oveZonEas_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_eas
+<code>floor1_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_eas
 </li>
 <li>
-<code>hva_floor1_oveZonNor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_oveZonNor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_oveZonEas_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_oveZonEas_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_nor
+<code>floor1_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_eas
 </li>
 <li>
-<code>hva_floor1_oveZonNor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_oveZonNor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_oveZonNor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_oveZonNor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_nor
+<code>floor1_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_nor
 </li>
 <li>
-<code>hva_floor1_oveZonSou_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_oveZonSou_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_oveZonNor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_oveZonNor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_sou
+<code>floor1_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_nor
 </li>
 <li>
-<code>hva_floor1_oveZonSou_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_oveZonSou_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_oveZonSou_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_oveZonSou_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_sou
+<code>floor1_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_sou
 </li>
 <li>
-<code>hva_floor1_oveZonWes_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_oveZonWes_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_oveZonSou_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_oveZonSou_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_wes
+<code>floor1_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_sou
 </li>
 <li>
-<code>hva_floor1_oveZonWes_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor1_oveZonWes_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_oveZonWes_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_oveZonWes_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor1_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_wes
+<code>floor1_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_wes
 </li>
 <li>
-<code>hva_floor2_TSupAirSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_TSupAirSet_u where 1 activates, 0 deactivates (default value)
+<code>floor1_oveZonWes_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor1_oveZonWes_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
+<code>floor1_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_wes
 </li>
 <li>
-<code>hva_floor2_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_dpSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_TSupAirSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_TSupAirSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_dpSet_u</code> [Pa] [min=50, max=410]: Supply duct pressure setpoint for AHU
+<code>floor2_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_cooCoi_yCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_duaFanAirHanUni_cooCoi_yCoo_u where 1 activates, 0 deactivates (default value)
+<code>floor2_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_dpSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_cooCoi_yCoo_u</code> [1] [min=0, max=1]: Cooling coil valve control signal for AHU
+<code>floor2_dpSet_u</code> [Pa] [min=50, max=410]: Supply duct pressure setpoint for AHU
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_mixingBox_mixBox_yEA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_duaFanAirHanUni_mixingBox_mixBox_yEA_u where 1 activates, 0 deactivates (default value)
+<code>floor2_duaFanAirHanUni_cooCoi_yCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_duaFanAirHanUni_cooCoi_yCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_mixingBox_mixBox_yEA_u</code> [1] [min=0, max=1]: Exhaust air damper position setpoint for AHU
+<code>floor2_duaFanAirHanUni_cooCoi_yCoo_u</code> [1] [min=0, max=1]: Cooling coil valve control signal for AHU
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_mixingBox_mixBox_yOA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_duaFanAirHanUni_mixingBox_mixBox_yOA_u where 1 activates, 0 deactivates (default value)
+<code>floor2_duaFanAirHanUni_frePro_oveFrePro_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_duaFanAirHanUni_frePro_oveFrePro_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_mixingBox_mixBox_yOA_u</code> [1] [min=0, max=1]: Outside air damper position setpoint for AHU
+<code>floor2_duaFanAirHanUni_frePro_oveFrePro_u</code> [1] [min=0, max=1]: Control signal for freeze protection coil
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_mixingBox_mixBox_yRet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_duaFanAirHanUni_mixingBox_mixBox_yRet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_duaFanAirHanUni_mixingBox_mixBox_yEA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_duaFanAirHanUni_mixingBox_mixBox_yEA_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_mixingBox_mixBox_yRet_u</code> [1] [min=0, max=1]: Return air damper position setpoint for AHU
+<code>floor2_duaFanAirHanUni_mixingBox_mixBox_yEA_u</code> [1] [min=0, max=1]: Exhaust air damper position setpoint for AHU
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_oveSpeRetFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_duaFanAirHanUni_oveSpeRetFan_u where 1 activates, 0 deactivates (default value)
+<code>floor2_duaFanAirHanUni_mixingBox_mixBox_yOA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_duaFanAirHanUni_mixingBox_mixBox_yOA_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_oveSpeRetFan_u</code> [1] [min=0, max=1]: AHU return fan speed control signal
+<code>floor2_duaFanAirHanUni_mixingBox_mixBox_yOA_u</code> [1] [min=0, max=1]: Outside air damper position setpoint for AHU
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_supFan_oveSpeSupFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_duaFanAirHanUni_supFan_oveSpeSupFan_u where 1 activates, 0 deactivates (default value)
+<code>floor2_duaFanAirHanUni_mixingBox_mixBox_yRet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_duaFanAirHanUni_mixingBox_mixBox_yRet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_duaFanAirHanUni_supFan_oveSpeSupFan_u</code> [1] [min=0, max=1]: AHU supply fan speed control signal
+<code>floor2_duaFanAirHanUni_mixingBox_mixBox_yRet_u</code> [1] [min=0, max=1]: Return air damper position setpoint for AHU
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV1_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_fivZonVAV_vAV1_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor2_duaFanAirHanUni_oveSpeRetFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_duaFanAirHanUni_oveSpeRetFan_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone cor
+<code>floor2_duaFanAirHanUni_oveSpeRetFan_u</code> [1] [min=0, max=1]: AHU return fan speed control signal
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV1_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_fivZonVAV_vAV1_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor2_duaFanAirHanUni_supFan_oveSpeSupFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_duaFanAirHanUni_supFan_oveSpeSupFan_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone cor
+<code>floor2_duaFanAirHanUni_supFan_oveSpeSupFan_u</code> [1] [min=0, max=1]: AHU supply fan speed control signal
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV2_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_fivZonVAV_vAV2_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor2_fivZonVAV_vAV1_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_fivZonVAV_vAV1_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone sou
+<code>floor2_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone cor
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV2_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_fivZonVAV_vAV2_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor2_fivZonVAV_vAV1_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_fivZonVAV_vAV1_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone sou
+<code>floor2_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone cor
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV3_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_fivZonVAV_vAV3_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor2_fivZonVAV_vAV2_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_fivZonVAV_vAV2_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone eas
+<code>floor2_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone sou
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV3_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_fivZonVAV_vAV3_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor2_fivZonVAV_vAV2_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_fivZonVAV_vAV2_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone eas
+<code>floor2_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone sou
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV4_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_fivZonVAV_vAV4_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor2_fivZonVAV_vAV3_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_fivZonVAV_vAV3_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone nor
+<code>floor2_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone eas
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV4_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_fivZonVAV_vAV4_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor2_fivZonVAV_vAV3_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_fivZonVAV_vAV3_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone nor
+<code>floor2_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone eas
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV5_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_fivZonVAV_vAV5_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor2_fivZonVAV_vAV4_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_fivZonVAV_vAV4_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone wes
+<code>floor2_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone nor
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV5_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_fivZonVAV_vAV5_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor2_fivZonVAV_vAV4_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_fivZonVAV_vAV4_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone wes
+<code>floor2_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone nor
 </li>
 <li>
-<code>hva_floor2_oveZonCor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_oveZonCor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_fivZonVAV_vAV5_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_fivZonVAV_vAV5_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_cor
+<code>floor2_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone wes
 </li>
 <li>
-<code>hva_floor2_oveZonCor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_oveZonCor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_fivZonVAV_vAV5_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_fivZonVAV_vAV5_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_cor
+<code>floor2_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone wes
 </li>
 <li>
-<code>hva_floor2_oveZonEas_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_oveZonEas_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_oveZonCor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_oveZonCor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_eas
+<code>floor2_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_cor
 </li>
 <li>
-<code>hva_floor2_oveZonEas_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_oveZonEas_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_oveZonCor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_oveZonCor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_eas
+<code>floor2_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_cor
 </li>
 <li>
-<code>hva_floor2_oveZonNor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_oveZonNor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_oveZonEas_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_oveZonEas_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_nor
+<code>floor2_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_eas
 </li>
 <li>
-<code>hva_floor2_oveZonNor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_oveZonNor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_oveZonEas_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_oveZonEas_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_nor
+<code>floor2_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_eas
 </li>
 <li>
-<code>hva_floor2_oveZonSou_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_oveZonSou_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_oveZonNor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_oveZonNor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_sou
+<code>floor2_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_nor
 </li>
 <li>
-<code>hva_floor2_oveZonSou_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_oveZonSou_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_oveZonNor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_oveZonNor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_sou
+<code>floor2_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_nor
 </li>
 <li>
-<code>hva_floor2_oveZonWes_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_oveZonWes_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_oveZonSou_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_oveZonSou_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_wes
+<code>floor2_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_sou
 </li>
 <li>
-<code>hva_floor2_oveZonWes_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor2_oveZonWes_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_oveZonSou_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_oveZonSou_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor2_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_wes
+<code>floor2_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_sou
 </li>
 <li>
-<code>hva_floor3_TSupAirSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_TSupAirSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_oveZonWes_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_oveZonWes_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
+<code>floor2_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_wes
 </li>
 <li>
-<code>hva_floor3_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_dpSet_u where 1 activates, 0 deactivates (default value)
+<code>floor2_oveZonWes_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor2_oveZonWes_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_dpSet_u</code> [Pa] [min=50, max=410]: Supply duct pressure setpoint for AHU
+<code>floor2_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_wes
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_cooCoi_yCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_duaFanAirHanUni_cooCoi_yCoo_u where 1 activates, 0 deactivates (default value)
+<code>floor3_TSupAirSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_TSupAirSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_cooCoi_yCoo_u</code> [1] [min=0, max=1]: Cooling coil valve control signal for AHU
+<code>floor3_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_mixingBox_mixBox_yEA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_duaFanAirHanUni_mixingBox_mixBox_yEA_u where 1 activates, 0 deactivates (default value)
+<code>floor3_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_dpSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_mixingBox_mixBox_yEA_u</code> [1] [min=0, max=1]: Exhaust air damper position setpoint for AHU
+<code>floor3_dpSet_u</code> [Pa] [min=50, max=410]: Supply duct pressure setpoint for AHU
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_mixingBox_mixBox_yOA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_duaFanAirHanUni_mixingBox_mixBox_yOA_u where 1 activates, 0 deactivates (default value)
+<code>floor3_duaFanAirHanUni_cooCoi_yCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_duaFanAirHanUni_cooCoi_yCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_mixingBox_mixBox_yOA_u</code> [1] [min=0, max=1]: Outside air damper position setpoint for AHU
+<code>floor3_duaFanAirHanUni_cooCoi_yCoo_u</code> [1] [min=0, max=1]: Cooling coil valve control signal for AHU
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_mixingBox_mixBox_yRet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_duaFanAirHanUni_mixingBox_mixBox_yRet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_duaFanAirHanUni_frePro_oveFrePro_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_duaFanAirHanUni_frePro_oveFrePro_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_mixingBox_mixBox_yRet_u</code> [1] [min=0, max=1]: Return air damper position setpoint for AHU
+<code>floor3_duaFanAirHanUni_frePro_oveFrePro_u</code> [1] [min=0, max=1]: Control signal for freeze protection coil
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_oveSpeRetFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_duaFanAirHanUni_oveSpeRetFan_u where 1 activates, 0 deactivates (default value)
+<code>floor3_duaFanAirHanUni_mixingBox_mixBox_yEA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_duaFanAirHanUni_mixingBox_mixBox_yEA_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_oveSpeRetFan_u</code> [1] [min=0, max=1]: AHU return fan speed control signal
+<code>floor3_duaFanAirHanUni_mixingBox_mixBox_yEA_u</code> [1] [min=0, max=1]: Exhaust air damper position setpoint for AHU
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_supFan_oveSpeSupFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_duaFanAirHanUni_supFan_oveSpeSupFan_u where 1 activates, 0 deactivates (default value)
+<code>floor3_duaFanAirHanUni_mixingBox_mixBox_yOA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_duaFanAirHanUni_mixingBox_mixBox_yOA_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_duaFanAirHanUni_supFan_oveSpeSupFan_u</code> [1] [min=0, max=1]: AHU supply fan speed control signal
+<code>floor3_duaFanAirHanUni_mixingBox_mixBox_yOA_u</code> [1] [min=0, max=1]: Outside air damper position setpoint for AHU
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV1_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_fivZonVAV_vAV1_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor3_duaFanAirHanUni_mixingBox_mixBox_yRet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_duaFanAirHanUni_mixingBox_mixBox_yRet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone cor
+<code>floor3_duaFanAirHanUni_mixingBox_mixBox_yRet_u</code> [1] [min=0, max=1]: Return air damper position setpoint for AHU
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV1_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_fivZonVAV_vAV1_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor3_duaFanAirHanUni_oveSpeRetFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_duaFanAirHanUni_oveSpeRetFan_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone cor
+<code>floor3_duaFanAirHanUni_oveSpeRetFan_u</code> [1] [min=0, max=1]: AHU return fan speed control signal
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV2_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_fivZonVAV_vAV2_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor3_duaFanAirHanUni_supFan_oveSpeSupFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_duaFanAirHanUni_supFan_oveSpeSupFan_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone sou
+<code>floor3_duaFanAirHanUni_supFan_oveSpeSupFan_u</code> [1] [min=0, max=1]: AHU supply fan speed control signal
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV2_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_fivZonVAV_vAV2_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor3_fivZonVAV_vAV1_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_fivZonVAV_vAV1_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone sou
+<code>floor3_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone cor
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV3_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_fivZonVAV_vAV3_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor3_fivZonVAV_vAV1_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_fivZonVAV_vAV1_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone eas
+<code>floor3_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone cor
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV3_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_fivZonVAV_vAV3_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor3_fivZonVAV_vAV2_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_fivZonVAV_vAV2_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone eas
+<code>floor3_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone sou
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV4_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_fivZonVAV_vAV4_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor3_fivZonVAV_vAV2_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_fivZonVAV_vAV2_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone nor
+<code>floor3_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone sou
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV4_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_fivZonVAV_vAV4_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor3_fivZonVAV_vAV3_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_fivZonVAV_vAV3_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone nor
+<code>floor3_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone eas
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV5_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_fivZonVAV_vAV5_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
+<code>floor3_fivZonVAV_vAV3_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_fivZonVAV_vAV3_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position setpoint for zone wes
+<code>floor3_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone eas
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV5_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_fivZonVAV_vAV5_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
+<code>floor3_fivZonVAV_vAV4_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_fivZonVAV_vAV4_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone wes
+<code>floor3_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone nor
 </li>
 <li>
-<code>hva_floor3_oveZonCor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_oveZonCor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_fivZonVAV_vAV4_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_fivZonVAV_vAV4_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_cor
+<code>floor3_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone nor
 </li>
 <li>
-<code>hva_floor3_oveZonCor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_oveZonCor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_fivZonVAV_vAV5_oveZonLoc_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_fivZonVAV_vAV5_oveZonLoc_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_cor
+<code>floor3_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0, max=1]: Damper position signal for zone wes
 </li>
 <li>
-<code>hva_floor3_oveZonEas_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_oveZonEas_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_fivZonVAV_vAV5_oveZonLoc_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_fivZonVAV_vAV5_oveZonLoc_yReaHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_eas
+<code>floor3_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0, max=1]: Reheat control signal for zone wes
 </li>
 <li>
-<code>hva_floor3_oveZonEas_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_oveZonEas_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_oveZonCor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_oveZonCor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_eas
+<code>floor3_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_cor
 </li>
 <li>
-<code>hva_floor3_oveZonNor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_oveZonNor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_oveZonCor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_oveZonCor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_nor
+<code>floor3_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_cor
 </li>
 <li>
-<code>hva_floor3_oveZonNor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_oveZonNor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_oveZonEas_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_oveZonEas_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_nor
+<code>floor3_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_eas
 </li>
 <li>
-<code>hva_floor3_oveZonSou_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_oveZonSou_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_oveZonEas_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_oveZonEas_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_sou
+<code>floor3_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_eas
 </li>
 <li>
-<code>hva_floor3_oveZonSou_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_oveZonSou_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_oveZonNor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_oveZonNor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_sou
+<code>floor3_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_nor
 </li>
 <li>
-<code>hva_floor3_oveZonWes_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_oveZonWes_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_oveZonNor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_oveZonNor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_wes
+<code>floor3_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_nor
 </li>
 <li>
-<code>hva_floor3_oveZonWes_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_floor3_oveZonWes_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_oveZonSou_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_oveZonSou_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_floor3_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_wes
+<code>floor3_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_sou
 </li>
 <li>
-<code>hva_oveChiWatSys_TWSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_oveChiWatSys_TWSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_oveZonSou_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_oveZonSou_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_oveChiWatSys_TWSet_u</code> [K] [min=278.15, max=288.15]: Chilled/hot water supply setpoint
+<code>floor3_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_sou
 </li>
 <li>
-<code>hva_oveChiWatSys_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_oveChiWatSys_dpSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_oveZonWes_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_oveZonWes_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_oveChiWatSys_dpSet_u</code> [Pa] [min=0, max=19130000]: Differential pressure setpoint
+<code>floor3_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_wes
 </li>
 <li>
-<code>hva_oveHotWatSys_TWSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_oveHotWatSys_TWSet_u where 1 activates, 0 deactivates (default value)
+<code>floor3_oveZonWes_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input floor3_oveZonWes_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_oveHotWatSys_TWSet_u</code> [K] [min=291.15, max=353.15]: Chilled/hot water supply setpoint
+<code>floor3_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_wes
 </li>
 <li>
-<code>hva_oveHotWatSys_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hva_oveHotWatSys_dpSet_u where 1 activates, 0 deactivates (default value)
+<code>oveChiWatSys_TWSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveChiWatSys_TWSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>hva_oveHotWatSys_dpSet_u</code> [Pa] [min=0, max=19130000]: Differential pressure setpoint
+<code>oveChiWatSys_TWSet_u</code> [K] [min=278.15, max=288.15]: Chilled/hot water supply setpoint
+</li>
+<li>
+<code>oveChiWatSys_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveChiWatSys_dpSet_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveChiWatSys_dpSet_u</code> [Pa] [min=0, max=19130000]: Differential pressure setpoint
+</li>
+<li>
+<code>oveHotWatSys_TWSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveHotWatSys_TWSet_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveHotWatSys_TWSet_u</code> [K] [min=291.15, max=353.15]: Chilled/hot water supply setpoint
+</li>
+<li>
+<code>oveHotWatSys_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveHotWatSys_dpSet_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveHotWatSys_dpSet_u</code> [Pa] [min=0, max=19130000]: Differential pressure setpoint
 </li>
 </ul>
 <h4>Outputs</h4>
 The model outputs are:
 <ul>
 <li>
-<code>hva_floor1_reaAHU_CO2_AHUFre_y</code> [ppm] [min=None, max=None]: Fresh air CO2 measurement for AHU
+<code>floor1_reaAHU_CO2_AHUFre_y</code> [ppm] [min=None, max=None]: Fresh air CO2 measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_CO2_AHURet_y</code> [ppm] [min=None, max=None]: Return air CO2 measurement for AHU
+<code>floor1_reaAHU_CO2_AHURet_y</code> [ppm] [min=None, max=None]: Return air CO2 measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_CO2_AHUSup_y</code> [ppm] [min=None, max=None]: Supply air CO2 measurement for AHU
+<code>floor1_reaAHU_CO2_AHUSup_y</code> [ppm] [min=None, max=None]: Supply air CO2 measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_PFanTot_y</code> [W] [min=None, max=None]: Total electrical power measurement of supply and return fans for AHU
+<code>floor1_reaAHU_PFanRet_y</code> [W] [min=None, max=None]: Electrical power measurement of return fan for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
+<code>floor1_reaAHU_PFanSup_y</code> [W] [min=None, max=None]: Electrical power measurement of supply fan for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
+<code>floor1_reaAHU_PFreCoi_y</code> [W] [min=None, max=None]: Electrical power measurement of freeze protection coil for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
+<code>floor1_reaAHU_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
+<code>floor1_reaAHU_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
+<code>floor1_reaAHU_TFreCoiLea_y</code> [K] [min=None, max=None]: Temperature of air leaving freeze protection coil
 </li>
 <li>
-<code>hva_floor1_reaAHU_V_flowOA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU
+<code>floor1_reaAHU_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_V_flowRet_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
+<code>floor1_reaAHU_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_V_flowSup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
+<code>floor1_reaAHU_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_dp_y</code> [Pa] [min=None, max=None]: Static pressure of supply fan for AHU
+<code>floor1_reaAHU_V_flowOA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_occ_y</code> [1] [min=None, max=None]: Occupancy status (1 occupied, 0 unoccupied)
+<code>floor1_reaAHU_V_flowRet_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_phiAHURet_y</code> [1] [min=None, max=None]: Return air relative humidity for AHU
+<code>floor1_reaAHU_V_flowSup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_phiAHUSup_y</code> [1] [min=None, max=None]: Supply air relative humidity for AHU
+<code>floor1_reaAHU_dp_y</code> [Pa] [min=None, max=None]: Static pressure of supply fan for AHU
 </li>
 <li>
-<code>hva_floor1_reaAHU_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
+<code>floor1_reaAHU_occ_y</code> [1] [min=None, max=None]: Occupancy status (1 occupied, 0 unoccupied)
 </li>
 <li>
-<code>hva_floor1_reaAHU_yOA_y</code> [1] [min=None, max=None]: AHU OA damper position measurement
+<code>floor1_reaAHU_phiAHURet_y</code> [1] [min=None, max=None]: Return air relative humidity for AHU
 </li>
 <li>
-<code>hva_floor1_reaZonCor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone bot_floor_cor
+<code>floor1_reaAHU_phiAHUSup_y</code> [1] [min=None, max=None]: Supply air relative humidity for AHU
 </li>
 <li>
-<code>hva_floor1_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone bot_floor_cor
+<code>floor1_reaAHU_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
 </li>
 <li>
-<code>hva_floor1_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_cor
+<code>floor1_reaAHU_yOA_y</code> [1] [min=None, max=None]: AHU OA damper position measurement
 </li>
 <li>
-<code>hva_floor1_reaZonCor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint bot_floor_cor
+<code>floor1_reaZonCor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone bot_floor_cor
 </li>
 <li>
-<code>hva_floor1_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone bot_floor_cor
+<code>floor1_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone bot_floor_cor
 </li>
 <li>
-<code>hva_floor1_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_cor
+<code>floor1_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_cor
 </li>
 <li>
-<code>hva_floor1_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_cor
+<code>floor1_reaZonCor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone bot_floor_cor
 </li>
 <li>
-<code>hva_floor1_reaZonEas_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone bot_floor_eas
+<code>floor1_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone bot_floor_cor
 </li>
 <li>
-<code>hva_floor1_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone bot_floor_eas
+<code>floor1_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_cor
 </li>
 <li>
-<code>hva_floor1_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_eas
+<code>floor1_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_cor
 </li>
 <li>
-<code>hva_floor1_reaZonEas_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint bot_floor_eas
+<code>floor1_reaZonEas_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone bot_floor_eas
 </li>
 <li>
-<code>hva_floor1_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone bot_floor_eas
+<code>floor1_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone bot_floor_eas
 </li>
 <li>
-<code>hva_floor1_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_eas
+<code>floor1_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_eas
 </li>
 <li>
-<code>hva_floor1_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_eas
+<code>floor1_reaZonEas_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone bot_floor_eas
 </li>
 <li>
-<code>hva_floor1_reaZonNor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone bot_floor_nor
+<code>floor1_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone bot_floor_eas
 </li>
 <li>
-<code>hva_floor1_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone bot_floor_nor
+<code>floor1_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_eas
 </li>
 <li>
-<code>hva_floor1_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_nor
+<code>floor1_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_eas
 </li>
 <li>
-<code>hva_floor1_reaZonNor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint bot_floor_nor
+<code>floor1_reaZonNor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone bot_floor_nor
 </li>
 <li>
-<code>hva_floor1_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone bot_floor_nor
+<code>floor1_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone bot_floor_nor
 </li>
 <li>
-<code>hva_floor1_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_nor
+<code>floor1_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_nor
 </li>
 <li>
-<code>hva_floor1_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_nor
+<code>floor1_reaZonNor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone bot_floor_nor
 </li>
 <li>
-<code>hva_floor1_reaZonSou_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone bot_floor_sou
+<code>floor1_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone bot_floor_nor
 </li>
 <li>
-<code>hva_floor1_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone bot_floor_sou
+<code>floor1_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_nor
 </li>
 <li>
-<code>hva_floor1_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_sou
+<code>floor1_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_nor
 </li>
 <li>
-<code>hva_floor1_reaZonSou_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint bot_floor_sou
+<code>floor1_reaZonSou_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone bot_floor_sou
 </li>
 <li>
-<code>hva_floor1_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone bot_floor_sou
+<code>floor1_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone bot_floor_sou
 </li>
 <li>
-<code>hva_floor1_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_sou
+<code>floor1_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_sou
 </li>
 <li>
-<code>hva_floor1_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_sou
+<code>floor1_reaZonSou_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone bot_floor_sou
 </li>
 <li>
-<code>hva_floor1_reaZonWes_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone bot_floor_wes
+<code>floor1_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone bot_floor_sou
 </li>
 <li>
-<code>hva_floor1_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone bot_floor_wes
+<code>floor1_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_sou
 </li>
 <li>
-<code>hva_floor1_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_wes
+<code>floor1_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_sou
 </li>
 <li>
-<code>hva_floor1_reaZonWes_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint bot_floor_wes
+<code>floor1_reaZonWes_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone bot_floor_wes
 </li>
 <li>
-<code>hva_floor1_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone bot_floor_wes
+<code>floor1_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone bot_floor_wes
 </li>
 <li>
-<code>hva_floor1_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_wes
+<code>floor1_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_wes
 </li>
 <li>
-<code>hva_floor1_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_wes
+<code>floor1_reaZonWes_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone bot_floor_wes
 </li>
 <li>
-<code>hva_floor2_reaAHU_CO2_AHUFre_y</code> [ppm] [min=None, max=None]: Fresh air CO2 measurement for AHU
+<code>floor1_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone bot_floor_wes
 </li>
 <li>
-<code>hva_floor2_reaAHU_CO2_AHURet_y</code> [ppm] [min=None, max=None]: Return air CO2 measurement for AHU
+<code>floor1_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_wes
 </li>
 <li>
-<code>hva_floor2_reaAHU_CO2_AHUSup_y</code> [ppm] [min=None, max=None]: Supply air CO2 measurement for AHU
+<code>floor1_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_wes
 </li>
 <li>
-<code>hva_floor2_reaAHU_PFanTot_y</code> [W] [min=None, max=None]: Total electrical power measurement of supply and return fans for AHU
+<code>floor2_reaAHU_CO2_AHUFre_y</code> [ppm] [min=None, max=None]: Fresh air CO2 measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
+<code>floor2_reaAHU_CO2_AHURet_y</code> [ppm] [min=None, max=None]: Return air CO2 measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
+<code>floor2_reaAHU_CO2_AHUSup_y</code> [ppm] [min=None, max=None]: Supply air CO2 measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
+<code>floor2_reaAHU_PFanRet_y</code> [W] [min=None, max=None]: Electrical power measurement of return fan for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
+<code>floor2_reaAHU_PFanSup_y</code> [W] [min=None, max=None]: Electrical power measurement of supply fan for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
+<code>floor2_reaAHU_PFreCoi_y</code> [W] [min=None, max=None]: Electrical power measurement of freeze protection coil for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_V_flowOA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU
+<code>floor2_reaAHU_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_V_flowRet_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
+<code>floor2_reaAHU_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_V_flowSup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
+<code>floor2_reaAHU_TFreCoiLea_y</code> [K] [min=None, max=None]: Temperature of air leaving freeze protection coil
 </li>
 <li>
-<code>hva_floor2_reaAHU_dp_y</code> [Pa] [min=None, max=None]: Static pressure of supply fan for AHU
+<code>floor2_reaAHU_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_occ_y</code> [1] [min=None, max=None]: Occupancy status (1 occupied, 0 unoccupied)
+<code>floor2_reaAHU_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_phiAHURet_y</code> [1] [min=None, max=None]: Return air relative humidity for AHU
+<code>floor2_reaAHU_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_phiAHUSup_y</code> [1] [min=None, max=None]: Supply air relative humidity for AHU
+<code>floor2_reaAHU_V_flowOA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
+<code>floor2_reaAHU_V_flowRet_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaAHU_yOA_y</code> [1] [min=None, max=None]: AHU OA damper position measurement
+<code>floor2_reaAHU_V_flowSup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
 </li>
 <li>
-<code>hva_floor2_reaZonCor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone mid_floor_cor
+<code>floor2_reaAHU_dp_y</code> [Pa] [min=None, max=None]: Static pressure of supply fan for AHU
 </li>
 <li>
-<code>hva_floor2_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone mid_floor_cor
+<code>floor2_reaAHU_occ_y</code> [1] [min=None, max=None]: Occupancy status (1 occupied, 0 unoccupied)
 </li>
 <li>
-<code>hva_floor2_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_cor
+<code>floor2_reaAHU_phiAHURet_y</code> [1] [min=None, max=None]: Return air relative humidity for AHU
 </li>
 <li>
-<code>hva_floor2_reaZonCor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint mid_floor_cor
+<code>floor2_reaAHU_phiAHUSup_y</code> [1] [min=None, max=None]: Supply air relative humidity for AHU
 </li>
 <li>
-<code>hva_floor2_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone mid_floor_cor
+<code>floor2_reaAHU_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
 </li>
 <li>
-<code>hva_floor2_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_cor
+<code>floor2_reaAHU_yOA_y</code> [1] [min=None, max=None]: AHU OA damper position measurement
 </li>
 <li>
-<code>hva_floor2_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_cor
+<code>floor2_reaZonCor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone mid_floor_cor
 </li>
 <li>
-<code>hva_floor2_reaZonEas_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone mid_floor_eas
+<code>floor2_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone mid_floor_cor
 </li>
 <li>
-<code>hva_floor2_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone mid_floor_eas
+<code>floor2_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_cor
 </li>
 <li>
-<code>hva_floor2_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_eas
+<code>floor2_reaZonCor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone mid_floor_cor
 </li>
 <li>
-<code>hva_floor2_reaZonEas_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint mid_floor_eas
+<code>floor2_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone mid_floor_cor
 </li>
 <li>
-<code>hva_floor2_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone mid_floor_eas
+<code>floor2_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_cor
 </li>
 <li>
-<code>hva_floor2_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_eas
+<code>floor2_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_cor
 </li>
 <li>
-<code>hva_floor2_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_eas
+<code>floor2_reaZonEas_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone mid_floor_eas
 </li>
 <li>
-<code>hva_floor2_reaZonNor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone mid_floor_nor
+<code>floor2_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone mid_floor_eas
 </li>
 <li>
-<code>hva_floor2_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone mid_floor_nor
+<code>floor2_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_eas
 </li>
 <li>
-<code>hva_floor2_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_nor
+<code>floor2_reaZonEas_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone mid_floor_eas
 </li>
 <li>
-<code>hva_floor2_reaZonNor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint mid_floor_nor
+<code>floor2_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone mid_floor_eas
 </li>
 <li>
-<code>hva_floor2_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone mid_floor_nor
+<code>floor2_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_eas
 </li>
 <li>
-<code>hva_floor2_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_nor
+<code>floor2_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_eas
 </li>
 <li>
-<code>hva_floor2_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_nor
+<code>floor2_reaZonNor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone mid_floor_nor
 </li>
 <li>
-<code>hva_floor2_reaZonSou_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone mid_floor_sou
+<code>floor2_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone mid_floor_nor
 </li>
 <li>
-<code>hva_floor2_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone mid_floor_sou
+<code>floor2_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_nor
 </li>
 <li>
-<code>hva_floor2_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_sou
+<code>floor2_reaZonNor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone mid_floor_nor
 </li>
 <li>
-<code>hva_floor2_reaZonSou_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint mid_floor_sou
+<code>floor2_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone mid_floor_nor
 </li>
 <li>
-<code>hva_floor2_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone mid_floor_sou
+<code>floor2_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_nor
 </li>
 <li>
-<code>hva_floor2_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_sou
+<code>floor2_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_nor
 </li>
 <li>
-<code>hva_floor2_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_sou
+<code>floor2_reaZonSou_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone mid_floor_sou
 </li>
 <li>
-<code>hva_floor2_reaZonWes_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone mid_floor_wes
+<code>floor2_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone mid_floor_sou
 </li>
 <li>
-<code>hva_floor2_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone mid_floor_wes
+<code>floor2_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_sou
 </li>
 <li>
-<code>hva_floor2_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_wes
+<code>floor2_reaZonSou_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone mid_floor_sou
 </li>
 <li>
-<code>hva_floor2_reaZonWes_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint mid_floor_wes
+<code>floor2_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone mid_floor_sou
 </li>
 <li>
-<code>hva_floor2_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone mid_floor_wes
+<code>floor2_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_sou
 </li>
 <li>
-<code>hva_floor2_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_wes
+<code>floor2_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_sou
 </li>
 <li>
-<code>hva_floor2_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_wes
+<code>floor2_reaZonWes_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone mid_floor_wes
 </li>
 <li>
-<code>hva_floor3_reaAHU_CO2_AHUFre_y</code> [ppm] [min=None, max=None]: Fresh air CO2 measurement for AHU
+<code>floor2_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone mid_floor_wes
 </li>
 <li>
-<code>hva_floor3_reaAHU_CO2_AHURet_y</code> [ppm] [min=None, max=None]: Return air CO2 measurement for AHU
+<code>floor2_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_wes
 </li>
 <li>
-<code>hva_floor3_reaAHU_CO2_AHUSup_y</code> [ppm] [min=None, max=None]: Supply air CO2 measurement for AHU
+<code>floor2_reaZonWes_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone mid_floor_wes
 </li>
 <li>
-<code>hva_floor3_reaAHU_PFanTot_y</code> [W] [min=None, max=None]: Total electrical power measurement of supply and return fans for AHU
+<code>floor2_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone mid_floor_wes
 </li>
 <li>
-<code>hva_floor3_reaAHU_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
+<code>floor2_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_wes
 </li>
 <li>
-<code>hva_floor3_reaAHU_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
+<code>floor2_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_wes
 </li>
 <li>
-<code>hva_floor3_reaAHU_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
+<code>floor3_reaAHU_CO2_AHUFre_y</code> [ppm] [min=None, max=None]: Fresh air CO2 measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaAHU_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
+<code>floor3_reaAHU_CO2_AHURet_y</code> [ppm] [min=None, max=None]: Return air CO2 measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaAHU_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
+<code>floor3_reaAHU_CO2_AHUSup_y</code> [ppm] [min=None, max=None]: Supply air CO2 measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaAHU_V_flowOA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU
+<code>floor3_reaAHU_PFanRet_y</code> [W] [min=None, max=None]: Electrical power measurement of return fan for AHU
 </li>
 <li>
-<code>hva_floor3_reaAHU_V_flowRet_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
+<code>floor3_reaAHU_PFanSup_y</code> [W] [min=None, max=None]: Electrical power measurement of supply fan for AHU
 </li>
 <li>
-<code>hva_floor3_reaAHU_V_flowSup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
+<code>floor3_reaAHU_PFreCoi_y</code> [W] [min=None, max=None]: Electrical power measurement of freeze protection coil for AHU
 </li>
 <li>
-<code>hva_floor3_reaAHU_dp_y</code> [Pa] [min=None, max=None]: Static pressure of supply fan for AHU
+<code>floor3_reaAHU_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaAHU_occ_y</code> [1] [min=None, max=None]: Occupancy status (1 occupied, 0 unoccupied)
+<code>floor3_reaAHU_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaAHU_phiAHURet_y</code> [1] [min=None, max=None]: Return air relative humidity for AHU
+<code>floor3_reaAHU_TFreCoiLea_y</code> [K] [min=None, max=None]: Temperature of air leaving freeze protection coil
 </li>
 <li>
-<code>hva_floor3_reaAHU_phiAHUSup_y</code> [1] [min=None, max=None]: Supply air relative humidity for AHU
+<code>floor3_reaAHU_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaAHU_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
+<code>floor3_reaAHU_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaAHU_yOA_y</code> [1] [min=None, max=None]: AHU OA damper position measurement
+<code>floor3_reaAHU_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaZonCor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone top_floor_cor
+<code>floor3_reaAHU_V_flowOA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone top_floor_cor
+<code>floor3_reaAHU_V_flowRet_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_cor
+<code>floor3_reaAHU_V_flowSup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
 </li>
 <li>
-<code>hva_floor3_reaZonCor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint top_floor_cor
+<code>floor3_reaAHU_dp_y</code> [Pa] [min=None, max=None]: Static pressure of supply fan for AHU
 </li>
 <li>
-<code>hva_floor3_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone top_floor_cor
+<code>floor3_reaAHU_occ_y</code> [1] [min=None, max=None]: Occupancy status (1 occupied, 0 unoccupied)
 </li>
 <li>
-<code>hva_floor3_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_cor
+<code>floor3_reaAHU_phiAHURet_y</code> [1] [min=None, max=None]: Return air relative humidity for AHU
 </li>
 <li>
-<code>hva_floor3_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_cor
+<code>floor3_reaAHU_phiAHUSup_y</code> [1] [min=None, max=None]: Supply air relative humidity for AHU
 </li>
 <li>
-<code>hva_floor3_reaZonEas_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone top_floor_eas
+<code>floor3_reaAHU_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
 </li>
 <li>
-<code>hva_floor3_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone top_floor_eas
+<code>floor3_reaAHU_yOA_y</code> [1] [min=None, max=None]: AHU OA damper position measurement
 </li>
 <li>
-<code>hva_floor3_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_eas
+<code>floor3_reaZonCor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone top_floor_cor
 </li>
 <li>
-<code>hva_floor3_reaZonEas_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint top_floor_eas
+<code>floor3_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone top_floor_cor
 </li>
 <li>
-<code>hva_floor3_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone top_floor_eas
+<code>floor3_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_cor
 </li>
 <li>
-<code>hva_floor3_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_eas
+<code>floor3_reaZonCor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone top_floor_cor
 </li>
 <li>
-<code>hva_floor3_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_eas
+<code>floor3_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone top_floor_cor
 </li>
 <li>
-<code>hva_floor3_reaZonNor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone top_floor_nor
+<code>floor3_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_cor
 </li>
 <li>
-<code>hva_floor3_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone top_floor_nor
+<code>floor3_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_cor
 </li>
 <li>
-<code>hva_floor3_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_nor
+<code>floor3_reaZonEas_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone top_floor_eas
 </li>
 <li>
-<code>hva_floor3_reaZonNor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint top_floor_nor
+<code>floor3_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone top_floor_eas
 </li>
 <li>
-<code>hva_floor3_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone top_floor_nor
+<code>floor3_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_eas
 </li>
 <li>
-<code>hva_floor3_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_nor
+<code>floor3_reaZonEas_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone top_floor_eas
 </li>
 <li>
-<code>hva_floor3_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_nor
+<code>floor3_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone top_floor_eas
 </li>
 <li>
-<code>hva_floor3_reaZonSou_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone top_floor_sou
+<code>floor3_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_eas
 </li>
 <li>
-<code>hva_floor3_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone top_floor_sou
+<code>floor3_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_eas
 </li>
 <li>
-<code>hva_floor3_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_sou
+<code>floor3_reaZonNor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone top_floor_nor
 </li>
 <li>
-<code>hva_floor3_reaZonSou_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint top_floor_sou
+<code>floor3_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone top_floor_nor
 </li>
 <li>
-<code>hva_floor3_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone top_floor_sou
+<code>floor3_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_nor
 </li>
 <li>
-<code>hva_floor3_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_sou
+<code>floor3_reaZonNor_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone top_floor_nor
 </li>
 <li>
-<code>hva_floor3_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_sou
+<code>floor3_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone top_floor_nor
 </li>
 <li>
-<code>hva_floor3_reaZonWes_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone top_floor_wes
+<code>floor3_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_nor
 </li>
 <li>
-<code>hva_floor3_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone top_floor_wes
+<code>floor3_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_nor
 </li>
 <li>
-<code>hva_floor3_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_wes
+<code>floor3_reaZonSou_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone top_floor_sou
 </li>
 <li>
-<code>hva_floor3_reaZonWes_V_flowSet_y</code> [m3/s] [min=None, max=None]: Airflow setpoint top_floor_wes
+<code>floor3_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone top_floor_sou
 </li>
 <li>
-<code>hva_floor3_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone top_floor_wes
+<code>floor3_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_sou
 </li>
 <li>
-<code>hva_floor3_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_wes
+<code>floor3_reaZonSou_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone top_floor_sou
 </li>
 <li>
-<code>hva_floor3_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_wes
+<code>floor3_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone top_floor_sou
 </li>
 <li>
-<code>hva_reaChiWatSys_TCHWRet_y</code> [K] [min=None, max=None]: Chilled water return temperature measurement
+<code>floor3_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_sou
 </li>
 <li>
-<code>hva_reaChiWatSys_TCHWSup_y</code> [K] [min=None, max=None]: Chilled water supply temperature measurement
+<code>floor3_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_sou
 </li>
 <li>
-<code>hva_reaChiWatSys_dp_y</code> [Pa] [min=None, max=None]: Differential pressure of chilled/hot water measurement
+<code>floor3_reaZonWes_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone top_floor_wes
 </li>
 <li>
-<code>hva_reaChiWatSys_mCHWTot_y</code> [kg/s] [min=None, max=None]: Total chilled water mass flow rate
+<code>floor3_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature measurement for zone top_floor_wes
 </li>
 <li>
-<code>hva_reaChiWatSys_reaPChi_y</code> [W] [min=None, max=None]: Multiple chiller power consumption
+<code>floor3_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_wes
 </li>
 <li>
-<code>hva_reaChiWatSys_reaPCooTow_y</code> [W] [min=None, max=None]: Multiple cooling tower power consumption
+<code>floor3_reaZonWes_V_flowSet_y</code> [m3/s] [min=None, max=None]: Zone airflow setpoint for zone top_floor_wes
 </li>
 <li>
-<code>hva_reaChiWatSys_reaPPum_y</code> [W] [min=None, max=None]: Chilled water plant pump power consumption
+<code>floor3_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Air flowrate measurement for zone top_floor_wes
 </li>
 <li>
-<code>hva_reaHotWatSys_THWRet_y</code> [K] [min=None, max=None]: Hot water return temperature measurement
+<code>floor3_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_wes
 </li>
 <li>
-<code>hva_reaHotWatSys_THWSup_y</code> [K] [min=None, max=None]: Chilled water temperature measurement
+<code>floor3_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_wes
 </li>
 <li>
-<code>hva_reaHotWatSys_dp_y</code> [Pa] [min=None, max=None]: Differential pressure of chilled/hot water measurement
+<code>reaChiWatSys_TCHWRet_y</code> [K] [min=None, max=None]: Chilled water return temperature measurement
 </li>
 <li>
-<code>hva_reaHotWatSys_mHWTot_y</code> [kg/s] [min=None, max=None]: Total hot water mass flow rate
+<code>reaChiWatSys_TCHWSup_y</code> [K] [min=None, max=None]: Chilled water supply temperature measurement
 </li>
 <li>
-<code>hva_reaHotWatSys_reaPBoi_y</code> [W] [min=None, max=None]: Multiple gas power consumption
+<code>reaChiWatSys_dp_y</code> [Pa] [min=None, max=None]: Differential pressure of chilled water plant measurement
 </li>
 <li>
-<code>hva_reaHotWatSys_reaPPum_y</code> [W] [min=None, max=None]: Chilled water plant pump power consumption
+<code>reaChiWatSys_mCHWTot_y</code> [kg/s] [min=None, max=None]: Total chilled water mass flow rate
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+<code>reaChiWatSys_reaPChi_y</code> [W] [min=None, max=None]: Multiple chiller power consumption
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+<code>reaChiWatSys_reaPCooTow_y</code> [W] [min=None, max=None]: Multiple cooling tower power consumption
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+<code>reaChiWatSys_reaPPum_y</code> [W] [min=None, max=None]: Chilled water plant pump power consumption
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+<code>reaHotWatSys_THWRet_y</code> [K] [min=None, max=None]: Hot water return temperature measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+<code>reaHotWatSys_THWSup_y</code> [K] [min=None, max=None]: Hot water supply temperature measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+<code>reaHotWatSys_dp_y</code> [Pa] [min=None, max=None]: Differential pressure of hot water plant measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+<code>reaHotWatSys_mHWTot_y</code> [kg/s] [min=None, max=None]: Total hot water mass flow rate
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+<code>reaHotWatSys_reaPBoi_y</code> [W] [min=None, max=None]: Multiple gas boiler power consumption
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+<code>reaHotWatSys_reaPPum_y</code> [W] [min=None, max=None]: Hot water plant pump power consumption
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+<code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
 </li>
 <li>
-<code>loaEnePlu_weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
 </ul>
 <h4>Forecasts</h4>
@@ -2386,6 +2504,16 @@ The model forecasts are:
 <h3>
 
 <h3>Model Implementation Details</h3>
+
+<h4>Internal mass</h4>
+<p>Building internal mass is modeled in EnergyPlus using two approaches: the InternalMass object and the Zone Air Capacitance Multiplier.
+Internal mass surface area values are taken from the DOE Reference Buildings,
+and a zone air capacitance multiplier of 8 is applied to represent typical internal-mass levels (Chen et al., 2022). </p>
+
+Chen, Z. , Wen, J. , Bushby, S. , Lo, L. , O'Neill, Z. , Payne, V. , Pertzborn, A. , Calfa, C. , Fu, Y. , Grajewski, G. , Li, Y. and Yang, Z. (2022),
+An Analysis of the Hybrid Internal Mass Modeling Approach in EnergyPlus, Proceedings of eSim 2022: 12th Conference of IBPSA-Canada, Ottawa, CA, [online]
+, https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=934193 (Accessed September 12, 2025)
+
 <h4>Moist vs. dry air</h4>
 <p>
 A moist air model is used.  Relative humidity is tracked based on latent
@@ -2423,8 +2551,8 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
 
 
-    Scenario Information
-</h3>
+<h3>Scenario Information</h3>
+
 <h4>Time Periods</h4>
 <p>
     The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
@@ -2434,10 +2562,10 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
     maximum 15-minute system heating load in the year.
     </ul>
     <ul>
-    Start Time: Day 9.
+    Start Time: Day 24.
     </ul>
     <ul>
-    End Time: Day 23.
+    End Time: Day 38.
     </ul>
     </p>
     <p>
@@ -2449,10 +2577,10 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
     median of all 15-minute maximum heating loads of all days in the year.
     </ul>
     <ul>
-    Start Time: Day 115.
+    Start Time: Day 215.
     </ul>
     <ul>
-    End Time: Day 129.
+    End Time: Day 229.
     </ul>
     </p>
     <p>
@@ -2465,10 +2593,10 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
     due to start up).
     </ul>
     <ul>
-    Start Time: Day 189.
+    Start Time: Day 177.
     </ul>
     <ul>
-    End Time: Day 203.
+    End Time: Day 191.
     </ul>
     </p>
     <p>
@@ -2482,10 +2610,10 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
     due to start up).
     </ul>
     <ul>
-    Start Time: Day 247.
+    Start Time: Day 277.
     </ul>
     <ul>
-    End Time: Day 261.
+    End Time: Day 291.
     </ul>
     </p>
     <p>
@@ -2498,10 +2626,10 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
     and cooling loads.
     </ul>
     <ul>
-    Start Time: Day 22.
+    Start Time: Day 18.
     </ul>
     <ul>
-    End Time: Day 36.
+    End Time: Day 32.
     </ul>
     </p>
     <h4>Energy Pricing</h4>
