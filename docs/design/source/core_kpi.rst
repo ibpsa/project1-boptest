@@ -180,6 +180,32 @@ Computational time ratio
    Where :math:`n` is the number of simulation steps that take place between
    :math:`t_0` and :math:`t_f`.
 
+Actuator travel
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+   The actuator travel quantifies the overall movement of HVAC system actuators.
+   This measure is important to assess the wear and tear of the equipment, 
+   because frequent and erratic switching of control
+   signals can lead to equipment damages and shorter equipment lifespan. 
+
+   We use displacement, which measures the total distance the actuator travels 
+   in its control signal over the entire evaluation period. 
+   This metric is calculated by integrating the absolute value of the rate of change
+   of the actuator position :math:`y(t)`, and is both straightforward to compute and
+   independent of arbitrary thresholds. The displacement is defined as follows:
+
+   .. math:: D = \int_{t_0}^{t_f} \left| y'(t) \right| \, dt
+
+   where :math:`D` represents the displacement over the time period
+   :math:`[t_0, t_f]`. :math:`y'(t)` is the time derivative of actuator position
+   :math:`y(t)`, representing the rate of change in position.
+   
+   To compute the final KPI value across multiple actuators, the average displacement is used:  
+
+   .. math::  D_\text{avg} = \frac{1}{N} \sum_{i=1}^{N} D_i  
+
+   where :math:`N` is the number of actuators and :math:`D_i` is the displacement of actuator :math:`i`.  
+   
 Installation metrics
 ~~~~~~~~~~~~~~~~~~~~
 
