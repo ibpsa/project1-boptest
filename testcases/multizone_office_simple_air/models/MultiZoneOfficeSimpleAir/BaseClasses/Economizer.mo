@@ -6,15 +6,15 @@ block Economizer "Controller for economizer"
     annotation(Evaluate=true);
   parameter Boolean have_frePro = false
     "Set to true to enable freeze protection (mixed air low temperature control)";
-  parameter Modelica.SIunits.Temperature TFreSet=277.15
+  parameter Modelica.Units.SI.Temperature TFreSet=277.15
     "Lower limit of mixed air temperature for freeze protection"
     annotation(Dialog(enable=have_frePro), Evaluate=true);
-  parameter Modelica.SIunits.TemperatureDifference dTLock(final min=0.1) = 1
+  parameter Modelica.Units.SI.TemperatureDifference dTLock(final min=0.1) = 1
     "Temperature difference between return and outdoor air for economizer lockout";
   parameter Modelica.Blocks.Types.SimpleController controllerType=Modelica.Blocks.Types.SimpleController.PI
     "Type of controller";
   parameter Real k = 0.05 "Gain of controller";
-  parameter Modelica.SIunits.Time Ti = 120 "Time constant of integrator block";
+  parameter Modelica.Units.SI.Time Ti = 120 "Time constant of integrator block";
   Buildings.Controls.OBC.CDL.Interfaces.BooleanInput uEna
     "Enable signal for economizer"
     annotation (Placement(transformation(extent={{-140,170},{-100,210}}),
@@ -52,7 +52,7 @@ block Economizer "Controller for economizer"
     annotation (Placement(transformation(extent={{-60,-80},{-40,-60}})));
   Modelica.Blocks.Sources.Constant closed(k=0) "Signal to close OA damper"
     annotation (Placement(transformation(extent={{30,30},{50,50}})));
-  Buildings.Controls.OBC.CDL.Continuous.PID yOATFre(
+  Buildings.Controls.OBC.CDL.Reals.PID yOATFre(
     controllerType=controllerType,
     k=k,
     Ti=Ti,
@@ -62,13 +62,13 @@ block Economizer "Controller for economizer"
     reverseActing=false) if have_frePro
     "Controller of outdoor damper to track freeze temperature setpoint"
     annotation (Placement(transformation(extent={{-30,70},{-10,90}})));
-  Buildings.Controls.OBC.CDL.Continuous.Min minFrePro
+  Buildings.Controls.OBC.CDL.Reals.Min minFrePro
     "Takes lower signal (limits damper opening for freeze protection)"
     annotation (Placement(transformation(extent={{80,4},{100,24}})));
   Modelica.Blocks.Sources.Constant TFre(k=TFreSet)
     "Setpoint for freeze protection"
     annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
-  Buildings.Controls.OBC.CDL.Continuous.AddParameter invSig(p=1, k=-1)
+  Buildings.Controls.OBC.CDL.Reals.AddParameter invSig(p=-1)
     "Invert control signal for interlocked damper"
     annotation (Placement(transformation(extent={{170,-10},{190,10}})));
   Modelica.Blocks.Logical.Hysteresis hysLoc(final uLow=0, final uHigh=dTLock)
@@ -76,19 +76,19 @@ block Economizer "Controller for economizer"
     annotation (Placement(transformation(extent={{-30,110},{-10,130}})));
   Modelica.Blocks.Math.Feedback feedback
     annotation (Placement(transformation(extent={{-90,110},{-70,130}})));
-  Buildings.Controls.OBC.CDL.Continuous.Switch swiOA
+  Buildings.Controls.OBC.CDL.Reals.Switch swiOA
     "Switch to close outdoor air damper"
     annotation (Placement(transformation(extent={{90,110},{110,130}})));
   Modelica.Blocks.Sources.Constant one(k=1) if not have_frePro
     "Fill value in case freeze protection is disabled"
     annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
-  Buildings.Controls.OBC.CDL.Continuous.Switch swiModClo
+  Buildings.Controls.OBC.CDL.Reals.Switch swiModClo
     "Switch between modulating or closing outdoor air damper"
     annotation (Placement(transformation(extent={{130,-10},{150,10}})));
-  Buildings.Controls.OBC.CDL.Continuous.Max maxOutDam
+  Buildings.Controls.OBC.CDL.Reals.Max maxOutDam
     "Select larger of the outdoor damper signals"
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  Buildings.Controls.OBC.CDL.Continuous.Line lin
+  Buildings.Controls.OBC.CDL.Reals.Line lin
     annotation (Placement(transformation(extent={{-10,-40},{10,-20}})));
   Modelica.Blocks.Sources.Constant minOADminSpe(k=0.47)
     "Minimum outside air damper position at minimum fan speed"

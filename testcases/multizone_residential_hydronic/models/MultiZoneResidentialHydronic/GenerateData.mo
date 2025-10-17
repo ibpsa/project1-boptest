@@ -3,16 +3,16 @@ model GenerateData
   "Model used to reproduce test case data. This is used by BOPTEST to generate and store the test case data externally to the model."
   extends Modelica.Icons.Example;
   // Living room
-  parameter Modelica.SIunits.Area S_Salon = 30.32;
+  parameter Modelica.Units.SI.Area S_Salon = 30.32;
 
   // Room 1
-  parameter Modelica.SIunits.Area S_Chambre1 = 11.16;
+  parameter Modelica.Units.SI.Area S_Chambre1 = 11.16;
 
   // Room 2
-  parameter Modelica.SIunits.Area S_Chambre2 = 9.85;
+  parameter Modelica.Units.SI.Area S_Chambre2 = 9.85;
 
   // Room 3
-  parameter Modelica.SIunits.Area S_Chambre3 = 14.28;
+  parameter Modelica.Units.SI.Area S_Chambre3 = 14.28;
 
   Building.Schedules.ScheduleDay schedules_MI_ZoneJour(delta_ST=0)
     annotation (Placement(transformation(extent={{-64,6},{-42,28}})));
@@ -358,5 +358,13 @@ equation
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),
-    experiment(StopTime=31536000));
+    experiment(StopTime=31536000),
+    Documentation(revisions="<html>
+<li>
+September 6th, 2025, by Ettore Zanetti:<br/>
+Update test case to Modelica 4.0
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
+</html>"));
 end GenerateData;

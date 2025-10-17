@@ -1,9 +1,9 @@
 within TwoZoneApartmentHydronic.TestCases;
 model BoundaryConditions "BoundaryGenerator"
     extends Modelica.Icons.Example;
-    parameter Modelica.SIunits.Area Afloor = 22;
-    parameter Modelica.SIunits.Temperature T_start = 21+273.15;
-    parameter Modelica.SIunits.MassFlowRate mflow_n=2480/3600/4
+  parameter Modelica.Units.SI.Area Afloor=22;
+  parameter Modelica.Units.SI.Temperature T_start=21 + 273.15;
+  parameter Modelica.Units.SI.MassFlowRate mflow_n=2480/3600/4
     "nominal flow rate";
     parameter Real qint=1 "Presence or not of Internal gains";
   TwoZoneApartmentHydronic.Components.Thermostat_T thermostatNigZon(

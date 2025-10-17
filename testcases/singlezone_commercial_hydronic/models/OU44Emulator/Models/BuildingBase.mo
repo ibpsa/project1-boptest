@@ -2,13 +2,13 @@ within OU44Emulator.Models;
 partial model BuildingBase "Single-zone whole building model"
 package Water = Buildings.Media.Water;
 package Air = Buildings.Media.Air(extraPropertiesNames={"CO2"});
-final parameter Modelica.SIunits.Area AFlo=8500 "Floor area";
-final parameter Modelica.SIunits.Length hRoo=3.2 "Average room height";
-final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_water_coil=3
+final parameter Modelica.Units.SI.Area AFlo=8500 "Floor area";
+final parameter Modelica.Units.SI.Length hRoo=3.2 "Average room height";
+final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_water_coil=3
   "Nominal mass flow rate for water in coil";
-final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_water_rad=4
+final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_water_rad=4
   "Nominal mass flow rate for water radiator";
-final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
+final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_air=31
   "Nominal mass flow rate for air system";
 
   SubModels.AirHandlingUnit ahu(
@@ -57,13 +57,12 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
     mSenFac=5,
     nPorts=5,
     C_start={0.00064},
-    linearizeRadiation=true,
-    lat=0.96697872811643)
+    linearizeRadiation=true)
     annotation (Placement(transformation(extent={{-18,36},{22,76}})));
-final parameter Buildings.HeatTransfer.Data.GlazingSystems.TripleClearAir13ClearAir13Clear
+parameter Buildings.HeatTransfer.Data.GlazingSystems.TripleClearAir13ClearAir13Clear
   glaSys(haveExteriorShade=true, shade=blinds)
          annotation (Placement(transformation(extent={{204,166},{224,186}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Generic insulation(
+parameter Buildings.HeatTransfer.Data.Solids.Generic insulation(
   x=0.27,
   k=0.04,
   c=1000,
@@ -71,28 +70,28 @@ final parameter Buildings.HeatTransfer.Data.Solids.Generic insulation(
   annotation (Placement(transformation(extent={{90,166},{110,186}})));
 final parameter Buildings.HeatTransfer.Data.Solids.Concrete concrete(x=0.2)
   annotation (Placement(transformation(extent={{120,166},{140,186}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Generic lightPartition(
+parameter Buildings.HeatTransfer.Data.Solids.Generic lightPartition(
   c=1000,
   k=0.5,
   x=0.15,
   d=250)
   annotation (Placement(transformation(extent={{64,166},{84,186}})));
-final parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic extWall(
+parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic extWall(
   nLay=2,
   material={insulation,concrete},
   roughness_a=Buildings.HeatTransfer.Types.SurfaceRoughness.Medium)
   annotation (Placement(transformation(extent={{148,192},{168,212}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Generic insulationRoof(
+parameter Buildings.HeatTransfer.Data.Solids.Generic insulationRoof(
   k=0.04,
   c=1000,
   x=0.52,
   d=50)
   annotation (Placement(transformation(extent={{92,192},{112,212}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Concrete concreteRoof(x=0.27)
+parameter Buildings.HeatTransfer.Data.Solids.Concrete concreteRoof(x=0.27)
   annotation (Placement(transformation(extent={{120,192},{140,212}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Concrete concreteFloor(x=0.2)
+parameter Buildings.HeatTransfer.Data.Solids.Concrete concreteFloor(x=0.2)
   annotation (Placement(transformation(extent={{64,192},{84,212}})));
-final parameter Buildings.HeatTransfer.Data.Shades.Generic blinds(
+parameter Buildings.HeatTransfer.Data.Shades.Generic blinds(
   tauSol_a=0.05,
   tauSol_b=0.05,
   rhoSol_a=0.5,
@@ -103,8 +102,8 @@ final parameter Buildings.HeatTransfer.Data.Shades.Generic blinds(
   tauIR_b=0)
   annotation (Placement(transformation(extent={{204,192},{224,212}})));
 Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
-        ModelicaServices.ExternalReferences.loadResource(
-        "Resources/DNK_Copenhagen.061800_IWEC.mos"))
+        Modelica.Utilities.Files.loadResource(
+        "modelica://OU44Emulator/Resources/Climate/DNK_Copenhagen.061800_IWEC.mos"))
   annotation (Placement(transformation(extent={{238,138},{218,158}})));
 Buildings.BoundaryConditions.WeatherData.Bus weaBus annotation (Placement(
       transformation(extent={{18,70},{58,110}}),iconTransformation(extent={{-160,
@@ -141,7 +140,6 @@ Buildings.Fluid.Actuators.Valves.TwoWayLinear   valRad(
   CvData=Buildings.Fluid.Types.CvTypes.OpPoint,
     m_flow_nominal=m_flow_nominal_water_rad,
     dpValve_nominal=5000,
-    use_inputFilter=true,
     y_start=0,
     dpFixed_nominal=20000)
   annotation (Placement(transformation(extent={{-2,-130},{-22,-110}})));
@@ -216,7 +214,7 @@ Buildings.Fluid.Actuators.Valves.TwoWayLinear   valCoil(
 Modelica.Blocks.Math.Gain metHeat(k=120/AFlo)
   "Metabolic heat generation per person (sensible and latent)"
   annotation (Placement(transformation(extent={{-104,136},{-88,152}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Generic insulationFloor(
+  parameter Buildings.HeatTransfer.Data.Solids.Generic insulationFloor(
   k=0.04,
   c=1000,
   x=0.15,
@@ -232,8 +230,8 @@ final parameter Buildings.HeatTransfer.Data.Solids.Generic insulationFloor(
     annotation (Placement(transformation(extent={{-222,-134},{-240,-116}})));
   Modelica.Blocks.Continuous.Integrator Qh_tot(k=2.7778E-7) "Output in kWh"
     annotation (Placement(transformation(extent={{-222,-160},{-240,-142}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senTemOut(redeclare package Medium =
-        Air, m_flow_nominal=1)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemOut(redeclare package Medium
+      = Air, m_flow_nominal=1)
     annotation (Placement(transformation(extent={{-48,8},{-28,28}})));
   Modelica.Blocks.Math.Gain gaiCO2(k=8.18E-6) "CO2 emission per person"
     annotation (Placement(transformation(extent={{-106,104},{-90,120}})));
@@ -541,7 +539,7 @@ connect(matrixGain.u[1], metHeat.y)
           {-182,59},{-200.6,59}},
                                 color={0,0,127}));
   connect(reaTZon.u, Ti.T)
-    annotation (Line(points={{64.8,56},{54,56}}, color={0,0,127}));
+    annotation (Line(points={{64.8,56},{55,56}}, color={0,0,127}));
   connect(senTemCoiRet.T,reaTCoiRet. u)
     annotation (Line(points={{-163,-18},{-226.8,-18}}, color={0,0,127}));
   connect(jun1.port_3, res.port_a) annotation (Line(points={{-134,1.55431e-15},
@@ -570,5 +568,15 @@ annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-240,-240}
               "modelica://OU44Emulator/Resources/Images/ou44.jpg")}),
                                                                Diagram(
       coordinateSystem(preserveAspectRatio=false, extent={{-240,-240},{240,220}})),
-  experiment(StopTime=259200));
+  experiment(StopTime=259200),
+    Documentation(revisions="<html>
+<ul>
+<li>
+May 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/442>
+BOPTEST issue #442</a>.
+</li>
+</ul>
+</html>"));
 end BuildingBase;

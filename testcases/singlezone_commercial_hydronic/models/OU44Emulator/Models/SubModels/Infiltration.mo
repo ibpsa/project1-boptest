@@ -1,7 +1,7 @@
 within OU44Emulator.Models.SubModels;
 model Infiltration "Constant infiltration"
     replaceable package Air = Buildings.Media.Air(extraPropertiesNames={"CO2"});
-    parameter Modelica.SIunits.Volume Vi "Indoor air volume";
+    parameter Modelica.Units.SI.Volume Vi "Indoor air volume";
     parameter Real ach=0.2 "Infiltration air changes per hour";
     Buildings.Fluid.Sources.MassFlowSource_WeatherData infiltr(
       redeclare package Medium = Air,

@@ -17,7 +17,7 @@ model TwoZones
     "Set the outside air temperature"
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
   Modelica.Blocks.Sources.Sine souTOut(
-    freqHz=1/(3600*24),
+    f=1/(3600*24),
     offset=273.15 + 20,
     amplitude=10) "Artificial outside air temperature"
     annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
@@ -73,7 +73,7 @@ model TwoZones
 
   Modelica.Blocks.Sources.Sine conCO2Sou(
     amplitude=250,
-    freqHz=1/(3600*24),
+    f=1/(3600*24),
     offset=750) "Concetration of CO2 in south zone"
     annotation (Placement(transformation(extent={{120,-40},{140,-20}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor capNor(C=1e6)
@@ -136,7 +136,7 @@ model TwoZones
 
   Modelica.Blocks.Sources.Sine conCO2Nor(
     amplitude=250,
-    freqHz=1/(3600*24),
+    f=1/(3600*24),
     offset=750) "Concetration of CO2 in north zone"
     annotation (Placement(transformation(extent={{120,80},{140,100}})));
 equation
@@ -195,7 +195,7 @@ equation
     annotation (Line(points={{59,130},{-60,130},{-60,112}}, color={0,0,127}));
   connect(preHeaNor.port, capNor.port)
     annotation (Line(points={{20,100},{40,100},{40,60}}, color={191,0,0}));
-  annotation (uses(Modelica(version="3.2.3"), Buildings(version="8.0.0")),
+  annotation (uses(Modelica(version="4.0.0"), Buildings(version="12.1.0")),
       experiment(
       StopTime=60,
       Interval=1,
@@ -492,6 +492,12 @@ see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 6th, 2025, by Ettore Zanetti:<br/>
+Update test case to Modelica 4.0
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
 <li>
 March 6th, 2025, by Jaap Neven:<br/>
 Initial version.

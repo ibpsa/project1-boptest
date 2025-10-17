@@ -1,5 +1,16 @@
-from parsing import parser
+"""
+This module compiles the defined test case model into an FMU using the
+overwrite block parser.
 
+The following libraries must be on the MODELICAPATH:
+
+- Modelica Buildings
+
+"""
+
+from parsing import parser
+import sys
+ 
 def compile_fmu():
     '''Compile the fmu.
 
@@ -15,7 +26,7 @@ def compile_fmu():
     modelpath = 'BESTESTAir.TestCases.TestCase_Ideal'
 
     # COMPILE FMU
-    fmupath = parser.export_fmu(modelpath, [mopath])
+    fmupath = parser.export_fmu(modelpath, [mopath], tool = sys.argv[1])
 
     return fmupath
 
