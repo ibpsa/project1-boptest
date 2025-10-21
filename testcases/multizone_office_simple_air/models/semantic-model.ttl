@@ -348,7 +348,7 @@ bldg:hvac_reaZonCor_TSup a brick:Supply_Air_Temperature_Sensor;
           ref:unit "K";
           ref:isWritable false.
 
-bldg:hvac_reaZonCor_TZon a brick:Zone_Air_Temperature ;
+bldg:hvac_reaZonCor_TZon a brick:Zone_Air_Temperature_Sensor ;
           ref:hasExternalReference bldg:hvac_reaZonCor_TZon_Reference ;
           qudt:hasQuantityKind quantitykind:Temperature ;
           qudt:hasUnit qudt:K .
@@ -399,7 +399,7 @@ bldg:hvac_reaZonEas_TSup a brick:Supply_Air_Temperature_Sensor;
           ref:unit "K";
           ref:isWritable false.
 
-bldg:hvac_reaZonEas_TZon a brick:Zone_Air_Temperature ;
+bldg:hvac_reaZonEas_TZon a brick:Zone_Air_Temperature_Sensor ;
           ref:hasExternalReference bldg:hvac_reaZonEas_TZon_Reference ;
           qudt:hasQuantityKind quantitykind:Temperature ;
           qudt:hasUnit qudt:K .
@@ -450,7 +450,7 @@ bldg:hvac_reaZonNor_TSup a brick:Supply_Air_Temperature_Sensor;
           ref:unit "K";
           ref:isWritable false.
 
-bldg:hvac_reaZonNor_TZon a brick:Zone_Air_Temperature ;
+bldg:hvac_reaZonNor_TZon a brick:Zone_Air_Temperature_Sensor ;
           ref:hasExternalReference bldg:hvac_reaZonNor_TZon_Reference ;
           qudt:hasQuantityKind quantitykind:Temperature ;
           qudt:hasUnit qudt:K .
@@ -502,7 +502,7 @@ bldg:hvac_reaZonSou_TSup a brick:Supply_Air_Temperature_Sensor;
           ref:unit "K";
           ref:isWritable false.
 
-bldg:hvac_reaZonSou_TZon a brick:Zone_Air_Temperature ;
+bldg:hvac_reaZonSou_TZon a brick:Zone_Air_Temperature_Sensor ;
           ref:hasExternalReference bldg:hvac_reaZonSou_TZon_Reference ;
           qudt:hasQuantityKind quantitykind:Temperature ;
           qudt:hasUnit qudt:K .
@@ -553,7 +553,7 @@ bldg:hvac_reaZonWes_TSup a brick:Supply_Air_Temperature_Sensor;
           ref:unit "K";
           ref:isWritable false.
 
-bldg:hvac_reaZonWes_TZon a brick:Zone_Air_Temperature ;
+bldg:hvac_reaZonWes_TZon a brick:Zone_Air_Temperature_Sensor ;
           ref:hasExternalReference bldg:hvac_reaZonWes_TZon_Reference ;
           qudt:hasQuantityKind quantitykind:Temperature ;
           qudt:hasUnit qudt:K .
