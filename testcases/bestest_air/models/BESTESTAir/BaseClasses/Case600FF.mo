@@ -263,14 +263,8 @@ model Case600FF
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Zone_Air_Temperature ;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
           qudt:hasQuantityKind quantitykind:Temperature ;
           qudt:hasUnit qudt:K .
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-          ref:name literal:<cdl_instance_name>_y ;
-          ref:description literal:description ;
-          ref:unit literal:K ;
-          ref:isWritable false .
           ")),Placement(transformation(extent={{120,-10},{140,10}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaCO2RooAir(
@@ -281,13 +275,7 @@ model Case600FF
     annotation ( __Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Zone_CO2 ;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;    
           qudt:hasUnit qudt:PPM.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-          ref:name literal:<cdl_instance_name>_y ;
-          ref:description literal:description ;
-          ref:unit literal:ppm ;
-          ref:isWritable false .
           ")),Placement(transformation(extent={{130,-40},{150,-20}})));
 
   Modelica.Blocks.Interfaces.RealOutput CO2RooAir(unit="ppm") "Room air CO2 concentration"

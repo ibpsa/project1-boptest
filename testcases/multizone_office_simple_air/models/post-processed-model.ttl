@@ -1,0 +1,1144 @@
+@prefix bldg: <https://BESTESTAir.urn#> .
+@prefix boptestrules: <https://boptest-rules.urn#> .
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix quantitykind: <http://qudt.org/vocab/quantitykind/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+bldg:ahu a brick:AHU ;
+    brick:feeds bldg:hvac_cor,
+        bldg:hvac_eas,
+        bldg:hvac_nor,
+        bldg:hvac_sou,
+        bldg:hvac_wes ;
+    brick:hasPoint bldg:hvac_oveAhu_TSupSet,
+        bldg:hvac_oveAhu_dpSet,
+        bldg:hvac_oveAhu_yCoo,
+        bldg:hvac_oveAhu_yFan,
+        bldg:hvac_oveAhu_yHea,
+        bldg:hvac_oveAhu_yOA,
+        bldg:hvac_oveAhu_yPumCoo,
+        bldg:hvac_oveAhu_yPumHea,
+        bldg:hvac_oveAhu_yRet,
+        bldg:hvac_reaAhu_PFanSup,
+        bldg:hvac_reaAhu_PPumCoo,
+        bldg:hvac_reaAhu_PPumHea,
+        bldg:hvac_reaAhu_TCooCoiRet,
+        bldg:hvac_reaAhu_TCooCoiSup,
+        bldg:hvac_reaAhu_THeaCoiRet,
+        bldg:hvac_reaAhu_THeaCoiSup,
+        bldg:hvac_reaAhu_TMix,
+        bldg:hvac_reaAhu_TRet,
+        bldg:hvac_reaAhu_TSup,
+        bldg:hvac_reaAhu_V_flow_ret,
+        bldg:hvac_reaAhu_V_flow_sup,
+        bldg:hvac_reaAhu_dp_sup .
+
+bldg:chi_Reference a ref:BOPTestReference ;
+    ref:equipment "Chiller" .
+
+bldg:error_instance_name_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "HeatPump" ;
+    ref:isWritable false ;
+    ref:name "heaPum_reaTSup_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:flo_Cor_Reference a ref:BOPTestReference ;
+    ref:equipment "Cor" .
+
+bldg:flo_Eas_Reference a ref:BOPTestReference ;
+    ref:equipment "Eas" .
+
+bldg:flo_Nor_Reference a ref:BOPTestReference ;
+    ref:equipment "Nor" .
+
+bldg:flo_Sou_Reference a ref:BOPTestReference ;
+    ref:equipment "Sou" .
+
+bldg:flo_Wes_Reference a ref:BOPTestReference ;
+    ref:equipment "Wes" .
+
+bldg:heaPum_Reference a ref:BOPTestReference ;
+    ref:equipment "HeatPump" .
+
+bldg:heaPum_reaTRet a brick:Hot_Water_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:heaPum_reaTRet_Reference .
+
+bldg:heaPum_reaTSup a brick:Hot_Water_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:heaPum_reaTSup_Reference .
+
+bldg:hvac_oveZonSupEas_TZonHeaSet a brick:hvac_oveZonSupEas_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_oveZonSupEas_TZonHeaSet_Reference .
+
+bldg:hvac_oveZonSupNor_TZonHeaSet a brick:hvac_oveZonSupNor_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_oveZonSupNor_TZonHeaSet_Reference .
+
+bldg:hvac_oveZonSupSou_TZonHeaSet a brick:hvac_oveZonSupSou_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_oveZonSupSou_TZonHeaSet_Reference .
+
+bldg:hvac_oveZonSupWes_TZonHeaSet a brick:hvac_oveZonSupWes_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_oveZonSupWes_TZonHeaSet_Reference .
+
+bldg:hvac_reaZonCor_CO2Zon a brick:Zone_CO2 ;
+    qudt:hasUnit qudt:PPM ;
+    ref:hasExternalReference bldg:hvac_reaZonCor_CO2Zon_Reference .
+
+bldg:hvac_reaZonEas_CO2Zon a brick:Zone_CO2 ;
+    qudt:hasUnit qudt:PPM ;
+    ref:hasExternalReference bldg:hvac_reaZonEas_CO2Zon_Reference .
+
+bldg:hvac_reaZonNor_CO2Zon a brick:Zone_CO2 ;
+    qudt:hasUnit qudt:PPM ;
+    ref:hasExternalReference bldg:hvac_reaZonNor_CO2Zon_Reference .
+
+bldg:hvac_reaZonSou_CO2Zon a brick:Zone_CO2 ;
+    qudt:hasUnit qudt:PPM ;
+    ref:hasExternalReference bldg:hvac_reaZonSou_CO2Zon_Reference .
+
+bldg:hvac_reaZonWes_CO2Zon a brick:Zone_CO2 ;
+    qudt:hasUnit qudt:PPM ;
+    ref:hasExternalReference bldg:hvac_reaZonWes_CO2Zon_Reference .
+
+bldg:chi a brick:Chiller ;
+    brick:hasPoint bldg:chi_reaFloSup,
+        bldg:chi_reaPChi,
+        bldg:chi_reaPPumDis,
+        bldg:chi_reaTRet,
+        bldg:chi_reaTSup ;
+    ref:hasExternalReference bldg:chi .
+
+bldg:chi_reaFloSup a brick:Chilled_Water_Flow_Sensor ;
+    qudt:hasQuantityKind quantitykind:VolumeFlowRate ;
+    qudt:hasUnit qudt:M3-PER-SEC ;
+    ref:hasExternalReference bldg:chi_reaFloSup_Reference .
+
+bldg:chi_reaFloSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "Chiller" ;
+    ref:name "chi_reaFloSup_y" ;
+    ref:unit "m3" ;
+    ref:zone "zone" .
+
+bldg:chi_reaPChi a brick:Electric_Power_Sensor ;
+    qudt:hasQuantityKind quantitykind:ElectricPower ;
+    qudt:hasUnit qudt:W ;
+    ref:hasExternalReference bldg:chi_reaPChi_Reference .
+
+bldg:chi_reaPChi_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "Chiller" ;
+    ref:isWritable false ;
+    ref:name "chi_reaPChi_y" ;
+    ref:unit "W" ;
+    ref:zone "zone" .
+
+bldg:chi_reaPPumDis a brick:Electric_Power_Sensor ;
+    qudt:hasQuantityKind quantitykind:ElectricPower ;
+    qudt:hasUnit qudt:W ;
+    ref:hasExternalReference bldg:chi_reaPPumDis_Reference .
+
+bldg:chi_reaPPumDis_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "Chiller" ;
+    ref:isWritable false ;
+    ref:name "chi_reaPPumDis_y" ;
+    ref:unit "W" ;
+    ref:zone "zone" .
+
+bldg:chi_reaTRet a brick:Chilled_Water_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:chi_reaTRet_Reference .
+
+bldg:chi_reaTRet_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "Chiller" ;
+    ref:isWritable false ;
+    ref:name "chi_reaTRet_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:chi_reaTSup a brick:Chilled_Water_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:chi_reaTSup_Reference .
+
+bldg:chi_reaTSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "Chiller" ;
+    ref:isWritable false ;
+    ref:name "chi_reaTSup_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:heaPum a brick:Heat_Pump_Air_Source_Condensing_Unit ;
+    brick:hasPoint bldg:heaPum_reaFloSup,
+        bldg:heaPum_reaPHeaPum,
+        bldg:heaPum_reaPPumDis ;
+    ref:hasExternalReference bldg:heaPum .
+
+bldg:heaPum_reaFloSup a brick:Hot_Water_Flow_Sensor ;
+    qudt:hasQuantityKind quantitykind:VolumeFlowRate ;
+    qudt:hasUnit qudt:M3-PER-SEC ;
+    ref:hasExternalReference bldg:heaPum_reaFloSup_Reference .
+
+bldg:heaPum_reaFloSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "HeatPump" ;
+    ref:isWritable false ;
+    ref:name "heaPum_reaFloSup_y" ;
+    ref:zone "zone" .
+
+bldg:heaPum_reaPHeaPum a brick:Electric_Power_Sensor ;
+    qudt:hasQuantityKind quantitykind:ElectricPower ;
+    qudt:hasUnit qudt:W ;
+    ref:hasExternalReference bldg:heaPum_reaPHeaPum_Reference .
+
+bldg:heaPum_reaPHeaPum_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "HeatPump" ;
+    ref:isWritable false ;
+    ref:name "heaPum_reaPHeaPum_y" ;
+    ref:unit "W" ;
+    ref:zone "zone" .
+
+bldg:heaPum_reaPPumDis a brick:Electric_Power_Sensor ;
+    qudt:hasQuantityKind quantitykind:ElectricPower ;
+    qudt:hasUnit qudt:W ;
+    ref:hasExternalReference bldg:heaPum_reaPPumDis_Reference .
+
+bldg:heaPum_reaPPumDis_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "HeatPump" ;
+    ref:isWritable false ;
+    ref:name "error_instance_name_y" ;
+    ref:unit "W" ;
+    ref:zone "zone" .
+
+bldg:heaPum_reaTRet_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "HeatPump" ;
+    ref:isWritable false ;
+    ref:name "heaPum_reaTRet_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:hvac_cor a brick:VAV ;
+    brick:feeds bldg:flo_Cor ;
+    brick:hasPoint bldg:hvac_oveZonActCor_yDam,
+        bldg:hvac_oveZonActCor_yReaHea,
+        bldg:hvac_reaZonCor_TSup,
+        bldg:hvac_reaZonCor_V_flow ;
+    ref:hasExternalReference bldg:hvac_cor_Reference .
+
+bldg:hvac_eas a brick:VAV ;
+    brick:feeds bldg:flo_Eas ;
+    brick:hasPoint bldg:hvac_oveZonActEas_yDam,
+        bldg:hvac_oveZonActEas_yReaHea,
+        bldg:hvac_reaZonEas_TSup,
+        bldg:hvac_reaZonEas_V_flow ;
+    ref:hasExternalReference bldg:hvac_Eas_Reference .
+
+bldg:hvac_nor a brick:VAV ;
+    brick:feeds bldg:flo_Nor ;
+    brick:hasPoint bldg:hvac_oveZonActNor_yDam,
+        bldg:hvac_oveZonActNor_yReaHea,
+        bldg:hvac_reaZonNor_TSup,
+        bldg:hvac_reaZonNor_V_flow ;
+    ref:hasExternalReference bldg:hvac_Nor_Reference .
+
+bldg:hvac_oveAhu_TSupSet a brick:Supply_Air_Temperature_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_oveAhu_TSupSet_Reference .
+
+bldg:hvac_oveAhu_TSupSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveAhu_TSupSet_activate" ;
+    ref:description "description" ;
+    ref:equipment "equipment" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveAhu_TSupSet_u" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:hvac_oveAhu_dpSet a brick:Differential_Pressure_Setpoint ;
+    qudt:hasQuantityKind quantitykind:ForcePerArea ;
+    qudt:hasUnit qudt:PA ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_oveAhu_dpSet_Reference .
+
+bldg:hvac_oveAhu_dpSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveAhu_dpSet_activate" ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveAhu_dpSet_u" ;
+    ref:unit "Pa" ;
+    ref:zone "zone" .
+
+bldg:hvac_oveAhu_yCoo a brick:Cooling_Command ;
+    qudt:hasUnit qudt:UNITLESS ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_oveAhu_yCoo_Reference .
+
+bldg:hvac_oveAhu_yCoo_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveAhu_yCoo_activate" ;
+    ref:description "description" ;
+    ref:equipment "equipment" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveAhu_yCoo_u" ;
+    ref:unit "1" ;
+    ref:zone "zone" .
+
+bldg:hvac_oveAhu_yFan a brick:Fan_Command ;
+    qudt:hasUnit qudt:UNITLESS ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_oveAhu_yFan_Reference .
+
+bldg:hvac_oveAhu_yFan_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveAhu_yFan_activate" ;
+    ref:description "description" ;
+    ref:equipment "equipment" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveAhu_yFan_u" ;
+    ref:unit "1" ;
+    ref:zone "zone" .
+
+bldg:hvac_oveAhu_yHea a brick:Heating_Command ;
+    qudt:hasUnit qudt:UNITLESS ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_oveAhu_yHea_Reference .
+
+bldg:hvac_oveAhu_yHea_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveAhu_yHea_activate" ;
+    ref:description "description" ;
+    ref:equipment "equipment" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveAhu_yHea_u" ;
+    ref:unit "1" ;
+    ref:zone "zone" .
+
+bldg:hvac_oveAhu_yOA a brick:Damper_Position_Setpoint ;
+    qudt:hasUnit qudt:UNITLESS ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_oveAhu_yOA_Reference .
+
+bldg:hvac_oveAhu_yOA_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveAhu_yOA_activate" ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveAhu_yOA_u" ;
+    ref:unit "1" ;
+    ref:zone "zone" .
+
+bldg:hvac_oveAhu_yPumCoo a brick:Pump_Command ;
+    qudt:hasUnit qudt:UNITLESS ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_oveAhu_yPumCoo_Reference .
+
+bldg:hvac_oveAhu_yPumCoo_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveAhu_yPumCoo_activate" ;
+    ref:description "description" ;
+    ref:equipment "equipment" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveAhu_yPumCoo_u" ;
+    ref:unit "1" ;
+    ref:zone "zone" .
+
+bldg:hvac_oveAhu_yPumHea a brick:Pump_Command ;
+    qudt:hasUnit qudt:UNITLESS ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_oveAhu_yPumHea_Reference .
+
+bldg:hvac_oveAhu_yPumHea_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveAhu_yPumHea_activate" ;
+    ref:description "description" ;
+    ref:equipment "equipment" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveAhu_yPumHea_u" ;
+    ref:unit "1" ;
+    ref:zone "zone" .
+
+bldg:hvac_oveAhu_yRet a brick:Damper_Position_Setpoint ;
+    qudt:hasUnit qudt:UNITLESS ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_oveAhu_yRet_Reference .
+
+bldg:hvac_oveAhu_yRet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveAhu_yRet_activate" ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveAhu_yRet_u" ;
+    ref:unit "1" ;
+    ref:zone "zone" .
+
+bldg:hvac_oveZonActCor_yDam a brick:Damper_Position_Setpoint ;
+    qudt:hasUnit qudt:UNITLESS ;
+    ref:hasExternalReference bldg:hvac_oveZonActCor_yDam_Reference .
+
+bldg:hvac_oveZonActCor_yDam_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonActCor_yDam_activate" ;
+    ref:description "description" ;
+    ref:equipment "VAV_Cor" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonActCor_yDam_u" ;
+    ref:unit "1" ;
+    ref:zone "Cor" .
+
+bldg:hvac_oveZonActCor_yReaHea a brick:Reheat_Command ;
+    qudt:hasUnit qudt:UNITLESS ;
+    ref:hasExternalReference bldg:hvac_oveZonActCor_yReaHea_Reference .
+
+bldg:hvac_oveZonActCor_yReaHea_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonActCor_yReaHea_activate" ;
+    ref:description "description" ;
+    ref:equipment "VAV_Cor" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonActCor_yReaHea_u" ;
+    ref:unit "1" ;
+    ref:zone "Cor" .
+
+bldg:hvac_oveZonActEas_yDam a brick:Damper_Position_Setpoint ;
+    qudt:hasUnit qudt:UNITLESS ;
+    ref:hasExternalReference bldg:hvac_oveZonActEas_yDam_Reference .
+
+bldg:hvac_oveZonActEas_yDam_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonActEas_yDam_activate" ;
+    ref:description "description" ;
+    ref:equipment "VAV_Eas" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonActEas_yDam_u" ;
+    ref:unit "1" ;
+    ref:zone "Eas" .
+
+bldg:hvac_oveZonActEas_yReaHea a brick:Reheat_Command ;
+    qudt:hasUnit qudt:UNITLESS ;
+    ref:hasExternalReference bldg:hvac_oveZonActEas_yReaHea_Reference .
+
+bldg:hvac_oveZonActEas_yReaHea_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonActEas_yReaHea_activate" ;
+    ref:description "description" ;
+    ref:equipment "VAV_Eas" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonActEas_yReaHea_u" ;
+    ref:unit "1" ;
+    ref:zone "Eas" .
+
+bldg:hvac_oveZonActNor_yDam a brick:Damper_Position_Setpoint ;
+    qudt:hasUnit qudt:UNITLESS ;
+    ref:hasExternalReference bldg:hvac_oveZonActNor_yDam_Reference .
+
+bldg:hvac_oveZonActNor_yDam_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonActNor_yDam_activate" ;
+    ref:description "description" ;
+    ref:equipment "VAV_Nor" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonActNor_yDam_u" ;
+    ref:unit "1" ;
+    ref:zone "Nor" .
+
+bldg:hvac_oveZonActNor_yReaHea a brick:Reheat_Command ;
+    qudt:hasUnit qudt:UNITLESS ;
+    ref:hasExternalReference bldg:hvac_oveZonActNor_yReaHea_Reference .
+
+bldg:hvac_oveZonActNor_yReaHea_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonActNor_yReaHea_activate" ;
+    ref:description "description" ;
+    ref:equipment "VAV_Nor" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonActNor_yReaHea_u" ;
+    ref:unit "1" ;
+    ref:zone "Nor" .
+
+bldg:hvac_oveZonActSou_yDam a brick:Damper_Position_Setpoint ;
+    qudt:hasUnit qudt:UNITLESS ;
+    ref:hasExternalReference bldg:hvac_oveZonActSou_yDam_Reference .
+
+bldg:hvac_oveZonActSou_yDam_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonActSou_yDam_activate" ;
+    ref:description "description" ;
+    ref:equipment "VAV_Sou" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonActSou_yDam_u" ;
+    ref:unit "1" ;
+    ref:zone "Sou" .
+
+bldg:hvac_oveZonActSou_yReaHea a brick:Reheat_Command ;
+    qudt:hasUnit qudt:UNITLESS ;
+    ref:hasExternalReference bldg:hvac_oveZonActSou_yReaHea_Reference .
+
+bldg:hvac_oveZonActSou_yReaHea_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonActSou_yReaHea_activate" ;
+    ref:description "description" ;
+    ref:equipment "VAV_Sou" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonActSou_yReaHea_u" ;
+    ref:unit "1" ;
+    ref:zone "Sou" .
+
+bldg:hvac_oveZonActWes_yDam a brick:Damper_Position_Setpoint ;
+    qudt:hasUnit qudt:UNITLESS ;
+    ref:hasExternalReference bldg:hvac_oveZonActWes_yDam_Reference .
+
+bldg:hvac_oveZonActWes_yDam_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonActWes_yDam_activate" ;
+    ref:description "description" ;
+    ref:equipment "VAV_Wes" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonActWes_yDam_u" ;
+    ref:unit "1" ;
+    ref:zone "Wes" .
+
+bldg:hvac_oveZonActWes_yReaHea a brick:Reheat_Command ;
+    qudt:hasUnit qudt:UNITLESS ;
+    ref:hasExternalReference bldg:hvac_oveZonActWes_yReaHea_Reference .
+
+bldg:hvac_oveZonActWes_yReaHea_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonActWes_yReaHea_activate" ;
+    ref:description "description" ;
+    ref:equipment "VAV_Wes" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonActWes_yReaHea_u" ;
+    ref:unit "1" ;
+    ref:zone "Wes" .
+
+bldg:hvac_oveZonSupCor_TZonCooSet a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_oveZonSupCor_TZonCooSet_Reference .
+
+bldg:hvac_oveZonSupCor_TZonCooSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonSupCor_TZonCooSet_activate" ;
+    ref:description "description" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonSupCor_TZonCooSet_u" ;
+    ref:unit "K" ;
+    ref:zone "Cor" .
+
+bldg:hvac_oveZonSupCor_TZonHeaSet a brick:Zone_Air_Heating_Temperature_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_oveZonSupCor_TZonHeaSet_Reference .
+
+bldg:hvac_oveZonSupCor_TZonHeaSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonSupCor_TZonHeaSet_activate" ;
+    ref:description "description" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonSupCor_TZonHeaSet_u" ;
+    ref:unit "K" ;
+    ref:zone "Cor" .
+
+bldg:hvac_oveZonSupEas_TZonCooSet a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_oveZonSupEas_TZonCooSet_Reference .
+
+bldg:hvac_oveZonSupEas_TZonCooSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonSupEas_TZonCooSet_activate" ;
+    ref:description "description" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonSupEas_TZonCooSet_u" ;
+    ref:unit "K" ;
+    ref:zone "Eas" .
+
+bldg:hvac_oveZonSupEas_TZonHeaSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonSupEas_TZonHeaSet_activate" ;
+    ref:description "description" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonSupEas_TZonHeaSet_u" ;
+    ref:unit "K" ;
+    ref:zone "Eas" .
+
+bldg:hvac_oveZonSupNor_TZonCooSet a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_oveZonSupNor_TZonCooSet_Reference .
+
+bldg:hvac_oveZonSupNor_TZonCooSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonSupNor_TZonCooSet_activate" ;
+    ref:description "description" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonSupNor_TZonCooSet_u" ;
+    ref:unit "K" ;
+    ref:zone "Nor" .
+
+bldg:hvac_oveZonSupNor_TZonHeaSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonSupNor_TZonHeaSet_activate" ;
+    ref:description "description" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonSupNor_TZonHeaSet_u" ;
+    ref:unit "K" ;
+    ref:zone "Nor" .
+
+bldg:hvac_oveZonSupSou_TZonCooSet a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_oveZonSupSou_TZonCooSet_Reference .
+
+bldg:hvac_oveZonSupSou_TZonCooSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonSupSou_TZonCooSet_activate" ;
+    ref:description "description" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonSupSou_TZonCooSet_u" ;
+    ref:unit "K" ;
+    ref:zone "Sou" .
+
+bldg:hvac_oveZonSupSou_TZonHeaSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonSupSou_TZonHeaSet_activate" ;
+    ref:description "description" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonSupSou_TZonHeaSet_u" ;
+    ref:unit "K" ;
+    ref:zone "Sou" .
+
+bldg:hvac_oveZonSupWes_TZonCooSet a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_oveZonSupWes_TZonCooSet_Reference .
+
+bldg:hvac_oveZonSupWes_TZonCooSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonSupWes_TZonCooSet_activate" ;
+    ref:description "description" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonSupWes_TZonCooSet_u" ;
+    ref:unit "K" ;
+    ref:zone "Wes" .
+
+bldg:hvac_oveZonSupWes_TZonHeaSet_Reference a ref:BOPTestReference ;
+    ref:activate "hvac_oveZonSupWes_TZonHeaSet_activate" ;
+    ref:description "description" ;
+    ref:isWritable true ;
+    ref:max "max" ;
+    ref:min "min" ;
+    ref:name "hvac_oveZonSupWes_TZonHeaSet_u" ;
+    ref:unit "K" ;
+    ref:zone "Wes" .
+
+bldg:hvac_reaAhu_PFanSup a brick:Electric_Power_Sensor ;
+    qudt:hasQuantityKind quantitykind:ElectricPower ;
+    qudt:hasUnit qudt:W ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_PFanSup_Reference .
+
+bldg:hvac_reaAhu_PFanSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_PFanSup_y" ;
+    ref:unit "W" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_PPumCoo a brick:Electric_Power_Sensor ;
+    qudt:hasQuantityKind quantitykind:ElectricPower ;
+    qudt:hasUnit qudt:W ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_PPumCoo_Reference .
+
+bldg:hvac_reaAhu_PPumCoo_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_PPumCoo_y" ;
+    ref:unit "W" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_PPumHea a brick:Electric_Power_Sensor ;
+    qudt:hasQuantityKind quantitykind:ElectricPower ;
+    qudt:hasUnit qudt:W ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_PPumHea_Reference .
+
+bldg:hvac_reaAhu_PPumHea_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_PPumHea_y" ;
+    ref:unit "W" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_TCooCoiRet a brick:Chilled_Water_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_TCooCoiRet_Reference .
+
+bldg:hvac_reaAhu_TCooCoiRet_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_TCooCoiRet_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_TCooCoiSup a brick:Chilled_Water_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_TCooCoiSup_Reference .
+
+bldg:hvac_reaAhu_TCooCoiSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_TCooCoiSup_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_THeaCoiRet a brick:Hot_Water_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_THeaCoiRet_Reference .
+
+bldg:hvac_reaAhu_THeaCoiRet_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_THeaCoiRet_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_THeaCoiSup a brick:Hot_Water_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_THeaCoiSup_Reference .
+
+bldg:hvac_reaAhu_THeaCoiSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_THeaCoiSup_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_TMix a brick:Mixed_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_TMix_Reference .
+
+bldg:hvac_reaAhu_TMix_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    <https://brickschema.org/schema/Brick/ref#equipment:> "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_TMix_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_TRet a brick:Return_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_TRet_Reference .
+
+bldg:hvac_reaAhu_TRet_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    <https://brickschema.org/schema/Brick/ref#equipment:> "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_TRet_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_TSup a brick:Supply_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_TSup_Reference .
+
+bldg:hvac_reaAhu_TSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipment" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_TSup_y" ;
+    ref:unit "K" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_V_flow_ret a brick:Return_Air_Flow_Sensor ;
+    qudt:hasQuantityKind quantitykind:VolumeFlowRate ;
+    qudt:hasUnit qudt:M3-PER-SEC ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_V_flow_ret_Reference .
+
+bldg:hvac_reaAhu_V_flow_ret_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_V_flow_ret_y " ;
+    ref:unit "M3-PER-SEC " ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_V_flow_sup a brick:Supply_Air_Flow_Sensor ;
+    qudt:hasQuantityKind quantitykind:VolumeFlowRate ;
+    qudt:hasUnit qudt:M3-PER-SEC ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_V_flow_sup_Reference .
+
+bldg:hvac_reaAhu_V_flow_sup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_V_flow_sup" ;
+    ref:unit "M3-PER-SEC" ;
+    ref:zone "zone" .
+
+bldg:hvac_reaAhu_dp_sup a brick:Differential_Pressure_Sensor ;
+    qudt:hasQuantityKind quantitykind:ForcePerArea ;
+    qudt:hasUnit qudt:PA ;
+    boptestrules:pointOf brick:AHU ;
+    ref:hasExternalReference bldg:hvac_reaAhu_dp_sup_Reference .
+
+bldg:hvac_reaAhu_dp_sup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "equipement" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaAhu_dp_sup_y" ;
+    ref:unit "Pa " ;
+    ref:zone "zone" .
+
+bldg:hvac_reaZonCor_CO2Zon_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Cor" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonCor_CO2Zon_y" ;
+    ref:unit "ppm" ;
+    ref:zone "Cor" .
+
+bldg:hvac_reaZonCor_TSup a brick:Supply_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_reaZonCor_TSup_Reference .
+
+bldg:hvac_reaZonCor_TSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Cor" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonCor_TSup_y" ;
+    ref:unit "K" ;
+    ref:zone "Cor" .
+
+bldg:hvac_reaZonCor_TZon a brick:Zone_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_reaZonCor_TZon_Reference .
+
+bldg:hvac_reaZonCor_TZon_Reference a ref:BOPTestReference ;
+    ref:description "description " ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonCor_TZon_y " ;
+    ref:unit "K " ;
+    ref:zone "Cor" .
+
+bldg:hvac_reaZonCor_V_flow a brick:Supply_Air_Flow_Sensor ;
+    qudt:hasQuantityKind quantitykind:VolumeFlowRate ;
+    qudt:hasUnit qudt:M3-PER-SEC ;
+    ref:hasExternalReference bldg:hvac_reaZonCor_V_flow_Reference .
+
+bldg:hvac_reaZonCor_V_flow_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Cor" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonCor_V_flow_y" ;
+    ref:unit "M3-PER-SEC" ;
+    ref:zone "Cor" .
+
+bldg:hvac_reaZonEas_CO2Zon_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Eas" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonEas_CO2Zon_y" ;
+    ref:unit "ppm" ;
+    ref:zone "Eas" .
+
+bldg:hvac_reaZonEas_TSup a brick:Supply_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_reaZonEas_TSup_Reference .
+
+bldg:hvac_reaZonEas_TSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Eas" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonEas_TSup_y" ;
+    ref:unit "K" ;
+    ref:zone "Eas" .
+
+bldg:hvac_reaZonEas_TZon a brick:Zone_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_reaZonEas_TZon_Reference .
+
+bldg:hvac_reaZonEas_TZon_Reference a ref:BOPTestReference ;
+    ref:description "description " ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonEas_TZon_y " ;
+    ref:unit "K " ;
+    ref:zone "Eas" .
+
+bldg:hvac_reaZonEas_V_flow a brick:Supply_Air_Flow_Sensor ;
+    qudt:hasQuantityKind quantitykind:VolumeFlowRate ;
+    qudt:hasUnit qudt:M3-PER-SEC ;
+    ref:hasExternalReference bldg:hvac_reaZonEas_V_flow_Reference .
+
+bldg:hvac_reaZonEas_V_flow_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Eas" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonEas_V_flow_y" ;
+    ref:unit "M3-PER-SEC" ;
+    ref:zone "Eas" .
+
+bldg:hvac_reaZonNor_CO2Zon_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Nor" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonNor_CO2Zon_y" ;
+    ref:unit "ppm" ;
+    ref:zone "Nor" .
+
+bldg:hvac_reaZonNor_TSup a brick:Supply_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_reaZonNor_TSup_Reference .
+
+bldg:hvac_reaZonNor_TSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Nor" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonNor_TSup_y" ;
+    ref:unit "K" ;
+    ref:zone "Nor" .
+
+bldg:hvac_reaZonNor_TZon a brick:Zone_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_reaZonNor_TZon_Reference .
+
+bldg:hvac_reaZonNor_TZon_Reference a ref:BOPTestReference ;
+    ref:description "description " ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonNor_TZon_y " ;
+    ref:unit "K " ;
+    ref:zone "Nor" .
+
+bldg:hvac_reaZonNor_V_flow a brick:Supply_Air_Flow_Sensor ;
+    qudt:hasQuantityKind quantitykind:VolumeFlowRate ;
+    qudt:hasUnit qudt:M3-PER-SEC ;
+    ref:hasExternalReference bldg:hvac_reaZonNor_V_flow_Reference .
+
+bldg:hvac_reaZonNor_V_flow_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Nor" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonNor_V_flow_y" ;
+    ref:unit "M3-PER-SEC" ;
+    ref:zone "Nor" .
+
+bldg:hvac_reaZonSou_CO2Zon_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Sou" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonSou_CO2Zon_y" ;
+    ref:unit "ppm" ;
+    ref:zone "Sou" .
+
+bldg:hvac_reaZonSou_TSup a brick:Supply_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_reaZonSou_TSup_Reference .
+
+bldg:hvac_reaZonSou_TSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Sou" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonSou_TSup_y" ;
+    ref:unit "K" ;
+    ref:zone "Sou" .
+
+bldg:hvac_reaZonSou_TZon a brick:Zone_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_reaZonSou_TZon_Reference .
+
+bldg:hvac_reaZonSou_TZon_Reference a ref:BOPTestReference ;
+    ref:description "description " ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonSou_TZon_y " ;
+    ref:unit "K " ;
+    ref:zone "Sou" .
+
+bldg:hvac_reaZonSou_V_flow a brick:Supply_Air_Flow_Sensor ;
+    qudt:hasQuantityKind quantitykind:VolumeFlowRate ;
+    qudt:hasUnit qudt:M3-PER-SEC ;
+    ref:hasExternalReference bldg:hvac_reaZonSou_V_flow_Reference .
+
+bldg:hvac_reaZonSou_V_flow_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Sou" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonSou_V_flow_y" ;
+    ref:unit "M3-PER-SEC" ;
+    ref:zone "Sou" .
+
+bldg:hvac_reaZonWes_CO2Zon_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Wes" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonWes_CO2Zon_y" ;
+    ref:unit "ppm" ;
+    ref:zone "Wes" .
+
+bldg:hvac_reaZonWes_TSup a brick:Supply_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_reaZonWes_TSup_Reference .
+
+bldg:hvac_reaZonWes_TSup_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Wes" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonWes_TSup_y" ;
+    ref:unit "K" ;
+    ref:zone "Wes" .
+
+bldg:hvac_reaZonWes_TZon a brick:Zone_Air_Temperature_Sensor ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:hvac_reaZonWes_TZon_Reference .
+
+bldg:hvac_reaZonWes_TZon_Reference a ref:BOPTestReference ;
+    ref:description "description " ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonWes_TZon_y " ;
+    ref:unit "K " ;
+    ref:zone "Wes" .
+
+bldg:hvac_reaZonWes_V_flow a brick:Supply_Air_Flow_Sensor ;
+    qudt:hasQuantityKind quantitykind:VolumeFlowRate ;
+    qudt:hasUnit qudt:M3-PER-SEC ;
+    ref:hasExternalReference bldg:hvac_reaZonWes_V_flow_Reference .
+
+bldg:hvac_reaZonWes_V_flow_Reference a ref:BOPTestReference ;
+    ref:description "description" ;
+    ref:equipment "VAV_Wes" ;
+    ref:isWritable false ;
+    ref:name "hvac_reaZonWes_V_flow_y" ;
+    ref:unit "M3-PER-SEC" ;
+    ref:zone "Wes" .
+
+bldg:hvac_sou a brick:VAV ;
+    brick:feeds bldg:flo_Sou ;
+    brick:hasPoint bldg:hvac_oveZonActSou_yDam,
+        bldg:hvac_oveZonActSou_yReaHea,
+        bldg:hvac_reaZonSou_TSup,
+        bldg:hvac_reaZonSou_V_flow ;
+    ref:hasExternalReference bldg:hvac_Sou_Reference .
+
+bldg:hvac_wes a brick:VAV ;
+    brick:feeds bldg:flo_Wes ;
+    brick:hasPoint bldg:hvac_oveZonActWes_yDam,
+        bldg:hvac_oveZonActWes_yReaHea,
+        bldg:hvac_reaZonWes_TSup,
+        bldg:hvac_reaZonWes_V_flow ;
+    ref:hasExternalReference bldg:hvac_Wes_Reference .
+
+bldg:flo_Cor a brick:Zone ;
+    brick:hasPoint bldg:hvac_oveZonSupCor_TZonCooSet,
+        bldg:hvac_oveZonSupCor_TZonHeaSet,
+        bldg:hvac_reaZonCor_TZon ;
+    ref:hasExternalReference bldg:flo_Cor .
+
+bldg:flo_Eas a brick:Zone ;
+    brick:hasPoint bldg:hvac_oveZonSupEas_TZonCooSet,
+        bldg:hvac_reaZonEas_TZon ;
+    ref:hasExternalReference bldg:flo_Eas .
+
+bldg:flo_Nor a brick:Zone ;
+    brick:hasPoint bldg:hvac_oveZonSupNor_TZonCooSet,
+        bldg:hvac_reaZonNor_TZon ;
+    ref:hasExternalReference bldg:flo_Nor .
+
+bldg:flo_Sou a brick:Zone ;
+    brick:hasPoint bldg:hvac_oveZonSupSou_TZonCooSet,
+        bldg:hvac_reaZonSou_TZon ;
+    ref:hasExternalReference bldg:flo_Sou .
+
+bldg:flo_Wes a brick:Zone ;
+    brick:hasPoint bldg:hvac_oveZonSupWes_TZonCooSet,
+        bldg:hvac_reaZonWes_TZon ;
+    ref:hasExternalReference bldg:flo_Wes .
+

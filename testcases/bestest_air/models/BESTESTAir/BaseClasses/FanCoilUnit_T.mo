@@ -37,14 +37,9 @@ model FanCoilUnit_T
       __Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Supply_Air_Flow_Sensor ;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
           qudt:hasQuantityKind quantitykind:MassFlowRate ;
           qudt:hasUnit qudt:KiloGM-PER-SEC .
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-        ref:name literal:<cdl_instance_name>_y ;
-        ref:description literal:description;
-        ref:unit literal:kg_per_s;
-        ref:isWritable false.")),
+          ")),
         Placement(transformation(extent={{40,110},{60,130}})));
   Modelica.Blocks.Interfaces.RealInput TSup "Temperature of supply air"
     annotation (Placement(transformation(extent={{-180,20},{-140,60}})));
@@ -57,14 +52,9 @@ model FanCoilUnit_T
       __Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor ;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
           qudt:hasQuantityKind quantitykind:ElectricPower ;
           qudt:hasUnit qudt:W .
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-      ref:name literal:<cdl_instance_name>_y;
-      ref:description literal:description;
-      ref:unit literal:W;
-      ref:isWritable false.")),
+          ")),
           Placement(transformation(extent={{70,170},{90,190}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaPHea(
@@ -75,14 +65,9 @@ model FanCoilUnit_T
       __Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Heating_Thermal_Power_Sensor ;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
           qudt:hasQuantityKind quantitykind:Power ;
           qudt:hasUnit qudt:W .
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-        ref:name literal:<cdl_instance_name>_y ;
-        ref:description literal:description;
-        ref:unit literal:kg_per_s;
-        ref:isWritable false.")),
+          ")),
           Placement(transformation(extent={{70,150},{90,170}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaPFan(
@@ -94,13 +79,8 @@ model FanCoilUnit_T
       __Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor ;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
           qudt:hasQuantityKind quantitykind:ElectricPower ;
           qudt:hasUnit qudt:W.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-      ref:name literal:<cdl_instance_name>_y;
-      ref:unit literal:W;
-      ref:isWritable false.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:Supply_Fan .
           ")),
       Placement(transformation(extent={{70,130},{90,150}})));
@@ -149,17 +129,9 @@ model FanCoilUnit_T
       __Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Supply_Air_Temperature_Setpoint ;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
           qudt:hasQuantityKind quantitykind:Temperature ;
           qudt:hasUnit qudt:K .
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-          ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name>_u ;
-          ref:isWritable true;
-          ref:description literal:description ;
-          ref:max literal:max ;
-          ref:min literal:min ;
-          ref:unit literal:K.")),
+          ")),
           Placement(transformation(extent={{-120,30},{-100,50}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveFan(description=
         "Fan control signal as air mass flow rate normalized to the design air mass flow rate",
@@ -171,16 +143,7 @@ model FanCoilUnit_T
       __Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Fan_Command ;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
           qudt:hasUnit qudt:UNITLESS.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-          ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name>_u ;
-          ref:isWritable true;
-          ref:description literal:description ;
-          ref:max literal:max ;
-          ref:min literal:min ;
-          ref:unit literal:1.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:Supply_Fan.
           ")),
           Placement(transformation(extent={{-120,-50},{-100,-30}})));
