@@ -44,6 +44,10 @@ class Job:
             return
 
         self.timeout = float(os.environ["BOPTEST_TIMEOUT"])
+        # Avoid S3 round-trip for small, high-frequency result payloads.
+        self.max_inline_result_bytes = int(
+            os.environ.get("BOPTEST_MAX_INLINE_RESULT_BYTES", 256 * 1024)
+        )
 
         # Prepare a directory where the test will run
         self.simulate_dir = "/simulate"
@@ -133,9 +137,10 @@ class Job:
         # ipmlementation which is slower.
         return msgpack.packb(data)
 
-    def persist_payload(self, payload, prefix):
+    def persist_payload(self, payload, prefix, body=None):
         object_key = "%s/%s/%s.msgpack" % (prefix, self.testid, uuid4().hex)
-        body = self.pack(payload)
+        if body is None:
+            body = self.pack(payload)
         # S3 stores msgpack blob; web fetches and relays to client
         self.s3_bucket.put_object(Key=object_key, Body=body, ContentType="application/msgpack")
         return object_key
@@ -217,7 +222,12 @@ class Job:
         start_time = params["start_time"]
         final_time = params["final_time"]
         response = self.package_response(self.tc.get_results(point_names, start_time, final_time))
-        object_key = self.persist_payload(response, "results")
+        packed_response = self.pack(response)
+
+        if len(packed_response) <= self.max_inline_result_bytes:
+            return response
+
+        object_key = self.persist_payload(response, "results", body=packed_response)
 
         payload = {
             "storage": "s3",
