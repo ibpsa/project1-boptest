@@ -2,9 +2,7 @@
 
 # Default values
 COMPILER_TOOL?=openmodelica
-VERSION=1.21.0
-TOOL_SOURCE_PATH?=""
-TOOL_LICENSE_PATH?=""
+VERSION=1.26.0~dev-361-gbb9556c
 IMG_NAME=$(COMPILER_TOOL)_fmu_generator
 
 COMMAND_RUN=docker run \
@@ -44,8 +42,6 @@ help:
 build_compiler_image:
 	@echo "Building $(COMPILER_TOOL) compiler container with name $(IMG_NAME)..."
 	docker build -f Dockerfile.$(COMPILER_TOOL) \
-	--build-arg TOOL_SOURCE_PATH=$(TOOL_SOURCE_PATH) \
-	--build-arg TOOL_LICENSE_PATH=$(TOOL_LICENSE_PATH) \
 	--build-arg VERSION=$(VERSION) \
 	--tag $(IMG_NAME) .
 
@@ -190,13 +186,14 @@ test_testcase2:
 	fi
 
 test_parser:
-	make run_jm
-	make copy_to_jm ARGS=parsing
-	make copy_to_jm ARGS=data
-	make exec_jm ARGS="python test_parser.py"
+	make run_cimg
+	make copy_to_cimg ARGS=parsing
+	make copy_to_cimg ARGS=data
+	make copy_to_cimg ARGS=testing
+	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib && python testing/test_parser.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/references/parser ./references
 	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
-	make stop_jm
+	make stop_cimg
 # Report test results
 	if [ $(SINGLE) = true ]; then\
         	python report.py;\
@@ -206,22 +203,22 @@ test_data:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
-# Run jm docker container
-	make run_jm
+# Run cimg docker container
+	make run_cimg
 # Copy the required files and folders for the test
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=forecast
-	make copy_to_jm ARGS=kpis
-	make copy_testcase_to_jm TESTCASE=testcase2
-	make copy_testcase_to_jm TESTCASE=testcase3
+	make copy_to_cimg ARGS=data
+	make copy_to_cimg ARGS=forecast
+	make copy_to_cimg ARGS=kpis
+	make copy_testcase_to_cimg TESTCASE=testcase2
+	make copy_testcase_to_cimg TESTCASE=testcase3
 	docker cp ../testing/references/data/testcase2/kpis.json ${IMG_NAME}:/usr/local/testing/testcase2/models
 	docker cp ../testing/references/data/testcase3/kpis.json ${IMG_NAME}:/usr/local/testing/testcase3/models
 # Run test_data.py
-	make exec_jm ARGS="python test_data.py"
+	make exec_cimg ARGS="python test_data.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/references/data ./references
 	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
-# Stop jm docker container
-	make stop_jm
+# Stop cimg docker container
+	make stop_cimg
 # Report test results
 	if [ $(SINGLE) = true ]; then\
         	python report.py;\
@@ -292,8 +289,6 @@ test_kpis:
 	fi
 
 test_bacnet:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision --scale worker=3
@@ -343,8 +338,8 @@ test_readme_commands:
 # Run all tests
 ###############################################################################
 test_all:
-# Build jm
-	make build_jm_image
+# Build cimg
+	make build_cimg_image
 # Build boptest base image
 	make build_boptest_image
 # Run tests
@@ -366,8 +361,8 @@ test_all:
 	make test_multizone_office_simple_air SINGLE=false
 	make test_multizone_office_simple_hydronic SINGLE=false
 	make test_twozone_apartment_hydronic SINGLE=false
-# Remove jm
-	make remove_jm_image
+# Remove cimg
+	make remove_cimg_image
 # Remove boptest base image
 	make remove_boptest_image
 # Report test results
