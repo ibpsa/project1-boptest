@@ -51,7 +51,7 @@ model TestCase "Single zone residential hydronic example model"
     dp_nominal=0,
     QMax_flow=5000) "Ideal heater - pressure drop merged into radiator"
     annotation (Placement(transformation(extent={{20,20},{0,40}})));
-  IDEAS.Fluid.Movers.FlowControlled_dp pump(
+  BESTESTHydronicHeatPump.BaseClasses.FlowControlled_dp pump(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     addPowerToMedium=false,
     redeclare package Medium = MediumWater,

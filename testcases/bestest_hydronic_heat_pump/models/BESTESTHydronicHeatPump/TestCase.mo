@@ -111,8 +111,9 @@ model TestCase
     annotation (Placement(transformation(extent={{100,140},{120,160}})));
   Modelica.Blocks.Math.Add addOcc
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
-  IDEAS.Fluid.Movers.FlowControlled_dp pum(
+  BESTESTHydronicHeatPump.BaseClasses.FlowControlled_dp pum(
     inputType=IDEAS.Fluid.Types.InputType.Stages,
+    addPowerToMedium=false,
     use_riseTime=false,
     dp_nominal=20000,
     m_flow_nominal=0.5,
@@ -232,9 +233,10 @@ model TestCase
   Modelica.Blocks.Sources.RealExpression yFan(y=if heaPum.com.isOn then 1 else 0)
     "Control input signal to fan"
     annotation (Placement(transformation(extent={{160,100},{180,120}})));
-  IDEAS.Fluid.Movers.FlowControlled_dp fan(
+  BESTESTHydronicHeatPump.BaseClasses.FlowControlled_dp fan(
     redeclare package Medium = MediumAir,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
+    addPowerToMedium=false,
     use_riseTime=false,
     dp_nominal=100,
     m_flow_nominal=3,
