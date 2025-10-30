@@ -72,7 +72,7 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
         extent={{10,10},{-10,-10}},
         rotation=0,
         origin={0,-20})));
-  Buildings.Fluid.Movers.FlowControlled_dp pum(
+  Buildings.Fluid.Movers.Preconfigured.FlowControlled_dp pum(
     redeclare package Medium = MediumW,
     m_flow_nominal=chi.m2_flow_nominal,
     addPowerToMedium=false,

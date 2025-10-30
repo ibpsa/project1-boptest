@@ -66,7 +66,7 @@ model AirToWaterHeatPump "Air to water heat pump model"
     y(unit="m3/s")) "Supply water flow rate of heat pump"
     annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));
 
-  Buildings.Fluid.Movers.FlowControlled_dp pum(
+  Buildings.Fluid.Movers.Preconfigured.FlowControlled_dp pum(
     redeclare package Medium = MediumW,
     m_flow_nominal=heaPum.m1_flow_nominal,
     addPowerToMedium=false,

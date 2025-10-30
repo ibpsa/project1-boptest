@@ -175,10 +175,10 @@ partial model PartialHVAC
     allowFlowReversal=allowFlowReversal,
     dp_nominal=40) "Pressure drop for return duct"
     annotation (Placement(transformation(extent={{400,130},{380,150}})));
-  Buildings.Fluid.Movers.SpeedControlled_y fanSup(
+  Buildings.Fluid.Movers.Preconfigured.SpeedControlled_y fanSup(
     redeclare package Medium = MediumA,
-    per(pressure(V_flow={0,m_flow_nominal/1.2*2}, dp=2*{780 + 10 + dpBuiStaSet,
-            0})),
+    m_flow_nominal=m_flow_nominal,
+    dp_nominal=780 + 10 + dpBuiStaSet,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial) "Supply air fan"
     annotation (Placement(transformation(extent={{300,-50},{320,-30}})));
 
@@ -501,17 +501,18 @@ partial model PartialHVAC
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={180,-170})));
-  Buildings.Fluid.Movers.SpeedControlled_y pumCooCoi(
+  Buildings.Fluid.Movers.Preconfigured.SpeedControlled_y pumCooCoi(
     redeclare package Medium = MediumW,
-    per(pressure(V_flow={0,mCooWat_flow_nominal/1000*2}, dp=2*{3000,0})),
+    m_flow_nominal=mCooWat_flow_nominal,
+    dp_nominal=3000,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial) "Supply air fan"
-    annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={180,-120})));
-  Buildings.Fluid.Movers.SpeedControlled_y pumHeaCoi(
+  Buildings.Fluid.Movers.Preconfigured.SpeedControlled_y pumHeaCoi(
     redeclare package Medium = MediumW,
-    per(pressure(V_flow={0,mHeaWat_flow_nominal/1000*2}, dp=2*{3000,0})),
+    m_flow_nominal=mHeaWat_flow_nominal,
+    dp_nominal=3000,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
     "Pump for heating coil" annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},

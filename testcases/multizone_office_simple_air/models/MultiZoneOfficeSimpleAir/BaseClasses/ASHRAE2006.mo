@@ -46,9 +46,11 @@ model ASHRAE2006
     annotation (Placement(transformation(extent={{-250,-352},{-230,-332}}),
         iconTransformation(extent={{-162,-100},{-142,-80}})));
 
-  Economizer                                                   conEco(
+  Buildings.Examples.VAVReheat.BaseClasses.Controls.Economizer                                                   conEco(
     have_reset=true,
-    have_frePro=true) "Controller for economizer"
+    have_frePro=true,
+    VOut_flow_min=Vot_flow_nominal)
+                      "Controller for economizer"
     annotation (Placement(transformation(extent={{-80,140},{-60,160}})));
   Buildings.Examples.VAVReheat.BaseClasses.Controls.RoomTemperatureSetpoint TSetRoo(
     final THeaOn=THeaOn,
@@ -60,23 +62,33 @@ model ASHRAE2006
       pMin=50) "Duct static pressure setpoint"
     annotation (Placement(transformation(extent={{160,-16},{180,4}})));
   Buildings.Examples.VAVReheat.BaseClasses.Controls.RoomVAV conVAVCor(
-      ratVFloMin=ratVMinCor_flow, ratVFloHea=ratVFloHea)
+    have_preIndDam=false,
+      ratVFloMin=ratVMinCor_flow, ratVFloHea=ratVFloHea,
+    V_flow_nominal=mCor_flow_nominal/1.2)
     "Controller for terminal unit corridor"
     annotation (Placement(transformation(extent={{456,-124},{476,-104}})));
   Buildings.Examples.VAVReheat.BaseClasses.Controls.RoomVAV conVAVSou(
-      ratVFloMin=ratVMinSou_flow, ratVFloHea=ratVFloHea)
+    have_preIndDam=false,
+      ratVFloMin=ratVMinSou_flow, ratVFloHea=ratVFloHea,
+    V_flow_nominal=mSou_flow_nominal/1.2)
     "Controller for terminal unit south"
     annotation (Placement(transformation(extent={{638,-124},{658,-104}})));
   Buildings.Examples.VAVReheat.BaseClasses.Controls.RoomVAV conVAVEas(
-      ratVFloMin=ratVMinEas_flow, ratVFloHea=ratVFloHea)
+    have_preIndDam=false,
+      ratVFloMin=ratVMinEas_flow, ratVFloHea=ratVFloHea,
+    V_flow_nominal=mEas_flow_nominal/1.2)
     "Controller for terminal unit east"
     annotation (Placement(transformation(extent={{822,-124},{842,-104}})));
   Buildings.Examples.VAVReheat.BaseClasses.Controls.RoomVAV conVAVNor(
-      ratVFloMin=ratVMinNor_flow, ratVFloHea=ratVFloHea)
+    have_preIndDam=false,
+      ratVFloMin=ratVMinNor_flow, ratVFloHea=ratVFloHea,
+    V_flow_nominal=mNor_flow_nominal/1.2)
     "Controller for terminal unit north"
     annotation (Placement(transformation(extent={{996,-124},{1016,-104}})));
   Buildings.Examples.VAVReheat.BaseClasses.Controls.RoomVAV conVAVWes(
-      ratVFloMin=ratVMinWes_flow, ratVFloHea=ratVFloHea)
+    have_preIndDam=false,
+      ratVFloMin=ratVMinWes_flow, ratVFloHea=ratVFloHea,
+    V_flow_nominal=mWes_flow_nominal/1.2)
     "Controller for terminal unit west"
     annotation (Placement(transformation(extent={{1186,-124},{1206,-104}})));
 
@@ -603,9 +615,6 @@ equation
   connect(oveAhu.yPumCoo_out, pumCooCoi.y) annotation (Line(points={{221,226},{
           298,226},{298,176},{68,176},{68,-228},{166,-228},{166,-208},{204,-208},
           {204,-120},{192,-120}}, color={0,0,127}));
-  connect(conEco.yFan, fanSup.y) annotation (Line(points={{-81.3333,142.667},{
-          -90,142.667},{-90,132},{310,132},{310,-28}},
-                                                   color={0,0,127}));
   connect(TRoo, modeSelector.TRoo) annotation (Line(points={{-400,320},{-370,
           320},{-370,-303.636},{-200,-303.636}}, color={0,0,127}));
   connect(oveZonSupCor.TZonCooSet_out, TSetCooNum.u5[1]) annotation (Line(
@@ -641,6 +650,21 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
+  connect(VOut1.V_flow, conEco.VOut_flow) annotation (Line(points={{-80,-29},{
+          -80,112},{-88,112},{-88,128},{-96,128},{-96,142.667},{-81.3333,
+          142.667}}, color={0,0,127}));
+  connect(cor.VSup_flow, conVAVCor.VDis_flow) annotation (Line(points={{612,58},
+          {612,66},{442,66},{442,-122},{454,-122}}, color={0,0,127}));
+  connect(sou.VSup_flow, conVAVSou.VDis_flow) annotation (Line(points={{792,56},
+          {792,70},{654,70},{654,-70},{610,-70},{610,-122},{636,-122}}, color={
+          0,0,127}));
+  connect(eas.VSup_flow, conVAVEas.VDis_flow) annotation (Line(points={{972,56},
+          {972,66},{814,66},{814,-122},{820,-122}}, color={0,0,127}));
+  connect(nor.VSup_flow, conVAVNor.VDis_flow) annotation (Line(points={{1132,56},
+          {1132,68},{1018,68},{1018,-122},{994,-122}}, color={0,0,127}));
+  connect(wes.VSup_flow, conVAVWes.VDis_flow) annotation (Line(points={{1332,56},
+          {1252,56},{1252,60},{1174,60},{1174,-122},{1184,-122}}, color={0,0,
+          127}));
   annotation (
   defaultComponentName="hvac",
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1420,
