@@ -7,7 +7,7 @@ model DistrictHeating2
       redeclare package Medium1 = Water,
       redeclare package Medium2 = Water,
       m1_flow_nominal=m_flow_nominal,
-    dp1_nominal=1000,
+    dp1_nominal=0,
     dp2_nominal=20000,
     allowFlowReversal1=false,
     allowFlowReversal2=false,
@@ -25,11 +25,14 @@ model DistrictHeating2
     Buildings.Fluid.Sensors.TemperatureTwoPort tDHRe(redeclare package Medium =
           Water,
     allowFlowReversal=false,
-    m_flow_nominal=m_flow_nominal_dh)
+    m_flow_nominal=m_flow_nominal_dh,
+    tau=10)
       annotation (Placement(transformation(extent={{-26,-16},{-46,4}})));
     Buildings.Fluid.Sensors.TemperatureTwoPort tSu(redeclare package Medium =
           Water, m_flow_nominal=m_flow_nominal,
-    allowFlowReversal=false)
+    allowFlowReversal=false,
+    tau=10,
+    T_start=283.15)
       annotation (Placement(transformation(extent={{34,-4},{54,16}})));
     Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Water)
       annotation (Placement(transformation(extent={{-70,90},{-50,110}})));
@@ -46,9 +49,9 @@ model DistrictHeating2
             0.00546942291128,0.00621231696813,0.00695521102498,0.00755813953488},
           P={205.291823945,337.504763698,400.584905585,453.68913657,488.040727585,
             515.872422868,528.307902115,531.276246541,523.90128749})),
+    tau=10,
     m_flow_nominal=m_flow_nominal,
       addPowerToMedium=false,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     allowFlowReversal=false,
     dp_nominal=50000,
     prescribeSystemPressure=false)
@@ -71,7 +74,8 @@ model DistrictHeating2
       "Nominal mass flow rate";
     Buildings.Fluid.Sensors.TemperatureTwoPort tRe(redeclare package Medium =
           Water, m_flow_nominal=m_flow_nominal,
-    allowFlowReversal=false)                    annotation (Placement(
+    allowFlowReversal=false,
+    tau=0)                                      annotation (Placement(
           transformation(
           extent={{-10,-10},{10,10}},
           rotation=-90,
@@ -237,5 +241,15 @@ equation
           Line(points={{-90,60},{-74,60}}, color={0,0,0})}),       Diagram(
           coordinateSystem(preserveAspectRatio=false)),
       experiment(StopTime=259200),
-      __Dymola_experimentSetupOutput);
+      __Dymola_experimentSetupOutput,
+    Documentation(revisions="<html>
+<ul>
+<li>
+September 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
+</ul>
+</html>"));
 end DistrictHeating2;

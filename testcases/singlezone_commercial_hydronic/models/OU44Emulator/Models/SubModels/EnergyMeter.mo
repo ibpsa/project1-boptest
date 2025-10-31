@@ -3,11 +3,13 @@ model EnergyMeter
     replaceable package Water = Buildings.Media.Water;
     Buildings.Fluid.Sensors.TemperatureTwoPort senTemRe(m_flow_nominal=
           m_flow_nominal, redeclare package Medium = Water,
-    allowFlowReversal=false)
+    allowFlowReversal=false,
+    tau=0)
       annotation (Placement(transformation(extent={{-60,50},{-80,70}})));
     Buildings.Fluid.Sensors.TemperatureTwoPort senTemSu(redeclare package
       Medium =   Water, m_flow_nominal=m_flow_nominal,
-    allowFlowReversal=false)
+    allowFlowReversal=false,
+    tau=0)
       annotation (Placement(transformation(extent={{-80,-70},{-60,-50}})));
     Buildings.Fluid.Sensors.MassFlowRate senMasFloSu(redeclare package Medium =
           Water, allowFlowReversal=false)
@@ -84,5 +86,15 @@ equation
           Line(points={{10,10},{-10,-12}}, color={0,0,0}),
           Line(points={{10,10},{8,4}}, color={0,0,0}),
           Line(points={{10,10},{4,8}}, color={0,0,0})}),           Diagram(
-          coordinateSystem(preserveAspectRatio=false)));
+          coordinateSystem(preserveAspectRatio=false)),
+    Documentation(revisions="<html>
+<ul>
+<li>
+September 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
+</ul>
+</html>"));
 end EnergyMeter;

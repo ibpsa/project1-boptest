@@ -144,8 +144,8 @@ equation
 <li>
 May 30, 2025, by Ettore Zanetti:<br/>
 Updated model to use Modelica 4.0 and Buildings 12.1.0.
-This is for <a href=https://github.com/ibpsa/project1-boptest/issues/442>
-BOPTEST issue #442</a>.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
 </li>
 </ul>
 </html>"));

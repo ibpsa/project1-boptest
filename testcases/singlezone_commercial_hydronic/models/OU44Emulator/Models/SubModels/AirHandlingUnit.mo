@@ -216,7 +216,9 @@ model AirHandlingUnit
         rotation=180,
         origin={20,-14})));
 
-  Buildings.Controls.Continuous.LimPID conPID(controllerType=Modelica.Blocks.Types.SimpleController.PID, initType
+  Buildings.Controls.Continuous.LimPID conPID(
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    Ti=10,                                                                                               initType
       =Modelica.Blocks.Types.Init.InitialState)
     annotation (Placement(transformation(extent={{-12,-8},{-32,12}})));
   Modelica.Blocks.Interfaces.RealInput TsupSet
@@ -417,8 +419,8 @@ equation
 <li>
 May 30, 2025, by Ettore Zanetti:<br/>
 Updated model to use Modelica 4.0 and Buildings 12.1.0.
-This is for <a href=https://github.com/ibpsa/project1-boptest/issues/442>
-BOPTEST issue #442</a>.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
 </li>
 </ul>
 </html>"));

@@ -141,7 +141,7 @@ Buildings.Fluid.Actuators.Valves.TwoWayLinear   valRad(
     m_flow_nominal=m_flow_nominal_water_rad,
     dpValve_nominal=5000,
     y_start=0,
-    dpFixed_nominal=20000)
+    dpFixed_nominal=34000)
   annotation (Placement(transformation(extent={{-2,-130},{-22,-110}})));
 Buildings.Fluid.Sensors.TemperatureTwoPort tRadIn(redeclare package Medium =
       Water,
@@ -166,21 +166,19 @@ Buildings.Fluid.FixedResistances.Junction jun2(
   portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Bidirectional,
     m_flow_nominal={m_flow_nominal_water_coil + m_flow_nominal_water_rad,-
         m_flow_nominal_water_coil,-m_flow_nominal_water_rad},
-    dp_nominal={1000,0,0},
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
+    dp_nominal={0,0,0})
                       annotation (Placement(transformation(
       extent={{10,10},{-10,-10}},
       rotation=-90,
       origin={-126,-96})));
 Buildings.Fluid.FixedResistances.Junction jun3(
   redeclare package Medium = Water,
-    dp_nominal={1000,0,1000},
+    dp_nominal={0,0,0},
   portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Bidirectional,
   portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Bidirectional,
   portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Bidirectional,
     m_flow_nominal={m_flow_nominal_water_coil,-(m_flow_nominal_water_coil +
-        m_flow_nominal_water_rad),m_flow_nominal_water_rad},
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
+        m_flow_nominal_water_rad),m_flow_nominal_water_rad})
   annotation (Placement(transformation(
       extent={{-10,10},{10,-10}},
       rotation=-90,
@@ -206,7 +204,7 @@ Buildings.Fluid.Actuators.Valves.TwoWayLinear   valCoil(
     m_flow_nominal=m_flow_nominal_water_coil,
     dpValve_nominal=5000,
     y_start=0,
-    dpFixed_nominal=15000)
+    dpFixed_nominal=29000)
                      annotation (Placement(transformation(
       extent={{-10,-10},{10,10}},
       rotation=270,
@@ -224,12 +222,6 @@ Modelica.Blocks.Math.Gain metHeat(k=120/AFlo)
     annotation (Placement(transformation(extent={{-64,104},{-48,120}})));
   Buildings.Fluid.Sensors.PPM senCO2(redeclare package Medium = Air)
     annotation (Placement(transformation(extent={{-54,58},{-74,78}})));
-  Modelica.Blocks.Continuous.Integrator Qh_coil(k=2.7778E-7) "Output in kWh"
-    annotation (Placement(transformation(extent={{-222,-76},{-240,-58}})));
-  Modelica.Blocks.Continuous.Integrator Qh_rad(k=2.7778E-7) "Output in kWh"
-    annotation (Placement(transformation(extent={{-222,-134},{-240,-116}})));
-  Modelica.Blocks.Continuous.Integrator Qh_tot(k=2.7778E-7) "Output in kWh"
-    annotation (Placement(transformation(extent={{-222,-160},{-240,-142}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTemOut(redeclare package Medium
       = Air, m_flow_nominal=1)
     annotation (Placement(transformation(extent={{-48,8},{-28,28}})));
@@ -261,11 +253,12 @@ Modelica.Blocks.Math.Gain metHeat(k=120/AFlo)
     allowFlowReversal=false,
     m_flow_nominal=m_flow_nominal_water_coil/1000,
     dp_nominal=20000)
-    annotation (Placement(transformation(extent={{-136,-10},{-144,8}})));
+    annotation (Placement(transformation(extent={{-140,-10},{-148,8}})));
   Buildings.Fluid.FixedResistances.Pipe pipSupCoil(
     redeclare package Medium = Buildings.Media.Water,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     m_flow_nominal=m_flow_nominal_water_coil,
+    dp_nominal=0,
     nSeg=3,
     thicknessIns=0.03,
     lambdaIns=0.04,
@@ -278,6 +271,7 @@ Modelica.Blocks.Math.Gain metHeat(k=120/AFlo)
     redeclare package Medium = Buildings.Media.Water,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     m_flow_nominal=m_flow_nominal_water_coil,
+    dp_nominal=0,
     nSeg=3,
     thicknessIns=0.03,
     lambdaIns=0.04,
@@ -290,6 +284,7 @@ Modelica.Blocks.Math.Gain metHeat(k=120/AFlo)
     redeclare package Medium = Buildings.Media.Water,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     m_flow_nominal=m_flow_nominal_water_rad,
+    dp_nominal=0,
     nSeg=3,
     thicknessIns=0.03,
     lambdaIns=0.04,
@@ -302,6 +297,7 @@ Modelica.Blocks.Math.Gain metHeat(k=120/AFlo)
     redeclare package Medium = Buildings.Media.Water,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     m_flow_nominal=m_flow_nominal_water_rad,
+    dp_nominal=0,
     nSeg=3,
     thicknessIns=0.03,
     lambdaIns=0.04,
@@ -321,10 +317,6 @@ Modelica.Thermal.HeatTransfer.Sources.FixedTemperature tPipHeaLoss(T(
 
   Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta "Weather station"
     annotation (Placement(transformation(extent={{80,122},{100,142}})));
-  Modelica.Blocks.Continuous.Integrator Qel_fan(k=2.7778E-7) "Output in kWh"
-    annotation (Placement(transformation(extent={{-224,24},{-240,40}})));
-  Modelica.Blocks.Continuous.Integrator Qel_pmp(k=2.7778E-7) "Output in kWh"
-    annotation (Placement(transformation(extent={{-224,-184},{-240,-168}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaPPum(
     y(unit="W"),
@@ -368,21 +360,19 @@ Buildings.Fluid.FixedResistances.Junction jun1(
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Bidirectional,
     m_flow_nominal={m_flow_nominal_water_coil,-m_flow_nominal_water_coil,-
         m_flow_nominal_water_coil/1000},
-    dp_nominal={1000,0,0},
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
+    dp_nominal={0,0,0})
                       annotation (Placement(transformation(
       extent={{8,-8},{-8,8}},
       rotation=-90,
       origin={-126,0})));
 Buildings.Fluid.FixedResistances.Junction jun4(
     redeclare package Medium = Water,
-    dp_nominal={1000,0,1000},
+    dp_nominal={0,0,0},
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Bidirectional,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Bidirectional,
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Bidirectional,
     m_flow_nominal={m_flow_nominal_water_coil,-m_flow_nominal_water_coil,
-        m_flow_nominal_water_coil/1000},
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
+        m_flow_nominal_water_coil/1000})
   annotation (Placement(transformation(
       extent={{-8,8},{8,-8}},
       rotation=-90,
@@ -464,11 +454,6 @@ connect(matrixGain.u[1], metHeat.y)
                                   color={0,127,255}));
   connect(senCO2.port, ou44Bdg.ports[4]) annotation (Line(points={{-64,58},{-64,
           46.8},{-13,46.8}}, color={0,127,255}));
-  connect(energyMeterRad.q, Qh_rad.u) annotation (Line(points={{-96,-112.6},{
-          -96,-125},{-220.2,-125}},
-                            color={0,0,127}));
-  connect(energyMeterAhu.q, Qh_coil.u) annotation (Line(points={{-144.6,-66},{
-          -182,-66},{-182,-67},{-220.2,-67}},              color={0,0,127}));
   connect(infiltration.port_b, senTemOut.port_a) annotation (Line(points={{-60,18},
           {-48,18}},                       color={0,127,255}));
   connect(senTemOut.port_b, ou44Bdg.ports[5]) annotation (Line(points={{-28,18},
@@ -515,8 +500,6 @@ connect(matrixGain.u[1], metHeat.y)
       horizontalAlignment=TextAlignment.Left));
   connect(dh.qdh, reaQHea.u) annotation (Line(points={{-121.2,-207},{-84,-207},
           {-84,-151},{-192.2,-151}}, color={0,0,127}));
-  connect(reaQHea.y, Qh_tot.u) annotation (Line(points={{-212.9,-151},{-220.2,
-          -151}},           color={0,0,127}));
   connect(dh.port_b, jun2.port_1)
     annotation (Line(points={{-126,-192},{-126,-106}}, color={0,127,255}));
   connect(jun3.port_2, dh.port_a) annotation (Line(points={{-148,-118},{-148,-186},
@@ -533,8 +516,6 @@ connect(matrixGain.u[1], metHeat.y)
       horizontalAlignment=TextAlignment.Right));
   connect(dh.qel, reaPPum.u) annotation (Line(points={{-121.4,-196},{-108,-196},
           {-108,-176},{-198.4,-176}}, color={0,0,127}));
-  connect(reaPPum.y, Qel_pmp.u)
-    annotation (Line(points={{-216.8,-176},{-222.4,-176}}, color={0,0,127}));
   connect(senCO2.ppm,reaCO2Zon. u) annotation (Line(points={{-75,68},{-182,68},
           {-182,59},{-200.6,59}},
                                 color={0,0,127}));
@@ -542,8 +523,8 @@ connect(matrixGain.u[1], metHeat.y)
     annotation (Line(points={{64.8,56},{55,56}}, color={0,0,127}));
   connect(senTemCoiRet.T,reaTCoiRet. u)
     annotation (Line(points={{-163,-18},{-226.8,-18}}, color={0,0,127}));
-  connect(jun1.port_3, res.port_a) annotation (Line(points={{-134,1.55431e-15},
-          {-136,1.55431e-15},{-136,-1}}, color={0,127,255}));
+  connect(jun1.port_3, res.port_a) annotation (Line(points={{-134,0},{-140,0},{
+          -140,-1}},                     color={0,127,255}));
   connect(jun1.port_1, pipSupCoil.port_b)
     annotation (Line(points={{-126,-8},{-126,-32}}, color={0,127,255}));
   connect(jun1.port_2, ahu.port_a2)
@@ -553,15 +534,13 @@ connect(matrixGain.u[1], metHeat.y)
   connect(jun4.port_2, senTemCoiRet.port_a) annotation (Line(points={{-162,-10},
           {-158,-10},{-158,-8},{-152,-8}}, color={0,127,255}));
   connect(jun4.port_3, res.port_b) annotation (Line(points={{-154,-2},{-152,-2},
-          {-152,-1},{-144,-1}}, color={0,127,255}));
+          {-152,-1},{-148,-1}}, color={0,127,255}));
   connect(occupancy.y[1], gaiOcc.u)
     annotation (Line(points={{-161,130},{-147.6,130}}, color={0,0,127}));
   connect(gaiOcc.y, metHeat.u) annotation (Line(points={{-129.2,130},{-110,130},
           {-110,144},{-105.6,144}}, color={0,0,127}));
   connect(gaiOcc.y, gaiCO2.u) annotation (Line(points={{-129.2,130},{-112,130},
           {-112,112},{-107.6,112}}, color={0,0,127}));
-  connect(ahu.qel, Qel_fan.u) annotation (Line(points={{-146,33.4},{-146,32},{
-          -222.4,32}}, color={0,0,127}));
 annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-240,-240},
             {240,220}}),     graphics={Bitmap(
         extent={{-160,-162},{178,180}}, fileName=
@@ -574,8 +553,8 @@ annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-240,-240}
 <li>
 May 30, 2025, by Ettore Zanetti:<br/>
 Updated model to use Modelica 4.0 and Buildings 12.1.0.
-This is for <a href=https://github.com/ibpsa/project1-boptest/issues/442>
-BOPTEST issue #442</a>.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
 </li>
 </ul>
 </html>"));
