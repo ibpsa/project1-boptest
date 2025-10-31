@@ -262,7 +262,7 @@ model thermalZone "Reference Thermal zone model Milan"
     annotation (Placement(transformation(extent={{-48,88},{-42,94}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTRooAir(
     description="Zone air temperature",
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"),
     zone=zonName)
                  "Read room air temperature"
