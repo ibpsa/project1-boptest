@@ -827,6 +827,7 @@ public
     annotation (Placement(transformation(extent={{-78,14},{-74,18}})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radRo1(
     redeclare package Medium = MediumW,
+    nEle=3,
     Q_flow_nominal=Q_rad_ro1,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
@@ -850,6 +851,7 @@ public
     annotation (Placement(transformation(extent={{-24,-142},{-18,-136}})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radRo2(
     redeclare package Medium = MediumW,
+    nEle=3,
     Q_flow_nominal=Q_rad_ro2,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
@@ -873,6 +875,7 @@ public
     annotation (Placement(transformation(extent={{32,-142},{38,-136}})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radRo3(
     redeclare package Medium = MediumW,
+    nEle=3,
     Q_flow_nominal=Q_rad_ro3,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
@@ -896,6 +899,7 @@ public
     annotation (Placement(transformation(extent={{34,-222},{40,-216}})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radBth(
     redeclare package Medium = MediumW,
+    nEle=3,
     Q_flow_nominal=Q_rad_bth,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
@@ -947,6 +951,7 @@ public
         origin={29,-123})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radHal(
     redeclare package Medium = MediumW,
+    nEle=3,
     Q_flow_nominal=300,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
@@ -1055,6 +1060,7 @@ public
         origin={-85,-119})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad_Salon(
     redeclare package Medium = MediumW,
+    nEle=3,
     Q_flow_nominal=Q_rad_liv,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
@@ -1157,9 +1163,6 @@ public
   Buildings.Fluid.Actuators.Valves.ThreeWayEqualPercentageLinear valBoi(
     redeclare package Medium = MediumW,
     dpValve_nominal=6000,
-    portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
-    portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
-    portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Entering,
     m_flow_nominal=mBoi_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     from_dp=false)         "Boiler valve"
@@ -1211,15 +1214,12 @@ public
         extent={{-3,3},{3,-3}},
         rotation=90,
         origin={-91,-127})));
-  Buildings.Fluid.Movers.FlowControlled_m_flow pumEmiSystem(
+  Buildings.Fluid.Movers.Preconfigured.FlowControlled_m_flow pumEmiSystem(
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     redeclare package Medium = MediumW,
     addPowerToMedium=false,
     dp_nominal=20000,
-    constantMassFlowRate=0.15,
-    m_flow_nominal=mBoi_flow_nominal,
-    redeclare Buildings.Fluid.Movers.Data.Generic per,
-    nominalValuesDefineDefaultPressureCurve=true) "Pump for emission system"
+    m_flow_nominal=mBoi_flow_nominal) "Pump for emission system"
     annotation (Placement(transformation(extent={{5,5},{-5,-5}}, origin={-83,-175})));
   Modelica.Blocks.Sources.RealExpression HeaSetLiv(y=schGeneral.HeaSetRT12 +
         delta_ST_rad)
