@@ -12,8 +12,8 @@ model ApartmentModelQHTyp "Hydronic Test case"
     occSta=8*3600,
     occEnd=20*3600,
     TSetHeaUno=294.15,
-    TSetHeaOcc=289.15,
-    TSetHeaWee=289.15)
+    TSetHeaOcc=290.15,
+    TSetHeaWee=290.15)
     annotation (Placement(transformation(extent={{-60,-80},{-40,-60}})));
   TwoZoneApartmentHydronic.Components.HydronicSystem hydronicSystem(
     redeclare package MediumW = MediumW,                            mflow_n=
@@ -44,32 +44,32 @@ model ApartmentModelQHTyp "Hydronic Test case"
     dp_nominal=20*DP_n)
     annotation (Placement(transformation(extent={{46,-52},{70,-28}})));
   TwoZoneApartmentHydronic.Components.Thermostat_T thermostatDayZon(
-    occSta=8*3600,
+    occSta=16*3600,
     occEnd=20*3600,
-    TSetHeaUno=294.15,
-    TSetHeaOcc=289.15,
-    TSetHeaWee=289.15)
+    TSetHeaUno=290.15,
+    TSetHeaOcc=294.15,
+    TSetHeaWee=290.15)
     annotation (Placement(transformation(extent={{-60,60},{-40,80}})));
   inner IDEAS.BoundaryConditions.SimInfoManager
                        sim(filNam=Modelica.Utilities.Files.loadResource(
         "modelica://TwoZoneApartmentHydronic/Resources/IT-Milano-Linate-160800TM2.mos"))
     annotation (Placement(transformation(extent={{-104,-2},{-82,20}})));
-  Buildings.Airflow.Multizone.DoorDiscretizedOpen doo(
-    hA=3/2,
-    hB=3/2,
-    nCom=10,
+  Buildings.Airflow.Multizone.DoorOperable doo(
     redeclare package Medium = MediumA,
     show_T=true,
     wOpe=0.8,
     hOpe=2,
     dp_turbulent=0.1,
-    CD=0.78) "Discretized door" annotation (Placement(transformation(
+    LClo=20*10e-4)
+             "Discretized door" annotation (Placement(transformation(
         extent={{-8,-9},{8,9}},
         rotation=-90,
         origin={42,-3})));
   parameter Modelica.Units.SI.Pressure DP_n=500 "nominal flow rate";
   Buildings.Utilities.IO.SignalExchange.WeatherStation weatherStation
     annotation (Placement(transformation(extent={{-80,-40},{-100,-20}})));
+  Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter(Rising=2)
+    annotation (Placement(transformation(extent={{-12,34},{8,54}})));
 equation
   connect(hydronicSystem.ports_b[1],dayZon. supplyWater) annotation (Line(
         points={{12.8667,11.5},{12,11.5},{12,16},{54,16},{54,22},{53.0182,22}},
@@ -151,6 +151,10 @@ equation
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
+  connect(thermostatDayZon.Occ, slewRateLimiter.u) annotation (Line(points={{
+          -39,70},{-36,70},{-36,58},{-22,58},{-22,44},{-14,44}}, color={0,0,127}));
+  connect(slewRateLimiter.y, doo.y) annotation (Line(points={{9,44},{18,44},{18,
+          18},{42,18},{42,5.8}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -160,6 +164,13 @@ equation
       __Dymola_Algorithm="Cvode"),
     Documentation(revisions="<html>
 <ul>
+<li>
+November 4, 2025, by Ettore Zanetti:<br/>
+Updated model to Modelica 4.0, fixed occupancy profile, door opening 
+and ventilation. This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>, and <a href=https://github.com/ibpsa/project1-boptest/issues/539>
+BOPTEST issue #539</a>.
+</li>
 <li>
 August 5, 2022, by Ettore Zanetti:<br/>
 Revision after comments

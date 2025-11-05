@@ -15,8 +15,6 @@ model DayZone "Milan day zone thermal zone istance"
   parameter Modelica.Units.SI.Angle Z_=Buildings.Types.Tilt.Wall
     "Tilt for wall";
  //   "Number of surface that are connected to constructions that are modeled inside the room";
-  parameter Modelica.Units.SI.VolumeFlowRate AirChange=-48*2.7*0.5/3600
-    "Infiltration rate";
   parameter Modelica.Units.SI.Area Afloor=22 "Floor area";
   extends thermalZone(
     nConBou=4,
@@ -46,6 +44,13 @@ model DayZone "Milan day zone thermal zone istance"
     annotation (Placement(transformation(extent={{40,84},{54,98}})));
   annotation (Documentation(revisions="<html>
 <ul>
+<li>
+November 4, 2025, by Ettore Zanetti:<br/>
+Updated model to Modelica 4.0, fixed occupancy profile, door opening 
+and ventilation. This is for This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>, and <a href=https://github.com/ibpsa/project1-boptest/issues/539>
+BOPTEST issue #539</a>.
+</li>
 <li>
 August 6, 2021, by Ettore Zanetti:<br/>
 First implementation.

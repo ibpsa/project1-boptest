@@ -10,19 +10,19 @@ model BoundaryConditions "BoundaryGenerator"
     occSta=8*3600,
     occEnd=20*3600,
     TSetHeaUno=294.15,
-    TSetHeaOcc=289.15,
-    TSetHeaWee=289.15)
-    annotation (Placement(transformation(extent={{-60,20},{-40,40}})));
+    TSetHeaOcc=290.15,
+    TSetHeaWee=290.15)
+    annotation (Placement(transformation(extent={{-60,-70},{-40,-50}})));
   Buildings.BoundaryConditions.WeatherData.Bus weaBus annotation (Placement(
         transformation(extent={{-78,52},{-38,92}}),   iconTransformation(extent=
            {{-268,-10},{-248,10}})));
   TwoZoneApartmentHydronic.Components.Thermostat_T thermostatDayZon(
-    occSta=8*3600,
+    occSta=16*3600,
     occEnd=20*3600,
-    TSetHeaUno=294.15,
-    TSetHeaOcc=289.15,
-    TSetHeaWee=289.15)
-    annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
+    TSetHeaUno=290.15,
+    TSetHeaOcc=294.15,
+    TSetHeaWee=290.15)
+    annotation (Placement(transformation(extent={{-58,18},{-38,38}})));
   inner IDEAS.BoundaryConditions.SimInfoManager
                        sim(filNam=
         ModelicaServices.ExternalReferences.loadResource(
@@ -91,59 +91,60 @@ equation
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
   connect(DumTem.y, thermostatNigZon.TZon) annotation (Line(points={{-79,-30},{
-          -72,-30},{-72,30},{-62,30}}, color={0,0,127}));
+          -72,-30},{-72,-60},{-62,-60}},
+                                       color={0,0,127}));
   connect(DumTem.y, thermostatDayZon.TZon) annotation (Line(points={{-79,-30},{
-          -72,-30},{-72,-50},{-62,-50}}, color={0,0,127}));
-  connect(thermostatNigZon.Occ, equNig.occupation) annotation (Line(points={{
-          -39,30},{-20,30},{-20,50},{-0.2,50}}, color={0,0,127}));
-  connect(thermostatNigZon.Occ, occNig.occupation) annotation (Line(points={{
-          -39,30},{-20,30},{-20,29.8},{-0.2,29.8}}, color={0,0,127}));
-  connect(thermostatNigZon.Occ, ligNig.occupation) annotation (Line(points={{
-          -39,30},{-20,30},{-20,10},{-0.2,10}}, color={0,0,127}));
-  connect(thermostatDayZon.Occ, equDay.occupation)
-    annotation (Line(points={{-39,-50},{-0.2,-50}}, color={0,0,127}));
-  connect(thermostatDayZon.Occ, occDay.occupation) annotation (Line(points={{-39,
-          -50},{-20,-50},{-20,-70.2},{-0.2,-70.2}}, color={0,0,127}));
-  connect(ligDay.occupation, occDay.occupation) annotation (Line(points={{-0.2,
-          -90},{-20,-90},{-20,-70.2},{-0.2,-70.2}}, color={0,0,127}));
+          -70,-30},{-70,28},{-60,28}},   color={0,0,127}));
   connect(equNig.rad, sumRadDayZon.u[1]) annotation (Line(points={{21,54},{52,
-          54},{52,69.2},{60,69.2}}, color={0,0,127}));
+          54},{52,62.9},{60,62.9}}, color={0,0,127}));
   connect(occNig.rad, sumRadDayZon.u[2]) annotation (Line(points={{21,34},{52,
           34},{52,65},{60,65}}, color={0,0,127}));
   connect(ligNig.rad, sumRadDayZon.u[3]) annotation (Line(points={{21,14},{52,
-          14},{52,61.85},{60,61.85},{60,60.8}}, color={0,0,127}));
+          14},{52,61.85},{60,61.85},{60,67.1}}, color={0,0,127}));
   connect(equNig.con, sumConDayZon.u[1]) annotation (Line(points={{21,50},{40,
-          50},{40,39.2},{60,39.2}}, color={0,0,127}));
+          50},{40,32.9},{60,32.9}}, color={0,0,127}));
   connect(occNig.con, sumConDayZon.u[2]) annotation (Line(points={{21,30},{40,
           30},{40,36},{60,36},{60,35}}, color={0,0,127}));
   connect(ligNig.con, sumConDayZon.u[3]) annotation (Line(points={{21,10},{40,
-          10},{40,30},{60,30},{60,30.8}}, color={0,0,127}));
+          10},{40,30},{60,30},{60,37.1}}, color={0,0,127}));
   connect(equNig.lat, sumLatDayZon.u[1]) annotation (Line(points={{21,46},{34,
-          46},{34,9.2},{60,9.2}}, color={0,0,127}));
+          46},{34,2.9},{60,2.9}}, color={0,0,127}));
   connect(occNig.lat, sumLatDayZon.u[2])
     annotation (Line(points={{21,26},{28,26},{28,5},{60,5}}, color={0,0,127}));
   connect(ligNig.lat, sumLatDayZon.u[3]) annotation (Line(points={{21,6},{24,6},
-          {24,0.8},{60,0.8}}, color={0,0,127}));
+          {24,7.1},{60,7.1}}, color={0,0,127}));
   connect(equDay.rad, sumRadNigZon.u[1]) annotation (Line(points={{21,-46},{50,
-          -46},{50,-26.2667},{62,-26.2667}}, color={0,0,127}));
+          -46},{50,-31.8667},{62,-31.8667}}, color={0,0,127}));
   connect(occDay.rad, sumRadNigZon.u[2]) annotation (Line(points={{21,-66},{50,
           -66},{50,-30},{62,-30}}, color={0,0,127}));
   connect(ligDay.rad, sumRadNigZon.u[3]) annotation (Line(points={{21,-86},{36,
-          -86},{36,-82},{50,-82},{50,-32.8},{62,-32.8},{62,-33.7333}}, color={0,
+          -86},{36,-82},{50,-82},{50,-32.8},{62,-32.8},{62,-28.1333}}, color={0,
           0,127}));
   connect(equDay.con, sumConNigZon.u[1]) annotation (Line(points={{21,-50},{40,
-          -50},{40,-56.2667},{62,-56.2667}}, color={0,0,127}));
+          -50},{40,-61.8667},{62,-61.8667}}, color={0,0,127}));
   connect(occDay.con, sumConNigZon.u[2]) annotation (Line(points={{21,-70},{40,
           -70},{40,-60},{62,-60}}, color={0,0,127}));
   connect(ligDay.con, sumConNigZon.u[3]) annotation (Line(points={{21,-90},{40,
-          -90},{40,-62.8},{62,-62.8},{62,-63.7333}}, color={0,0,127}));
+          -90},{40,-62.8},{62,-62.8},{62,-58.1333}}, color={0,0,127}));
   connect(ligDay.lat, sumLatNigZon.u[1]) annotation (Line(points={{21,-94},{46,
-          -94},{46,-86.2667},{62,-86.2667}}, color={0,0,127}));
+          -94},{46,-91.8667},{62,-91.8667}}, color={0,0,127}));
   connect(occDay.lat, sumLatNigZon.u[2]) annotation (Line(points={{21,-74},{30,
           -74},{30,-94},{46,-94},{46,-90},{62,-90}}, color={0,0,127}));
   connect(equDay.lat, sumLatNigZon.u[3]) annotation (Line(points={{21,-54},{30,
-          -54},{30,-94},{46,-94},{46,-92.8},{62,-92.8},{62,-93.7333}}, color={0,
+          -54},{30,-94},{46,-94},{46,-92.8},{62,-92.8},{62,-88.1333}}, color={0,
           0,127}));
+  connect(thermostatDayZon.Occ, equNig.occupation) annotation (Line(points={{
+          -37,28},{-10,28},{-10,50},{-0.2,50}}, color={0,0,127}));
+  connect(thermostatDayZon.Occ, occNig.occupation) annotation (Line(points={{
+          -37,28},{-10,28},{-10,29.8},{-0.2,29.8}}, color={0,0,127}));
+  connect(thermostatDayZon.Occ, ligNig.occupation) annotation (Line(points={{
+          -37,28},{-10,28},{-10,10},{-0.2,10}}, color={0,0,127}));
+  connect(thermostatNigZon.Occ, equDay.occupation) annotation (Line(points={{
+          -39,-60},{-10,-60},{-10,-50},{-0.2,-50}}, color={0,0,127}));
+  connect(thermostatNigZon.Occ, occDay.occupation) annotation (Line(points={{
+          -39,-60},{-10,-60},{-10,-70.2},{-0.2,-70.2}}, color={0,0,127}));
+  connect(thermostatNigZon.Occ, ligDay.occupation) annotation (Line(points={{
+          -39,-60},{-10,-60},{-10,-90},{-0.2,-90}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -153,6 +154,12 @@ equation
       __Dymola_Algorithm="Radau"),
     Documentation(revisions="<html>
 <ul>
+<li>
+November 4, 2025, by Ettore Zanetti:<br/>
+Updated model to Modelica 4.0, fixed occupancy profile, door opening 
+and ventilation. This is for This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
 <li>
 August 5, 2022, by Ettore Zanetti:<br/>
 Revision after comments

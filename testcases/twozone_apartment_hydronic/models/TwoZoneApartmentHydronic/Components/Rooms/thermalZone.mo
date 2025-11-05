@@ -22,7 +22,7 @@ model thermalZone "Reference Thermal zone model Milan"
   parameter Integer nConBou = 3
     "Number of surface that are connected to constructions that are modeled inside the room";
   parameter Integer nSurBou = 2 "Number of surface that are connected to constructions that are modeled outside the room";
-  parameter Modelica.Units.SI.VolumeFlowRate AirChange=-48*2.7*0.5/3600
+  parameter Modelica.Units.SI.VolumeFlowRate AirChange=-Afloor*2.7*0.5/3600
     "Infiltration rate";
   parameter Modelica.Units.SI.Area Afloor=22 "Floor area";
   parameter Modelica.Units.SI.MassFlowRate mflow_n=2400/2/3600
@@ -238,7 +238,7 @@ model thermalZone "Reference Thermal zone model Milan"
   TwoZoneApartmentHydronic.Components.BaseClasses.OccupancyLoad occ(
     radFraction=0.5,
     co2Gen=8.64e-6,
-    occ_density=1/Afloor,
+    occ_density=2/Afloor,
     senPower=60,
     latPower=20)
     annotation (Placement(transformation(extent={{-100,60},{-88,72}})));
@@ -815,6 +815,13 @@ This is the thermal zone reference model used for both Day and Night zone in the
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+November 4, 2025, by Ettore Zanetti:<br/>
+Updated model to Modelica 4.0, fixed occupancy profile, door opening 
+and ventilation. This is for This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>, and <a href=https://github.com/ibpsa/project1-boptest/issues/539>
+BOPTEST issue #539</a>.
+</li>
 <li>
 August 5, 2022, by Ettore Zanetti:<br/>
 Revision after comments
