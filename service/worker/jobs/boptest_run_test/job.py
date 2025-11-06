@@ -11,6 +11,11 @@ import msgpack
 import logging
 from boptest.lib.testcase import TestCase
 
+logging.getLogger('boto3').setLevel(logging.ERROR)
+logging.getLogger('botocore').setLevel(logging.ERROR)
+logging.getLogger('nose').setLevel(logging.ERROR)
+logging.getLogger('s3transfer').setLevel(logging.ERROR)
+
 class Job:
     def __init__(self, parameters):
         self.testid = parameters.get("testid")
@@ -226,6 +231,8 @@ class Job:
 
         if len(packed_response) <= self.max_inline_result_bytes:
             return response
+
+        self.logger.info("Data size of results is {0} kB and limit set to use Redis is {1} kB. Using object storage.".format(len(packed_response)/1024, self.max_inline_result_bytes/1024))
 
         object_key = self.persist_payload(response, "results", body=packed_response)
 
