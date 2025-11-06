@@ -51,7 +51,7 @@ class Job:
         self.timeout = float(os.environ["BOPTEST_TIMEOUT"])
         # Avoid S3 round-trip for small, high-frequency result payloads.
         self.max_inline_result_bytes = int(
-            os.environ.get("BOPTEST_MAX_INLINE_RESULT_BYTES", 256 * 1024)
+            os.environ.get("BOPTEST_MAX_INLINE_RESULT_BYTES", 1000 * 1024)
         )
 
         # Prepare a directory where the test will run
