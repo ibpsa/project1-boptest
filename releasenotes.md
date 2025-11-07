@@ -16,6 +16,7 @@ Released on xx/xx/xxxx.
 - Update Spawn version to ``light-0.4.3-7048a72798``, which is used in Modelica Buildings Library v9.1.1. This is for [#782](https://github.com/ibpsa/project1-boptest/issues/782).
 - Add actuator travel KPI calculation spec to design docs, method to ``kpis/kpi_calculator.py``, and signal parsing process in ``parsing/parser.py``. Requires additional updates to test cases before available for use. This is for [#639](https://github.com/ibpsa/project1-boptest/issues/639).
 - Update dashboard payload from ``/submit`` request to align with weather forecast uncertainty implementation. This is for [#721](https://github.com/ibpsa/project1-boptest/issues/721).
+- Add error handling to the Python examples which catches API call errors and own Python errors. This is for [#794](https://github.com/ibpsa/project1-boptest/issues/794).
 
 **The following changes are not backwards compatible, but do not change benchmark results:**
 
