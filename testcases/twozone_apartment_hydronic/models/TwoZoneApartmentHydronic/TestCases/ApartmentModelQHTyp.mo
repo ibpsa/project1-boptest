@@ -544,7 +544,7 @@ All the geometrical and thermal characteristics of the various material layers a
 <tr>
 <td>7</td>
 <td>Gypsum and sand plaster</td>
-<td>0.200</td>
+<td>0.020</td>
 <td>0.800</td>
 <td>1000</td>
 <td>1600</td>
@@ -588,7 +588,7 @@ All the geometrical and thermal characteristics of the various material layers a
 <tr>
 <td>3</td>
 <td>Expanded polystyrene</td>
-<td>0.026</td>
+<td>0.028</td>
 <td>0.034</td>
 <td>1300</td>
 <td>25</td>
@@ -628,7 +628,7 @@ All the geometrical and thermal characteristics of the various material layers a
 <tr>
 <td>7</td>
 <td>Gypsum and sand plaster</td>
-<td>0.200</td>
+<td>0.020</td>
 <td>0.800</td>
 <td>1000</td>
 <td>1600</td>
@@ -763,9 +763,10 @@ have been defined in the record \"Window24\".
 </p>
 <p>
 <h4>Occupancy schedule</h4>
-<p>The apartment is occupied from 8 P.M. to 8 A.M. from Monday to Friday by two people, one per thermal zone. The thermal zones are considered unoccupied on Saturday and Sunday.</p>
+<p>The apartment is occupied from 4 P.M. to 8 A.M. from Monday to Friday by two people, from 4 P.M. to 8 P.M. the day zone is occupied, from 8 P.M. to 8 A.M. the night zone is occupied instead. 
+The thermal zones are considered unoccupied on Saturday and Sunday.</p>
 <h4>Internal loads and schedules</h4>
-<p>The heating setpoint is considered 21 [°C] for occupied periods and 16 [°C] for unoccupied periods. The main heat gains come from people, appliances and lighting. For people it corresponds to 60 (W/person) of sensible gains divided equally between
+<p>The heating setpoint is considered 21 [°C] for occupied periods and 17 [°C] for unoccupied periods. The main heat gains come from people, appliances and lighting. For people it corresponds to 60 (W/person) of sensible gains divided equally between
 convective and radiative contributions and 20 (W) of latent gains. Internal gains for the appliances are 4 (W/m2) and for lighting 1.5 (W/m2) of sensible gains were considred divided
 equally between convective and radiative contributions. These values are taken from a combination of ASHRAE 90.1 standard and ENI 13200. CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017) and density of CO2 assumed to be 1.8 kg/m^3,making CO2 generation 8.64e-6 kg/s per person.Outside air CO2 concentration is 400 ppm.  However, CO2 concentration is not controlled for in the model. Lastly, infilatrations was considered a constant value of 0.5 (vol/h) for each thermal zone.</p>
 <h4>Climate data</h4>

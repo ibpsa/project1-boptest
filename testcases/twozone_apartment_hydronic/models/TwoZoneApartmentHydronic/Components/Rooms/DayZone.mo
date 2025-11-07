@@ -24,7 +24,7 @@ model DayZone "Milan day zone thermal zone istance"
         layers={matExtWal},
         A={5.3*2.7},
         glaSys={Wind600},
-        wWin={1.6},
+        wWin={2.5},
         hWin={2.35},
         fFra={0.001},
         til={Z_},

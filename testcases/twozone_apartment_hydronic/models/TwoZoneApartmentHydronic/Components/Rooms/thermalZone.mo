@@ -64,27 +64,6 @@ model thermalZone "Reference Thermal zone model Milan"
         nStaRef=Buildings.ThermalZones.Detailed.Validation.BESTEST.nStaRef)})
     "Exterior wall"
     annotation (Placement(transformation(extent={{48,84},{62,98}})));
-  parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic
-                                                          matFlo(final nLay=
-           2,
-    absIR_a=0.9,
-    absIR_b=0.9,
-    absSol_a=0.6,
-    absSol_b=0.6,
-    material={Buildings.HeatTransfer.Data.Solids.Generic(
-        x=1.003,
-        k=0.040,
-        c=0,
-        d=0,
-        nStaRef=Buildings.ThermalZones.Detailed.Validation.BESTEST.nStaRef),
-                         Buildings.HeatTransfer.Data.Solids.Generic(
-        x=0.025,
-        k=0.140,
-        c=1200,
-        d=650,
-        nStaRef=Buildings.ThermalZones.Detailed.Validation.BESTEST.nStaRef)})
-                           "Floor"
-    annotation (Placement(transformation(extent={{86,84},{100,98}})));
    parameter Buildings.HeatTransfer.Data.Solids.Generic soil(
     x=2,
     k=1.3,
@@ -109,9 +88,9 @@ model thermalZone "Reference Thermal zone model Milan"
     AFlo=Afloor,
     datConBou(
       layers={matRoof,matAptSep,matElevatorSep},
-      A={Afloor,11.94,14.28},
+      A={Afloor,20.42,6.26},
       til={C_,Z_,Z_},
-      azi={S_,E_,N_},
+      azi={S_,W_,N_},
       each stateAtSurface_a=false),
     nConExt=0,
     nConPar=0,
