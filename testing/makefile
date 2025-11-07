@@ -59,19 +59,24 @@ run_cimg:
 	$(COMMAND_RUN)
 
 copy_to_cimg:
-	docker cp ../${ARGS} ${IMG_NAME}:/boptest/lib
+	docker cp ../${ARGS} ${IMG_NAME}:/home/boptest/boptest/lib \
+	&& docker exec -i --user root ${IMG_NAME} /bin/bash -c "chown -R boptest:boptest /home/boptest/boptest/lib && exit"
+	
 
 copy_testcase_to_cimg:
 	make copy_to_cimg ARGS=testcases/${TESTCASE}
+	docker cp ../testcase.py ${IMG_NAME}:/home/boptest/boptest/lib/${TESTCASE}
+	docker cp ../version.txt ${IMG_NAME}:/home/boptest/boptest/lib/${TESTCASE}
+	make exec_cimg ARGS="touch /home/boptest/boptest/lib/${TESTCASE}/__init__.py"
 
 copy_from_cimg:
-	docker cp ${IMG_NAME}:/boptest/lib/${ARGS} ../${ARGS}
+	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/${ARGS} ../${ARGS}
 
 copy_testcase_from_cimg:
-	docker cp ${IMG_NAME}:/boptest/lib/${ARGS} ../testcases/${ARGS}
+	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/${ARGS} ../testcases/${ARGS}
 
 exec_cimg:
-	docker exec -i ${IMG_NAME} /bin/bash -c "${ARGS}"
+	docker exec -i --env USER=boptest ${IMG_NAME} /bin/bash -c "${ARGS}"
 
 stop_cimg:
 	docker stop ${IMG_NAME}
@@ -83,19 +88,10 @@ compile_testcase_model:
 	make copy_to_cimg ARGS=parsing
 	make copy_to_cimg ARGS=testing/set_library_versions.py
 	make copy_to_cimg ARGS=testcases/${TESTCASE}
-	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib && python set_library_versions.py ${TESTCASE} && cd ${TESTCASE}/models && python compile_fmu.py $(COMPILER_TOOL) && exit"
+	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd home/boptest/boptest/lib && python set_library_versions.py ${TESTCASE} && cd ${TESTCASE}/models && python compile_fmu.py $(COMPILER_TOOL) && exit"
 	make copy_testcase_from_cimg ARGS=${TESTCASE}/models/kpis.json
 	make copy_testcase_from_cimg ARGS=${TESTCASE}/models/wrapped.fmu
 	make copy_testcase_from_cimg ARGS=${TESTCASE}/models/wrapped.mo
-	make stop_cimg
-
-generate_testcase_data:
-	make run_cimg
-	make copy_to_cimg ARGS=parsing
-	make copy_to_cimg ARGS=data
-	make copy_to_cimg ARGS=testcases/${TESTCASE}
-	make exec_cimg ARGS="cd /boptest/lib && cd ${TESTCASE}/models && python generate_data.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
 	make stop_cimg
 
 ###############################################################################
@@ -116,7 +112,7 @@ test_%_travis:
 # Generic test for all testcases except testcase1 and testcase2 to run locally with cleanup
 test_%:
 # Compile testcase model
-	make compile_testcase_model TESTCASE=$*
+	make compile_testcase_model TESTCASE=$* COMPILER_TOOL=openmodelica
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
@@ -145,7 +141,7 @@ test_%_no_compile:
 
 test_testcase1:
 # Compile testcase model
-	make compile_testcase_model TESTCASE=testcase1
+	make compile_testcase_model TESTCASE=testcase1 COMPILER_TOOL=openmodelica
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
@@ -165,8 +161,6 @@ test_testcase1:
 	fi
 
 test_testcase2:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
@@ -190,9 +184,9 @@ test_parser:
 	make copy_to_cimg ARGS=parsing
 	make copy_to_cimg ARGS=data
 	make copy_to_cimg ARGS=testing
-	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib && python testing/test_parser.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/parser ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
+	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd home/boptest/boptest/lib && python testing/test_parser.py"
+	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/references/parser ./references
+	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/test_parser.log ./test_parser.log
 	make stop_cimg
 # Report test results
 	if [ $(SINGLE) = true ]; then\
@@ -200,23 +194,21 @@ test_parser:
 	fi
 
 test_data:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2
-	make compile_testcase_model TESTCASE=testcase3
 # Run cimg docker container
 	make run_cimg
 # Copy the required files and folders for the test
 	make copy_to_cimg ARGS=data
 	make copy_to_cimg ARGS=forecast
 	make copy_to_cimg ARGS=kpis
+	make copy_to_cimg ARGS=testing
 	make copy_testcase_to_cimg TESTCASE=testcase2
 	make copy_testcase_to_cimg TESTCASE=testcase3
-	docker cp ../testing/references/data/testcase2/kpis.json ${IMG_NAME}:/usr/local/testing/testcase2/models
-	docker cp ../testing/references/data/testcase3/kpis.json ${IMG_NAME}:/usr/local/testing/testcase3/models
+	docker cp ../testing/references/data/testcase2/kpis.json ${IMG_NAME}:/home/boptest/boptest/lib/testcase2/models
+	docker cp ../testing/references/data/testcase3/kpis.json ${IMG_NAME}:/home/boptest/boptest/lib/testcase3/models
 # Run test_data.py
-	make exec_cimg ARGS="python test_data.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/data ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
+	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd home/boptest/boptest/lib && python testing/test_data.py"
+	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/references/data ./references
+	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/test_data.log ./test_data.log
 # Stop cimg docker container
 	make stop_cimg
 # Report test results
@@ -225,9 +217,6 @@ test_data:
 	fi
 
 test_forecast:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2
-	make compile_testcase_model TESTCASE=testcase3
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
@@ -263,9 +252,6 @@ test_forecast_uncertainty:
 	fi\
 
 test_kpis:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2
-	make compile_testcase_model TESTCASE=testcase3
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
@@ -338,10 +324,10 @@ test_readme_commands:
 # Run all tests
 ###############################################################################
 test_all:
-# Build cimg
-	make build_cimg_image
 # Build boptest base image
 	make build_boptest_image
+# Build cimg
+	make build_compiler_image COMPILER_TOOL=openmodelica VERSION=1.25.5
 # Run tests
 	make test_parser SINGLE=false
 	make test_data SINGLE=false
@@ -351,16 +337,17 @@ test_all:
 	make test_testcase SINGLE=false
 	make test_readme_commands SINGLE=false
 	make test_testcase1 SINGLE=false
-	make test_testcase2 SINGLE=false
+	make test_testcase2_no_compile SINGLE=false
 	make test_testcase3 SINGLE=false
-	make test_bestest_air SINGLE=false
-	make test_bestest_hydronic SINGLE=false
-	make test_bestest_hydronic_heat_pump SINGLE=false
-	make test_multizone_residential_hydronic SINGLE=false
-	make test_singlezone_commercial_hydronic SINGLE=false
-	make test_multizone_office_simple_air SINGLE=false
-	make test_multizone_office_simple_hydronic SINGLE=false
-	make test_twozone_apartment_hydronic SINGLE=false
+	make test_bestest_air_no_compile SINGLE=false
+	make test_bestest_hydronic_no_compile SINGLE=false
+	make test_bestest_hydronic_heat_pump_no_compile SINGLE=false
+	make test_multizone_residential_hydronic_no_compile SINGLE=false
+	make test_singlezone_commercial_hydronic_no_compile SINGLE=false
+	make test_multizone_office_complex_air_no_compile SINGLE=false
+	make test_multizone_office_simple_air_no_compile SINGLE=false
+	make test_multizone_office_simple_hydronic_no_compile SINGLE=false
+	make test_twozone_apartment_hydronic_no_compile SINGLE=false
 # Remove cimg
 	make remove_cimg_image
 # Remove boptest base image

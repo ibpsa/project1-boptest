@@ -9,13 +9,14 @@ import os
 import pandas as pd
 import utilities
 import zipfile
+import json
 from parsing import parser, simulate
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
 # Define test model
 model_path = 'SimpleRC'
-mo_path = os.path.join(testing_root_dir,'parsing', 'SimpleRC.mo')
+mo_path = os.path.join(testing_root_dir,'..','parsing', 'SimpleRC.mo')
 # Define read and overwrite block instances in test model
 read_blocks = {'PHeat':{'Unit':'W',
                         'Description': 'Heater electrical power',
@@ -55,19 +56,30 @@ def _compare_kpis_json(fmu_path, ref_kpi_json_path):
     passed = True
     with zipfile.ZipFile(fmu_path, 'r') as z_fmu:
         with z_fmu.open('resources/kpis.json') as f_test:
-            with open(ref_kpi_json_path, 'rU') as f_ref:
-                # NL 12/7/20 - rstrip off carriage returns as they do not impact kpi json structure
-                line_test = f_test.readline().rstrip()
-                i = 1
-                while line_test:
-                    line_ref = f_ref.readline().rstrip()
-                    if line_test != line_ref:
-                        print("Lines do not match. {} != {}".format(line_ref, line_test))
-                        passed = False
-                        return passed
-                    else:
-                        line_test = f_test.readline()
-                        i = i + 1
+            try:
+                with open(ref_kpi_json_path, 'r') as f_ref:
+                    # NL 12/7/20 - rstrip off carriage returns as they do not impact kpi json structure
+                    line_test = f_test.readline().rstrip()
+                    line_test = line_test.decode('utf-8')
+                    i = 1
+                    while line_test:
+                        line_ref = f_ref.readline().rstrip()
+                        if line_test != line_ref:
+                            print("Lines do not match. {} != {}".format(line_ref, line_test))
+                            passed = False
+                            return passed
+                        else:
+                            line_test = f_test.readline()
+                            i = i + 1
+                    return passed
+            except FileNotFoundError:
+                print('Reference file {} not found. Creating it from test file...'.format(ref_kpi_json_path))
+                # Create the reference file with content from test file
+                kpis_data = json.load(f_test)
+                with open(ref_kpi_json_path, 'w') as f_ref:
+                    json.dump(kpis_data, f_ref)
+                print("Reference file created at {}".format(ref_kpi_json_path))
+                passed = False
                 return passed
 
 class ParseInstances(unittest.TestCase):
@@ -81,7 +93,7 @@ class ParseInstances(unittest.TestCase):
         '''
 
         # Run the parse_instances method
-        self.instances, self.signals = parser.parse_instances(model_path, [mo_path])
+        self.instances, self.signals = parser.parse_instances(model_path, [mo_path], tool='openmodelica', algorithm='Cvode', tolerance=1e-6)
 
     def test_parse_instances(self):
         '''Tests that Read and Overwrite blocks identified correctly.
@@ -91,7 +103,7 @@ class ParseInstances(unittest.TestCase):
         instances = self.instances
         # Checks
         for key in instances.keys():
-            if key is 'Read':
+            if key == 'Read':
                 # Check there are 2 Read blocks
                 self.assertEqual(len(instances[key]),2)
                 for instance in instances[key].keys():
@@ -105,7 +117,7 @@ class ParseInstances(unittest.TestCase):
                     self.assertTrue(instances[key][instance]['Minimum'] == read_blocks[instance]['Minimum'])
                     # Check that maximum is identified correctly
                     self.assertTrue(instances[key][instance]['Maximum'] == read_blocks[instance]['Maximum'])
-            elif key is 'Overwrite':
+            elif key == 'Overwrite':
                 # Check there are 2 Overwrite blocks
                 self.assertEqual(len(instances[key]),2)
                 for instance in instances[key].keys():
@@ -162,13 +174,13 @@ class ParseInstances(unittest.TestCase):
         instances['NotReadOverwrite'] = 1
         # Checks
         for key in instances.keys():
-            if key is 'Read':
+            if key == 'Read':
                 # Check there are 2 Read blocks
                 self.assertEqual(len(instances[key]),2)
                 for instance in instances[key]:
                     # Check each Read block instance is identified correctly
                     self.assertTrue(instance in read_blocks)
-            elif key is 'Overwrite':
+            elif key == 'Overwrite':
                 # Check there are 2 Overwrite blocks
                 self.assertEqual(len(instances[key]),2)
                 for instance in instances[key]:
@@ -199,11 +211,11 @@ class ParseInstancesMultiZone(unittest.TestCase, utilities.partialChecks):
 
         # Model path and file specifically for this case
         self.model_path = 'TwoZones'
-        self.mo_path = os.path.join(testing_root_dir,'parsing', 'TwoZones.mo')
+        self.mo_path = os.path.join(testing_root_dir,'..','parsing', 'TwoZones.mo')
 
     def test_export(self):
         # Parse and export fmu to working directory
-        self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path])
+        self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path], tool='openmodelica', algorithm='Cvode', tolerance=1e-6)
         # Test
         ref_kpis_json_path = os.path.join(testing_root_dir, 'references', 'parser', 'kpis_MultiZone.json')
         passed = _compare_kpis_json(self.fmu_path, ref_kpis_json_path)
@@ -220,15 +232,15 @@ class WriteWrapper(unittest.TestCase):
         '''
 
         # Get signal exchange instances
-        instances, signals = parser.parse_instances(model_path, [mo_path])
+        instances, signals = parser.parse_instances(model_path, [mo_path], tool='openmodelica', algorithm='Cvode', tolerance=1e-6)
         # Write wrapper and export as fmu
-        self.fmu_path, self.wrapped_path = parser.write_wrapper(model_path, [mo_path], instances)
+        self.fmu_path, self.wrapped_path = parser.write_wrapper(model_path, [mo_path], instances, tool='openmodelica', algorithm='Cvode', tolerance=1e-6)
 
     def test_create_wrapped(self):
-        self.assertEqual(self.fmu_path, os.path.join(testing_root_dir, '.', 'wrapped.fmu'))
+        self.assertEqual(self.fmu_path, os.path.join(os.path.dirname(testing_root_dir), 'wrapped.fmu'))
         self.assertEqual(self.wrapped_path, os.path.join('wrapped.mo'))
-        with open(self.wrapped_path, 'rU') as f_test:
-            with open(os.path.join(testing_root_dir, 'references', 'parser', 'wrapped.mo'), 'rU') as f_ref:
+        with open(self.wrapped_path, 'r') as f_test:
+            with open(os.path.join(testing_root_dir, 'references', 'parser', 'wrapped.mo'), 'r') as f_ref:
                 line_test = f_test.readline()
                 i = 1
                 while line_test:
@@ -256,7 +268,7 @@ class ExportSimulate(unittest.TestCase, utilities.partialChecks):
         '''
 
         # Parse and export fmu to working directory
-        self.fmu_path, self.kpi_path = parser.export_fmu(model_path, [mo_path])
+        self.fmu_path, self.kpi_path = parser.export_fmu(model_path, [mo_path], tool='openmodelica', algorithm='Cvode', tolerance=1e-6)
 
     def test_kpis_json(self):
         '''Test that kpi json exported correctly.
@@ -342,11 +354,11 @@ class NoSignalExchangeBlock(unittest.TestCase, utilities.partialChecks):
 
         # Model path and file specifically for this case
         self.model_path = 'SimpleRC_NoSignalExchangeBlocks'
-        self.mo_path = os.path.join(testing_root_dir,'parsing', 'SimpleRC_NoSignalExchangeBlocks.mo')
+        self.mo_path = os.path.join(testing_root_dir,'..','parsing', 'SimpleRC_NoSignalExchangeBlocks.mo')
 
     def test_export(self):
         # Parse and export fmu to working directory
-        self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path])
+        self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path], tool='openmodelica', algorithm='Cvode', tolerance=1e-6)
         # Test
         ref_kpis_json_path = os.path.join(testing_root_dir, 'references', 'parser', 'kpis_NoSignalExchangeBlocks.json')
         passed = _compare_kpis_json(self.fmu_path, ref_kpis_json_path)
@@ -364,11 +376,11 @@ class OnlyReadSignalExchangeBlock(unittest.TestCase, utilities.partialChecks):
 
         # Model path and file specifically for this case
         self.model_path = 'SimpleRC_OnlyReadSignalExchangeBlocks'
-        self.mo_path = os.path.join(testing_root_dir,'parsing', 'SimpleRC_OnlyReadSignalExchangeBlocks.mo')
+        self.mo_path = os.path.join(testing_root_dir,'..','parsing', 'SimpleRC_OnlyReadSignalExchangeBlocks.mo')
 
     def test_export(self):
         # Parse and export fmu to working directory
-        self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path])
+        self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path], tool='openmodelica', algorithm='Cvode', tolerance=1e-6)
         # Test
         ref_kpis_json_path = os.path.join(testing_root_dir, 'references', 'parser', 'kpis_OnlyReadSignalExchangeBlocks.json')
         passed = _compare_kpis_json(self.fmu_path, ref_kpis_json_path)

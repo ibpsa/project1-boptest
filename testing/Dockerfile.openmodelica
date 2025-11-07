@@ -1,7 +1,5 @@
 FROM project1-boptest-worker
 
-CMD ["tail", "-f", "/dev/null"]
-
 # Build arguments
 ARG VERSION=""
 
@@ -16,6 +14,12 @@ RUN apt-get update \
 	&& conda activate pyfmi3 \
 	&& python -m pip install -U https://github.com/OpenModelica/OMPython/archive/master.zip
 
+# Add boptest user
+RUN useradd -m -s /bin/bash boptest \
+    && cp -r ./boptest $HOME/boptest \
+    && chown -R boptest:boptest $HOME
+    
+
 # Install open-modelica
 RUN export DEBIAN_FRONTEND="noninteractive" && echo "VERSION: $VERSION" && test ! -z "$VERSION" && apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy \
     && apt-get install -qy gnupg wget ca-certificates apt-transport-https \
@@ -23,21 +27,26 @@ RUN export DEBIAN_FRONTEND="noninteractive" && echo "VERSION: $VERSION" && test 
     && wget https://build.openmodelica.org/apt/openmodelica.asc -O- | apt-key add - \
     && apt-get update && apt-get upgrade && apt-get dist-upgrade \
     && apt-get install --no-install-recommends -qy omc cmake \
+    && apt-get install omlibrary \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
     
 WORKDIR $HOME
+USER boptest
 
-RUN mkdir $HOME/MODELICAPATH && mkdir git && \
+RUN mkdir $HOME/MODELICAPATH && mkdir git \
     && cd git \
     && git lfs install \
     && git clone https://github.com/ibpsa/modelica-ibpsa.git \
-    && git clone https://github.com/open-ideas/IDEAS.git && cd IDEAS && git checkout BOPTEST && cd .. \
+    && git clone https://github.com/open-ideas/IDEAS.git && cd IDEAS && git checkout 3fb1871 && cd .. \
     && git clone https://github.com/lbl-srg/modelica-buildings.git \
     && ln -s $HOME/git/IDEAS/IDEAS $HOME/MODELICAPATH/IDEAS \
     && ln -s $HOME/git/modelica-buildings/Buildings $HOME/MODELICAPATH/Buildings \
-    && ln -s $HOME/git/modelica-ibpsa/IBPSA $HOME/MODELICAPATH/IBPSA 
-
-ENV MODELICAPATH=$HOME/MODELICAPATH
-
+    && ln -s $HOME/git/modelica-ibpsa/IBPSA $HOME/MODELICAPATH/IBPSA \
+    && cd ../.. && chown -R boptest:boptest /home/boptest
+    
+ENV MODELICAPATH=$HOME/MODELICAPATH/:$HOME/MODELICAPATH/IBPSA:$HOME/MODELICAPATH/IDEAS:$HOME/MODELICAPATH/Buildings
+ENV PYTHONPATH=$HOME/boptest/lib
 WORKDIR /
+
+CMD ["tail", "-f", "/dev/null"]
