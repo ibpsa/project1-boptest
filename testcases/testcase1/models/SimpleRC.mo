@@ -55,7 +55,7 @@ model SimpleRC
     annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
   Buildings.Utilities.IO.SignalExchange.Read
                                          CO2RooAir(
-    y(unit="ppm"),
+    y(unit="ppm",displayUnit="ppm"),
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration")
     "Read the room air CO2 concentration"

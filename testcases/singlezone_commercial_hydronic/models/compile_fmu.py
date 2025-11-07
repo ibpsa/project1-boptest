@@ -30,7 +30,7 @@ def compile_fmu():
     
     # COMPILE FMU
     # -----------
-    fmupath = parser.export_fmu(modelpath, [mopath], tool = sys.argv[1])
+    fmupath = parser.export_fmu(modelpath, [mopath], tool = sys.argv[1], algorithm='Cvode', tolerance=1e-6)
     # -----------
 
     return fmupath

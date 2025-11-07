@@ -1,8 +1,8 @@
 within ;
 model TwoZones
 
-  parameter String zonNorName="North" "Parameter used to designate north zone";
-  parameter String zonSouName="South" "Parameter used to designate south zone";
+  final parameter String zonNorName="North" "Parameter used to designate north zone";
+  final parameter String zonSouName="South" "Parameter used to designate south zone";
 
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor capSou(C=1e6)
     "Thermal capacitance of south zone"
