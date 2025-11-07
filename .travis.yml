@@ -23,70 +23,70 @@ jobs:
   - script: docker compose up -d web worker provision && sleep 10 && docker compose up test --no-deps --exit-code-from test
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_parser
+    script: cd testing && make build_compiler_image && make test_parser
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_data
+    script: cd testing && make test_data
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_forecast
+    script: cd testing && make test_forecast
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_kpis
+    script: cd testing && make test_kpis
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1 rdflib==6.3.2 bacpypes==0.18.7
-    script: cd testing && make build_jm_image && make test_bacnet
+    script: cd testing && make test_bacnet
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_testcase
+    script: cd testing && make test_testcase
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_readme_commands
+    script: cd testing && make test_readme_commands
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_testcase1
+    script: cd testing && make build_compiler_image && make test_testcase1
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_testcase2
+    script: cd testing && travis_wait 90 make test_testcase2_no_compile
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_testcase3
+    script: cd testing && make build_compiler_image && make test_testcase3
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_bestest_air
+    script: cd testing && travis_wait 90 make test_bestest_air_no_compile
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_bestest_hydronic
+    script: cd testing && travis_wait 90 make test_bestest_hydronic_no_compile
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_bestest_hydronic_heat_pump
+    script: cd testing && travis_wait 90 make test_bestest_hydronic_heat_pump_no_compile
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_singlezone_commercial_hydronic
+    script: cd testing && travis_wait 90 make test_singlezone_commercial_hydronic_no_compile
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && make test_twozone_apartment_hydronic
+    script: cd testing && travis_wait 90 make test_twozone_apartment_hydronic_no_compile
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && travis_wait 90 make test_multizone_office_simple_hydronic_no_compile
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_office_simple_air ARG="-s test_peak_heat_day,test_typical_heat_day"
+    script: cd testing && travis_wait 90 travis_wait 90 make test_multizone_office_simple_air_no_compile ARG="-s test_peak_heat_day,test_typical_heat_day"
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_office_simple_air ARG="-s test_peak_cool_day,test_typical_cool_day,test_mix_day"
+    script: cd testing && travis_wait 90 travis_wait 90 make test_multizone_office_simple_air_no_compile ARG="-s test_peak_cool_day,test_typical_cool_day,test_mix_day"
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_office_simple_air ARG="-s API"
+    script: cd testing && travis_wait 90 make test_multizone_office_simple_air_no_compile ARG="-s API"
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_residential_hydronic ARG="-s test_peak_heat_day,test_shoulder"
+    script: cd testing && travis_wait 90 make test_multizone_residential_hydronic_no_compile ARG="-s test_peak_heat_day,test_shoulder"
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_residential_hydronic ARG="-s test_typical_heat_day,test_summer"
+    script: cd testing && travis_wait 90 make test_multizone_residential_hydronic_no_compile ARG="-s test_typical_heat_day,test_summer"
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_residential_hydronic ARG="-s API"
+    script: cd testing && travis_wait 90 make test_multizone_residential_hydronic_no_compile ARG="-s API"
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && travis_wait 90 make test_multizone_office_complex_air_no_compile ARG="-s test_peak_heat_day,test_typical_heat_day"

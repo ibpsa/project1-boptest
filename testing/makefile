@@ -1,8 +1,8 @@
 # Makefile for building Modelica Docker containers with libraries and run unit tests
 
 # Default values
-COMPILER_TOOL?=openmodelica
-VERSION=1.26.0~dev-361-gbb9556c
+COMPILER_TOOL=openmodelica
+VERSION=1.25.5
 IMG_NAME=$(COMPILER_TOOL)_fmu_generator
 
 COMMAND_RUN=docker run \
