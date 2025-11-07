@@ -10,7 +10,7 @@ model SimpleRC_OnlyReadSignalExchangeBlocks
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature preTOut
     annotation (Placement(transformation(extent={{-40,10},{-20,30}})));
   Modelica.Blocks.Sources.Sine souTOut(
-    freqHz=1/(3600*24),
+    f=1/(3600*24),
     offset=273.15 + 20,
     amplitude=10)
     annotation (Placement(transformation(extent={{-100,10},{-80,30}})));
@@ -57,7 +57,7 @@ equation
                                                color={0,0,127}));
   connect(preHeat.port, cap.port)
     annotation (Line(points={{40,-20},{40,20}},          color={191,0,0}));
-  connect(senTZone.T, con.u_m) annotation (Line(points={{70,20},{80,20},{80,-40},
+  connect(senTZone.T, con.u_m) annotation (Line(points={{71,20},{80,20},{80,-40},
           {-30,-40},{-30,-32}}, color={0,0,127}));
   connect(set.y, con.u_s)
     annotation (Line(points={{-79,-20},{-42,-20}}, color={0,0,127}));
@@ -66,8 +66,18 @@ equation
   connect(con.y, eff.u) annotation (Line(points={{-19,-20},{14,-20},{14,-80},{
           18,-80}}, color={0,0,127}));
   connect(senTZone.T,TZone. u)
-    annotation (Line(points={{70,20},{98,20}}, color={0,0,127}));
+    annotation (Line(points={{71,20},{98,20}}, color={0,0,127}));
   connect(eff.y,PHeat. u) annotation (Line(points={{41,-80},{98,-80}},
                     color={0,0,127}));
-  annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")));
+  annotation (uses(Modelica(version="4.0.0"), IBPSA(version="4.0.0")),
+      Documentation(revisions="<html>
+<ul>
+<li>
+October 24, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
+</ul>
+</html>"));
 end SimpleRC_OnlyReadSignalExchangeBlocks;
