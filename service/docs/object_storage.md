@@ -43,7 +43,7 @@ The archive is tagged with the submitting user (`user=<oauth_sub>` or `unknown`)
 
 ### Result payload snapshots
 
-Calls to `PUT /results/{testid}` request time-series data from the simulation. The worker packages the response into MessagePack and persists it before responding to the API caller. For small payloads (configurable via `BOPTEST_MAX_INLINE_RESULT_BYTES`, default `262144` bytes) the worker skips persistence and streams the message directly back over the Redis pub/sub link to minimize latency for high-frequency polling. Larger snapshots are written to object storage and referenced by pointer. Each persisted snapshot generates a unique key:
+Calls to `PUT /results/{testid}` request time-series data from the simulation. The worker packages the response into MessagePack and persists it before responding to the API caller. For small payloads (configurable via `BOPTEST_MAX_INLINE_RESULT_BYTES`, default `1,024,000` bytes) the worker skips persistence and streams the message directly back over the Redis pub/sub link to minimize latency for high-frequency polling. Larger snapshots than the threshold are written to object storage and referenced by pointer. Each persisted snapshot generates a unique key:
 
 ```
 results/<test_id>/<uuid>.msgpack
