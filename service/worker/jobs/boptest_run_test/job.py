@@ -3,12 +3,18 @@ import os
 import shutil
 import tarfile
 from datetime import datetime
+from uuid import uuid4
 import boto3
 import redis
 import numpy as np
 import msgpack
 import logging
 from boptest.lib.testcase import TestCase
+
+logging.getLogger('boto3').setLevel(logging.ERROR)
+logging.getLogger('botocore').setLevel(logging.ERROR)
+logging.getLogger('nose').setLevel(logging.ERROR)
+logging.getLogger('s3transfer').setLevel(logging.ERROR)
 
 class Job:
     def __init__(self, parameters):
@@ -43,6 +49,10 @@ class Job:
             return
 
         self.timeout = float(os.environ["BOPTEST_TIMEOUT"])
+        # Avoid S3 round-trip for small, high-frequency result payloads.
+        self.max_inline_result_bytes = int(
+            os.environ.get("BOPTEST_MAX_INLINE_RESULT_BYTES", 1000 * 1024)
+        )
 
         # Prepare a directory where the test will run
         self.simulate_dir = "/simulate"
@@ -132,6 +142,14 @@ class Job:
         # ipmlementation which is slower.
         return msgpack.packb(data)
 
+    def persist_payload(self, payload, prefix, body=None):
+        object_key = "%s/%s/%s.msgpack" % (prefix, self.testid, uuid4().hex)
+        if body is None:
+            body = self.pack(payload)
+        # S3 stores msgpack blob; web fetches and relays to client
+        self.s3_bucket.put_object(Key=object_key, Body=body, ContentType="application/msgpack")
+        return object_key
+
     class InvalidRequestError(Exception):
         pass
 
@@ -208,8 +226,22 @@ class Job:
         point_names = params["point_names"]
         start_time = params["start_time"]
         final_time = params["final_time"]
+        response = self.package_response(self.tc.get_results(point_names, start_time, final_time))
+        packed_response = self.pack(response)
 
-        return self.package_response(self.tc.get_results(point_names, start_time, final_time))
+        if len(packed_response) <= self.max_inline_result_bytes:
+            return response
+
+        self.logger.info("Data size of results is {0} kB and limit set to use Redis is {1} kB. Using object storage.".format(len(packed_response)/1024, self.max_inline_result_bytes/1024))
+
+        object_key = self.persist_payload(response, "results", body=packed_response)
+
+        payload = {
+            "storage": "s3",
+            "bucket": self.s3_bucket_name,
+            "key": object_key
+        }
+        return {"status": response["status"], "message": response["message"], "payload": payload}
 
     def get_kpis(self, params):
         return self.package_response(self.tc.get_kpis())
