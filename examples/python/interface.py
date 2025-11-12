@@ -93,18 +93,18 @@ def control_test(testcase_name, control_module='', start_time=0, warmup_period=0
             return response
         print("Unexpected error: {}".format(response.text))
         requests.put('{0}/stop/{1}'.format(url, testid))
-        print("Test case successfully stopped. Exiting...")
+        print("Test case successfully stopped. Exited with status code {}.".format(status))
         sys.exit()
 
-    # Wrap function in try/except to ensure the test case is correctly stopped if an error occurs
-    try:
+    # SETUP TEST
+    # -------------------------------------------------------------------------
+    # Set URL for testcase
+    url = 'http://127.0.0.1:80'
+    # Instantiate concrete controller (pid, pidTwoZones, sup, etc.)
+    controller = Controller(control_module, use_forecast)
 
-        # SETUP TEST
-        # -------------------------------------------------------------------------
-        # Set URL for testcase
-        url = 'http://127.0.0.1:80'
-        # Instantiate concrete controller (pid, pidTwoZones, sup, etc.)
-        controller = Controller(control_module, use_forecast)
+    # Wrap test case selection in try/except to correctly handle errors in the API
+    try:
 
         # GET TEST INFORMATION
         # -------------------------------------------------------------------------
@@ -112,6 +112,14 @@ def control_test(testcase_name, control_module='', start_time=0, warmup_period=0
         # Select test case
         testid = requests.post("{0}/testcases/{1}/select".format(url, testcase_name)).json()["testid"]
         print('TestID:\t\t\t\t{0}'.format(testid))
+
+    except Exception as e:
+        print('\n\nIncorrect selection of test case: {}. Exiting...'.format(e))
+        sys.exit()
+
+    # Wrap other API calls in try/except to correctly shut down running test case on error
+    try:
+
         # Retrieve testcase name from REST API
         name = check_response(requests.get('{0}/name/{1}'.format(url,testid)))
         print('Name:\t\t\t\t{0}'.format(name))
