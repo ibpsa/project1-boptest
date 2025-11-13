@@ -73,12 +73,13 @@ def control_test(testcase_name, control_module='', start_time=0, warmup_period=0
     """
 
     def check_response(response):
-        """Check status code from restful API and return result if no error
-        Shut down test case if error in API call
+        """Check status code from restful API and handle.
+
+        Return result if no error and
+        shut down test case if error in API call.
 
         Parameters
         ----------
-
         response: obj, response object
 
         Returns
@@ -86,14 +87,15 @@ def control_test(testcase_name, control_module='', start_time=0, warmup_period=0
         result : dict, result from call to restful API
 
         """
+
         if isinstance(response, requests.Response):
             status = response.status_code
         if status == 200:
             response = response.json()['payload']
             return response
-        print("Unexpected error: {}".format(response.text))
+        print("Unexpected error with returned status code {0}: {1}".format(status, response.text))
         requests.put('{0}/stop/{1}'.format(url, testid))
-        print("Test case successfully stopped. Exited with status code {}.".format(status))
+        print("Test case successfully stopped. Exiting...")
         sys.exit()
 
     # SETUP TEST
@@ -114,7 +116,8 @@ def control_test(testcase_name, control_module='', start_time=0, warmup_period=0
         print('TestID:\t\t\t\t{0}'.format(testid))
 
     except Exception as e:
-        print('\n\nIncorrect selection of test case: {}. Exiting...'.format(e))
+        print('\n\nError selecting test case: {}.'.format(e))
+        print('Exiting...')
         sys.exit()
 
     # Wrap other API calls in try/except to correctly shut down running test case on error
