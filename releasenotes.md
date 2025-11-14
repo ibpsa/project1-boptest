@@ -18,6 +18,7 @@ Released on xx/xx/xxxx.
 - Update dashboard payload from ``/submit`` request to align with weather forecast uncertainty implementation. This is for [#721](https://github.com/ibpsa/project1-boptest/issues/721).
 - Add error handling to the Python examples which catches API call errors and own Python errors by reporting the error and gracefully shutting down the test case. This is for [#794](https://github.com/ibpsa/project1-boptest/issues/794).
 - For the ``/results`` API, use object storage via s3/minio instead of Redis to transfer data from ``worker`` to ``web`` if the returned data package is larger than 1 MB. This is for [#732](https://github.com/ibpsa/project1-boptest/issues/732).
+- Update specification of test case ``config.json`` file in the design documentation. This is for [#809](https://github.com/ibpsa/project1-boptest/issues/809).
 
 **The following changes are not backwards compatible, but do not change benchmark results:**
 

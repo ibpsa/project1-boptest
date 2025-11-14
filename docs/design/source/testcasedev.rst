@@ -250,12 +250,10 @@ for a test case upon loading in BOPTEST, a configuration JSON saved as
 
     {
     "name"          : <str>,                         // Name of test case
-    "area"          : <float>,                       // Floor area in m^2
+    "area"          : <float>,                       // Floor area in m^2 to be used for KPI calculation
     "start_time"    : <float>,                       // Default start time
     "warmup_period" : <float>,                       // Default warmup_period
     "step"          : <float>,                       // Default control step in seconds
-    "scenario"      : {"electricity_price":<str>,    // Default electricity price scenario
-                       "time_period":null},          // Default time_period scenario
     "resource_file_exclusion" : [<str>]              // Optional: List of data files within fmu /resources directory to exclude from loading into test case (e.g. "filename.csv")
     }
 
