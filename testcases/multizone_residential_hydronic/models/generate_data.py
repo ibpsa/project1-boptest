@@ -7,7 +7,6 @@ Created on Sep 18, 2019
 from data.data_generator import Data_Generator
 import os
 import pandas as pd
-from pymodelica import compile_fmu
 from pyfmi import load_fmu
 from scipy import interpolate
 import numpy as np
@@ -116,15 +115,9 @@ emissions_boptest.to_csv(os.path.join(gen.resources_dir, 'emissions.csv'), index
 #=====================================================================
 # Initialize data frame
 df = gen.create_df()
-file_name    = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                            'MultiZoneResidentialHydronic')
-class_name   = 'MultiZoneResidentialHydronic.GenerateData'
-
-# Compile the model to generate the data
-fmu_path = compile_fmu(file_name=file_name, class_name=class_name)
 
 # Load FMU
-model = load_fmu(fmu_path)
+model = load_fmu('wrapped.fmu')
 
 # Set number of communication points
 options = model.simulate_options()
@@ -138,48 +131,48 @@ res = model.simulate(start_time=gen.time[0],
 keysMap = {}
 
 # Occupancy schedules
-keysMap['Occupancy[Liv]'] = 'occLiv.y'
-keysMap['Occupancy[Ro1]'] = 'occRo1.y'
-keysMap['Occupancy[Ro2]'] = 'occRo2.y'
-keysMap['Occupancy[Ro3]'] = 'occRo3.y'
-keysMap['Occupancy[Bth]'] = 'occBth.y'
-keysMap['Occupancy[Hal]'] = 'occHal.y'
+keysMap['Occupancy[Liv]'] = 'mod.occLiv.y'
+keysMap['Occupancy[Ro1]'] = 'mod.occRo1.y'
+keysMap['Occupancy[Ro2]'] = 'mod.occRo2.y'
+keysMap['Occupancy[Ro3]'] = 'mod.occRo3.y'
+keysMap['Occupancy[Bth]'] = 'mod.occBth.y'
+keysMap['Occupancy[Hal]'] = 'mod.occHal.y'
 
 # CO2 limits
-keysMap['UpperCO2[Liv]'] = 'limCO2Liv.y'
-keysMap['UpperCO2[Ro1]'] = 'limCO2Ro1.y'
-keysMap['UpperCO2[Ro2]'] = 'limCO2Ro2.y'
-keysMap['UpperCO2[Ro3]'] = 'limCO2Ro3.y'
-keysMap['UpperCO2[Bth]'] = 'limCO2Bth.y'
-keysMap['UpperCO2[Hal]'] = 'limCO2Hal.y'
+keysMap['UpperCO2[Liv]'] = 'mod.limCO2Liv.y'
+keysMap['UpperCO2[Ro1]'] = 'mod.limCO2Ro1.y'
+keysMap['UpperCO2[Ro2]'] = 'mod.limCO2Ro2.y'
+keysMap['UpperCO2[Ro3]'] = 'mod.limCO2Ro3.y'
+keysMap['UpperCO2[Bth]'] = 'mod.limCO2Bth.y'
+keysMap['UpperCO2[Hal]'] = 'mod.limCO2Hal.y'
 
 # Internal gains
-keysMap['InternalGainsRad[Liv]'] = 'heaGaiLivRad.y'
-keysMap['InternalGainsCon[Liv]'] = 'heaGaiLivCon.y'
-keysMap['InternalGainsLat[Liv]'] = 'heaGaiLivLat.y'
-keysMap['InternalGainsRad[Ro1]'] = 'heaGaiRo1Rad.y'
-keysMap['InternalGainsCon[Ro1]'] = 'heaGaiRo1Con.y'
-keysMap['InternalGainsLat[Ro1]'] = 'heaGaiRo1Lat.y'
-keysMap['InternalGainsRad[Ro2]'] = 'heaGaiRo2Rad.y'
-keysMap['InternalGainsCon[Ro2]'] = 'heaGaiRo2Con.y'
-keysMap['InternalGainsLat[Ro2]'] = 'heaGaiRo2Lat.y'
-keysMap['InternalGainsRad[Ro3]'] = 'heaGaiRo3Rad.y'
-keysMap['InternalGainsCon[Ro3]'] = 'heaGaiRo3Con.y'
-keysMap['InternalGainsLat[Ro3]'] = 'heaGaiRo3Lat.y'
+keysMap['InternalGainsRad[Liv]'] = 'mod.heaGaiLivRad.y'
+keysMap['InternalGainsCon[Liv]'] = 'mod.heaGaiLivCon.y'
+keysMap['InternalGainsLat[Liv]'] = 'mod.heaGaiLivLat.y'
+keysMap['InternalGainsRad[Ro1]'] = 'mod.heaGaiRo1Rad.y'
+keysMap['InternalGainsCon[Ro1]'] = 'mod.heaGaiRo1Con.y'
+keysMap['InternalGainsLat[Ro1]'] = 'mod.heaGaiRo1Lat.y'
+keysMap['InternalGainsRad[Ro2]'] = 'mod.heaGaiRo2Rad.y'
+keysMap['InternalGainsCon[Ro2]'] = 'mod.heaGaiRo2Con.y'
+keysMap['InternalGainsLat[Ro2]'] = 'mod.heaGaiRo2Lat.y'
+keysMap['InternalGainsRad[Ro3]'] = 'mod.heaGaiRo3Rad.y'
+keysMap['InternalGainsCon[Ro3]'] = 'mod.heaGaiRo3Con.y'
+keysMap['InternalGainsLat[Ro3]'] = 'mod.heaGaiRo3Lat.y'
 
 # Comfort range setpoints
-keysMap['LowerSetp[Liv]'] = 'reaTSetHea.y'
-keysMap['UpperSetp[Liv]'] = 'reaTSetCoo.y'
-keysMap['LowerSetp[Ro1]'] = 'reaTSetHea.y'
-keysMap['UpperSetp[Ro1]'] = 'reaTSetCoo.y'
-keysMap['LowerSetp[Ro2]'] = 'reaTSetHea.y'
-keysMap['UpperSetp[Ro2]'] = 'reaTSetCoo.y'
-keysMap['LowerSetp[Ro3]'] = 'reaTSetHea.y'
-keysMap['UpperSetp[Ro3]'] = 'reaTSetCoo.y'
-keysMap['LowerSetp[Bth]'] = 'reaTSetHea.y'
-keysMap['UpperSetp[Bth]'] = 'reaTSetCoo.y'
-keysMap['LowerSetp[Hal]'] = 'reaTSetHea.y'
-keysMap['UpperSetp[Hal]'] = 'reaTSetCoo.y'
+keysMap['LowerSetp[Liv]'] = 'mod.reaTSetHea.y'
+keysMap['UpperSetp[Liv]'] = 'mod.reaTSetCoo.y'
+keysMap['LowerSetp[Ro1]'] = 'mod.reaTSetHea.y'
+keysMap['UpperSetp[Ro1]'] = 'mod.reaTSetCoo.y'
+keysMap['LowerSetp[Ro2]'] = 'mod.reaTSetHea.y'
+keysMap['UpperSetp[Ro2]'] = 'mod.reaTSetCoo.y'
+keysMap['LowerSetp[Ro3]'] = 'mod.reaTSetHea.y'
+keysMap['UpperSetp[Ro3]'] = 'mod.reaTSetCoo.y'
+keysMap['LowerSetp[Bth]'] = 'mod.reaTSetHea.y'
+keysMap['UpperSetp[Bth]'] = 'mod.reaTSetCoo.y'
+keysMap['LowerSetp[Hal]'] = 'mod.reaTSetHea.y'
+keysMap['UpperSetp[Hal]'] = 'mod.reaTSetCoo.y'
 
 # Get model outputs
 output_names = keysMap.keys()

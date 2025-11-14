@@ -3,15 +3,15 @@ model RealOccupancy
   extends BuildingControl(occupancy(
       tableOnFile=true,
       tableName="occ",
-      fileName=ModelicaServices.ExternalReferences.loadResource(
-          "Resources/occ.txt"),
+      fileName=Modelica.Utilities.Files.loadResource(
+          "modelica://OU44Emulator/Resources/occ.txt"),
       smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
       extrapolation=Modelica.Blocks.Types.Extrapolation.LastTwoPoints,
-      startTime=3*3600 + 3600*24));
+      startTime=3*3600 + 3600*24), rad(nEle=2));
 
   annotation (experiment(
-      StopTime=31536000,
-      Interval=900,
+      StopTime=300000,
+      Interval=30,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),                         Diagram(
         coordinateSystem(extent={{-260,-240},{240,220}}),          graphics={
@@ -75,5 +75,15 @@ model RealOccupancy
           color={28,108,200},
           thickness=0.5,
           arrow={Arrow.Open,Arrow.None})}),
-    Icon(coordinateSystem(extent={{-260,-240},{240,220}})));
+    Icon(coordinateSystem(extent={{-260,-240},{240,220}})),
+    Documentation(revisions="<html>
+<ul>
+<li>
+September 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
+</ul>
+</html>"));
 end RealOccupancy;

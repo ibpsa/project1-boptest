@@ -1,4 +1,15 @@
+"""
+This module compiles the defined test case model into an FMU using the
+overwrite block parser.
+
+The following libraries must be on the MODELICAPATH:
+
+- Modelica IDEAS
+
+"""
+
 from parsing import parser
+import sys
 
 def compile_fmu():
     '''Compile the fmu.
@@ -15,7 +26,7 @@ def compile_fmu():
     modelpath = 'MultiZoneOfficeSimpleAir.TestCases.TestCase'
 
     # COMPILE FMU
-    fmupath = parser.export_fmu(modelpath, [mopath])
+    fmupath = parser.export_fmu(modelpath, [mopath], tool = sys.argv[1], algorithm='Cvode', tolerance=1e-6)
 
     return fmupath
 

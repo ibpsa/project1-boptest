@@ -1,13 +1,13 @@
 within MultiZoneResidentialHydronic.Building.Schedules;
 model ScheduleDay "French thermal regulation schedules for day time"
 
-parameter Modelica.SIunits.Temperature SetHeaOccup=19+273.15
+parameter Modelica.Units.SI.Temperature SetHeaOccup=19+273.15
     "Heating setpoint during occupation";
-parameter Modelica.SIunits.Temperature SetHeaInoccupa=16+273.15
+parameter Modelica.Units.SI.Temperature SetHeaInoccupa=16+273.15
     "Heating setpoint during inoccupation for less than 48 hours";
-parameter Modelica.SIunits.Temperature SetHeaInoccupb=7+273.15
+parameter Modelica.Units.SI.Temperature SetHeaInoccupb=7+273.15
     "Heating setpoint during inoccupation for less than 48 hours";
-parameter Modelica.SIunits.Temperature SetHeaFictif=2+273.15
+parameter Modelica.Units.SI.Temperature SetHeaFictif=2+273.15
     "Heating setpoint during no heating period";
 
 parameter Real delta_ST=1.8
@@ -125,8 +125,8 @@ equation
   connect(schGeneral.LightRT12, product3.u1) annotation (Line(points={{-12,
           55.7818},{-2,55.7818},{-2,56},{8,56},{8,-47.2},{42.4,-47.2}}, color={
           0,0,127}));
-  connect(schGeneral.OtherLoadsRateRT12, product4.u1) annotation (Line(points={
-          {-12,46.4727},{-4,46.4727},{-4,46},{6,46},{6,-67.2},{42.4,-67.2}},
+  connect(schGeneral.OtherLoadsRateRT12, product4.u1) annotation (Line(points={{-12,
+          46.4727},{-4,46.4727},{-4,46},{6,46},{6,-67.2},{42.4,-67.2}},
         color={0,0,127}));
   connect(SetHeaInoccup.y,switch1. u3) annotation (Line(
       points={{26.4,90},{30,90},{30,93.2},{36.8,93.2}},

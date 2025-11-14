@@ -1,8 +1,11 @@
 within TwoZoneApartmentHydronic.Components.BaseClasses;
 model InternalLoad "A model for internal loads"
-  parameter Modelica.SIunits.HeatFlux senPower_nominal "Nominal sensible heat gain";
-  parameter Modelica.SIunits.DimensionlessRatio radFraction "Fraction of sensible gain that is radiant";
-  parameter Modelica.SIunits.HeatFlux latPower_nominal "Nominal latent heat gain";
+  parameter Modelica.Units.SI.HeatFlux senPower_nominal
+    "Nominal sensible heat gain";
+  parameter Modelica.Units.SI.DimensionlessRatio radFraction
+    "Fraction of sensible gain that is radiant";
+  parameter Modelica.Units.SI.HeatFlux latPower_nominal
+    "Nominal latent heat gain";
   Modelica.Blocks.Interfaces.RealOutput rad "Radiant load in W/m^2"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
   Modelica.Blocks.Interfaces.RealOutput con "Convective load in W/m^2"

@@ -6,14 +6,12 @@ overwrite block parser.
 The following libraries must be on the MODELICAPATH:
 
 - Modelica IBPSA
-- Modelica Buildings
+- Modelica IDEAS
 
 """
 
 from parsing import parser
-from pymodelica import environ
-
-environ['JVM_ARGS'] = '-Xmx4096m'
+import sys
 
 def compile_fmu():
     '''Compile the fmu.
@@ -27,13 +25,13 @@ def compile_fmu():
 
     # DEFINE MODEL
     # ------------
-    mopath      = 'BESTESTHydronic'
+    mopath      = 'BESTESTHydronic/package.mo'
     modelpath   = 'BESTESTHydronic.TestCase'
     # ------------
 
     # COMPILE FMU
     # -----------
-    fmupath = parser.export_fmu(modelpath, [mopath])
+    fmupath = parser.export_fmu(modelpath, [mopath], tool = sys.argv[1], algorithm='Cvode', tolerance=1e-6)
     # -----------
 
     return fmupath
