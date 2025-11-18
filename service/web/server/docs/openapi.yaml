@@ -1,0 +1,609 @@
+openapi: 3.0.3
+info:
+  title: BOPTEST Service API
+  description: A REST API for emulating buildings for testing control systems.
+  version: 0.8.0
+servers:
+  - url: http://localhost
+    description: Local server
+  - url: http://api.boptest.net
+    description: NREL BOPTEST Service
+components:
+  schemas:
+    BoundedSignalMeta:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: Description of the signal.
+        Maximum:
+          type: number
+          nullable: true
+          description: Maximum value of the signal.
+        Minimum:
+          type: number
+          nullable: true
+          description: Minimum value of the signal.
+        Unit:
+          type: string
+          nullable: true
+          description: Unit of the signal.
+    SignalMeta:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: Description of the signal.
+        Unit:
+          type: string
+          nullable: true
+          description: Unit of the signal.
+    BoundedSignalMetaResponse:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/BoundedSignalMeta'
+    SignalMetaResponse:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/SignalMeta'
+    ForecastQuery:
+      type: object
+      properties:
+        point_names:
+          type: array
+          items:
+            type: string
+          description: List of point names.
+        horizon:
+          type: number
+          description: Forecast horizon in seconds.
+        interval:
+          type: number
+          description: Time interval between forecast points in seconds.
+    ResultsQuery:
+      type: object
+      properties:
+        point_names:
+          type: array
+          items:
+            type: string
+          description: List of point names.
+        start_time:
+          type: number
+          description: Start time of the results query (epoch time).
+        final_time:
+          type: number
+          description: Final time of the results query (epoch time).
+    TimeSeries:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: number
+    StepResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message describing the response.
+        payload:
+          type: object
+          additionalProperties:
+            type: number
+          description: Current values of all input and measurement signals.
+        status:
+          type: integer
+          description: HTTP status code.
+  parameters:
+    TestId:
+      name: testid
+      in: path
+      required: true
+      description: The UUID of the test case.
+      schema:
+        type: string
+paths:
+  /testcases:
+    get:
+      summary: List available test cases
+      tags:
+        - management
+      description: Returns a list of available IBPSA BOPTEST test cases (official).
+      responses:
+        '200':
+          description: Successful response with list of testcases.
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Array of test case descriptors.
+                items:
+                  type: object
+                  properties:
+                    testcaseid:
+                      type: string
+                      description: The identifier/name of the test case.
+                  required:
+                    - testcaseid
+  /testcases/{testcase_name}/select:
+    parameters:
+      - name: testcase_name
+        in: path
+        required: true
+        description: The name of the test case to select.
+        schema:
+          type: string
+    post:
+      summary: Select a test case and start a new test
+      tags:
+        - management
+      description: Selects an official test case and begins a new test. Returns a testid required by other APIs.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Optional selection parameters (implementation-specific).
+      responses:
+        '200':
+          description: Test case selected successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  testid:
+                    type: string
+                    description: UUID for the newly started test.
+                required:
+                  - testid
+  /initialize/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    put:
+      summary: Initialize the simulation
+      tags:
+        - management
+      description: Initialize simulation to a start time using a warmup period (also resets history and KPI calculations).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - start_time
+                - warmup_period
+              properties:
+                start_time:
+                  type: number
+                  description: Start time (epoch seconds) to initialize the simulation to.
+                warmup_period:
+                  type: number
+                  description: Warmup period in seconds.
+      responses:
+        '200':
+          description: Simulation initialized successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StepResponse'
+  /name/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get the test case name
+      tags:
+        - management
+      description: Returns the loaded test case name.
+      responses:
+        '200':
+          description: Successful response with the test case name.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Queried the name of the test case successfully."
+                  payload:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the test case.
+                    description: The payload containing the test case name.
+                  status:
+                    type: integer
+                    example: 200
+  /status/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get test status
+      tags:
+        - management
+      description: Returns the current status of the test (e.g. Running, Queued).
+      responses:
+        '200':
+          description: Successful response with the test status.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Running"
+  /stop/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    put:
+      summary: Stop a queued or running test
+      tags:
+        - management
+      description: Stops a queued or running test. Use when freeing workers or to terminate a running test.
+      responses:
+        '200':
+          description: Successful response indicating the test was stopped. Returns the plain string "OK".
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+  /version/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get BOPTEST version
+      tags:
+        - management
+      description: Returns the BOPTEST version for the running test.
+      responses:
+        '200':
+          description: Successful response with the version of BOPTEST.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Version retrieved successfully."
+                  payload:
+                    type: object
+                    properties:
+                      version:
+                        type: string
+                        description: BOPTEST version string.
+                        example: "0.8.0"
+                    description: Object containing the version string.
+                  status:
+                    type: integer
+                    example: 200
+
+  /inputs/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get metadata for inputs
+      tags:
+        - meta
+      description: Returns metadata for input signals.
+      responses:
+        '200':
+          description: Successful response with metadata for inputs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Metadata for inputs retrieved successfully."
+                  payload:
+                    $ref: '#/components/schemas/BoundedSignalMetaResponse'
+                  status:
+                    type: integer
+                    example: 200
+  /measurements/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get metadata for measurements
+      tags:
+        - meta
+      description: Returns metadata for measurement signals.
+      responses:
+        '200':
+          description: Successful response with metadata for measurements.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Metadata for measurements retrieved successfully."
+                  payload:
+                    $ref: '#/components/schemas/BoundedSignalMetaResponse'
+                  status:
+                    type: integer
+                    example: 200
+  /forecast_points/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get metadata for forecast points
+      tags:
+        - meta
+      description: Returns metadata for forecast point signals.
+      responses:
+        '200':
+          description: Successful response with metadata for forecast points.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Metadata for forecast points retrieved successfully."
+                  payload:
+                    $ref: '#/components/schemas/SignalMetaResponse'
+                  status:
+                    type: integer
+                    example: 200
+  /scenario/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get the current scenario description
+      tags:
+        - meta
+      description: Returns a description of the current scenario.
+      responses:
+        '200':
+          description: Successful response with the scenario description.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Scenario description retrieved successfully."
+                  payload:
+                    type: object
+                    additionalProperties:
+                      type: string
+                      description: Key-value pairs describing the current scenario.
+                  status:
+                    type: integer
+                    example: 200
+    put:
+      summary: Set the test scenario
+      tags:
+        - meta
+      description: Set the scenario for the running test. Optional properties may trigger an initialization (see README).
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                electricity_price:
+                  type: string
+                  description: Identifier for electricity price scenario.
+                time_period:
+                  type: string
+                  description: Named time period for scenario (may perform initialization).
+                temperature_uncertainty:
+                  type: string
+                  description: Temperature uncertainty setting.
+                solar_uncertainty:
+                  type: string
+                  description: Solar uncertainty setting.
+                seed:
+                  type: integer
+                  description: Random seed for scenario sampling.
+      responses:
+        '200':
+          description: Successful response indicating the scenario was updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Scenario updated successfully."
+                  payload:
+                    type: object
+                    description: The applied scenario values (echo).
+                    additionalProperties:
+                      type: string
+                  status:
+                    type: integer
+                    example: 200
+  /step/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get the simulation time step
+      tags:
+        - meta
+      description: Returns the time step used in the simulation.
+      responses:
+        '200':
+          description: Successful response with the time step.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Simulation time step retrieved successfully."
+                  payload:
+                    type: number
+                    description: The time step used in the simulation.
+                  status:
+                    type: integer
+                    example: 200
+    put:
+      summary: Set the simulation time step
+      tags:
+        - meta
+      description: Sets the time step used in the simulation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                step:
+                  type: number
+                  description: The new time step to set for the simulation.
+      responses:
+        '200':
+          description: Successful response indicating the time step was updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Simulation time step updated successfully."
+                  payload:
+                    type: object
+                    properties:
+                      step:
+                        type: number
+                        description: The new simulation time step that was set.
+                        example: 900
+                    required:
+                      - step
+                    description: Object containing the updated step value.
+                  status:
+                    type: integer
+                    example: 200
+
+  /forecast/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    put:
+      summary: Submit a forecast query
+      tags:
+        - data
+      description: Sends a ForecastQuery payload and returns a TimeSeries response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForecastQuery'
+      responses:
+        '200':
+          description: Successful response with forecast time series.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Forecast query processed successfully."
+                  payload:
+                    $ref: '#/components/schemas/TimeSeries'
+                  status:
+                    type: integer
+                    example: 200
+  /results/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    put:
+      summary: Submit a results query
+      tags:
+        - data
+      description: Sends a ResultsQuery payload and returns a TimeSeries response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResultsQuery'
+      responses:
+        '200':
+          description: Successful response with results time series.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Results query processed successfully."
+                  payload:
+                    $ref: '#/components/schemas/TimeSeries'
+                  status:
+                    type: integer
+                    example: 200
+  /kpi/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get KPIs for a test
+      tags:
+        - data
+      description: Returns key performance indicators for the running test.
+      responses:
+        '200':
+          description: Successful response with KPIs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "KPIs retrieved successfully."
+                  payload:
+                    type: object
+                    additionalProperties:
+                      type: number
+                    description: Mapping of KPI name to numeric value.
+                  status:
+                    type: integer
+                    example: 200
+
+  /advance/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    post:
+      summary: Advance the simulation
+      tags:
+        - control
+      description: Advances the simulation with optional input overwrites. The payload can include input values and activation flags for overwriting.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                oneOf:
+                  - type: number
+                    description: Input value to overwrite.
+                  - type: integer
+                    enum: [0, 1]
+                    description: Activation flag (1 to enable overwrite, 0 to disable).
+      responses:
+        '200':
+          description: Successful response with simulation advancement results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StepResponse'

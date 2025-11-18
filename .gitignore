@@ -22,3 +22,4 @@ testcase2/doc/build/
 parser/*.fmu
 parser/*.mo
 parser/*.json
+node_modules
