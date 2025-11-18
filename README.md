@@ -106,6 +106,8 @@ flowchart LR
     end
 ```
 
+The message broker is implemented using Redis, for more information see ``service/docs/redis.md``.  Not shown is S3-compatible object storage for persisting test cases and other artifacts produced while a test is running, for more information see ``service/docs/object_storage.md``.
+
 ### BOPTEST-Service APIs
 
 The BOPTEST-Service offers a number of additional APIs in addition to those listed above for the purpose of managing test cases and running tests, some of which require authorization.

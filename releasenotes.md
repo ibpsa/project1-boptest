@@ -1,19 +1,23 @@
 # Release Notes
 
-## BOPTEST v0.8.0-dev
+## BOPTEST v0.9.0
 
-Released on xx/xx/xxxx.
+Released on 11/18/2025.
 
 **The following changes are backwards compatible and do not significantly change benchmark results:**
 
 - Add materials for BS2025 workshop at ``docs/workshops/BS25Workshop_20250828`` and add link for test case review document in ``testcases/README.md``. This is for [#785](https://github.com/ibpsa/project1-boptest/issues/785).
-
 - For ``twozone_apartment_hydronic`` test case, update control documentation. This is for [#766](https://github.com/ibpsa/project1-boptest/issues/766).
 - For BACnet interface, add support for faster-than-real-time and on-command simulation advance. Optional arguments ``--app_interval`` and ``--simulation_step`` were added to ``BopTestProxy.py`` to support this feature. This is for [#764](https://github.com/ibpsa/project1-boptest/issues/764).
 - Update support to ``parsing/parser.py`` for test case compilation using Dymola to be able to specify solver and tolerance and to be able to use references to other string parameters in defining a string parameter.  This is for [#777](https://github.com/ibpsa/project1-boptest/issues/777).
 - For unit tests on travis, remove custom installation of Docker.  This is for [#787](https://github.com/ibpsa/project1-boptest/issues/787).
 - Copy ``kpis.json`` from ``jm`` Docker container to test case ``/models`` directory upon compilation and update ``kpis.json`` files where necessary in repo.  This is for [#789](https://github.com/ibpsa/project1-boptest/issues/789).
 - Update Spawn version to ``light-0.4.3-7048a72798``, which is used in Modelica Buildings Library v9.1.1. This is for [#782](https://github.com/ibpsa/project1-boptest/issues/782).
+- Add actuator travel KPI calculation spec to design docs, method to ``kpis/kpi_calculator.py``, and signal parsing process in ``parsing/parser.py``. Requires additional updates to test cases before available for use. This is for [#639](https://github.com/ibpsa/project1-boptest/issues/639).
+- Update dashboard payload from ``/submit`` request to align with weather forecast uncertainty implementation. This is for [#721](https://github.com/ibpsa/project1-boptest/issues/721).
+- Add error handling to the Python examples which catches API call errors and own Python errors by reporting the error and gracefully shutting down the test case. This is for [#794](https://github.com/ibpsa/project1-boptest/issues/794).
+- For the ``/results`` API, use object storage via s3/minio instead of Redis to transfer data from ``worker`` to ``web`` if the returned data package is larger than 1 MB. This is for [#732](https://github.com/ibpsa/project1-boptest/issues/732).
+- Update specification of test case ``config.json`` file in the design documentation. This is for [#809](https://github.com/ibpsa/project1-boptest/issues/809).
 
 **The following changes are not backwards compatible, but do not change benchmark results:**
 

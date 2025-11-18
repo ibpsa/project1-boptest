@@ -1446,9 +1446,8 @@ class TestCase(object):
             "dateRun": str(datetime.now(tz=pytz.UTC)),
             "boptestVersion": self.version,
             "controlStep": str(self.get_step()[2]),
-            "forecastParameters":{},
             "kpis": self.get_kpis()[2],
-            "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
+            "scenario": self.keys_to_camel_case(self.none_to_string(self.get_scenario()[2])),
             "buildingType": {
                 "uid": self.get_name()[2]['name'],
             }
@@ -1495,6 +1494,12 @@ class TestCase(object):
         for key, value in a_dict.items():
             result[self.to_camel_case(key)] = value
         return result
+
+    def none_to_string(self, a_dict):
+        for key, value in a_dict.items():
+            if value == None:
+                a_dict[key] = 'none'
+        return a_dict
 
     # weatherForecastUncertainty is required by the dashboard,
     # however some testcases don't report it.
