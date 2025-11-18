@@ -4,6 +4,8 @@ import { errorHandler } from './routes/error'
 import { parse } from 'url'
 import { createServer } from 'http'
 import { createBoptestWS } from './ws/boptestWS'
+import swaggerUi from 'swagger-ui-express'
+import YAML from 'yamljs'
 
 const app = express()
 
@@ -29,6 +31,10 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }))
 app.use('/', boptestRoutes)
 app.use(errorHandler)
+
+// Serving the docs using swagger
+const swaggerDocument = YAML.load('./docs/openapi.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const wss = createBoptestWS()
 const server = createServer(app)
