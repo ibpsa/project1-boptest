@@ -34,7 +34,7 @@ app.use(errorHandler)
 
 // Serving the docs using swagger
 const swaggerDocument = YAML.load('./docs/openapi.yaml');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const wss = createBoptestWS()
 const server = createServer(app)
