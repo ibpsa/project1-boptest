@@ -336,8 +336,15 @@ paths:
                     type: string
                     example: "Simulation time step updated successfully."
                   payload:
-                    type: string
-                    description: Confirmation message.
+                    type: object
+                    properties:
+                      step:
+                        type: number
+                        description: The new simulation time step that was set.
+                        example: 900
+                    required:
+                      - step
+                    description: Object containing the updated step value.
                   status:
                     type: integer
                     example: 200
@@ -366,15 +373,148 @@ paths:
                   status:
                     type: integer
                     example: 200
+    put:
+      summary: Set the test scenario
+      description: Set the scenario for the running test. Optional properties may trigger an initialization (see README).
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                electricity_price:
+                  type: string
+                  description: Identifier for electricity price scenario.
+                time_period:
+                  type: string
+                  description: Named time period for scenario (may perform initialization).
+                temperature_uncertainty:
+                  type: string
+                  description: Temperature uncertainty setting.
+                solar_uncertainty:
+                  type: string
+                  description: Solar uncertainty setting.
+                seed:
+                  type: integer
+                  description: Random seed for scenario sampling.
+      responses:
+        '200':
+          description: Successful response indicating the scenario was updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Scenario updated successfully."
+                  payload:
+                    type: object
+                    description: The applied scenario values (echo).
+                    additionalProperties:
+                      type: string
+                  status:
+                    type: integer
+                    example: 200
+
+  /status/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get test status
+      description: Returns the current status of the test (e.g. Running, Queued).
+      responses:
+        '200':
+          description: Successful response with the test status.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Running"
+
+  /stop/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    put:
+      summary: Stop a queued or running test
+      description: Stops a queued or running test. Use when freeing workers or to terminate a running test.
+      responses:
+        '200':
+          description: Successful response indicating the test was stopped. Returns the plain string "OK".
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+
+  /version/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    get:
+      summary: Get BOPTEST version
+      description: Returns the BOPTEST version for the running test.
+      responses:
+        '200':
+          description: Successful response with the version of BOPTEST.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Version retrieved successfully."
+                  payload:
+                    type: object
+                    properties:
+                      version:
+                        type: string
+                        description: BOPTEST version string.
+                        example: "0.8.0"
+                    description: Object containing the version string.
+                  status:
+                    type: integer
+                    example: 200
+  /initialize/{testid}:
+    parameters:
+      - $ref: '#/components/parameters/TestId'
+    put:
+      summary: Initialize the simulation
+      description: Initialize simulation to a start time using a warmup period (also resets history and KPI calculations).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - start_time
+                - warmup_period
+              properties:
+                start_time:
+                  type: number
+                  description: Start time (epoch seconds) to initialize the simulation to.
+                warmup_period:
+                  type: number
+                  description: Warmup period in seconds.
+      responses:
+        '200':
+          description: Simulation initialized successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardResponse'
+
   /kpi/{testid}:
     parameters:
       - $ref: '#/components/parameters/TestId'
     get:
-      summary: Get the Key Performance Indicators (KPIs)
-      description: Returns the KPIs as calculated by the emulator.
+      summary: Get KPIs for a test
+      description: Returns key performance indicators for the running test.
       responses:
         '200':
-          description: Successful response with the KPIs.
+          description: Successful response with KPIs.
           content:
             application/json:
               schema:
@@ -387,43 +527,60 @@ paths:
                     type: object
                     additionalProperties:
                       type: number
-                      description: Key-value pairs of KPI names and their values.
+                    description: Mapping of KPI name to numeric value.
                   status:
                     type: integer
                     example: 200
-  /initialize/{testid}:
+
+  /testcases:
+    get:
+      summary: List available test cases
+      description: Returns a list of available IBPSA BOPTEST test cases (official).
+      responses:
+        '200':
+          description: Successful response with list of testcases.
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Array of test case descriptors.
+                items:
+                  type: object
+                  properties:
+                    testcaseid:
+                      type: string
+                      description: The identifier/name of the test case.
+                  required:
+                    - testcaseid
+
+  /testcases/{testcase_name}/select:
     parameters:
-      - $ref: '#/components/parameters/TestId'
-    put:
-      summary: Initialize the simulation
-      description: Initializes the simulation with a start time and warmup period.
-      requestBody:
+      - name: testcase_name
+        in: path
         required: true
+        description: The name of the test case to select.
+        schema:
+          type: string
+    post:
+      summary: Select a test case and start a new test
+      description: Selects an official test case and begins a new test. Returns a testid required by other APIs.
+      requestBody:
+        required: false
         content:
           application/json:
             schema:
               type: object
-              properties:
-                start_time:
-                  type: number
-                  description: The start time of the simulation (epoch time).
-                warmup_period:
-                  type: number
-                  description: The warmup period for the simulation in seconds.
+              description: Optional selection parameters (implementation-specific).
       responses:
         '200':
-          description: Successful response indicating the simulation was initialized.
+          description: Test case selected successfully.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message:
+                  testid:
                     type: string
-                    example: "Simulation initialized successfully."
-                  payload:
-                    type: string
-                    description: Confirmation message.
-                  status:
-                    type: integer
-                    example: 200
+                    description: UUID for the newly started test.
+                required:
+                  - testid
