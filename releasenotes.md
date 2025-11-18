@@ -2,7 +2,7 @@
 
 ## BOPTEST v0.9.0
 
-Released on xx/xx/xxxx.
+Released on 11/18/2025.
 
 **The following changes are backwards compatible and do not significantly change benchmark results:**
 
