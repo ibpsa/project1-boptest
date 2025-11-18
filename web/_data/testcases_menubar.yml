@@ -1,4 +1,4 @@
-- label: Available in Latest Release (v0.8.0)
+- label: Available in Latest Release (v0.9.0)
   items:
     - name: BESTEST Air
       link: /testcases/ibpsa/testcases_ibpsa_bestest_air/
@@ -16,8 +16,6 @@
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
     - name: Multizone Office Simple Hydronic
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_hydronic/
-- label: Expected Available in Next Release
-  items:
     - name: Multizone Office Complex Air
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_complex_air/
 - label: Under Development
@@ -26,5 +24,3 @@
       link: /testcases/ibpsa/testcases_ibpsa_singlezone_commercial_air/
     - name: Flexible Research Platform
       link: /testcases/ibpsa/testcases_ibpsa_flexible_research_platform/
-    - name: Multizone Office Simple Hybrid
-      link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_hybrid/
