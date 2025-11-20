@@ -3,17 +3,17 @@ model ApartmentModelQHTyp "Hydronic Test case"
     extends Modelica.Icons.Example;
     replaceable package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium model";
     replaceable package MediumW = Buildings.Media.Water "Medium model";
-    parameter Modelica.SIunits.Area Afloor = 22;
-    parameter Modelica.SIunits.Temperature T_start = 21+273.15;
-    parameter Modelica.SIunits.MassFlowRate mflow_n=2480/3600/4
+  parameter Modelica.Units.SI.Area Afloor=22;
+  parameter Modelica.Units.SI.Temperature T_start=21 + 273.15;
+  parameter Modelica.Units.SI.MassFlowRate mflow_n=2480/3600/4
     "nominal flow rate";
     parameter Real qint=1 "Presence or not of Internal gains";
   TwoZoneApartmentHydronic.Components.Thermostat_T thermostatNigZon(
     occSta=8*3600,
     occEnd=20*3600,
     TSetHeaUno=294.15,
-    TSetHeaOcc=289.15,
-    TSetHeaWee=289.15)
+    TSetHeaOcc=290.15,
+    TSetHeaWee=290.15)
     annotation (Placement(transformation(extent={{-60,-80},{-40,-60}})));
   TwoZoneApartmentHydronic.Components.HydronicSystem hydronicSystem(
     redeclare package MediumW = MediumW,                            mflow_n=
@@ -44,38 +44,39 @@ model ApartmentModelQHTyp "Hydronic Test case"
     dp_nominal=20*DP_n)
     annotation (Placement(transformation(extent={{46,-52},{70,-28}})));
   TwoZoneApartmentHydronic.Components.Thermostat_T thermostatDayZon(
-    occSta=8*3600,
+    occSta=16*3600,
     occEnd=20*3600,
-    TSetHeaUno=294.15,
-    TSetHeaOcc=289.15,
-    TSetHeaWee=289.15)
+    TSetHeaUno=290.15,
+    TSetHeaOcc=294.15,
+    TSetHeaWee=290.15)
     annotation (Placement(transformation(extent={{-60,60},{-40,80}})));
   inner IDEAS.BoundaryConditions.SimInfoManager
                        sim(filNam=Modelica.Utilities.Files.loadResource(
         "modelica://TwoZoneApartmentHydronic/Resources/IT-Milano-Linate-160800TM2.mos"))
     annotation (Placement(transformation(extent={{-104,-2},{-82,20}})));
-  Buildings.Airflow.Multizone.DoorDiscretizedOpen doo(
-    hA=3/2,
-    hB=3/2,
-    nCom=10,
+  Buildings.Airflow.Multizone.DoorOperable doo(
     redeclare package Medium = MediumA,
     show_T=true,
     wOpe=0.8,
     hOpe=2,
     dp_turbulent=0.1,
-    CD=0.78) "Discretized door" annotation (Placement(transformation(
+    LClo=20*10e-4)
+             "Discretized door" annotation (Placement(transformation(
         extent={{-8,-9},{8,9}},
         rotation=-90,
         origin={42,-3})));
-  parameter Modelica.SIunits.Pressure DP_n=500 "nominal flow rate";
+  parameter Modelica.Units.SI.Pressure DP_n=500 "nominal flow rate";
   Buildings.Utilities.IO.SignalExchange.WeatherStation weatherStation
     annotation (Placement(transformation(extent={{-80,-40},{-100,-20}})));
+  Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter(Rising=2)
+    annotation (Placement(transformation(extent={{-12,34},{8,54}})));
 equation
   connect(hydronicSystem.ports_b[1],dayZon. supplyWater) annotation (Line(
-        points={{12.8667,16.6},{12,16.6},{12,16},{54,16},{54,22},{53.52,22}},
+        points={{12.8667,11.5},{12,11.5},{12,16},{54,16},{54,22},{53.0182,22}},
                                                    color={0,127,255}));
   connect(hydronicSystem.ports_b[2], nigZon.supplyWater) annotation (Line(
-        points={{12.8667,9.8},{24,9.8},{24,-64},{52,-64},{52,-58},{51.52,-58}},
+        points={{12.8667,14.9},{24,14.9},{24,-64},{52,-64},{52,-58},{51.0182,
+          -58}},
         color={0,127,255}));
   connect(weaBus, hydronicSystem.weaBus) annotation (Line(
       points={{-60,10},{-54,10},{-54,10.14},{-17.7333,10.14}},
@@ -86,7 +87,7 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(weaBus, nigZon.weaBus) annotation (Line(
-      points={{-60,10},{-60,-40},{35.2,-40}},
+      points={{-60,10},{-60,-40},{36.1818,-40}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -94,7 +95,7 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(weaBus,dayZon. weaBus) annotation (Line(
-      points={{-60,10},{-60,40},{37.2,40}},
+      points={{-60,10},{-60,40},{38.1818,40}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -102,13 +103,14 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(dayZon.returnWater, hydronicSystem.ports_a[1]) annotation (Line(
-        points={{66.48,22},{74,22},{74,-14},{14,-14},{14,-10.6},{12.8667,-10.6}},
+        points={{64.8,22},{74,22},{74,-14},{14,-14},{14,-8.9},{12.8667,-8.9}},
                                                                color={0,127,255}));
   connect(nigZon.returnWater, hydronicSystem.ports_a[2]) annotation (Line(
-        points={{64.48,-58},{66,-58},{66,-80},{20,-80},{20,-3.8},{12.8667,-3.8}},
+        points={{62.8,-58},{66,-58},{66,-80},{20,-80},{20,-5.5},{12.8667,-5.5}},
         color={0,127,255}));
-  connect(dayZon.surf_conBou[2], nigZon.surf_surBou) annotation (Line(points={{
-          61.44,37.36},{61.44,0},{67.6,0},{67.6,-42.88}}, color={191,0,0}));
+  connect(dayZon.surf_conBou[2], nigZon.surf_surBou) annotation (Line(points={{60.2182,
+          37.36},{60.2182,0},{65.6364,0},{65.6364,-42.88}},
+                                                          color={191,0,0}));
   connect(sim.weaDatBus, weaBus) annotation (Line(
       points={{-82.11,9},{-72,9},{-72,10},{-60,10}},
       color={255,204,51},
@@ -117,21 +119,22 @@ equation
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(nigZon.TRooAir, thermostatNigZon.TZon) annotation (Line(points={{78.4,
+  connect(nigZon.TRooAir, thermostatNigZon.TZon) annotation (Line(points={{75.4545,
           -35.44},{78,-35.44},{78,-100},{-80,-100},{-80,-70},{-62,-70}}, color=
           {0,0,127}));
-  connect(dayZon.TRooAir, thermostatDayZon.TZon) annotation (Line(points={{80.4,
-          44.56},{80.4,98},{-80,98},{-80,70},{-62,70}}, color={0,0,127}));
+  connect(dayZon.TRooAir, thermostatDayZon.TZon) annotation (Line(points={{77.4545,
+          44.56},{77.4545,98},{-80,98},{-80,70},{-62,70}},
+                                                        color={0,0,127}));
   connect(thermostatNigZon.ValCon, hydronicSystem.ValConNigZon) annotation (
       Line(points={{-39,-64},{-32,-64},{-32,-12},{-18.3567,-12},{-18.3567,
           -11.28}}, color={0,0,127}));
   connect(thermostatDayZon.ValCon, hydronicSystem.ValConDayZon) annotation (
       Line(points={{-39,76},{-32,76},{-32,-5.84},{-18.3567,-5.84}}, color={0,0,
           127}));
-  connect(thermostatNigZon.Occ, nigZon.occupation) annotation (Line(points={{-39,
-          -70},{-10,-70},{-10,-29.92},{41.2,-29.92}}, color={0,0,127}));
-  connect(thermostatDayZon.Occ, dayZon.occupation) annotation (Line(points={{-39,
-          70},{0,70},{0,50.08},{43.2,50.08}}, color={0,0,127}));
+  connect(thermostatNigZon.Occ, nigZon.occupation) annotation (Line(points={{-39,-70},
+          {-10,-70},{-10,-29.92},{41.6364,-29.92}},   color={0,0,127}));
+  connect(thermostatDayZon.Occ, dayZon.occupation) annotation (Line(points={{-39,70},
+          {0,70},{0,50.08},{43.6364,50.08}},  color={0,0,127}));
   connect(doo.port_b2,dayZon. supplyAir) annotation (Line(points={{36.6,5},{
           36.6,43.84},{48,43.84}}, color={0,127,255}));
   connect(doo.port_a1,dayZon. returnAir) annotation (Line(points={{47.4,5},{
@@ -148,15 +151,26 @@ equation
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
+  connect(thermostatDayZon.Occ, slewRateLimiter.u) annotation (Line(points={{
+          -39,70},{-36,70},{-36,58},{-22,58},{-22,44},{-14,44}}, color={0,0,127}));
+  connect(slewRateLimiter.y, doo.y) annotation (Line(points={{9,44},{18,44},{18,
+          18},{42,18},{42,5.8}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
       StopTime=31536000,
-      Interval=900,
+      Interval=900.00288,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Radau"),
+      __Dymola_Algorithm="Cvode"),
     Documentation(revisions="<html>
 <ul>
+<li>
+November 4, 2025, by Ettore Zanetti:<br/>
+Updated model to Modelica 4.0, fixed occupancy profile, door opening 
+and ventilation. This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>, and <a href=https://github.com/ibpsa/project1-boptest/issues/539>
+BOPTEST issue #539</a>.
+</li>
 <li>
 August 5, 2022, by Ettore Zanetti:<br/>
 Revision after comments
@@ -530,7 +544,7 @@ All the geometrical and thermal characteristics of the various material layers a
 <tr>
 <td>7</td>
 <td>Gypsum and sand plaster</td>
-<td>0.200</td>
+<td>0.020</td>
 <td>0.800</td>
 <td>1000</td>
 <td>1600</td>
@@ -574,7 +588,7 @@ All the geometrical and thermal characteristics of the various material layers a
 <tr>
 <td>3</td>
 <td>Expanded polystyrene</td>
-<td>0.026</td>
+<td>0.028</td>
 <td>0.034</td>
 <td>1300</td>
 <td>25</td>
@@ -614,7 +628,7 @@ All the geometrical and thermal characteristics of the various material layers a
 <tr>
 <td>7</td>
 <td>Gypsum and sand plaster</td>
-<td>0.200</td>
+<td>0.020</td>
 <td>0.800</td>
 <td>1000</td>
 <td>1600</td>
@@ -749,9 +763,10 @@ have been defined in the record \"Window24\".
 </p>
 <p>
 <h4>Occupancy schedule</h4>
-<p>The apartment is occupied from 8 P.M. to 8 A.M. from Monday to Friday by two people, one per thermal zone. The thermal zones are considered unoccupied on Saturday and Sunday.</p>
+<p>The apartment is occupied from 4 P.M. to 8 A.M. from Monday to Friday by two people, from 4 P.M. to 8 P.M. the day zone is occupied, from 8 P.M. to 8 A.M. the night zone is occupied instead. 
+The thermal zones are considered unoccupied on Saturday and Sunday.</p>
 <h4>Internal loads and schedules</h4>
-<p>The heating setpoint is considered 21 [°C] for occupied periods and 16 [°C] for unoccupied periods. The main heat gains come from people, appliances and lighting. For people it corresponds to 60 (W/person) of sensible gains divided equally between
+<p>The heating setpoint is considered 21 [°C] for occupied periods and 17 [°C] for unoccupied periods. The main heat gains come from people, appliances and lighting. For people it corresponds to 60 (W/person) of sensible gains divided equally between
 convective and radiative contributions and 20 (W) of latent gains. Internal gains for the appliances are 4 (W/m2) and for lighting 1.5 (W/m2) of sensible gains were considred divided
 equally between convective and radiative contributions. These values are taken from a combination of ASHRAE 90.1 standard and ENI 13200. CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017) and density of CO2 assumed to be 1.8 kg/m^3,making CO2 generation 8.64e-6 kg/s per person.Outside air CO2 concentration is 400 ppm.  However, CO2 concentration is not controlled for in the model. Lastly, infilatrations was considered a constant value of 0.5 (vol/h) for each thermal zone.</p>
 <h4>Climate data</h4>
@@ -845,6 +860,9 @@ The model outputs are:
 <code>dayZon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
+<code>dayZon_reaTRooOpe_y</code> [K] [min=None, max=None]: Zone operative temperature
+</li>
+<li>
 <code>dayZon_reaTavgFloHea_y</code> [K] [min=None, max=None]: Zone average floor temperature
 </li>
 <li>
@@ -885,6 +903,9 @@ The model outputs are:
 </li>
 <li>
 <code>nigZon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>nigZon_reaTRooOpe_y</code> [K] [min=None, max=None]: Zone operative temperature
 </li>
 <li>
 <code>nigZon_reaTavgFloHea_y</code> [K] [min=None, max=None]: Zone average floor temperature
