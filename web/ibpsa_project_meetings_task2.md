@@ -12,7 +12,13 @@ permalink: /ibpsa/project/meetings/task2/
 
 # Upcoming Meetings
 
-Coming soon...
+### December 18, 2025
+
+**Location:** Online
+
+**Time:** 6:00 AM - 7:00 AM U.S. Pacific
+
+**Zoom:** [Link](https://lbnl.zoom.us/j/97347695526?pwd=8xKqXpVKDNBJj6yZmied2NL6EvYFTk.1)
 
 
 # Past Meetings
