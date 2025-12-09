@@ -25,7 +25,7 @@ BOPTEST is developed and released under this [License](https://github.com/ibpsa/
 
 # Use Public Web-Service
 
-Use a publicly available web-hosted instance of BOPTEST that provides the functionality of BOPTEST ``v0.8.0`` as a web-service without the need to download or install anything locally.
+Use a publicly available web-hosted instance of BOPTEST that provides the functionality of BOPTEST ``v0.9.0`` as a web-service without the need to download or install anything locally.
 
 Get started with the [User Guide](/docs-userguide/index.html) and [Training](/project1-boptest/training/index.html).
 
