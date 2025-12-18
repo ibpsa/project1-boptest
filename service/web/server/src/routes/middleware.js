@@ -115,6 +115,7 @@ export function addCorsOriginHdr(req, res, next) {
 }
 
 function isValidOrigin(origin) {
-  const allowedOriginRegex = /^http:\/\/localhost:\d+$/; // e.g. all http://localhost:port
+  // allow http(s) localhost and all subdomains of boptest.net
+  const allowedOriginRegex = /^https?:\/\/(?:localhost|(?:[A-Za-z0-9-]+\.)*boptest\.net)(?::\d+)?$/;
   return allowedOriginRegex.test(origin)
 }
