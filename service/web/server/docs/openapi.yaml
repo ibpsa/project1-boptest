@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: BOPTEST Service API
   description: A REST API for emulating buildings for testing control systems.
-  version: 0.8.0
+  version: 0.9.0
 servers:
   - url: http://localhost
     description: Local server
@@ -76,10 +76,20 @@ components:
           description: Final time of the results query (epoch time).
     TimeSeries:
       type: object
+      description: Time series response. Always includes a "time" array and any number of series arrays keyed by signal name.
+      properties:
+        time:
+          type: array
+          items:
+            type: number
+          description: Array of time points (epoch seconds).
       additionalProperties:
         type: array
         items:
           type: number
+        description: Array of numeric values for a signal (aligned with the "time" array).
+      required:
+        - time
     StepResponse:
       type: object
       properties:
@@ -88,9 +98,15 @@ components:
           description: A message describing the response.
         payload:
           type: object
+          properties:
+            time:
+              type: number
+              description: Current simulation time (epoch seconds).
           additionalProperties:
             type: number
-          description: Current values of all input and measurement signals.
+          required:
+            - time
+          description: Current values of all input and measurement signals; always includes "time".
         status:
           type: integer
           description: HTTP status code.
@@ -139,7 +155,7 @@ paths:
         - management
       description: Selects an official test case and begins a new test. Returns a testid required by other APIs.
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
@@ -386,7 +402,7 @@ paths:
         - meta
       description: Set the scenario for the running test. Optional properties may trigger an initialization (see README).
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
@@ -588,7 +604,7 @@ paths:
         - control
       description: Advances the simulation with optional input overwrites. The payload can include input values and activation flags for overwriting.
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
