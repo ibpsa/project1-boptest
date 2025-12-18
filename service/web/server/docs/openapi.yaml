@@ -266,9 +266,7 @@ paths:
               schema:
                 type: string
                 example: "OK"
-  /version/{testid}:
-    parameters:
-      - $ref: '#/components/parameters/TestId'
+  /version:
     get:
       summary: Get BOPTEST version
       tags:
@@ -284,7 +282,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Version retrieved successfully."
+                    example: "Queried the version number successfully."
                   payload:
                     type: object
                     properties:

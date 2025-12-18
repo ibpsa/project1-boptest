@@ -67,7 +67,7 @@ API requests that interact with a running test case (those that require a ``test
 | Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario/{testid}`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``, ``temperature_uncertainty=<string>``, ``solar_uncertainty=<string>``, ``seed=<int>``.  See the [Test Case](https://ibpsa.github.io/project1-boptest/testcases/index.html) page for options and documentation.|
 | Get test status as `Running` or `Queued`                                                                                    | GET ``status/{testid}``                                    |
 | Stop a queued or running test.  Needed to deploy a new test case when no more idle workers are avaiable.                                                                                              | PUT ``stop/{testid}``                                      |
-| Receive BOPTEST version.                                               |  GET ``version/{testid}``                                             |
+| Receive BOPTEST version.                                               |  GET ``version``                                             |
 
 API requests for more advanced test case management in the web-service architecture can be found in ``/service/README.md``.
 
