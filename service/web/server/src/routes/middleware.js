@@ -82,3 +82,39 @@ export function validationResponse(req, res, next) {
   }
   next()
 }
+
+export function handleCorsPreflight(req, res, next, allowedMethods) {
+  if (req.method === 'OPTIONS') {
+    const origin = req.header('Origin');
+    res.setHeader('Vary', 'Origin');
+
+    if (origin && isValidOrigin(origin)) {
+      console.log("Pre-flight allowed: ", origin)
+
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Access-Control-Allow-Methods', allowedMethods);
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight response for 24 hours
+      res.sendStatus(204); // No Content
+    } else {
+      console.log("Pre-flight rejected: ", origin)
+      res.sendStatus(405); // Method Not Allowed
+    }
+  } else {
+    next();
+  }
+}
+
+export function addCorsOriginHdr(req, res, next) {
+  const origin = req.header('Origin');
+  if (origin && isValidOrigin(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  }
+  next()
+}
+
+function isValidOrigin(origin) {
+  const allowedOriginRegex = /^http:\/\/localhost:\d+$/; // e.g. all http://localhost:port
+  return allowedOriginRegex.test(origin)
+}

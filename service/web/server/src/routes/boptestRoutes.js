@@ -4,8 +4,6 @@ import { validateTestid } from './validators'
 import * as boptestLib from '../lib/boptestLib'
 import messaging from '../lib/messaging'
 import * as middleware from './middleware'
-import s3 from '../s3'
-import { unpack } from 'msgpackr'
 
 const boptestRoutes = express.Router()
 const ibpsaNamespace = 'ibpsa'
@@ -171,6 +169,7 @@ const getTestcases = async (req, res, next) => {
 
 boptestRoutes.get('/testcases',
   middleware.identify,
+  middleware.addCorsOriginHdr,
   (req, res, next) => {
     req.testcaseKeyPrefix = boptestLib.getPrefixForTestcase(ibpsaNamespace)
     next()
@@ -209,10 +208,14 @@ boptestRoutes.get('/users/:userName/tests',
 )
 
 // PUT stop //
+boptestRoutes.options('/stop/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "PUT")
+)
 
 boptestRoutes.put('/stop/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       await boptestLib.stop(req.params.testid)
@@ -224,10 +227,14 @@ boptestRoutes.put('/stop/:testid',
 );
 
 // POST results //
+boptestRoutes.options('/submit/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "POST")
+)
 
 boptestRoutes.post('/submit/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'post_results_to_dashboard', req.body)
@@ -242,6 +249,7 @@ boptestRoutes.post('/submit/:testid',
 boptestRoutes.get('/status/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await boptestLib.getStatus(req.params.testid)
@@ -257,6 +265,7 @@ boptestRoutes.get('/status/:testid',
 boptestRoutes.get('/name/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'get_name', {})
@@ -268,10 +277,14 @@ boptestRoutes.get('/name/:testid',
 )
 
 // POST advance //
+boptestRoutes.options('/advance/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "POST")
+)
 
 boptestRoutes.post('/advance/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'advance', req.body)
@@ -283,10 +296,14 @@ boptestRoutes.post('/advance/:testid',
 );
 
 // PUT initialize //
+boptestRoutes.options('/initialize/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "PUT")
+)
 
 boptestRoutes.put('/initialize/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'initialize', req.body)
@@ -298,10 +315,14 @@ boptestRoutes.put('/initialize/:testid',
 );
 
 // PUT scenario //
+boptestRoutes.options('/scenario/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "PUT")
+)
 
 boptestRoutes.put('/scenario/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'set_scenario', req.body)
@@ -317,6 +338,7 @@ boptestRoutes.put('/scenario/:testid',
 boptestRoutes.get('/scenario/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'get_scenario', {})
@@ -332,6 +354,7 @@ boptestRoutes.get('/scenario/:testid',
 boptestRoutes.get('/measurements/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'get_measurements', {})
@@ -347,6 +370,7 @@ boptestRoutes.get('/measurements/:testid',
 boptestRoutes.get('/inputs/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'get_inputs', {})
@@ -362,6 +386,7 @@ boptestRoutes.get('/inputs/:testid',
 boptestRoutes.get('/step/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'get_step', {})
@@ -374,9 +399,14 @@ boptestRoutes.get('/step/:testid',
 
 // PUT step //
 
+boptestRoutes.options('/step/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "PUT")
+)
+
 boptestRoutes.put('/step/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'set_step', req.body)
@@ -392,6 +422,7 @@ boptestRoutes.put('/step/:testid',
 boptestRoutes.get('/kpi/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'get_kpis', {})
@@ -403,10 +434,14 @@ boptestRoutes.get('/kpi/:testid',
 );
 
 // PUT results //
+boptestRoutes.options('/results/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "PUT")
+)
 
 boptestRoutes.put('/results/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       // requests sent as form data may need to coherce the point_names into an Array
@@ -415,28 +450,7 @@ boptestRoutes.put('/results/:testid',
         req.body['point_names'] = [req.body.point_names]
       }
       const payload = await messaging.callWorkerMethod(req.params.testid, 'get_results', req.body)
-
-      const pointer = payload && payload.payload
-      const isS3Pointer = pointer && pointer.storage === 's3' && pointer.key
-
-      if (!isS3Pointer) {
-        res.status(payload.status).json(payload)
-        return
-      }
-
-      const bucketName = pointer.bucket ? pointer.bucket : bucket
-
-      const s3Object = await s3.getObject({ Bucket: bucketName, Key: pointer.key }).promise()
-      const resultPayload = unpack(s3Object.Body)
-
-      try {
-        await s3.deleteObject({ Bucket: bucketName, Key: pointer.key }).promise()
-      } catch (deleteError) {
-        // Best-effort delete, log for visibility but do not fail request
-        console.warn(`Failed to delete results object ${bucketName}/${pointer.key}: ${deleteError}`)
-      }
-
-      res.status(resultPayload.status).json(resultPayload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
     }
@@ -444,10 +458,14 @@ boptestRoutes.put('/results/:testid',
 );
 
 // PUT forecast //
+boptestRoutes.options('/forecast/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "PUT")
+)
 
 boptestRoutes.put('/forecast/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       // requests sent as form data may need to coherce the point_names into an Array
@@ -468,6 +486,7 @@ boptestRoutes.put('/forecast/:testid',
 boptestRoutes.get('/forecast_points/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
+  middleware.addCorsOriginHdr,
   async (req, res, next) => {
     try {
       const payload = await messaging.callWorkerMethod(req.params.testid, 'get_forecast_points', {})
@@ -477,6 +496,7 @@ boptestRoutes.get('/forecast_points/:testid',
     }
   }
 );
+
 
 // Check identity for all generic endpoints under /users and /testcases
 // Specific endpoints will have already been handled from the preceeding routes
