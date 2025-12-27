@@ -394,33 +394,39 @@ paths:
                   status:
                     type: integer
                     example: 200
+              example:
+                message: "Scenario description retrieved successfully."
+                payload:
+                  electricity_price: "dynamic"
+                  time_period: "peak_heat_day"
+                status: 200
     put:
       summary: Set the test scenario
       tags:
         - meta
-      description: Set the scenario for the running test. Optional properties may trigger an initialization (see README).
+      description: |
+        Set the scenario for the running test. Optional properties may trigger an initialization (see README).
+        Typically, the supported scenario settings include:
+          * electricity_price: "constant" or "dynamic" or "highly_dynamic"
+          * time_period: "typical_heat_day" or "peak_heat_day"
+          * temperature_uncertainty: *null* or "low" or "medium" or "high"
+          * solar_uncertainty: *null* or "low" or "medium" or "high"
+          * seed: *int*
+        
+        However, this is partly test case specific. See the test case description for supported scenarios.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              properties:
-                electricity_price:
-                  type: string
-                  description: Identifier for electricity price scenario.
-                time_period:
-                  type: string
-                  description: Named time period for scenario (may perform initialization).
-                temperature_uncertainty:
-                  type: string
-                  description: Temperature uncertainty setting.
-                solar_uncertainty:
-                  type: string
-                  description: Solar uncertainty setting.
-                seed:
-                  type: integer
-                  description: Random seed for scenario sampling.
+              description: Generic scenario payload.
+              additionalProperties: {}
+            example:
+              electricity_price: "dynamic"
+              temperature_uncertainty: "medium"
+              solar_uncertainty: "low"
+              seed: 42
       responses:
         '200':
           description: Successful response indicating the scenario was updated.
@@ -434,12 +440,20 @@ paths:
                     example: "Scenario updated successfully."
                   payload:
                     type: object
-                    description: The applied scenario values (echo).
-                    additionalProperties:
-                      type: string
+                    description: The applied scenario values (echo) or initial measurements if `time_period` triggers initialization.
+                    additionalProperties: {}
                   status:
                     type: integer
                     example: 200
+              example:
+                message: "Scenario updated successfully."
+                payload:
+                  electricity_price: "dynamic"
+                  time_period: null
+                  temperature_uncertainty: "medium"
+                  solar_uncertainty: "low"
+                  seed: 42
+                status: 200
   /step/{testid}:
     parameters:
       - $ref: '#/components/parameters/TestId'
