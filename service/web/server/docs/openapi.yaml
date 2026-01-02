@@ -153,7 +153,7 @@ paths:
       summary: Select a test case and start a new test
       tags:
         - management
-      description: Selects an IBPSA BOPTEST test case and begins a new test. Returns a testid required by other APIs.
+      description: Selects an IBPSA BOPTEST test case and begins a new test. Returns a testid (UUID) required by other APIs.
       requestBody:
         required: true
         content:
@@ -412,7 +412,7 @@ paths:
           * temperature_uncertainty: *null* or "low" or "medium" or "high"
           * solar_uncertainty: *null* or "low" or "medium" or "high"
           * seed: *int*
-        
+
         However, this is partly test case specific. See the test case description for supported scenarios.
       requestBody:
         required: true
@@ -558,8 +558,8 @@ paths:
         - data
       description: |
         Returns simulation data for the given point names over a time period.
-        Data for control input points will be the values used for simulation, 
-        meaning embedded default control if not overwritten or user-specified 
+        Data for control input points will be the values used for simulation,
+        meaning embedded default control if not overwritten or user-specified
         value if overwritten.
       requestBody:
         required: true
@@ -628,13 +628,13 @@ paths:
     parameters:
       - $ref: '#/components/parameters/TestId'
     post:
-      summary: Advance the simulation on control step with optional control input overrides.
+      summary: Advance the simulation one control step with optional control input overrides.
       tags:
         - control
       description: |
         Advance simulation one control step with optional control input(s) and receive measurements.
         If specified, control input value(s) will be constant over the control step.
-        Use <input_name_u> to specify value and corresponding <input_name_activate> to enable value 
+        Use <input_name_u> to specify value and corresponding <input_name_activate> to enable value
         overwrite for the input.
       requestBody:
         required: true
