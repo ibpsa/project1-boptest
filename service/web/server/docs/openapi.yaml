@@ -154,7 +154,7 @@ paths:
     get:
       summary: List available test cases
       tags:
-        - management
+        - Test Case Management and Inspection
       description: Returns a list of available IBPSA BOPTEST test cases (official).
       responses:
         '200':
@@ -183,7 +183,7 @@ paths:
     post:
       summary: Select a test case and start a new test
       tags:
-        - management
+        - Test Case Management and Inspection
       description: Selects an IBPSA BOPTEST test case and begins a new test. Returns a testid (UUID) required by other APIs.
       requestBody:
         required: true
@@ -211,7 +211,7 @@ paths:
     put:
       summary: Initialize the simulation
       tags:
-        - management
+        - Test Setup and Initialization
       description: Initialize simulation to a start time using a warmup period (also resets history and KPI calculations).
       requestBody:
         required: true
@@ -242,7 +242,7 @@ paths:
     get:
       summary: Get the test case name
       tags:
-        - management
+        - Test Case Management and Inspection
       description: Returns the loaded test case name.
       responses:
         '200':
@@ -271,7 +271,7 @@ paths:
     get:
       summary: Get test status
       tags:
-        - management
+        - Test Case Management and Inspection
       description: Returns the current status of the test (e.g. Running, Queued).
       responses:
         '200':
@@ -287,7 +287,7 @@ paths:
     put:
       summary: Stop a queued or running test
       tags:
-        - management
+        - Test Case Management and Inspection
       description: Stops a queued or running test. Use when freeing workers or to terminate a running test.
       responses:
         '200':
@@ -301,7 +301,7 @@ paths:
     get:
       summary: Get BOPTEST version
       tags:
-        - management
+        - Test Case Management and Inspection
       description: Returns the BOPTEST version for the running test.
       responses:
         '200':
@@ -332,7 +332,7 @@ paths:
     get:
       summary: Get metadata for inputs
       tags:
-        - meta
+        - Test Case Management and Inspection
       description: Returns available control signal input point names (u) and metadata.
       responses:
         '200':
@@ -356,7 +356,7 @@ paths:
     get:
       summary: Get metadata for measurements
       tags:
-        - meta
+        - Test Case Management and Inspection
       description: Returns available sensor signal output point names (y) and metadata.
       responses:
         '200':
@@ -380,7 +380,7 @@ paths:
     get:
       summary: Get metadata for forecast points
       tags:
-        - meta
+        - Test Case Management and Inspection
       description: Returns available forecast point names and metadata.
       responses:
         '200':
@@ -402,9 +402,9 @@ paths:
     parameters:
       - $ref: '#/components/parameters/TestId'
     get:
-      summary: Get the current scenario description
+      summary: Get the current scenario setup
       tags:
-        - meta
+        - Test Setup and Initialization
       description: Returns a description of the current scenario.
       responses:
         '200':
@@ -432,9 +432,9 @@ paths:
                   time_period: "peak_heat_day"
                 status: 200
     put:
-      summary: Set the test scenario
+      summary: Set a test scenario
       tags:
-        - meta
+        - Test Setup and Initialization
       description: |
         Set the scenario for the running test. Optional properties may trigger an initialization (see README).
         Typically, the supported scenario settings include:
@@ -444,7 +444,7 @@ paths:
           * solar_uncertainty: *null* or "low" or "medium" or "high"
           * seed: *int*
 
-        However, this is partly test case specific. See the test case description for supported scenarios.
+        However, this is partly test case specific. See the test case documentation for supported scenarios.
       requestBody:
         required: true
         content:
@@ -491,7 +491,7 @@ paths:
     get:
       summary: Get the control time step
       tags:
-        - meta
+        - Test Setup and Initialization
       description: Returns the time step used for control.
       responses:
         '200':
@@ -513,7 +513,7 @@ paths:
     put:
       summary: Set the control time step
       tags:
-        - meta
+        - Test Setup and Initialization
       description: Sets the time step used for control.
       requestBody:
         required: true
@@ -556,7 +556,7 @@ paths:
     put:
       summary: Query forecasts.
       tags:
-        - data
+        - Test Simulation and Data
       description: Returns boundary condition forecasts from current time.
       requestBody:
         required: true
@@ -586,7 +586,7 @@ paths:
     put:
       summary: Query results.
       tags:
-        - data
+        - Test Simulation and Data
       description: |
         Returns simulation data for the given point names over a time period.
         Data for control input points will be the values used for simulation,
@@ -620,7 +620,7 @@ paths:
     get:
       summary: Get KPIs for a running test
       tags:
-        - data
+        - Test Simulation and Data
       description: Receive KPI values for the running test. Calculated from start time and do not include warmup periods.
       responses:
         '200':
@@ -658,7 +658,7 @@ paths:
     post:
       summary: Advance the simulation one control step with optional control input overrides.
       tags:
-        - control
+        - Test Simulation and Data
       description: |
         Advance simulation one control step with optional control input(s) and receive measurements.
         If specified, control input value(s) will be constant over the control step.
