@@ -110,6 +110,37 @@ components:
         status:
           type: integer
           description: HTTP status code.
+    KPIResponse:
+      type: object
+      description: KPI response.
+      properties:
+        ener_tot:
+          type: number
+          description: HVAC energy total in kWh/m2.
+        cost_tot:
+          type: number
+          description: HVAC energy cost in $/m2 or Euro/m2.
+        emis_tot:
+          type: number
+          description: HVAC energy emissions in kgCO2e/m2.
+        pele_tot:
+          type: number
+          description: HVAC peak electrical demand in kW/m2.
+        pgas_tot:
+          type: number
+          description: HVAC peak gas demand in kW/m2.
+        pdih_tot:
+          type: number
+          description: HVAC peak district heating demand in kW/m2.
+        tdis_tot:
+          type: number
+          description: Thermal discomfort in Kh/zone.
+        idis_tot:
+          type: number
+          description: Indoor air quality discomfort in ppmh/zone.
+        time_rat:
+          type: number
+          description: Computational time ratio in s/s.
   parameters:
     TestId:
       name: testid
@@ -587,10 +618,10 @@ paths:
     parameters:
       - $ref: '#/components/parameters/TestId'
     get:
-      summary: Get KPIs for a test
+      summary: Get KPIs for a running test
       tags:
         - data
-      description: Returns key performance indicators for the running test.
+      description: Receive KPI values for the running test. Calculated from start time and do not include warmup periods.
       responses:
         '200':
           description: Successful response with KPIs.
@@ -603,10 +634,7 @@ paths:
                     type: string
                     example: "KPIs retrieved successfully."
                   payload:
-                    type: object
-                    additionalProperties:
-                      type: number
-                    description: Mapping of KPI name to numeric value.
+                    $ref: '#/components/schemas/KPIResponse'
                   status:
                     type: integer
                     example: 200
