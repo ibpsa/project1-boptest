@@ -9,7 +9,7 @@ To run:
 $ python get_html_IO.py bestest_air
 
 Output:
-``inputs_measurements_forecasts.html`` html code documenting inputs, outputs and 
+``inputs_measurements_forecasts.html`` html code documenting inputs, outputs and
 forecasts together
 """
 
@@ -36,11 +36,11 @@ def run(test_case_name):
     # SETUP TEST CASE
     # ---------------
     # Set URL for test case
-    url = 'http://127.0.0.1:80'
+    url = 'http://127.0.0.1:8000'
     # Deploy worker container and obtain test case ID
     testid = requests.post("{0}/testcases/{1}/select".format(url, test_case_name)).json()["testid"]
     # ---------------
-    
+
     # GET TEST INFORMATION
     # --------------------
     # Create single I/O file
@@ -92,7 +92,7 @@ def run(test_case_name):
         print('Done shutting down test case.')
     else:
         print('Error shutting down test case.')
-        
+
 if __name__ == "__main__":
     test_case_name = sys.argv[1]
     run(test_case_name)
