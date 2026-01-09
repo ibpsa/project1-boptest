@@ -131,13 +131,13 @@ test_%_no_compile:
 # Test podman deployment using a generic testcase test (bestest_air)
 test_podman:
 # Build and deploy testcase image
-	cd .. && podman-compose build -q web worker provision
-	cd .. && podman-compose up -d web worker provision
+	cd .. && podman compose build -q web worker provision
+	cd .. && podman compose up -d web worker provision
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_bestest_air.py $(ARG)
 # Stop testcase container
-	cd .. && podman-compose down
+	cd .. && podman compose down
 	if [ $(SINGLE) = true ]; then\
 	     python report.py;\
 	fi\
