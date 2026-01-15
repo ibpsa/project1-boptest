@@ -1,6 +1,6 @@
 import asyncio
 import pandas as pd
-from boptest_service_api_client.api.test_case_management_and_inspection import (
+from output.boptest_service_api_client.api.test_case_management_and_inspection import (
     get_forecast_points_testid,
     get_inputs_testid,
     get_measurements_testid,
@@ -8,17 +8,17 @@ from boptest_service_api_client.api.test_case_management_and_inspection import (
     post_testcases_testcase_name_select,
     put_stop_testid
 )
-from boptest_service_api_client.api.test_simulation_and_data import (
+from output.boptest_service_api_client.api.test_simulation_and_data import (
     get_kpi_testid,
     post_advance_testid,
     put_forecast_testid,
     put_results_testid,
 )
-from boptest_service_api_client.client import Client
-from boptest_service_api_client.models.forecast_query import ForecastQuery
-from boptest_service_api_client.models.post_advance_testid_body import PostAdvanceTestidBody
-from boptest_service_api_client.models.post_testcases_testcase_name_select_body import PostTestcasesTestcaseNameSelectBody
-from boptest_service_api_client.models.results_query import ResultsQuery
+from output.boptest_service_api_client.client import Client
+from output.boptest_service_api_client.models.forecast_query import ForecastQuery
+from output.boptest_service_api_client.models.post_advance_testid_body import PostAdvanceTestidBody
+from output.boptest_service_api_client.models.post_testcases_testcase_name_select_body import PostTestcasesTestcaseNameSelectBody
+from output.boptest_service_api_client.models.results_query import ResultsQuery
 
 
 def main():
@@ -28,7 +28,7 @@ def main():
     print("Available testcases:")
     for tc in testcases_resp:
         print(tc.testcaseid)
-    
+
     testcase = "bestest_hydronic"
     print(f"\nSelecting testcase: {testcase}")
     my_test = post_testcases_testcase_name_select.sync(
@@ -39,7 +39,7 @@ def main():
     if my_test is None:
         print("Could not start new test")
         return
-    
+
     print(f"Successfully created testcase '{testcase}' with id '{my_test.testid}'")
     try:
         inputs = get_inputs_testid.sync(my_test.testid, client=client)
@@ -66,7 +66,7 @@ def main():
         forecasts = pd.DataFrame(forecast_resp.payload.to_dict())
         print("\nForecast data:")
         print(forecasts.head())
-        
+
         print("\nStepping 10 steps:")
         res = []
         for _ in range(10):
@@ -78,7 +78,7 @@ def main():
             )
             y = _resp.payload.to_dict()
             res.append(y)
-        
+
         df = pd.DataFrame(res)
         print(df)
 
