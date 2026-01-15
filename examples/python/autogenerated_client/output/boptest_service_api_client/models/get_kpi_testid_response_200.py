@@ -9,7 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.kpi_response import KPIResponse
+    from ..models.get_kpi_testid_response_200_payload import GetKpiTestidResponse200Payload
 
 
 T = TypeVar("T", bound="GetKpiTestidResponse200")
@@ -20,12 +20,13 @@ class GetKpiTestidResponse200:
     """
     Attributes:
         message (str | Unset):  Example: KPIs retrieved successfully..
-        payload (KPIResponse | Unset): KPI response.
+        payload (GetKpiTestidResponse200Payload | Unset): Values for each keyed KPI. See KPIResponse schema for keyed
+            KPIs and definitions.
         status (int | Unset):  Example: 200.
     """
 
     message: str | Unset = UNSET
-    payload: KPIResponse | Unset = UNSET
+    payload: GetKpiTestidResponse200Payload | Unset = UNSET
     status: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -52,17 +53,17 @@ class GetKpiTestidResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.kpi_response import KPIResponse
+        from ..models.get_kpi_testid_response_200_payload import GetKpiTestidResponse200Payload
 
         d = dict(src_dict)
         message = d.pop("message", UNSET)
 
         _payload = d.pop("payload", UNSET)
-        payload: KPIResponse | Unset
+        payload: GetKpiTestidResponse200Payload | Unset
         if isinstance(_payload, Unset):
             payload = UNSET
         else:
-            payload = KPIResponse.from_dict(_payload)
+            payload = GetKpiTestidResponse200Payload.from_dict(_payload)
 
         status = d.pop("status", UNSET)
 

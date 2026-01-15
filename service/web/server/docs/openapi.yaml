@@ -76,20 +76,12 @@ components:
           description: Final time of the results query (seconds since Jan 1st, 00:00:00).
     TimeSeries:
       type: object
-      description: Time series response. Always includes a "time" array and any number of series arrays keyed by signal name.
-      properties:
-        time:
-          type: array
-          items:
-            type: number
-          description: Array of time points (seconds since Jan 1st, 00:00:00).
+      description: Time series response. Always includes a "time" array (seconds since Jan 1st, 00:00:00) and any number of series arrays keyed by signal name.
       additionalProperties:
         type: array
         items:
           type: number
-        description: Array of numeric values for a signal (aligned with the "time" array).
-      required:
-        - time
+        description: Array of numeric values for a signal.
     SimResponse:
       type: object
       properties:
@@ -112,7 +104,7 @@ components:
           description: HTTP status code.
     KPIResponse:
       type: object
-      description: KPI response.
+      description: Standard KPIs.
       properties:
         ener_tot:
           type: number
@@ -634,7 +626,8 @@ paths:
                     type: string
                     example: "KPIs retrieved successfully."
                   payload:
-                    $ref: '#/components/schemas/KPIResponse'
+                    type: object
+                    description: Values for each keyed KPI. See KPIResponse schema for keyed KPIs and definitions.
                   status:
                     type: integer
                     example: 200

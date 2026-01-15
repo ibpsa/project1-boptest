@@ -11,38 +11,24 @@ T = TypeVar("T", bound="TimeSeries")
 
 @_attrs_define
 class TimeSeries:
-    """Time series response. Always includes a "time" array and any number of series arrays keyed by signal name.
+    """Time series response. Always includes a "time" array (seconds since Jan 1st, 00:00:00) and any number of series
+    arrays keyed by signal name.
 
-    Attributes:
-        time (list[float]): Array of time points (seconds since Jan 1st, 00:00:00).
     """
 
-    time: list[float]
     additional_properties: dict[str, list[float]] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        time = self.time
-
         field_dict: dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
             field_dict[prop_name] = prop
-
-        field_dict.update(
-            {
-                "time": time,
-            }
-        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        time = cast(list[float], d.pop("time"))
-
-        time_series = cls(
-            time=time,
-        )
+        time_series = cls()
 
         additional_properties = {}
         for prop_name, prop_dict in d.items():

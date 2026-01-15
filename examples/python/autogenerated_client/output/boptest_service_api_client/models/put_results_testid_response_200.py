@@ -20,8 +20,8 @@ class PutResultsTestidResponse200:
     """
     Attributes:
         message (str | Unset):  Example: Results query processed successfully..
-        payload (TimeSeries | Unset): Time series response. Always includes a "time" array and any number of series
-            arrays keyed by signal name.
+        payload (TimeSeries | Unset): Time series response. Always includes a "time" array (seconds since Jan 1st,
+            00:00:00) and any number of series arrays keyed by signal name.
         status (int | Unset):  Example: 200.
     """
 

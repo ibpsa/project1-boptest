@@ -13,7 +13,7 @@ T = TypeVar("T", bound="KPIResponse")
 
 @_attrs_define
 class KPIResponse:
-    """KPI response.
+    """Standard KPIs.
 
     Attributes:
         ener_tot (float | Unset): HVAC energy total in kWh/m2.

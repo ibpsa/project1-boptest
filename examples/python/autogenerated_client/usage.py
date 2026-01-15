@@ -92,19 +92,23 @@ def main():
             body=ResultsQuery(point_names=measurement_names, start_time=0, final_time=final_time)
         )
 
-        # Accessing properties defined in schema
+        # Accessing specific measurement properties
         print("\nFirst 5 measurement times:")
-        print(sim_res.payload.time[:5])
-        # Accessing properties not defined in schema
+        print(sim_res.payload["time"][:5])
         print("\nFirst 5 measurement CO2 values:")
         print(sim_res.payload["reaCO2RooAir_y"][:5])
-
+        # Accessing measurement properties as group
         df_res = pd.DataFrame.from_dict(sim_res.payload.to_dict(), orient="columns")
         print("\nMeasurements:")
         print(df_res.head())
 
         kpi = get_kpi_testid.sync(my_test.testid, client=client)
-        print("\nKPI:")
+
+        # Accessing specific kpi properties
+        print("\nTotal Energy KPI:")
+        print(kpi.payload["ener_tot"])
+        # Accessing kpi properties as group
+        print("\nAll KPIs:")
         for metric, value in kpi.payload.to_dict().items():
             print(f"{metric}: {value}")
     finally:

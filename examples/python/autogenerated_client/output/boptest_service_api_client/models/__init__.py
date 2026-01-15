@@ -6,6 +6,7 @@ from .forecast_query import ForecastQuery
 from .get_forecast_points_testid_response_200 import GetForecastPointsTestidResponse200
 from .get_inputs_testid_response_200 import GetInputsTestidResponse200
 from .get_kpi_testid_response_200 import GetKpiTestidResponse200
+from .get_kpi_testid_response_200_payload import GetKpiTestidResponse200Payload
 from .get_measurements_testid_response_200 import GetMeasurementsTestidResponse200
 from .get_name_testid_response_200 import GetNameTestidResponse200
 from .get_name_testid_response_200_payload import GetNameTestidResponse200Payload
@@ -43,6 +44,7 @@ __all__ = (
     "GetForecastPointsTestidResponse200",
     "GetInputsTestidResponse200",
     "GetKpiTestidResponse200",
+    "GetKpiTestidResponse200Payload",
     "GetMeasurementsTestidResponse200",
     "GetNameTestidResponse200",
     "GetNameTestidResponse200Payload",
