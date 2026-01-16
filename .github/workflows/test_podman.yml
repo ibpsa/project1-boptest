@@ -36,8 +36,8 @@ jobs:
   
       - name: Deploy BOPTEST
         run: |
-          podman compose build
-          podman compose up -d web worker provision
+          podman-compose build
+          podman-compose up -d web worker provision
 
       - name: Run test
         run: |
@@ -47,4 +47,4 @@ jobs:
 
       - name: Shutdown BOPTEST
         run: |
-           podman compose down
+           podman-compose down
