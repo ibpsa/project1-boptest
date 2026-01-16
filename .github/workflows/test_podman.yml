@@ -35,12 +35,16 @@ jobs:
           PYTHONPATH=$PWD 
 
       - name: Install podman-compose
-        run: pip3 install podman-compose
+        run: |
+          pip3 install podman-compose
+          podman --version
+          podman-compose --version
         
       - name: Deploy BOPTEST
         run: |
           podman-compose build
           podman-compose up -d web worker provision
+          sleep 10
 
       - name: Run test
         run: |
