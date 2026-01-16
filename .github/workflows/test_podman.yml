@@ -3,13 +3,12 @@ name: Test deployment with Podman
 on:
   pull_request:
     branches:
-      - issue748_podman
+      - '*'
   push:
     branches:
-      - issue748_podman
+      - '*'
     tags:
       - '*'
-  workflow_dispatch:
 
 jobs:
   test_bestest_air:
