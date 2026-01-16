@@ -33,7 +33,10 @@ jobs:
           echo "PYTHONPATH=$PYTHONPATH" >> $GITHUB_ENV
           # Storing PYTHONPATH above doesn't work for python so setting it below at run 
           PYTHONPATH=$PWD 
-  
+
+      - name: Install podman-compose
+        run: pip3 install podman-compose
+        
       - name: Deploy BOPTEST
         run: |
           podman-compose build
