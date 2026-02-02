@@ -42,7 +42,7 @@ jobs:
           # so there is no need for an external wait-for-it script
           cd service
           docker compose run --no-deps provision
-          curl http://localhost/testcases
+          curl http://localhost:8000/testcases
 
       - name: Run example
         run: |

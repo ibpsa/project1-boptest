@@ -21,7 +21,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         '''
 
         self.name = 'twozone_apartment_hydronic'
-        self.url = 'http://127.0.0.1:80'
+        self.url = 'http://127.0.0.1:8000'
         self.points_check = ['dayZon_reaTRooAir_y','nigZon_reaTRooAir_y',
 			     'hydronicSystem_reaPeleHeaPum_y','dayZon_reaPowFlooHea_y',
 			     'nigZon_reaPowFlooHea_y','nigZon_reaTsupFloHea_y',
@@ -53,7 +53,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         '''
 
         self.name = 'twozone_apartment_hydronic'
-        self.url = 'http://127.0.0.1:80'
+        self.url = 'http://127.0.0.1:8000'
         self.step_ref = 900.0
         self.test_time_period = 'peak_heat_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test

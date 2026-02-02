@@ -1,0 +1,56 @@
+name: Test deployment with Podman
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+
+jobs:
+  test_bestest_air:
+    name: Deploy with Podman and test with bestest_air test case
+    runs-on: ubuntu-latest
+    timeout-minutes: 1200
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install python packages
+        run: |
+          python --version
+          pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
+          PYTHONPATH=$GITHUB_WORKSPACE
+          echo "PYTHONPATH=$PYTHONPATH" >> $GITHUB_ENV
+          # Storing PYTHONPATH above doesn't work for python so setting it below at run 
+          PYTHONPATH=$PWD 
+
+      - name: Install podman-compose
+        run: |
+          pip3 install podman-compose
+          podman --version
+          podman-compose --version
+        
+      - name: Deploy BOPTEST
+        run: |
+          podman-compose build
+          podman-compose up -d web worker provision
+          sleep 10
+
+      - name: Run test
+        run: |
+           cd testing
+           python test_bestest_air.py
+           python report.py
+
+      - name: Shutdown BOPTEST
+        run: |
+           podman-compose down

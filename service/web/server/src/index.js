@@ -8,6 +8,7 @@ import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
 
 const app = express()
+const SERVER_PORT = process.env.BOPTEST_SERVER.split(':')[2]
 
 // app.use(express.json())
 // It would be best to use express.json, however for now we need to support
@@ -50,8 +51,7 @@ server.on('upgrade', function upgrade(request, socket, head) {
     socket.destroy()
   }
 })
-
-server.listen(80, () => {
+server.listen(SERVER_PORT, () => {
   var host = server.address().address
   var port = server.address().port
 
