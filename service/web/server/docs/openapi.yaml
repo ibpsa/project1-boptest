@@ -146,7 +146,7 @@ paths:
     get:
       summary: List available test cases
       tags:
-        - Test Case Management and Inspection
+        - Test Management
       description: Returns a list of available IBPSA BOPTEST test cases (official).
       responses:
         '200':
@@ -175,7 +175,7 @@ paths:
     post:
       summary: Select a test case and start a new test
       tags:
-        - Test Case Management and Inspection
+        - Test Management
       description: Selects an IBPSA BOPTEST test case and begins a new test. Returns a testid (UUID) required by other APIs.
       requestBody:
         required: true
@@ -203,7 +203,7 @@ paths:
     put:
       summary: Initialize the simulation
       tags:
-        - Test Setup and Initialization
+        - Test Setup
       description: Initialize simulation to a start time using a warmup period (also resets history and KPI calculations).
       requestBody:
         required: true
@@ -234,7 +234,7 @@ paths:
     get:
       summary: Get the test case name
       tags:
-        - Test Case Management and Inspection
+        - Test Management
       description: Returns the loaded test case name.
       responses:
         '200':
@@ -263,7 +263,7 @@ paths:
     get:
       summary: Get test status
       tags:
-        - Test Case Management and Inspection
+        - Test Management
       description: Returns the current status of the test (e.g. Running, Queued).
       responses:
         '200':
@@ -279,7 +279,7 @@ paths:
     put:
       summary: Stop a queued or running test
       tags:
-        - Test Case Management and Inspection
+        - Test Management
       description: Stops a queued or running test. Use when freeing workers or to terminate a running test.
       responses:
         '200':
@@ -293,7 +293,7 @@ paths:
     get:
       summary: Get BOPTEST version
       tags:
-        - Test Case Management and Inspection
+        - Test Management
       description: Returns the BOPTEST version for the running test.
       responses:
         '200':
@@ -324,7 +324,7 @@ paths:
     get:
       summary: Get metadata for inputs
       tags:
-        - Test Case Management and Inspection
+        - Test Management
       description: Returns available control signal input point names (u) and metadata.
       responses:
         '200':
@@ -348,7 +348,7 @@ paths:
     get:
       summary: Get metadata for measurements
       tags:
-        - Test Case Management and Inspection
+        - Test Management
       description: Returns available sensor signal output point names (y) and metadata.
       responses:
         '200':
@@ -372,7 +372,7 @@ paths:
     get:
       summary: Get metadata for forecast points
       tags:
-        - Test Case Management and Inspection
+        - Test Management
       description: Returns available forecast point names and metadata.
       responses:
         '200':
@@ -396,7 +396,7 @@ paths:
     get:
       summary: Get the current scenario setup
       tags:
-        - Test Setup and Initialization
+        - Test Setup
       description: Returns a description of the current scenario.
       responses:
         '200':
@@ -426,7 +426,7 @@ paths:
     put:
       summary: Set a test scenario
       tags:
-        - Test Setup and Initialization
+        - Test Setup
       description: |
         Set the scenario for the running test. Optional properties may trigger an initialization (see README).
         Typically, the supported scenario settings include:
@@ -483,7 +483,7 @@ paths:
     get:
       summary: Get the control time step
       tags:
-        - Test Setup and Initialization
+        - Test Setup
       description: Returns the time step used for control.
       responses:
         '200':
@@ -505,7 +505,7 @@ paths:
     put:
       summary: Set the control time step
       tags:
-        - Test Setup and Initialization
+        - Test Setup
       description: Sets the time step used for control.
       requestBody:
         required: true
@@ -548,7 +548,7 @@ paths:
     put:
       summary: Query forecasts.
       tags:
-        - Test Simulation and Data
+        - Test Execution
       description: Returns boundary condition forecasts from current time.
       requestBody:
         required: true
@@ -578,7 +578,7 @@ paths:
     put:
       summary: Query results.
       tags:
-        - Test Simulation and Data
+        - Test Execution
       description: |
         Returns simulation data for the given point names over a time period.
         Data for control input points will be the values used for simulation,
@@ -612,7 +612,7 @@ paths:
     get:
       summary: Get KPIs for a running test
       tags:
-        - Test Simulation and Data
+        - Test Execution
       description: Receive KPI values for the running test. Calculated from start time and do not include warmup periods.
       responses:
         '200':
@@ -651,7 +651,7 @@ paths:
     post:
       summary: Advance the simulation one control step with optional control input overrides.
       tags:
-        - Test Simulation and Data
+        - Test Execution
       description: |
         Advance simulation one control step with optional control input(s) and receive measurements.
         If specified, control input value(s) will be constant over the control step.

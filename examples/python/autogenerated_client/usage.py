@@ -1,18 +1,25 @@
 import asyncio
 import pandas as pd
-from output.boptest_service_api_client.api.test_case_management_and_inspection import (
+from output.boptest_service_api_client.api.test_management import (
+    get_testcases,
+    post_testcases_testcase_name_select,
     get_forecast_points_testid,
     get_inputs_testid,
     get_measurements_testid,
-    get_testcases,
-    post_testcases_testcase_name_select,
     put_stop_testid
 )
-from output.boptest_service_api_client.api.test_simulation_and_data import (
+from output.boptest_service_api_client.api.test_setup import (
+    get_scenario_testid,
+    get_step_testid,
+    put_initialize_testid,
+    put_scenario_testid,
+    put_step_testid
+)
+from output.boptest_service_api_client.api.test_execution import (
     get_kpi_testid,
     post_advance_testid,
     put_forecast_testid,
-    put_results_testid,
+    put_results_testid
 )
 from output.boptest_service_api_client.client import Client
 from output.boptest_service_api_client.models.forecast_query import ForecastQuery
@@ -22,7 +29,7 @@ from output.boptest_service_api_client.models.results_query import ResultsQuery
 
 
 def main():
-    client = Client("http://localhost")
+    client = Client("http://127.0.0.1:8000")
     testcases_resp = get_testcases.sync(client=client)
 
     print("Available testcases:")
@@ -40,7 +47,7 @@ def main():
         print("Could not start new test")
         return
 
-    print(f"Successfully created testcase '{testcase}' with id '{my_test.testid}'")
+    print(f"Successfully deployed testcase '{testcase}' with id '{my_test.testid}'")
     try:
         inputs = get_inputs_testid.sync(my_test.testid, client=client)
         df_input = pd.DataFrame.from_dict(inputs.payload.to_dict(), orient="index")
@@ -117,7 +124,7 @@ def main():
 
 
 async def async_main():
-    client = Client("http://localhost")
+    client = Client("http://127.0.0.1:8000")
 
     print("\nUsing asynchronous I/O to get testcases:")
     testcases_res = await get_testcases.asyncio(client=client)
