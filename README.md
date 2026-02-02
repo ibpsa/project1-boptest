@@ -25,19 +25,21 @@ BOPTEST can be deployed and used on your own computing resource by following the
 
 1) Download or Clone this repository.
 
-2) Install [Docker](https://docs.docker.com/get-docker/).
+2) Install [Docker](https://docs.docker.com/get-docker/) or [Podman](https://podman.io/) (including [podman-compose](https://github.com/containers/podman-compose#installation)).
 
-3) Use Docker to build and run BOPTEST.  In the root of this repository, run the following command:
+3) Use Docker or Podman to build and run BOPTEST.  In the root of this repository, run the following command:
 
-``docker compose up web worker provision``
+    If using Docker: ``docker compose up web worker provision``
+
+    If using Podman: ``podman-compose up web worker provision``
 
 - If you want to be able to deploy multiple test cases at the same time, append the argument ``--scale worker=n`` to the command above where ``n`` equals the number of test cases you want to be able to have running at the same time.
 - If no request is made to a running test case for some time, the test case will be automatically stopped and the associated worker will be freed up.  By default this timeout is 15 minutes.  If you would like to change this timeout period, you can edit the environment variable ``BOPTEST_TIMEOUT`` in the ``.env`` file before starting BOPTEST with the command above.
 - If you want to re-build the docker containers before deployment, for example to include updates to source code, append the argument ``--build`` to the command above.
 
-4) In a separate process, use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``http://127.0.0.1:80/<request>``
+4) In a separate process, use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``http://127.0.0.1:8000/<request>``
 
-5) Shutdown BOPTEST by the command ``docker compose down`` executed in the root directory of this repository.  NOTE: This is the best and most complete way to shutdown BOPTEST to prevent issues upon redeployment.
+5) Shutdown BOPTEST by the command ``docker compose down`` (or ``podman-compose down``) executed in the root directory of this repository.  NOTE: This is the best and most complete way to shutdown BOPTEST to prevent issues upon redeployment.
 
 ## Quick-Start to Use BOPTEST through the Public Online Web-Service
 

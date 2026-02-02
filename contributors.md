@@ -28,6 +28,7 @@ Thank you to all who have provided guidance on the development of this software.
 - Jaap Neven, KU Leuven, VITO
 - Erik Paulson, Independent
 - Matt Robinson, University of Colorado - Boulder
+- Andrew Rodgers, ACE IoT Solutions
 - Jermy Thomas, National Renewable Energy Laboratory
 - Christian Veje, University of Southern Denmark
 - Draguna Vrabie, Pacific Northwest National Laboratory

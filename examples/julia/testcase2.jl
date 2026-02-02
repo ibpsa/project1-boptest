@@ -15,7 +15,7 @@ using .sup
 # SETUP TEST CASE
 # ---------------
 # Set URL for testcase
-url = "http://127.0.0.1:80"
+url = "http://127.0.0.1:8000"
 length = 48 * 3600
 step = 3600
 # ---------------

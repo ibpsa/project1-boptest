@@ -352,7 +352,7 @@ class partialChecks(object):
 
         return s_test
 
-    def results_to_df(self, points, start_time, final_time, testid, url='http://127.0.0.1:80'):
+    def results_to_df(self, points, start_time, final_time, testid, url='http://127.0.0.1:8000'):
         '''Convert results from boptest into pandas DataFrame timeseries.
 
         Parameters

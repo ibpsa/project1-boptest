@@ -44,7 +44,7 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         self.ref_solar_uncertainty_params = uncertainty_params['solar']
 
         # Set URL for testcase
-        self.url = 'http://127.0.0.1:80'
+        self.url = 'http://127.0.0.1:8000'
         self.name = 'testcase2'
         self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
 

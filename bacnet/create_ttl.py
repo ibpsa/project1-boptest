@@ -15,7 +15,7 @@ To run this script:
 import requests
 
 # Set url for BOPTEST test case
-baseurl = 'http://127.0.0.1:80'
+baseurl = 'http://127.0.0.1:8000'
 
 # Instatiate test case
 test_case_name = 'multizone_office_simple_hydronic'

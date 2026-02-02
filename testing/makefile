@@ -128,6 +128,20 @@ test_%_no_compile:
 	     python report.py;\
 	fi\
 
+# Test podman deployment using a generic testcase test (bestest_air)
+test_podman:
+# Build and deploy testcase image
+	cd .. && podman compose build -q web worker provision
+	cd .. && podman compose up -d web worker provision
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bestest_air.py $(ARG)
+# Stop testcase container
+	cd .. && podman compose down
+	if [ $(SINGLE) = true ]; then\
+	     python report.py;\
+	fi\
+
 test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
@@ -309,16 +323,6 @@ test_testcase:
         	python report.py;\
 	fi
 
-test_readme_commands:
-# Test readme commands work right after instantiation of test case container
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
-	curl http://127.0.0.1:80/measurements
-	curl http://127.0.0.1:80/forecast
-	curl http://127.0.0.1:80/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
-	cd .. && docker compose down
-
 ###############################################################################
 
 # Run all tests
@@ -335,7 +339,6 @@ test_all:
 	make test_kpis SINGLE=false
 	make test_bacnet SINGLE=false
 	make test_testcase SINGLE=false
-	make test_readme_commands SINGLE=false
 	make test_testcase1 SINGLE=false
 	make test_testcase2 SINGLE=false
 	make test_testcase3 SINGLE=false
