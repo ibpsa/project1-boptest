@@ -48,7 +48,7 @@ BOPTEST is also available as a public web-service and can be used by following t
 1) Use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``https://api.boptest.net/<request>``
 
 ## RESTful HTTP API
-This API is documented using the [OpenAPI Specification](https://swagger.io/specification/) in ``service/web/server/docs/openapi.yaml``.  You can view the full API using Swagger docs by deploying BOPTEST as described above and going to ``http://127.0.0.1:8000/docs`` in a browser.
+This API is documented using the [OpenAPI Specification](https://swagger.io/specification/) in ``service/web/server/docs/openapi.yaml``.  You can view the full API using Swagger docs by deploying BOPTEST as described above and going to ``http://127.0.0.1:8000/docs`` in a browser.  A summary of the API is provided in the table below.
 
 API requests that interact with a running test case (those that require a ``testid``) will return a JSON in the form ``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}``. Status codes in ``"status"`` are integers: ``200`` for successful with or without warning, ``400`` for bad input error, or ``500`` for internal error.  Data returned in ``"payload"`` is the data of interest relvant to the specific API request, while the string in ``"message"`` will report any warnings or error messages to help debug encountered problems.
 
