@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: BOPTEST Service API
   description: A REST API for emulating buildings for testing control systems.
-  version: 0.10.0-dev
+  version: 1.0.0-dev
 servers:
   - url: http://localhost
     description: Local server
