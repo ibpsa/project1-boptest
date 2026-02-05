@@ -1,6 +1,6 @@
 # Release Notes
 
-## BOPTEST v0.9.0-dev
+## BOPTEST v1.0.0-dev
 
 Released on xx/xx/xxxx.
 
