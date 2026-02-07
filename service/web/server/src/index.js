@@ -6,6 +6,7 @@ import { createServer } from 'http'
 import { createBoptestWS } from './ws/boptestWS'
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
+import path from 'path'
 
 const app = express()
 const SERVER_PORT = process.env.BOPTEST_SERVER.split(':')[2]
@@ -34,6 +35,11 @@ app.use('/', boptestRoutes)
 app.use(errorHandler)
 
 // Serving the docs using swagger
+// Serve the OpenAPI YAML as a static endpoint
+app.get('/openapi.yaml', (req, res) => {
+  res.sendFile(path.resolve('./docs/openapi.yaml'))
+})
+
 const swaggerDocument = YAML.load('./docs/openapi.yaml');
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
