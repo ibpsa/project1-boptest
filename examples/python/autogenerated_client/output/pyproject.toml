@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "boptest-service-api-client"
-version = "0.10.0-dev"
+version = "1.0.0-dev"
 description = "A client library for accessing BOPTEST Service API"
 authors = []
 readme = "README.md"
