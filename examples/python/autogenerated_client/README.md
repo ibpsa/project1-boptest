@@ -8,11 +8,14 @@ https://github.com/openapi-generators/openapi-python-client?tab=readme-ov-file
   ```console
   $ source .venv/bin/activate
   ```
-2. The client generator will create a new python package with a boptest client. Make sure to adjust the paths.
+2. The client generator will create a new python package with a boptest client. Make sure to adjust the URL and/or paths.
+  If you have a local instance of BOPTEST running:
   ```console
-  (my-venv)$ openapi-python-client generate --path ../project1-boptest/service/web/server/docs/openapi.yaml --output-path ../boptest-controller-project
+  (my-venv)$ openapi-python-client generate --url http://localhost:8000/openapi.yaml --output-path ../boptest-controller-project
   ```
-  **Note**: The `--path` option here will be replaced by the location of the deployed specs.
+  **Notes**:
+  * You can also use `--path` instead of `--url` if you have a local copy of the `openapi.yaml` file.
+  * Once deployed, the URL value can be replaced with `http://api.boptest.net/openapi.yaml`.
 
 ### Use the client
 1. Change directory and activate the new `venv`
