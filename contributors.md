@@ -18,6 +18,7 @@ Thank you to all who have provided guidance on the development of this software.
 - Weiping Huang, Lawrence Berkeley National Laboratory
 - Filip Jorissen, KU Leuven
 - Donghun Kim, Lawrence Berkeley National Laboratory
+- Guowen Li, Texas A&M University
 - Yanfei Li, National Renewable Energy Laboratory
 - Nicholas Long, National Renewable Energy Laboratory
 - Xing Lu, Pacific Northwest National Laboratory
@@ -27,6 +28,7 @@ Thank you to all who have provided guidance on the development of this software.
 - Jaap Neven, KU Leuven, VITO
 - Erik Paulson, Independent
 - Matt Robinson, University of Colorado - Boulder
+- Andrew Rodgers, ACE IoT Solutions
 - Jermy Thomas, National Renewable Energy Laboratory
 - Christian Veje, University of Southern Denmark
 - Draguna Vrabie, Pacific Northwest National Laboratory

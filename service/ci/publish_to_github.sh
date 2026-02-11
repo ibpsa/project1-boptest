@@ -1,3 +1,6 @@
+# Auto-detect container runtime (podman or docker)
+CONTAINER_RUNTIME="${CONTAINER_RUNTIME:-$(command -v podman || command -v docker)}"
+
 # load .env defines in root of repo
 export $(egrep -v '^#' .env | xargs)
 export WEB_REGISTRY_URI=boptest_service-web
@@ -20,13 +23,13 @@ fi
 
  if [[ "${VERSION_TAG}" == "develop" ]] || [[ "${VERSION_TAG}" =~ ^v[0-9].* ]] || [[ "${VERSION_TAG}" == "experimental" ]] ; then
 
-    docker tag ${WEB_REGISTRY_URI}:latest ${GITHUB_WEB_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
-    docker tag ${WORKER_REGISTRY_URI}:latest ${GITHUB_WORKER_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
+    ${CONTAINER_RUNTIME} tag ${WEB_REGISTRY_URI}:latest ${GITHUB_WEB_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
+    ${CONTAINER_RUNTIME} tag ${WORKER_REGISTRY_URI}:latest ${GITHUB_WORKER_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
 
     echo "pushing ${GITHUB_WEB_REGISTRY_URI}:${VERSION_TAG}"
-    docker push ${GITHUB_WEB_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
+    ${CONTAINER_RUNTIME} push ${GITHUB_WEB_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
     echo "pushing ${GITHUB_WORKER_REGISTRY_URI}:${VERSION_TAG}"
-    docker push ${GITHUB_WORKER_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
+    ${CONTAINER_RUNTIME} push ${GITHUB_WORKER_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
 
 fi
 

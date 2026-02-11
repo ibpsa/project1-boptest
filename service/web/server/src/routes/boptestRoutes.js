@@ -4,6 +4,8 @@ import { validateTestid } from './validators'
 import * as boptestLib from '../lib/boptestLib'
 import messaging from '../lib/messaging'
 import * as middleware from './middleware'
+import s3 from '../s3'
+import { unpack } from 'msgpackr'
 
 const boptestRoutes = express.Router()
 const ibpsaNamespace = 'ibpsa'
@@ -413,7 +415,28 @@ boptestRoutes.put('/results/:testid',
         req.body['point_names'] = [req.body.point_names]
       }
       const payload = await messaging.callWorkerMethod(req.params.testid, 'get_results', req.body)
-      res.status(payload.status).json(payload)
+
+      const pointer = payload && payload.payload
+      const isS3Pointer = pointer && pointer.storage === 's3' && pointer.key
+
+      if (!isS3Pointer) {
+        res.status(payload.status).json(payload)
+        return
+      }
+
+      const bucketName = pointer.bucket ? pointer.bucket : bucket
+
+      const s3Object = await s3.getObject({ Bucket: bucketName, Key: pointer.key }).promise()
+      const resultPayload = unpack(s3Object.Body)
+
+      try {
+        await s3.deleteObject({ Bucket: bucketName, Key: pointer.key }).promise()
+      } catch (deleteError) {
+        // Best-effort delete, log for visibility but do not fail request
+        console.warn(`Failed to delete results object ${bucketName}/${pointer.key}: ${deleteError}`)
+      }
+
+      res.status(resultPayload.status).json(resultPayload)
     } catch (e) {
       next(e);
     }

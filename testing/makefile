@@ -25,7 +25,7 @@ help:
 	@echo ""
 	@echo "Examples:"
 	@echo "  make build_compiler_image COMPILER_TOOL=OpenModelica VERSION=1.21.0"
-	@echo "=============================================================================================================="	
+	@echo "=============================================================================================================="
 	@echo "Usage: make compile_testcase_model COMPILER_TOOL=<tool> [OPTIONS]"
 	@echo ""
 	@echo "Tools:"
@@ -61,7 +61,7 @@ run_cimg:
 copy_to_cimg:
 	docker cp ../${ARGS} ${IMG_NAME}:/home/boptest/boptest/lib \
 	&& docker exec -i --user root ${IMG_NAME} /bin/bash -c "chown -R boptest:boptest /home/boptest/boptest/lib && exit"
-	
+
 
 copy_testcase_to_cimg:
 	make copy_to_cimg ARGS=testcases/${TESTCASE}
@@ -135,6 +135,20 @@ test_%_no_compile:
 	cd .. && python testing/test_$*.py $(ARG)
 # Stop testcase container
 	cd .. && docker compose down
+	if [ $(SINGLE) = true ]; then\
+	     python report.py;\
+	fi\
+
+# Test podman deployment using a generic testcase test (bestest_air)
+test_podman:
+# Build and deploy testcase image
+	cd .. && podman compose build -q web worker provision
+	cd .. && podman compose up -d web worker provision
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bestest_air.py $(ARG)
+# Stop testcase container
+	cd .. && podman compose down
 	if [ $(SINGLE) = true ]; then\
 	     python report.py;\
 	fi\
@@ -309,16 +323,6 @@ test_testcase:
         	python report.py;\
 	fi
 
-test_readme_commands:
-# Test readme commands work right after instantiation of test case container
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
-	curl http://127.0.0.1:80/measurements
-	curl http://127.0.0.1:80/forecast
-	curl http://127.0.0.1:80/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
-	cd .. && docker compose down
-
 ###############################################################################
 
 # Run all tests
@@ -335,7 +339,6 @@ test_all:
 	make test_kpis SINGLE=false
 	make test_bacnet SINGLE=false
 	make test_testcase SINGLE=false
-	make test_readme_commands SINGLE=false
 	make test_testcase1 SINGLE=false
 	make test_testcase2_no_compile SINGLE=false
 	make test_testcase3 SINGLE=false

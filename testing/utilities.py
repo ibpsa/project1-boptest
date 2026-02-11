@@ -352,7 +352,7 @@ class partialChecks(object):
 
         return s_test
 
-    def results_to_df(self, points, start_time, final_time, testid, url='http://127.0.0.1:80'):
+    def results_to_df(self, points, start_time, final_time, testid, url='http://127.0.0.1:8000'):
         '''Convert results from boptest into pandas DataFrame timeseries.
 
         Parameters
@@ -441,7 +441,7 @@ class partialTestAPI(partialChecks):
         result = requests.get('{0}/version'.format(self.url)).json()['payload']
         # Create a regex object as three decimal digits seperated by period
         r_num = re.compile('\d.\d.\d')
-        r_dev = re.compile('0.8.0-dev\n')
+        r_dev = re.compile('1.0.0-dev\n')
         # Test that the returned version matches the expected string format
         if r_num.match(result['version']) or r_dev.match(result['version']):
             self.assertTrue(True)

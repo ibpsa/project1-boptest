@@ -216,7 +216,7 @@ class BOPTESTUpdater(RecurringTask):
         for k,v in inputs.items():
             #print("k: %s %s %s" % (str(k), v._highest_priority_value(), type(v._highest_priority_value()[1])))
             signal = v._highest_priority_value()
-            if signal[1]:                
+            if signal[1]:
                 if k == 'advance' and self.oncommand:
                     advance_counter = signal[0]
                 else:
@@ -288,7 +288,7 @@ def main():
     parser.add_argument('testcase', type=str, help="Name of BOPTEST test case to deploy.")
     parser.add_argument('start_time', type=int, default=0, help="Timestamp (in seconds) at which to start the simulation.")
     parser.add_argument('warmup_period', type=int, default=0, help="Timestamp (in seconds) at which to start the simulation.")
-    parser.add_argument('--baseurl','-u', dest='baseurl', type=str, default='http://127.0.0.1:80', help="URL for BOPTest endpoint.")
+    parser.add_argument('--baseurl','-u', dest='baseurl', type=str, default='http://127.0.0.1:8000', help="URL for BOPTest endpoint.")
     parser.add_argument('--app_interval','-ai', type=str, default='5', help="Application refresh interval time in seconds, which triggers simulation advancement and data exchange. Using value 'oncommand' will give user control of refresh upon incrementing a positive integer value of an additional new BACnet point named 'advance'.")
     parser.add_argument('--simulation_step','-s', type=str, default='5', help="Simulation advance time step in seconds, with each application refresh.")
 

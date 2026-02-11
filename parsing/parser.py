@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Implements the parsing and code generation for signal exchange blocks. OpenModelica
-is the default tool and does not need to be installed. Dymola and OCT requires 
+is the default tool and does not need to be installed. Dymola and OCT requires
 to be installed on system.
 Choose as tool for compilation using variable "tool".
 
@@ -294,6 +294,18 @@ def parse_instances(model_path, file_name, tool='openmodelica', algorithm='Cvode
                     signal_type = '{0}[{1}]'.format(signal_type, string)
                 else:
                     signal_type = '{0}[{1}]'.format(signal_type, fmu.get(instance+'.zone')[0])
+
+            if signal_type == 'ActuatorTravel':
+                if tool == 'Dymola':
+                    actuatorType_val = int(get_parameter_dymola(scalar_variables, instance, 'actuatorType', 'Enumeration'))
+                else:
+                    actuatorType_val = int(fmu.get(instance + '.actuatorType')[0])
+                actuatorType_map = {
+                    1: 'None', 2: 'Damper', 3: 'Valve', 4: 'Fan',
+                    5: 'Pump', 6: 'HVACEquipment', 7: 'Others'
+                }
+                signal_type = 'ActuatorTravel[{0}]'.format(actuatorType_map.get(actuatorType_val, str(actuatorType_val)))
+
             if signal_type == 'None':
                 continue
             elif signal_type in signals:
