@@ -4,7 +4,7 @@ info:
   description: A REST API for emulating buildings for testing control systems.
   version: 1.0.0-dev
 servers:
-  - url: http://localhost:8000
+  - url: http://127.0.0.1:8000
     description: Default location for local server
   - url: http://api.boptest.net
     description: Public instance hosted on AWS
