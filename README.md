@@ -48,7 +48,10 @@ BOPTEST is also available as a public web-service and can be used by following t
 1) Use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``https://api.boptest.net/<request>``
 
 ## RESTful HTTP API
+This API is documented using the [OpenAPI Specification](https://swagger.io/specification/) in ``service/web/server/docs/openapi.yaml``.  You can view the full API using Swagger docs by deploying BOPTEST as described above and going to ``http://127.0.0.1:8000/docs`` in a browser.  You can also access the specification at ``http://127.0.0.1:8000/openapi.yaml``. A summary of the API is provided in the table below.
+
 API requests that interact with a running test case (those that require a ``testid``) will return a JSON in the form ``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}``. Status codes in ``"status"`` are integers: ``200`` for successful with or without warning, ``400`` for bad input error, or ``500`` for internal error.  Data returned in ``"payload"`` is the data of interest relvant to the specific API request, while the string in ``"message"`` will report any warnings or error messages to help debug encountered problems.
+
 
 | Interaction                                                           | Request                                                   |
 |-----------------------------------------------------------------------|-----------------------------------------------------------|
@@ -69,7 +72,7 @@ API requests that interact with a running test case (those that require a ``test
 | Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario/{testid}`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``, ``temperature_uncertainty=<string>``, ``solar_uncertainty=<string>``, ``seed=<int>``.  See the [Test Case](https://ibpsa.github.io/project1-boptest/testcases/index.html) page for options and documentation.|
 | Get test status as `Running` or `Queued`                                                                                    | GET ``status/{testid}``                                    |
 | Stop a queued or running test.  Needed to deploy a new test case when no more idle workers are avaiable.                                                                                              | PUT ``stop/{testid}``                                      |
-| Receive BOPTEST version.                                               |  GET ``version/{testid}``                                             |
+| Receive BOPTEST version.                                               |  GET ``version``                                             |
 
 API requests for more advanced test case management in the web-service architecture can be found in ``/service/README.md``.
 
