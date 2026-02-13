@@ -54,7 +54,7 @@ expert meetings using their own funding.
 | Roel De Coninck | dnergy, Belgium |
 | Konstantin Filonenko | Technical University of Denmark, Denmark |
 | Lieve Helsen | KU Leuven - EnergyVille, Belgium |
-| Bart Merema | dnergy, Belgium |
+| Bertrand Kerres | Terion, Denmark |
 | Harald Taxt Walnum | SINTEF AS, Norway |
 | Dan Wang | The Hong Kong University of Science and Technology, China |
 | Zhe Wang | The Hong Kong University of Science and Technology, China |
