@@ -23,6 +23,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         self.name = 'twozone_apartment_hydronic'
         self.url = 'http://127.0.0.1:8000'
         self.points_check = ['dayZon_reaTRooAir_y','nigZon_reaTRooAir_y',
+                             'dayZon_reaTRooOpe_y', 'nigZon_reaTRooOpe_y',
 			     'hydronicSystem_reaPeleHeaPum_y','dayZon_reaPowFlooHea_y',
 			     'nigZon_reaPowFlooHea_y','nigZon_reaTsupFloHea_y',
 			     'dayZon_reaTsupFloHea_y','dayZon_reaPowQint_y',

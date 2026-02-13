@@ -717,7 +717,7 @@ class partialTestAPI(partialChecks):
             for key in points:
                 if 'weaSta' not in key:
                     points_check.append(key)
-        df = self.results_to_df(points_check, -np.inf, np.inf, self.testid, self.url)
+        df = self.results_to_df(points_check, -63072000, 63072000, self.testid, self.url)
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_set_scenario.csv')
         # Check results
@@ -1077,7 +1077,7 @@ class partialTestTimePeriod(partialChecks):
             # Advance simulation
             y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json={}).json()['payload']
         # Check results
-        df = self.results_to_df(self.points_check, -np.inf, np.inf, self.testid, self.url)
+        df = self.results_to_df(self.points_check, -63072000, 63072000, self.testid, self.url)
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(time_period))
         self.compare_ref_timeseries_df(df,ref_filepath)
         # For each price scenario

@@ -4,16 +4,22 @@ model TestCase "Single zone residential hydronic example model"
   String test = Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/weatherdata/Uccle.TMY") "This is to ensure that the weather file is loaded when encapsulating this model into an FMU";
   package MediumWater = IDEAS.Media.Water "Water medium";
   package MediumAir = IDEAS.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
-  parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooUno=273.15 + 30
+    "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooOcc=273.15 + 24
+    "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaUno=273.15 + 15
+    "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaOcc=273.15 + 21
+    "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
 
   inner IDEAS.BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
 
-  Modelica.SIunits.Efficiency eta = {-6.017763e-11,2.130271e-8,-3.058709e-6,2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6-i) for i in 0:6} "Boiler efficiency";
+  Modelica.Units.SI.Efficiency eta={-6.017763e-11,2.130271e-8,-3.058709e-6,
+      2.266453e-4,-9.048470e-3,1.805752e-1,-4.540036e-1}*{TCorr^(6 - i) for i in
+          0:6} "Boiler efficiency";
   Real TCorr=min(max(pump.heatPort.T - 273.15, 25), 75)
     "Temperature within validity range of correlation";
 
@@ -45,11 +51,9 @@ model TestCase "Single zone residential hydronic example model"
     dp_nominal=0,
     QMax_flow=5000) "Ideal heater - pressure drop merged into radiator"
     annotation (Placement(transformation(extent={{20,20},{0,40}})));
-  IDEAS.Fluid.Movers.FlowControlled_dp pump(
+  BESTESTHydronic.BaseClasses.FlowControlled_dp pump(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     addPowerToMedium=false,
-    use_inputFilter=false,
     redeclare package Medium = MediumWater,
     m_flow_nominal=rad.m_flow_nominal,
     inputType=IDEAS.Fluid.Types.InputType.Stages,
@@ -92,13 +96,12 @@ model TestCase "Single zone residential hydronic example model"
   IDEAS.Utilities.IO.SignalExchange.Read reaQHea(
     description="Heating thermal power",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-
     y(unit="W")) "Block for outputting the thermal power"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
+
   IDEAS.Utilities.IO.SignalExchange.Read reaPPum(
     description="Pump electrical power",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Block for reading the pump electrical power"
     annotation (Placement(transformation(extent={{60,-40},{80,-20}})));
 
@@ -110,8 +113,7 @@ model TestCase "Single zone residential hydronic example model"
   IDEAS.Utilities.IO.SignalExchange.Overwrite ovePum(u(
       min=0,
       max=1,
-      unit="1"), description=
-        "Integer signal to control the stage of the pump either on or off")
+      unit="1"), description="Integer signal to control the stage of the pump either on or off")
     "Block for overwriting pump control signal" annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
@@ -121,7 +123,6 @@ model TestCase "Single zone residential hydronic example model"
   IDEAS.Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="CO2 concentration in the zone",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-
     y(unit="ppm")) "Block for reading CO2 concentration in the zone"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
 
@@ -158,7 +159,7 @@ model TestCase "Single zone residential hydronic example model"
     Ti=300,
     yMax=273.15 + 80,
     yMin=273.15 + 20,
-    initType=Modelica.Blocks.Types.InitPID.InitialState)
+    initType=Modelica.Blocks.Types.Init.InitialState)
     "PI controller for the boiler supply water temperature"
     annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
   Modelica.Blocks.Math.Add add
@@ -178,7 +179,7 @@ equation
   connect(bou.ports[1], pump.port_a)
     annotation (Line(points={{-20,-30},{0,-30},{0,-10}}, color={0,127,255}));
   connect(case900Template.yOcc, yOcc.y)
-    annotation (Line(points={{-58,14},{-58,48},{-71,48}},color={0,0,127}));
+    annotation (Line(points={{-81,18},{-81,48},{-71,48}},color={0,0,127}));
   connect(case900Template.TSensor,reaTRoo. u) annotation (Line(points={{-59,12},
           {46,12},{46,30},{58,30}},
                                   color={0,0,127}));
@@ -230,7 +231,8 @@ equation
   connect(oveTSetHea.y, conPI.u_s) annotation (Line(points={{-99,-80},{-94,-80},
           {-94,80},{-82,80}}, color={0,0,127}));
   annotation (
-    experiment(StopTime=604800, __Dymola_Algorithm="Dassl"),
+    experiment(
+      StopTime=31500000),
     Documentation(info="<html>
 <p>
 This is a single zone residential hydronic system model
@@ -599,6 +601,18 @@ See the BOPTEST design documentation for more information.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and IDEAS 3.0.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/442>
+BOPTEST issue #442</a>.
+</li>
+<li>
+October 30, 2024, by Lucas Verleyen:<br/>
+Updates according to <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/tree/8ed71caee72b911a1d9b5a76e6cb7ed809875e1e\\\">IBPSA</a>.<br/>
+See <a href=\\\"https://github.com/open-ideas/IDEAS/pull/1383\\\">#1383</a> 
+(and <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1926\\\">IBPSA, #1926</a>).
+</li>
 <li>
 October 18, 2024, by Ettore Zanetti:<br/>
 Update <code>min</code> and <code>max</code> for ovewrite blocks <code>oveTSetHea_u</code> and <code>oveTSetCoo_u</code>.

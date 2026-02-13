@@ -11,9 +11,8 @@ The following libraries must be on the MODELICAPATH:
 """
 
 from parsing import parser
-from pymodelica import environ
+import sys
 
-environ['JVM_ARGS'] = '-Xmx4096m'
 
 def compile_fmu():
     '''Compile the fmu.
@@ -33,7 +32,7 @@ def compile_fmu():
 
     # COMPILE FMU
     # -----------
-    fmupath = parser.export_fmu(modelpath, [mopath])
+    fmupath = parser.export_fmu(modelpath, [mopath], tool =  sys.argv[1], algorithm='Cvode', tolerance=1e-6)
     # -----------
 
     return fmupath

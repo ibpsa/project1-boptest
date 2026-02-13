@@ -1,12 +1,13 @@
 within BESTESTAir.TestCases;
 model TestCase_Ideal "Testcase model with ideal airflow"
   extends Modelica.Icons.Example;
-  BaseClasses.Case900FF zon(mAir_flow_nominal=fcu.mAir_flow_nominal)
+  parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal = 0.55 "Nominal air mass flow rate" annotation(Evaluate = true);
+  BaseClasses.Case900FF zon(mAir_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{34,-10},{54,10}})));
 
   BaseClasses.Thermostat_T con "Thermostat controller"
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
-  BaseClasses.FanCoilUnit_T fcu "Fan coil unit"
+  BaseClasses.FanCoilUnit_T fcu(mAir_flow_nominal = mAir_flow_nominal)  "Fan coil unit"
     annotation (Placement(transformation(extent={{-20,-8},{0,20}})));
 equation
   connect(fcu.supplyAir, zon.supplyAir) annotation (Line(points={{0,13.7778},{
@@ -21,11 +22,7 @@ equation
           2.88889},{-21.4286,2.88889}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
-    experiment(
-      StopTime=31536000,
-      Interval=300,
-      Tolerance=1e-06,
-      __Dymola_Algorithm="Cvode"),
+  experiment(StopTime = 3.1536e+07, Interval = 300, Tolerance = 1e-06, StartTime = 0),
 Documentation(info="<html>
 General model description.
 <h3>Building Design and Use</h3>
@@ -781,6 +778,12 @@ See the BOPTEST design documentation for more information.
 revisions="<html>
 <ul>
 <li>
+May 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/442>
+BOPTEST issue #442</a>.
+</li>
+<li>
 October 18, 2024, by Ettore Zanetti:<br/>
 Update <code>min</code> and <code>max</code> for ovewrite blocks <code>oveTSetHea_u</code> and <code>oveTSetCoo_u</code>.
 This is for <a href=https://github.com/ibpsa/project1-boptest/issues/658>
@@ -815,5 +818,7 @@ December 15, 2019, by David Blum:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+  __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian --maxSizeLinearization=10000",
+  __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "cvode", variableFilter = ".*"));
 end TestCase_Ideal;

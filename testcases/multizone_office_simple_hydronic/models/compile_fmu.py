@@ -11,7 +11,7 @@ The following libraries with correct versions/commits must be on the MODELICAPAT
 """
 
 from parsing import parser
-
+import sys
 
 def compile_fmu():
     '''Compile the fmu.
@@ -31,7 +31,7 @@ def compile_fmu():
 
     # COMPILE FMU
     # -----------
-    fmupath = parser.export_fmu(modelpath, [mopath], tool='OCT')
+    fmupath = parser.export_fmu(modelpath, [mopath], tool=  sys.argv[1])
     # -----------
 
     return fmupath

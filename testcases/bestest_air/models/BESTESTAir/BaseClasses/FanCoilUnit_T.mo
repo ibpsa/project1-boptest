@@ -2,10 +2,10 @@ within BESTESTAir.BaseClasses;
 model FanCoilUnit_T
   "Four-pipe fan coil unit model with direct temperature input"
   replaceable package Medium1 = Buildings.Media.Air(extraPropertiesNames={"CO2"});
-  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal=0.55 "Nominal air flowrate" annotation (Dialog(group="Air"));
-  parameter Modelica.SIunits.DimensionlessRatio COP = 3 "Assumed COP of chiller supplying chilled water to FCU in [W_thermal/W_electric]" annotation (Dialog(group="Plant"));
-  parameter Modelica.SIunits.DimensionlessRatio eff = 0.9 "Assumed efficiency of gas boiler supplying hot water to FCU in [W_gas/W_thermal]" annotation (Dialog(group="Plant"));
-  final parameter Modelica.SIunits.Pressure dpAir_nominal=185 "Nominal supply air pressure";
+  parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal=0.55 "Nominal air flowrate" annotation (Dialog(group="Air"));
+  parameter Modelica.Units.SI.DimensionlessRatio COP = 3 "Assumed COP of chiller supplying chilled water to FCU in [W_thermal/W_electric]" annotation (Dialog(group="Plant"));
+  parameter Modelica.Units.SI.DimensionlessRatio eff = 0.9 "Assumed efficiency of gas boiler supplying hot water to FCU in [W_gas/W_thermal]" annotation (Dialog(group="Plant"));
+  final parameter Modelica.Units.SI.Pressure dpAir_nominal=185 "Nominal supply air pressure";
   Modelica.Fluid.Interfaces.FluidPort_a returnAir(redeclare final package
       Medium = Medium1) "Return air" annotation (Placement(transformation(
           extent={{130,-170},{150,-150}}),

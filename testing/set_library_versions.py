@@ -18,11 +18,11 @@ with open(os.path.join(sys.argv[1],'models','library_versions.json'),'r') as f:
 # Checkout specified commit for each library
 for key in library_versions.keys():
     if key == "IBPSA_COMMIT":
-        os.system('cd $MODELICAPATH/IBPSA && git checkout "{}"'.format(library_versions[key]))
+        os.system('cd $(echo $MODELICAPATH | cut -d: -f1)/IBPSA && git checkout "{}"'.format(library_versions[key]))
     elif key == "BUILDINGS_COMMIT":
-        os.system('cd $MODELICAPATH/Buildings && git checkout "{}"'.format(library_versions[key]))
+        os.system('cd $(echo $MODELICAPATH | cut -d: -f1)/Buildings && git checkout "{}"'.format(library_versions[key]))
     elif key == "IDEAS_COMMIT":
-        os.system('cd $MODELICAPATH/IDEAS && git checkout "{}"'.format(library_versions[key]))
+        os.system('cd $(echo $MODELICAPATH | cut -d: -f1)/IDEAS && git checkout "{}"'.format(library_versions[key]))
     else:
         raise ReferenceError('Unknown key {} in library_versions.json file'\
                              'Allowed keys are: IBPSA_COMMIT, BUILDINGS_COMMIT, and IDEAS_COMMIT'.format(key))

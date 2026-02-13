@@ -7,7 +7,7 @@ package SingleZoneVAV
     package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package";
     package MediumW = Buildings.Media.Water "Buildings library air media package";
 
-    parameter Modelica.SIunits.Temperature TSupChi_nominal=279.15
+    parameter Modelica.Units.SI.Temperature TSupChi_nominal=279.15
       "Design value for chiller leaving water temperature";
 
     Buildings.Air.Systems.SingleZone.VAV.BaseClasses.ControllerChillerDXHeatingEconomizer
@@ -29,15 +29,13 @@ package SingleZoneVAV
       QCoo_flow_nominal=-7000,
       TSupChi_nominal=TSupChi_nominal)   "Single zone VAV system"
       annotation (Placement(transformation(extent={{-40,-20},{0,20}})));
-    BaseClasses.Room                                               zon(
-      redeclare package MediumA = MediumA,
-        mAir_flow_nominal=0.75,
-        lat=weaDat.lat) "Thermal envelope of single zone"
+    BaseClasses.Room zon(redeclare package MediumA = MediumA, mAir_flow_nominal
+        =0.75) "Thermal envelope of single zone"
       annotation (Placement(transformation(extent={{40,-20},{80,20}})));
     Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
         computeWetBulbTemperature=false, filNam=
           Modelica.Utilities.Files.loadResource(
-          "Resources/weatherdata/DRYCOLD.mos"))
+          "modelica://Buildings/Resources/weatherdata/DRYCOLD.mos"))
       annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
     Modelica.Blocks.Continuous.Integrator EFan "Total fan energy"
       annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
@@ -140,8 +138,8 @@ package SingleZoneVAV
     connect(hvac.returnAir, zon.returnAir) annotation (Line(points={{0.2,0},{6,0},
             {6,-2},{10,-2},{40,-2}}, color={0,127,255}));
 
-    connect(con.TOut, weaBus.TDryBul) annotation (Line(points={{-102,-3},{-108,-3},
-            {-108,130}},                  color={0,0,127}));
+    connect(con.TOut, weaBus.TDryBul) annotation (Line(points={{-102,-3},{
+            -107.95,-3},{-107.95,130.05}},color={0,0,127}));
     connect(hvac.weaBus, weaBus) annotation (Line(
         points={{-35.8,17.8},{-35.8,130},{-108,130}},
         color={255,204,51},
@@ -157,25 +155,28 @@ package SingleZoneVAV
             -110,-36},{6,-36},{6,-22},{90,-22},{90,0},{81,0}},      color={0,0,
             127}));
 
-    connect(hvac.PFan, EFan.u) annotation (Line(points={{1.2,18},{24,18},{24,-40},
+    connect(hvac.PFan, EFan.u) annotation (Line(points={{1,17},{24,17},{24,-40},
             {38,-40}}, color={0,0,127}));
-    connect(hvac.QHea_flow, EHea.u) annotation (Line(points={{1.2,16},{22,16},{22,
+    connect(hvac.QHea_flow, EHea.u) annotation (Line(points={{1,15},{22,15},{22,
             -70},{38,-70}},
                        color={0,0,127}));
-    connect(hvac.PCoo, ECoo.u) annotation (Line(points={{1.2,14},{20,14},{20,-100},
+    connect(hvac.PCoo, ECoo.u) annotation (Line(points={{1,13},{20,13},{20,-100},
             {38,-100}},color={0,0,127}));
-    connect(hvac.PPum, EPum.u) annotation (Line(points={{1.2,12},{18,12},{18,-130},
+    connect(hvac.PPum, EPum.u) annotation (Line(points={{1,11},{18,11},{18,-130},
             {38,-130}},  color={0,0,127}));
 
-    connect(EFan.y, EHVAC.u[1]) annotation (Line(points={{61,-40},{70,-40},{70,-54.75},
-            {80,-54.75}},         color={0,0,127}));
+    connect(EFan.y, EHVAC.u[1]) annotation (Line(points={{61,-40},{70,-40},{70,
+            -62.625},{80,-62.625}},
+                                  color={0,0,127}));
     connect(EHea.y, EHVAC.u[2])
-      annotation (Line(points={{61,-70},{64,-70},{64,-60},{66,-60},{66,-60},{80,-60},
-            {80,-58.25}},                                      color={0,0,127}));
-    connect(ECoo.y, EHVAC.u[3]) annotation (Line(points={{61,-100},{70,-100},{70,-61.75},
-            {80,-61.75}},         color={0,0,127}));
-    connect(EPum.y, EHVAC.u[4]) annotation (Line(points={{61,-130},{74,-130},{74,-65.25},
-            {80,-65.25}},         color={0,0,127}));
+      annotation (Line(points={{61,-70},{64,-70},{64,-60},{66,-60},{66,-60},{80,
+            -60},{80,-60.875}},                                color={0,0,127}));
+    connect(ECoo.y, EHVAC.u[3]) annotation (Line(points={{61,-100},{70,-100},{
+            70,-59.125},{80,-59.125}},
+                                  color={0,0,127}));
+    connect(EPum.y, EHVAC.u[4]) annotation (Line(points={{61,-130},{74,-130},{
+            74,-57.375},{80,-57.375}},
+                                  color={0,0,127}));
     connect(TSetRooHea.y[1], oveTSetRooHea.u)
       annotation (Line(points={{-159,30},{-142,30}}, color={0,0,127}));
     connect(oveTSetRooHea.y, con.TSetRooHea) annotation (Line(points={{-119,30},{-116,
@@ -184,14 +185,14 @@ package SingleZoneVAV
       annotation (Line(points={{-159,-10},{-142,-10}}, color={0,0,127}));
     connect(oveTSetRooCoo.y, con.TSetRooCoo) annotation (Line(points={{-119,-10},{
             -116,-10},{-116,3},{-102,3}},  color={0,0,127}));
-    connect(hvac.PPum, PPum.u) annotation (Line(points={{1.2,12},{18,12},{18,80},{
-            118,80}},  color={0,0,127}));
-    connect(hvac.PCoo, PCoo.u) annotation (Line(points={{1.2,14},{14,14},{14,100},
+    connect(hvac.PPum, PPum.u) annotation (Line(points={{1,11},{18,11},{18,80},
+            {118,80}}, color={0,0,127}));
+    connect(hvac.PCoo, PCoo.u) annotation (Line(points={{1,13},{14,13},{14,100},
             {138,100}}, color={0,0,127}));
-    connect(hvac.QHea_flow, PHea.u) annotation (Line(points={{1.2,16},{10,16},{10,
+    connect(hvac.QHea_flow, PHea.u) annotation (Line(points={{1,15},{10,15},{10,
             120},{118,120}}, color={0,0,127}));
-    connect(hvac.PFan, PFan.u) annotation (Line(points={{1.2,18},{6,18},{6,140},{138,
-            140}},     color={0,0,127}));
+    connect(hvac.PFan, PFan.u) annotation (Line(points={{1,17},{6,17},{6,140},{
+            138,140}}, color={0,0,127}));
     connect(zon.TRooAir, TRooAir.u)
       annotation (Line(points={{81,0},{118,0}}, color={0,0,127}));
     connect(zon.CO2, CO2RooAir.u) annotation (Line(points={{81,-4},{100,-4},{100,-30},
@@ -213,6 +214,12 @@ economizer.  See documentation for the specific models for more information.
 </p>
 </html>",   revisions="<html>
 <ul>
+<li>
+September 6th, 2025, by Ettore Zanetti:<br/>
+Update test case to Modelica 4.0
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
 <li>
 September 14, 2018, by David Blum:<br/>
 First implementation.
@@ -293,7 +300,7 @@ First implementation.
               -142,110},{-142,32}}, color={0,0,127}));
     end ChillerDXHeatingEconomizer;
   end BaseClasses;
-  annotation (uses(Modelica(version="3.2.3"),
-      Buildings(version="8.0.0")),
+  annotation (uses(Modelica(version="4.0.0"),
+      Buildings(version="12.1.0")),
     version="1");
 end SingleZoneVAV;

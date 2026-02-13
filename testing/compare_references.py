@@ -129,8 +129,8 @@ def compare(testcase='bestest_air'):
                             'dayZon_reaPowQint_y','nigZon_reaTRooAir_y',
                              'nigZon_reaTretFloHea_y','nigZon_reaPowQint_y',
                              'hydronicSystem_reaPeleHeaPum_y','hydronicSystem_reaMpumCon_y'],
-                           refs_old = 'singlezone_commercial_hydronic_old',
-                           refs_new = 'singlezone_commercial_hydronic')
+                           refs_old = 'twozone_apartment_hydronic_old',
+                           refs_new = 'twozone_apartment_hydronic')
 
     elif testcase == 'multizone_office_simple_air':
         compare_references(vars_timeseries = ['chi_reaPChi_y', 'heaPum_reaPHeaPum_y',

@@ -1,8 +1,8 @@
 within BESTESTAir.BaseClasses;
 model InternalLoad "A model for internal loads"
-  parameter Modelica.SIunits.HeatFlux senPower_nominal "Nominal sensible heat gain";
-  parameter Modelica.SIunits.DimensionlessRatio radFraction "Fraction of sensible gain that is radiant";
-  parameter Modelica.SIunits.HeatFlux latPower_nominal "Nominal latent heat gain";
+  parameter Modelica.Units.SI.HeatFlux senPower_nominal "Nominal sensible heat gain";
+  parameter Modelica.Units.SI.DimensionlessRatio radFraction "Fraction of sensible gain that is radiant";
+  parameter Modelica.Units.SI.HeatFlux latPower_nominal "Nominal latent heat gain";
   Modelica.Blocks.Sources.CombiTimeTable sch(
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     table=[0,0.1; 8*3600,0.1; 8*3600,1.0; 18*3600,1.0; 18*3600,0.1; 24*3600,0.1],
