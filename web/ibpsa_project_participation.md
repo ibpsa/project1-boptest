@@ -33,7 +33,7 @@ discussed during Task 3 [meetings](/project1-boptest/ibpsa/project/meetings/task
 
 # Registered Participants
 
-*Updated: Feb 13, 2024*
+*Updated: Feb 13, 2026*
 
 ### Organizational Participants
 
