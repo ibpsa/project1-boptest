@@ -21,7 +21,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         '''
 
         self.name = 'multizone_office_simple_hydronic'
-        self.url = 'http://127.0.0.1:80'
+        self.url = 'http://127.0.0.1:8000'
         self.points_check = ['heating_cooling_reaPProCoo_y', 'heating_cooling_reaPProHea_y',
                              'structure_reaTZonNz_y', 'structure_reaTZonSz_y',
                              'structure_reaCO2ZonNz_y', 'structure_reaCO2ZonSz_y',
@@ -63,7 +63,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         '''
 
         self.name = 'multizone_office_simple_hydronic'
-        self.url = 'http://127.0.0.1:80'
+        self.url = 'http://127.0.0.1:8000'
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
         self.input = {'bms_oveByPassNz_activate':0,

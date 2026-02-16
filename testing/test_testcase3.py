@@ -55,7 +55,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         '''
 
         self.name = 'testcase3'
-        self.url = 'http://127.0.0.1:80'
+        self.url = 'http://127.0.0.1:8000'
         self.step_ref = 60
         self.test_time_period = 'test_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test

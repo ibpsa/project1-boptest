@@ -95,7 +95,7 @@ class MinMax(unittest.TestCase):
         '''
 
         self.name = 'testcase2'
-        self.url = 'http://127.0.0.1:80'
+        self.url = 'http://127.0.0.1:8000'
         self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
 
     def tearDown(self):
@@ -139,7 +139,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         '''
 
         self.name = 'testcase2'
-        self.url = 'http://127.0.0.1:80'
+        self.url = 'http://127.0.0.1:8000'
         self.step_ref = 3600
         self.test_time_period = 'test_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
@@ -162,7 +162,7 @@ class SimOverYear(unittest.TestCase, utilities.partialChecks):
         '''
 
         self.name = 'testcase2'
-        self.url = 'http://127.0.0.1:80'
+        self.url = 'http://127.0.0.1:8000'
         self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
 
     def tearDown(self):

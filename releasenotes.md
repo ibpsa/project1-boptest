@@ -1,9 +1,18 @@
 # Release Notes
 
-## BOPTEST v0.9.0-dev
+## BOPTEST v1.0.0-dev
 
 Released on xx/xx/xxxx.
 
+**The following changes are backwards compatible and do not significantly change benchmark results:**
+
+- Add support for deployment using Podman. This is for [#748](https://github.com/ibpsa/project1-boptest/issues/748).
+- Add OpenAPI Specification of RESTful HTTP API and serve API docs upon deployment. This is for [#819](https://github.com/ibpsa/project1-boptest/issues/819).
+- Remove unit test for readme commands. This is for [#824](https://github.com/ibpsa/project1-boptest/issues/824).
+
+**The following changes are not backwards compatible, but do not change benchmark results:**
+
+- Change port BOPTEST listens to on localhost from ``:80`` to ``:8000``. This is for [#822](https://github.com/ibpsa/project1-boptest/issues/822).
 
 ## BOPTEST v0.9.0
 

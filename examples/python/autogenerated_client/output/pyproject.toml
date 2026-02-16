@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "boptest-service-api-client"
+version = "1.0.0-dev"
+description = "A client library for accessing BOPTEST Service API"
+authors = []
+readme = "README.md"
+packages = [
+    { include = "boptest_service_api_client" },
+]
+include = ["boptest_service_api_client/py.typed"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+httpx = ">=0.23.0,<0.29.0"
+attrs = ">=22.2.0"
+python-dateutil = "^2.8.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "I", "UP"]
