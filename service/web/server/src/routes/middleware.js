@@ -114,8 +114,19 @@ export function addCorsOriginHdr(req, res, next) {
   next()
 }
 
+// Parse allowed origins from environment variable (comma-separated)
+const additionalAllowedOrigins = (process.env.BOPTEST_ALLOWED_ORIGINS || '')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(origin => origin.length > 0);
+
 function isValidOrigin(origin) {
-  // allow http(s) localhost and all subdomains of boptest.net
-  const allowedOriginRegex = /^https?:\/\/(?:localhost|(?:[A-Za-z0-9-]+\.)*boptest\.net)(?::\d+)?$/;
-  return allowedOriginRegex.test(origin)
+  // Check hardcoded patterns
+  const hardcodedPatternRegex = /^https?:\/\/(localhost:\d+|(.*\.)?boptest\.net)$/;
+  if (hardcodedPatternRegex.test(origin)) {
+    return true;
+  }
+  
+  // Check additional origins from environment variable
+  return additionalAllowedOrigins.includes(origin);
 }

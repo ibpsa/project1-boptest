@@ -44,6 +44,7 @@ services:
       - BOPTEST_TEST_KEY=${BOPTEST_TEST_KEY} # Only for testing
       - BOPTEST_TEST_PRIVILEGED_USERNAME=${BOPTEST_TEST_PRIVILEGED_USERNAME} # Only for testing
       - BOPTEST_TEST_PRIVILEGED_KEY=${BOPTEST_TEST_PRIVILEGED_KEY} # Only for testing
+      - BOPTEST_ALLOWED_ORIGINS=${BOPTEST_ALLOWED_ORIGINS:-}
     depends_on:
       - redis
       - worker
