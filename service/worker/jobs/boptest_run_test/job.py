@@ -166,7 +166,7 @@ class Job:
         request_id = False
         response_channel = self.get_response_channel()
         try:
-            message = self.redis_pubsub.get_message()
+            message = self.redis_pubsub.get_message(timeout=0.01)
             if message:
                 message_type = message["type"]
                 if message_type == "message":

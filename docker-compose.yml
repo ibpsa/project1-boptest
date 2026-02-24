@@ -69,11 +69,11 @@ services:
       /bin/sh -c "
       sleep 5;
       /usr/bin/mc config host add myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
-      /usr/bin/mc mb myminio/boptest;
-      /usr/bin/mc anonymous set public myminio/boptest;
-      /usr/bin/mc anonymous set download myminio/boptest/testcases;
-      /usr/bin/mc anonymous set download myminio/boptest/tests;
-      /usr/bin/mc admin user svcacct add --access-key ${AWS_ACCESS_KEY_ID} --secret-key ${AWS_SECRET_ACCESS_KEY} myminio ${MINIO_ROOT_USER};
+      /usr/bin/mc mb myminio/boptest || true;
+      /usr/bin/mc anonymous set public myminio/boptest || true;
+      /usr/bin/mc anonymous set download myminio/boptest/testcases || true;
+      /usr/bin/mc anonymous set download myminio/boptest/tests || true;
+      /usr/bin/mc admin user svcacct add --access-key ${AWS_ACCESS_KEY_ID} --secret-key ${AWS_SECRET_ACCESS_KEY} myminio ${MINIO_ROOT_USER} || true;
       "
     depends_on:
       - minio
