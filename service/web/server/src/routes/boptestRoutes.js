@@ -14,7 +14,9 @@ const s3PublicURL = process.env.BOPTEST_PUBLIC_S3_URL + '/' + bucket
 
 // GET Version //
 
-boptestRoutes.get('/version', async (req, res, next) => {
+boptestRoutes.get('/version',
+  middleware.addCorsOriginHdr,
+  async (req, res, next) => {
   try {
     const payload = await boptestLib.getVersion()
     res.status(payload.status).json(payload)
@@ -123,8 +125,13 @@ const select = async (req, res, next) => {
   }
 }
 
+boptestRoutes.options('/testcases/:testcaseID/select-?:async?',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "POST")
+)
+
 boptestRoutes.post('/testcases/:testcaseID/select-?:async?',
   middleware.identify,
+  middleware.addCorsOriginHdr,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
     req.testcaseKeyPrefix = boptestLib.getPrefixForTestcase(ibpsaNamespace)
@@ -134,8 +141,13 @@ boptestRoutes.post('/testcases/:testcaseID/select-?:async?',
   select
 )
 
+boptestRoutes.options('/testcases/:testcaseNamespace/:testcaseID/select-?:async?',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "POST")
+)
+
 boptestRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select-?:async?',
   middleware.identify,
+  middleware.addCorsOriginHdr,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
     req.testcaseKeyPrefix = boptestLib.getPrefixForTestcase(req.params.testcaseNamespace)
@@ -145,9 +157,14 @@ boptestRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select-?:async?',
   select
 );
 
+boptestRoutes.options('/users/:userName/testcases/:testcaseID/select-?:async?',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "POST")
+)
+
 boptestRoutes.post('/users/:userName/testcases/:testcaseID/select-?:async?',
   middleware.identify,
   middleware.requireUser,
+  middleware.addCorsOriginHdr,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
     req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.sub)
@@ -168,6 +185,10 @@ const getTestcases = async (req, res, next) => {
     res.json(testcases)
   }
 }
+
+boptestRoutes.options('/testcases',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "GET")
+)
 
 boptestRoutes.get('/testcases',
   middleware.identify,
@@ -248,6 +269,10 @@ boptestRoutes.post('/submit/:testid',
 
 // GET status //
 
+boptestRoutes.options('/status/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "GET")
+)
+
 boptestRoutes.get('/status/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
@@ -263,6 +288,10 @@ boptestRoutes.get('/status/:testid',
 )
 
 // GET test name //
+
+boptestRoutes.options('/name/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "GET")
+)
 
 boptestRoutes.get('/name/:testid',
   param('testid').custom(validateTestid),
@@ -316,9 +345,9 @@ boptestRoutes.put('/initialize/:testid',
   }
 );
 
-// PUT scenario //
+// PUT/GET scenario //
 boptestRoutes.options('/scenario/:testid',
-  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "PUT")
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "GET, PUT")
 )
 
 boptestRoutes.put('/scenario/:testid',
@@ -353,6 +382,10 @@ boptestRoutes.get('/scenario/:testid',
 
 // GET measurements //
 
+boptestRoutes.options('/measurements/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "GET")
+)
+
 boptestRoutes.get('/measurements/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
@@ -368,6 +401,10 @@ boptestRoutes.get('/measurements/:testid',
 );
 
 // GET inputs //
+
+boptestRoutes.options('/inputs/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "GET")
+)
 
 boptestRoutes.get('/inputs/:testid',
   param('testid').custom(validateTestid),
@@ -402,7 +439,7 @@ boptestRoutes.get('/step/:testid',
 // PUT step //
 
 boptestRoutes.options('/step/:testid',
-  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "PUT")
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "GET, PUT")
 )
 
 boptestRoutes.put('/step/:testid',
@@ -420,6 +457,10 @@ boptestRoutes.put('/step/:testid',
 );
 
 // GET kpi //
+
+boptestRoutes.options('/kpi/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "GET")
+)
 
 boptestRoutes.get('/kpi/:testid',
   param('testid').custom(validateTestid),
@@ -505,6 +546,10 @@ boptestRoutes.put('/forecast/:testid',
 );
 
 // GET forecast_points //
+
+boptestRoutes.options('/forecast_points/:testid',
+  (req, res, next) => middleware.handleCorsPreflight(req, res, next, "GET")
+)
 
 boptestRoutes.get('/forecast_points/:testid',
   param('testid').custom(validateTestid),
