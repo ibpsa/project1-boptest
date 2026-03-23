@@ -16,6 +16,19 @@ We are excited to host the BOPTEST webinar series! These sessions highlight the 
 
 **Webinar Format:** Each session features two speakers, one from academia and one from industry, each presenting for 20 minutes, followed by a 10-minute Q&A.
 
+
+### Webinar 5: A fresh look at MPC with BOPTEST
+
+**Date and time:** February 5, 2026 - 15:00 UTC
+
+**Presentations:**
+
+*<u>Dr Sicheng Zhan</u>* (MIT Building Technology) discusses the scenarios and conditions for higher physics integration to benefit the decision-making process.
+
+*<u>Yunqin Liu</u>* (Department of Civil and Environmental Engineering at HKUST) presents an end-to-end Smart Predictthen-Optimise (SPO) framework that embeds the optimisation problem directly into the training of the forecasting model using differentiable optimisation techniques.
+
+- [Webinar recording here](https://youtu.be/Dt7SM6YA4nk)
+
 ### Webinar 4: Introducing Autocontrol and Terion
 
 **Date and time:** June 11, 2025 - 15:00 UTC
