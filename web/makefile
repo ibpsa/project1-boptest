@@ -24,7 +24,7 @@ COMMAND_RUN=docker run \
 		--rm \
 		-v ${ROOT}:${IMG_HOME}/boptest:rw \
 		-w ${IMG_HOME}/boptest/web \
-		${IMG_NAME} 
+		${IMG_NAME}
 
 # Use these commands if you're outside the boptestweb container
 run-build-docs:
@@ -46,5 +46,4 @@ build_docs_and_build_web:
 
 build_docs_and_serve_web:
 	./build_docs.sh
-	bundle exec jekyll serve
-
+	bundle exec jekyll serve --no-watch
