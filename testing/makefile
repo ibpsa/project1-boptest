@@ -107,12 +107,12 @@ test_%:
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
-	cd .. && docker compose build -q unit_tests
-	cd .. && docker compose run unit_tests test_$*.py $(ARG)
+	cd .. && docker compose build -q unit_testing
+	cd .. && docker compose run --rm unit_testing testing/test_$*.py $(ARG)
 # Stop testcase container
 	cd .. && docker compose down
 	if [ $(SINGLE) = true ]; then\
-	     cd .. && docker compose run unit_tests report.py;\
+	     cd .. && docker compose run --rm unit_testing testing/report.py;\
 	fi\
 
 # Generic test for all testcases that will not test with model compile to run locally with cleanup
@@ -122,11 +122,12 @@ test_%_no_compile:
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_$*.py $(ARG)
+	cd .. && docker compose build -q unit_testing
+	cd .. && docker compose run --rm unit_testing testing/test_$*.py $(ARG)
 # Stop testcase container
 	cd .. && docker compose down
 	if [ $(SINGLE) = true ]; then\
-	     python3 report.py;\
+	     cd .. && docker compose run --rm unit_testing testing/report.py;\
 	fi\
 
 # Test podman deployment using a generic testcase test (bestest_air)
