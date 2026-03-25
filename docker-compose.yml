@@ -114,14 +114,12 @@ services:
       - BOPTEST_TEST_PRIVILEGED_USERNAME=${BOPTEST_TEST_PRIVILEGED_USERNAME}
       - BOPTEST_TEST_PRIVILEGED_KEY=${BOPTEST_TEST_PRIVILEGED_KEY}
       - BOPTEST_USE_TEST_USERS=${BOPTEST_USE_TEST_USERS}
-  unit_tests:
+  unit_testing:
     build:
       dockerfile: testing/Dockerfile.testing
       context: .
-    depends_on:
-      - web
     volumes:
-      - ./:/app
+      - ./:/home/tester/boptest
     environment:
       - BOPTEST_SERVER=${BOPTEST_SERVER}
       - BOPTEST_WS_SERVER=${BOPTEST_WS_SERVER}
