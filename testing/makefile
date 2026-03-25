@@ -103,11 +103,10 @@ test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
+	cd .. && docker compose build -q web worker provision unit_testing
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
-	cd .. && docker compose build -q unit_testing
 	cd .. && docker compose run --rm unit_testing testing/test_$*.py $(ARG)
 # Stop testcase container
 	cd .. && docker compose down
@@ -118,11 +117,10 @@ test_%:
 # Generic test for all testcases that will not test with model compile to run locally with cleanup
 test_%_no_compile:
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
+	cd .. && docker compose build -q web worker provision unit_testing
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
-	cd .. && docker compose build -q unit_testing
 	cd .. && docker compose run --rm unit_testing testing/test_$*.py $(ARG)
 # Stop testcase container
 	cd .. && docker compose down
@@ -148,14 +146,13 @@ test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
+	cd .. && docker compose build -q web worker provision unit_testing
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
 # Python and checks
-	cd .. && docker compose build -q unit_testing
 	cd .. && docker compose run --rm unit_testing testing/test_testcase1.py
 # Stop testcase container
 	cd .. && docker compose down
@@ -170,14 +167,13 @@ test_testcase2:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
+	cd .. && docker compose build -q web worker provision unit_testing
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
 # Python and checks
-	cd .. && docker compose build -q unit_testing
 	cd .. && docker compose run --rm unit_testing testing/test_testcase2.py
 # Stop testcase container
 	cd .. && docker compose down
@@ -292,19 +288,19 @@ test_kpis:
 
 test_bacnet:
 # Compile testcase model
-	make compile_testcase_model TESTCASE=bestest_air
+#	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
+	cd .. && docker compose build -q web worker provision unit_testing
 	cd .. && docker compose up -d --quiet-pull web worker provision --scale worker=3
 	python3 sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_bacnet.py
+	cd .. && docker compose run --rm unit_testing testing/test_bacnet.py
 # Stop testcase container
 	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python3 report.py;\
-	fi
+	     cd .. && docker compose run --rm unit_testing testing/report.py;\
+	fi\
 
 test_testcase:
 # Build and deploy testcase image
