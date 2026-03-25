@@ -1,4 +1,4 @@
-# Dockerfile.testing
+# Dockerfile for unit testing
 FROM ubuntu:24.04
 
 # Set noninteractive mode for apt
@@ -15,19 +15,32 @@ RUN apt update && \
         python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-# Create a virtual environment and install required Python packages
-RUN python3.9 -m venv /opt/venv && \
-    /opt/venv/bin/pip install --upgrade pip && \
-    /opt/venv/bin/pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
+# Create non-sudo user "tester" and set working directory as new user's home
+RUN export uid=1000 gid=1000 && \
+    mkdir -p /home/tester && \
+    mkdir -p /etc/sudoers.d && \
+    echo "tester:x:${uid}:${gid}:tester,,,:/home/tester:/bin/bash" >> /etc/passwd && \
+    echo "tester:x:${uid}:" >> /etc/group && \
+    echo "tester ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/tester && \
+    chmod 0440 /etc/sudoers.d/tester && \
+    chown ${uid}:${gid} -R /home/tester
+USER tester
+ENV HOME /home/tester
+WORKDIR ${HOME}
 
+# Create a Python virtual environment and install required Python packages
+RUN mkdir .venvs && cd .venvs && python3.9 -m venv testing && . testing/bin/activate
 # Ensure the virtual environment's bin directory is on the PATH
-ENV PATH="/opt/venv/bin:$PATH"
+ENV PATH="${HOME}/.venvs/testing/bin:$PATH"
+# Install python packages
+RUN python -m pip install --upgrade pip && \
+    python -m pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
 
-# Set a working directory (adjust as needed for your application)
-WORKDIR /app/testing
+# Setup working directory
+RUN cd ~/ && mkdir boptest
+WORKDIR ${HOME}/boptest
 
-# Default command (you can override this when running the container)
-ENTRYPOINT ["/opt/venv/bin/python"]
-# Default command expects a script name as argument; can be overridden when running the container.
-# Default script to run; can be overridden by providing a different script name when running the container.
+# Default command
+ENTRYPOINT ["python"]
+# Default script to run, needs to be defined when running the container (e.g. docker compose run --rm <container> <path/to/python_script.py>)
 CMD []
