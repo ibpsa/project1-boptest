@@ -34,7 +34,7 @@ RUN mkdir .venvs && cd .venvs && python3.9 -m venv testing && . testing/bin/acti
 ENV PATH="${HOME}/.venvs/testing/bin:$PATH"
 # Install python packages
 RUN python -m pip install --upgrade pip && \
-    python -m pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
+    python -m pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1 rdflib==6.3.2 bacpypes==0.18.7
 
 # Setup working directory
 RUN cd ~/ && mkdir boptest
