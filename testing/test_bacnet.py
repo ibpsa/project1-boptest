@@ -10,6 +10,7 @@ import utilities
 import subprocess
 import time
 import json
+import signal
 
 class Run(unittest.TestCase, utilities.partialTestTimePeriod):
     '''Tests an example deployment of the bacnet proxy.
@@ -76,9 +77,9 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
         '''
 
-        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --baseurl {0}".format(self.url), shell=True)
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --baseurl {0}".format(self.url), shell=True, preexec_fn=os.setsid)
         time.sleep(10)
-        r = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:35 presentValue 294".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        r = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:35 presentValue 294".format(self.ip), shell=True, preexec_fn=os.setsid, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         with r.stdout:
             for line in iter(r.stdout.readline, b''):
                 print(str(line))
@@ -88,8 +89,8 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
                      print('test_read_write failed, value was not updated properly')
                      success = False
         time.sleep(15)
-        r.kill()
-        p.kill()
+        os.killpg(os.getpgid(r.pid), signal.SIGTERM)
+        os.killpg(os.getpgid(p.pid), signal.SIGTERM)
 
         self.assertTrue(success)
 
@@ -100,10 +101,10 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
         '''
 
-        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=2 --simulation_step=60 --baseurl {0}".format(self.url), shell=True)
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=2 --simulation_step=60 --baseurl {0}".format(self.url), shell=True, preexec_fn=os.setsid)
         t_start = time.time()
         time.sleep(10)
-        r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:2 presentValue".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:2 presentValue".format(self.ip), shell=True, preexec_fn=os.setsid, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         delta_t = time.time() - t_start
 
         with r.stdout:
@@ -119,8 +120,8 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
             success = False
 
         time.sleep(15)
-        r.kill()
-        p.kill()
+        os.killpg(os.getpgid(r.pid), signal.SIGTERM)
+        os.killpg(os.getpgid(p.pid), signal.SIGTERM)
 
         self.assertTrue(success)
 
@@ -130,18 +131,18 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         '''
 
         time_advanced = 10
-        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=oncommand --simulation_step={0} --baseurl={1}".format(time_advanced, self.url), shell=True)
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=oncommand --simulation_step={0} --baseurl={1}".format(time_advanced, self.url), shell=True, preexec_fn=os.setsid)
         time.sleep(10)
-        w = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:1 presentValue 1".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        w = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:1 presentValue 1".format(self.ip), shell=True, preexec_fn=os.setsid, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         time.sleep(10)
-        w.kill()
-        w1 = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:1 presentValue 0".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        os.killpg(os.getpgid(w.pid), signal.SIGTERM)
+        w1 = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:1 presentValue 0".format(self.ip), shell=True, preexec_fn=os.setsid, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         time.sleep(10)
-        w1.kill()
-        w2 = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:1 presentValue 1".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        os.killpg(os.getpgid(w1.pid), signal.SIGTERM)
+        w2 = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:1 presentValue 1".format(self.ip), shell=True, preexec_fn=os.setsid, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         time.sleep(10)
-        w2.kill()
-        r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:2 presentValue".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        os.killpg(os.getpgid(w2.pid), signal.SIGTERM)
+        r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:2 presentValue".format(self.ip), shell=True, preexec_fn=os.setsid, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
         with r.stdout:
             for line in iter(r.stdout.readline, b''):
@@ -156,8 +157,8 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
             success = False
 
         time.sleep(15)
-        r.kill()
-        p.kill()
+        os.killpg(os.getpgid(r.pid), signal.SIGTERM)
+        os.killpg(os.getpgid(p.pid), signal.SIGTERM)
 
         self.assertTrue(success)
 

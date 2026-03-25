@@ -291,7 +291,7 @@ test_bacnet:
 #	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision unit_testing
-	cd .. && docker compose up -d --quiet-pull web worker provision --scale worker=3
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
 	cd .. && docker compose run --rm unit_testing testing/test_bacnet.py
