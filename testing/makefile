@@ -155,15 +155,16 @@ test_testcase1:
 # Julia
 	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
 # Python and checks
-	cd .. && python testing/test_testcase1.py
+	cd .. && docker compose build -q unit_testing
+	cd .. && docker compose run --rm unit_testing testing/test_testcase1.py
 # Stop testcase container
 	cd .. && docker compose down
 # Remove julia image
 	cd ../examples/julia && make remove-image Script=testcase1
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python3 report.py;\
-	fi
+	     cd .. && docker compose run --rm unit_testing testing/report.py;\
+	fi\
 
 test_testcase2:
 # Compile testcase model
@@ -176,15 +177,16 @@ test_testcase2:
 # Julia
 	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
 # Python and checks
-	cd .. && python testing/test_testcase2.py
+	cd .. && docker compose build -q unit_testing
+	cd .. && docker compose run --rm unit_testing testing/test_testcase2.py
 # Stop testcase container
 	cd .. && docker compose down
 # Remove julia image
 	cd ../examples/julia && make remove-image Script=testcase2
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python3 report.py;\
-	fi
+	     cd .. && docker compose run --rm unit_testing testing/report.py;\
+	fi\
 
 test_parser:
 	make run_jm

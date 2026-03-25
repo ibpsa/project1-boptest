@@ -38,6 +38,7 @@ RUN python -m pip install --upgrade pip && \
 
 # Setup working directory
 RUN cd ~/ && mkdir boptest
+ENV PYTHONPATH="${HOME}/boptest:$PYTHONPATH"
 WORKDIR ${HOME}/boptest
 
 # Default command
