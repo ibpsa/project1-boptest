@@ -61,7 +61,7 @@ exec_jm:
 stop_jm:
 	docker stop ${IMG_NAME}
 # Make sure jm image stops being used
-	python sleep10.py
+	python3 sleep10.py
 
 compile_testcase_model:
 	make run_jm
@@ -94,9 +94,9 @@ test_%_travis:
 	make compile_testcase_model TESTCASE=$*
 # Build and deploy boptest
 	cd .. && docker compose up -d web worker provision
-	python sleep10.py
+	python3 sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_$*.py $(ARG)
+	cd .. && python3 testing/test_$*.py $(ARG)
 
 # Generic test for all testcases except testcase1 and testcase2 to run locally with cleanup
 test_%:
@@ -105,13 +105,14 @@ test_%:
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	python3 sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_$*.py $(ARG)
+	cd .. && docker compose build -q unit_tests
+	cd .. && docker compose run unit_tests test_$*.py $(ARG)
 # Stop testcase container
 	cd .. && docker compose down
 	if [ $(SINGLE) = true ]; then\
-	     python report.py;\
+	     cd .. && docker compose run unit_tests report.py;\
 	fi\
 
 # Generic test for all testcases that will not test with model compile to run locally with cleanup
@@ -119,13 +120,13 @@ test_%_no_compile:
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	python3 sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_$*.py $(ARG)
 # Stop testcase container
 	cd .. && docker compose down
 	if [ $(SINGLE) = true ]; then\
-	     python report.py;\
+	     python3 report.py;\
 	fi\
 
 # Test podman deployment using a generic testcase test (bestest_air)
@@ -133,13 +134,13 @@ test_podman:
 # Build and deploy testcase image
 	cd .. && podman compose build -q web worker provision
 	cd .. && podman compose up -d web worker provision
-	python sleep10.py
+	python3 sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_bestest_air.py $(ARG)
 # Stop testcase container
 	cd .. && podman compose down
 	if [ $(SINGLE) = true ]; then\
-	     python report.py;\
+	     python3 report.py;\
 	fi\
 
 test_testcase1:
@@ -148,7 +149,7 @@ test_testcase1:
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	python3 sleep10.py
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
@@ -160,7 +161,7 @@ test_testcase1:
 	cd ../examples/julia && make remove-image Script=testcase1
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	python3 report.py;\
 	fi
 
 test_testcase2:
@@ -169,7 +170,7 @@ test_testcase2:
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	python3 sleep10.py
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
@@ -181,7 +182,7 @@ test_testcase2:
 	cd ../examples/julia && make remove-image Script=testcase2
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	python3 report.py;\
 	fi
 
 test_parser:
@@ -194,7 +195,7 @@ test_parser:
 	make stop_jm
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	python3 report.py;\
 	fi
 
 test_data:
@@ -219,7 +220,7 @@ test_data:
 	make stop_jm
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	python3 report.py;\
 	fi
 
 test_forecast:
@@ -229,7 +230,7 @@ test_forecast:
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	python3 sleep10.py
 # Copy the required files and folders for testing
 	docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
 	docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
@@ -245,19 +246,19 @@ test_forecast:
 	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	python3 report.py;\
 	fi
 
 test_forecast_uncertainty:
 # Build and deploy testcase image
 	cd .. && TESTCASE=testcase2 docker-compose up -d
-	python sleep10.py
+	python3 sleep10.py
 # Run test_forecast_uncertainty.py
 	cd .. && python testing/test_forecast_uncertainty.py $(ARG)
 # Stop testcase container and report results
 	cd .. && docker-compose down
 	if [ $(SINGLE) = true ]; then\
-	     python report.py;\
+	     python3 report.py;\
 	fi\
 
 test_kpis:
@@ -267,7 +268,7 @@ test_kpis:
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	python3 sleep10.py
 # Copy the required files and folders for testing
 	docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
 	docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
@@ -283,7 +284,7 @@ test_kpis:
 	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	python3 report.py;\
 	fi
 
 test_bacnet:
@@ -292,21 +293,21 @@ test_bacnet:
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision --scale worker=3
-	python sleep10.py
+	python3 sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_bacnet.py
 # Stop testcase container
 	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	python3 report.py;\
 	fi
 
 test_testcase:
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	python3 sleep10.py
 # Copy the required files and folders for testing
 	docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
 	docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
@@ -320,7 +321,7 @@ test_testcase:
 	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	python3 report.py;\
 	fi
 
 test_autogen_client:
@@ -328,7 +329,7 @@ test_autogen_client:
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	python3 sleep10.py
 # Run openapi-python-client to autogenerate api client
 	openapi-python-client generate --url http://127.0.0.1:8000/openapi.yaml --output-path ../examples/python/autogenerated_client/output $(ARG)
 # Run the autogenerated client using the example usage.py
@@ -368,4 +369,4 @@ test_all:
 # Remove boptest base image
 	make remove_boptest_image
 # Report test results
-	python report.py
+	python3 report.py

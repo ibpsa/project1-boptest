@@ -1,0 +1,33 @@
+# Dockerfile.testing
+FROM ubuntu:24.04
+
+# Set noninteractive mode for apt
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Python 3.9, venv and pip
+RUN apt update && \
+    apt install -y software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt update && \
+    apt install -y \
+        python3.9 \
+        python3.9-venv \
+        python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a virtual environment and install required Python packages
+RUN python3.9 -m venv /opt/venv && \
+    /opt/venv/bin/pip install --upgrade pip && \
+    /opt/venv/bin/pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
+
+# Ensure the virtual environment's bin directory is on the PATH
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Set a working directory (adjust as needed for your application)
+WORKDIR /app/testing
+
+# Default command (you can override this when running the container)
+ENTRYPOINT ["/opt/venv/bin/python"]
+# Default command expects a script name as argument; can be overridden when running the container.
+# Default script to run; can be overridden by providing a different script name when running the container.
+CMD []
