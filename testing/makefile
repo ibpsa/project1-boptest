@@ -103,7 +103,7 @@ test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision unit_testing
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
@@ -117,7 +117,7 @@ test_%:
 # Generic test for all testcases that will not test with model compile to run locally with cleanup
 test_%_no_compile:
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision unit_testing
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
@@ -135,18 +135,18 @@ test_podman:
 	cd .. && podman compose up -d web worker provision
 	python3 sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_bestest_air.py $(ARG)
+	cd .. && podman compose run --rm unit_testing testing/test_$*.py $(ARG)
 # Stop testcase container
 	cd .. && podman compose down
 	if [ $(SINGLE) = true ]; then\
-	     python3 report.py;\
+	     cd .. && podman compose run --rm unit_testing testing/report.py;\
 	fi\
 
 test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision unit_testing
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
@@ -167,7 +167,7 @@ test_testcase2:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision unit_testing
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
@@ -194,7 +194,7 @@ test_parser:
 	make stop_jm
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python3 report.py;\
+        	cd .. && docker compose run --rm unit_testing testing/report.py;\
 	fi
 
 test_data:
@@ -219,7 +219,7 @@ test_data:
 	make stop_jm
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python3 report.py;\
+        	cd .. && docker compose run --rm unit_testing testing/report.py;\
 	fi
 
 test_forecast:
@@ -245,7 +245,7 @@ test_forecast:
 	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python3 report.py;\
+        	cd .. && docker compose run --rm unit_testing testing/report.py;\
 	fi
 
 test_forecast_uncertainty:
@@ -257,7 +257,7 @@ test_forecast_uncertainty:
 # Stop testcase container and report results
 	cd .. && docker-compose down
 	if [ $(SINGLE) = true ]; then\
-	     python3 report.py;\
+	     cd .. && docker compose run --rm unit_testing testing/report.py;\
 	fi\
 
 test_kpis:
@@ -283,14 +283,14 @@ test_kpis:
 	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python3 report.py;\
+        	cd .. && docker compose run --rm unit_testing testing/report.py;\
 	fi
 
 test_bacnet:
 # Compile testcase model
 #	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision unit_testing
+	cd .. && docker compose build -q web worker provision
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python3 sleep10.py
 # Run testcase tests
@@ -320,7 +320,7 @@ test_testcase:
 	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python3 report.py;\
+        	cd .. && docker compose run --rm unit_testing testing/report.py;\
 	fi
 
 test_autogen_client:
