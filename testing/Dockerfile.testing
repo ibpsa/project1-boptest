@@ -1,0 +1,47 @@
+# Dockerfile for unit testing
+FROM ubuntu:24.04
+
+# Set noninteractive mode for apt
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Python 3.9, venv and pip
+RUN apt update && \
+    apt install -y software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt update && \
+    apt install -y \
+        python3.9 \
+        python3.9-venv \
+        python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-sudo user "tester" and set working directory as new user's home
+RUN export uid=1000 gid=1000 && \
+    mkdir -p /home/tester && \
+    mkdir -p /etc/sudoers.d && \
+    echo "tester:x:${uid}:${gid}:tester,,,:/home/tester:/bin/bash" >> /etc/passwd && \
+    echo "tester:x:${uid}:" >> /etc/group && \
+    echo "tester ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/tester && \
+    chmod 0440 /etc/sudoers.d/tester && \
+    chown ${uid}:${gid} -R /home/tester
+USER tester
+ENV HOME /home/tester
+WORKDIR ${HOME}
+
+# Create a Python virtual environment and install required Python packages
+RUN mkdir .venvs && cd .venvs && python3.9 -m venv testing && . testing/bin/activate
+# Ensure the virtual environment's bin directory is on the PATH
+ENV PATH="${HOME}/.venvs/testing/bin:$PATH"
+# Install python packages
+RUN python -m pip install --upgrade pip && \
+    python -m pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1 rdflib==6.3.2 bacpypes==0.18.7
+
+# Setup working directory
+RUN cd ~/ && mkdir boptest
+ENV PYTHONPATH="${HOME}/boptest:$PYTHONPATH"
+WORKDIR ${HOME}/boptest
+
+# Default command
+ENTRYPOINT ["python"]
+# Default script to run, needs to be defined when running the container (e.g. docker compose run --rm <container> <path/to/python_script.py>)
+CMD []

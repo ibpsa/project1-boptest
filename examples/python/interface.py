@@ -19,6 +19,7 @@ from examples.python.controllers.controller import Controller
 import json
 import collections
 import pandas as pd
+import os
 
 def control_test(testcase_name, control_module='', start_time=0, warmup_period=0, length=24*3600, scenario=None, step=300, customized_kpi_config=None, use_forecast=False):
     """
@@ -101,7 +102,7 @@ def control_test(testcase_name, control_module='', start_time=0, warmup_period=0
     # SETUP TEST
     # -------------------------------------------------------------------------
     # Set URL for testcase
-    url = 'http://127.0.0.1:8000'
+    url = os.environ.get("BOPTEST_SERVER", 'http://127.0.0.1:8000')
     # Instantiate concrete controller (pid, pidTwoZones, sup, etc.)
     controller = Controller(control_module, use_forecast)
 

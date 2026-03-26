@@ -1,5 +1,6 @@
 import asyncio
 import pandas as pd
+import os
 from output.boptest_service_api_client.api.test_management import (
     get_testcases,
     post_testcases_testcase_name_select,
@@ -29,7 +30,8 @@ from output.boptest_service_api_client.models.results_query import ResultsQuery
 
 
 def main():
-    client = Client("http://127.0.0.1:8000")
+    url = os.environ.get("BOPTEST_SERVER", 'http://127.0.0.1:8000')
+    client = Client(url)
     testcases_resp = get_testcases.sync(client=client)
 
     print("Available testcases:")
@@ -124,7 +126,8 @@ def main():
 
 
 async def async_main():
-    client = Client("http://127.0.0.1:8000")
+    url = os.environ.get("BOPTEST_SERVER", 'http://127.0.0.1:8000')
+    client = Client(url)
 
     print("\nUsing asynchronous I/O to get testcases:")
     testcases_res = await get_testcases.asyncio(client=client)
