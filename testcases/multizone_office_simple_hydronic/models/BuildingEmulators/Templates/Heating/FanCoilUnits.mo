@@ -84,10 +84,9 @@ model FanCoilUnits
     allowFlowReversal=false,
     m_flow_nominal=mWatProHea_flow_nominal,QMax_flow = QHea_flow_nominal,QMin_flow = 0)
                                      "Ideal heater" annotation(Placement(transformation(extent = {{-10.0,10.0},{10.0,-10.0}},origin={64.0,-2.0},     rotation = 180.0)));
-  IDEAS.Fluid.Movers.FlowControlled_dp pumHea(
+  BuildingEmulators.Components.FlowControlled_dp pumHea(
     redeclare package Medium = MediumHeating,
     m_flow_nominal=mWatProHea_flow_nominal,
-    use_inputFilter=false,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,allowFlowReversal = false,addPowerToMedium = false,dp_nominal = dp_nominal_wat_pro,inputType = IDEAS.Fluid.Types.InputType.Stages)
     "Pump for boiler circuit" annotation (Placement(transformation(extent={{5.719147562944727,-5.719147562944727},{-5.719147562944727,5.719147562944727}}, origin={90.0,-30.0},
         rotation=-180.0)));
@@ -102,10 +101,9 @@ model FanCoilUnits
         rotation=-90.0,
         origin={118.0,-42.0})));
 
-  IDEAS.Fluid.Movers.FlowControlled_dp pumCoo(
+  BuildingEmulators.Components.FlowControlled_dp pumCoo(
     redeclare package Medium = MediumCooling,
     m_flow_nominal=mWatProCoo_flow_nominal,
-    use_inputFilter=false,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,allowFlowReversal = false,addPowerToMedium = false,dp_nominal = dp_nominal_wat_pro,inputType = IDEAS.Fluid.Types.InputType.Stages)
     "Pump for boiler circuit" annotation (Placement(transformation(
         extent={{-13.333370829771411,-64.66662917022859},{-2.666629170228588,-75.33337082977141}},

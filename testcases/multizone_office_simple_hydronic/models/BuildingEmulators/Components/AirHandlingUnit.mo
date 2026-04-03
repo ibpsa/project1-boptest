@@ -48,19 +48,16 @@ model AirHandlingUnit
     min=0,
     max=1) = 0.84 "Efficiency of heat recuperation";
 
-  IDEAS.Fluid.Movers.FlowControlled_dp fanRet(
+  IDEAS.Fluid.Movers.Preconfigured.FlowControlled_dp fanRet(
     redeclare package Medium = MediumAir,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    allowFlowReversal=false,
     m_flow_nominal=m_flow_nominal_air_ret,
-    addPowerToMedium=false,
-    use_inputFilter=false,redeclare replaceable .IDEAS.Examples.PPD12.Data.FanCurvePP12 per(motorEfficiency(V_flow = {3.25},eta = {0.7}))) annotation (Placement(visible=true, transformation(
+    addPowerToMedium=false)                                                                                                                annotation (Placement(visible=true, transformation(
         origin={-10,26},
         extent={{10,10},{-10,-10}},
         rotation=180)));
   IDEAS.Fluid.FixedResistances.PressureDrop preDroRet(
     redeclare final package Medium = MediumAir,
-    allowFlowReversal=false,
     dp_nominal=dp_nominal_air_ret,
     m_flow_nominal=m_flow_nominal_air_ret) annotation (Placement(visible=true,
         transformation(
@@ -70,8 +67,6 @@ model AirHandlingUnit
   Buildings.Fluid.HeatExchangers.WetCoilEffectivenessNTU cooCoi(
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumAir,
-    allowFlowReversal1 = false,
-    allowFlowReversal2 = false,
     dp1_nominal = 0,
     dp2_nominal = 0,
     m1_flow_nominal = m_flow_nominal_wat_coo,
@@ -79,20 +74,18 @@ model AirHandlingUnit
     use_Q_flow_nominal = true,
     Q_flow_nominal = -Q_flow_nominal_coo,
     w_a2_nominal = 0.01,
-    T_a1_nominal = 273.15 + 9,
-    T_a2_nominal = 273.15 + 30,
+    T_a1_nominal=273.15 + 9,
+    T_a2_nominal=273.15 + 30,
     configuration = Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow)
                                           annotation (
     Placement(visible = true, transformation(origin={-46,-16},    extent = {{-57.7991, 3.79906}, {-38.2009, -15.7991}}, rotation = 0)));
 //            IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU cooCoi(
     //UA_nominal = 2000,energyDynamics = Modelica.Fluid.Types.Dynamics.DynamicFreeInitial) // -Q_flow_nominal_coo / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(273.15 + 12,273.15 + 15,273.15 + 30,273.15 + 20))
-  IDEAS.Fluid.Movers.FlowControlled_dp fanSup(
+  IDEAS.Fluid.Movers.Preconfigured.FlowControlled_dp fanSup(
     redeclare package Medium = MediumAir,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    allowFlowReversal=false,
     m_flow_nominal=m_flow_nominal_air_sup,
-    addPowerToMedium=false,
-    use_inputFilter=false,redeclare replaceable .IDEAS.Examples.PPD12.Data.FanCurvePP12 per(motorEfficiency(V_flow = {3.75},eta = {0.7}))) annotation (Placement(visible=true, transformation(
+    addPowerToMedium=false)                                                                                                                annotation (Placement(visible=true, transformation(
           extent={{16,-26},{-4,-6}},  rotation=0)));
   Modelica.Fluid.Interfaces.FluidPort_a portHea_a(redeclare final package
       Medium = MediumWater) annotation (Placement(
@@ -107,7 +100,6 @@ model AirHandlingUnit
         rotation=0)));
   IDEAS.Fluid.FixedResistances.PressureDrop preDroSup(
     redeclare final package Medium = MediumAir,
-    allowFlowReversal=false,
     dp_nominal=dp_nominal_air_sup,
     m_flow_nominal=m_flow_nominal_air_sup) annotation (Placement(visible=true,
         transformation(
@@ -138,7 +130,6 @@ model AirHandlingUnit
         rotation=0)));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTSupAhu(
     redeclare final package Medium = MediumAir,
-    allowFlowReversal = false,
     m_flow_nominal = m_flow_nominal_air_sup,
     tau = 60,
     transferHeat = false) annotation (
@@ -156,7 +147,6 @@ model AirHandlingUnit
     Placement(visible = true, transformation(origin={-10.0,100.0},    extent={{-14.0,-14.0},{14.0,14.0}},                                                                             rotation = -90.0), iconTransformation(origin = {-14, 100}, extent = {{-20, -20}, {20, 20}}, rotation=270)));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTRetAhu(
     redeclare final package Medium = MediumAir,
-    allowFlowReversal = false,
     m_flow_nominal = m_flow_nominal_air_ret,
     tau = 0,
     transferHeat = false) annotation (
@@ -175,27 +165,23 @@ model AirHandlingUnit
   IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU heaCoi(
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumAir,
-    allowFlowReversal1 = false,
-    allowFlowReversal2 = false,
     dp1_nominal = 0,
     dp2_nominal = 0,
     m1_flow_nominal = m_flow_nominal_wat_hea,
     m2_flow_nominal = m_flow_nominal_air_sup,
     Q_flow_nominal = Q_flow_nominal_hea,
-    T_a1_nominal = 273.15 + 50,
-    T_a2_nominal = 273.15 - 10,
+    T_a1_nominal=273.15 + 50,
+    T_a2_nominal=273.15 - 10,
     configuration = IDEAS.Fluid.Types.HeatExchangerConfiguration.CounterFlow) annotation (
     Placement(visible = true, transformation(origin={-34,-16},    extent = {{-5.79906, 3.79906}, {13.7991, -15.7991}}, rotation = 0)));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTExhAhu(
     redeclare final package Medium = MediumAir,
-    allowFlowReversal = false,
     m_flow_nominal = m_flow_nominal_air_ret,
     tau = 0,
     transferHeat = false) annotation (
     Placement(visible = true, transformation(origin={0.0,0.0},   extent = {{115.0,18.999969999999998},{129.0,33.00003}}, rotation = 0.0)));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTRecAhu(
     redeclare final package Medium = MediumAir,
-    allowFlowReversal = false,
     m_flow_nominal = m_flow_nominal_air_sup,
     tau = 0,
     transferHeat = false) annotation (
@@ -208,15 +194,12 @@ model AirHandlingUnit
     redeclare package Medium = MediumAir,
     nPorts=2, azi=0)    annotation (
     Placement(visible = true, transformation(origin={144,4},    extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package Medium = MediumAir)
-                                                                                           annotation (
+  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package Medium = MediumAir) annotation (
     Placement(visible = true, transformation(origin={-198,-16},    extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-202, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare final package Medium = MediumAir)
-                                                                                           annotation (
+  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare final package Medium = MediumAir) annotation (
     Placement(visible = true, transformation(origin={-200,26},    extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-198, 18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTInAhu(
     redeclare final package Medium = MediumAir,
-    allowFlowReversal=false,
     m_flow_nominal=m_flow_nominal_air_sup,
     tau=0,
     transferHeat=false) annotation (Placement(visible=true, transformation(
@@ -264,14 +247,15 @@ model AirHandlingUnit
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
-            dp_nominal = {0,0,0},
-            m_flow_nominal = {1,1,1},
-            energyDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial,
+    dp_nominal={0,0,0},
+    m_flow_nominal={1,1,1},
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
             redeclare package Medium = MediumAir,tau = 60) annotation(Placement(transformation(extent = {{113.37258768838353,-23.372587688383533},{98.62741231161647,-8.627412311616467}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Fluid.Actuators.Valves.Simplified.ThreeWayValveSwitch threeWayRec(
             redeclare package Medium = MediumAir,
             m_flow_nominal = m_flow_nominal_air_sup,
-            mFlowMin = 0.01 * m_flow_nominal_air_sup,tau = 60,energyDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial) annotation(Placement(transformation(extent = {{59.01209177503719,-23.01209177503719},{44.98790822496281,-8.987908224962808}},origin = {0.0,0.0},rotation = 0.0)));
+            mFlowMin = 0.01 * m_flow_nominal_air_sup,tau = 60,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)                                                       annotation(Placement(transformation(extent = {{59.01209177503719,-23.01209177503719},{44.98790822496281,-8.987908224962808}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Fluid.Actuators.Valves.Simplified.ThreeWayValveMotor threeWayCoo(
             redeclare package Medium=MediumWater,
             m_flow_nominal = m_flow_nominal_wat_coo,

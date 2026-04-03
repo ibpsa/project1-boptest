@@ -28,7 +28,8 @@ model FanCoilUnit_prf
     Dialog(group = "Cooling coil parameters"));
   parameter .Modelica.Units.SI.Temperature TCoo_a2_nominal "Nominal temperature of water inlet in the cooling coil" annotation (
     Dialog(group = "Cooling coil parameters"));
-  .IDEAS.Fluid.Movers.FlowControlled_m_flow fan(redeclare package Medium = MediumAir, addPowerToMedium = false, allowFlowReversal = allowFlowReversal, dp_nominal = dpAir_nominal, energyDynamics = .Modelica.Fluid.Types.Dynamics.SteadyState, m_flow_nominal = mAir_flow_nominal, tau = 0, use_inputFilter = false,redeclare replaceable .IDEAS.Fluid.Movers.Data.Generic per) "Fan recirculating the air in the zone through the fan coil unit" annotation (
+  .IDEAS.Fluid.Movers.Preconfigured.FlowControlled_m_flow fan(redeclare package Medium = MediumAir, addPowerToMedium = false, allowFlowReversal = allowFlowReversal, dp_nominal = dpAir_nominal,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,                                                                                                                                                                                   m_flow_nominal = mAir_flow_nominal, tau = 0)                                                                                     "Fan recirculating the air in the zone through the fan coil unit" annotation (
     Placement(transformation(extent = {{-50, -10}, {-30, 10}})));
 
     .Buildings.Fluid.HeatExchangers.WetCoilEffectivenessNTU cooCoi(
