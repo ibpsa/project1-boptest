@@ -290,12 +290,12 @@ def main():
     parser.add_argument('warmup_period', type=int, default=0, help="Timestamp (in seconds) at which to start the simulation.")
     parser.add_argument('--baseurl','-u', dest='baseurl', type=str, default='http://127.0.0.1:8000', help="URL for BOPTest endpoint.")
     parser.add_argument('--app_interval','-ai', type=str, default='5', help="Application refresh interval time in seconds, which triggers simulation advancement and data exchange. Using value 'oncommand' will give user control of refresh upon incrementing a positive integer value of an additional new BACnet point named 'advance'.")
-    parser.add_argument('--simulation_step','-s', type=str, default='5', help="Simulation advance time step in seconds, with each application refresh.")
+    parser.add_argument('--control_step','-s', type=str, default='5', help="Simulation advance time step in seconds, with each application refresh.")
 
     # parse the command line arguments
     args = parser.parse_args()
     baseurl = args.baseurl
-    simulation_step = float(args.simulation_step)
+    control_step = float(args.control_step)
 
     if "oncommand" in args.app_interval:
         oncommand = True
@@ -324,10 +324,10 @@ def main():
     boptest_measurements = requests.get('{0}/measurements/{1}'.format(baseurl,testid)).json()
     boptest_inputs = requests.get('{0}/inputs/{1}'.format(baseurl,testid)).json()
 
-    # We advance the simulation by "simulation_step" seconds at each call to /advance.
-    # if "APPINTERVAL" == "simulation_step" the simulation moves in sync with wallclock time.
-    # To see things happen faster, set "simulation_step" > "APPINTERVAL"
-    res = requests.put('{0}/step/{1}'.format(baseurl,testid), json={'step':simulation_step})
+    # We advance the simulation by "control_step" seconds at each call to /advance.
+    # if "APPINTERVAL" == "control_step" the simulation moves in sync with wallclock time.
+    # To see things happen faster, set "control_step" > "APPINTERVAL"
+    res = requests.put('{0}/step/{1}'.format(baseurl,testid), json={'step':control_step})
 
     # make a device object
     this_device = LocalDeviceObject(ini=args.ini)

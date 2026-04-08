@@ -99,7 +99,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
         '''
 
-        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=2 --simulation_step=60", shell=True)
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=2 --control_step=60", shell=True)
         t_start = time.time()
         time.sleep(10)
         r = subprocess.Popen("cd bacnet/example && exec python SimpleRead.py {0}:5000 analogValue:2 presentValue".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -129,7 +129,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         '''
 
         time_advanced = 10
-        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=oncommand --simulation_step={0}".format(time_advanced), shell=True)
+        p = subprocess.Popen("cd bacnet && exec python BopTestProxy.py bestest_air 0 0 --app_interval=oncommand --control_step={0}".format(time_advanced), shell=True)
         time.sleep(10)
         w = subprocess.Popen("cd bacnet/example && exec python SimpleReadWrite.py {0}:5000 analogOutput:1 presentValue 1".format(self.ip), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         time.sleep(10)

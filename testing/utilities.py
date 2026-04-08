@@ -170,56 +170,106 @@ class partialChecks(object):
 
         # Check time is index
         assert(df.index.name == 'time')
+        # Resample to 500 points limit if needed.
+        if len(df)>500:
+            y_test = []
+            keys = []
+            for key in df.columns:
+                y_test.append(self.create_test_points(df[key], n=500))
+                keys.append(key)
+            df_test = pd.concat(y_test, axis=1, keys=keys)
+            df_test.index.name = 'time'
+        else:
+            df_test = df
         # Perform test
         if os.path.exists(ref_filepath):
             # If reference exists, check it
             df_ref = pd.read_csv(ref_filepath, index_col='time')
             # Check all keys in reference are in test
             for key in df_ref.columns.to_list():
-                self.assertTrue(key in df.columns.to_list(), 'Reference key {0} not in test data.'.format(key))
+                self.assertTrue(key in df_test.columns.to_list(), 'Reference key {0} not in test data.'.format(key))
             # Check all keys in test are in reference
-            for key in df.columns.to_list():
+            for key in df_test.columns.to_list():
                 self.assertTrue(key in df_ref.columns.to_list(), 'Test key {0} not in reference data.'.format(key))
             # Check trajectories
-            for key in df.columns:
-                y_test = self.create_test_points(df[key]).to_numpy()
-                y_ref = self.create_test_points(df_ref[key]).to_numpy()
+            for key in df_test.columns:
+                y_test = df_test[key].to_numpy()
+                y_ref = df_ref[key].to_numpy()
                 results = self.check_trajectory(y_test, y_ref)
                 self.assertTrue(results['Pass'], '{0} Key is {1}.'.format(results['Message'],key))
         else:
             # Otherwise, save as reference
-            df.to_csv(ref_filepath)
+            df_test.to_csv(ref_filepath)
 
         return None
 
     def compare_ref_json(self, json_test, ref_filepath):
-            '''Compare a json to a reference json saved as .json.
+        '''Compare a json to a reference json saved as .json.
 
-            Parameters
-            ----------
-            json_test : Dict
-                Test json in the form of a dictionary.
-            ref_filepath : str
-                Reference .json file path relative to testing directory.
+        Parameters
+        ----------
+        json_test : Dict
+            Test json in the form of a dictionary.
+        ref_filepath : str
+            Reference .json file path relative to testing directory.
 
-            Returns
-            -------
-            None
+        Returns
+        -------
+        None
 
-            '''
+        '''
 
-            # Perform test
-            if os.path.exists(ref_filepath):
-                # If reference exists, check it
-                with open(ref_filepath, 'r') as f:
-                    json_ref = json.load(f)
-                self.assertTrue(json_test==json_ref, 'json_test:\n{0}\ndoes not equal\njson_ref:\n{1}'.format(json_test, json_ref))
-            else:
-                # Otherwise, save as reference
-                with open(ref_filepath, 'w') as f:
-                    json.dump(json_test,f)
+        # Perform test
+        if os.path.exists(ref_filepath):
+            # If reference exists, check it
+            with open(ref_filepath, 'r') as f:
+                json_ref = json.load(f)
+            # Perform recursive comparison of json structures
+            def recursive_compare(test_obj, ref_obj, path='root'):
+                # Determine if numeric value
+                try:
+                    y_test = float(test_obj)
+                    y_ref = float(ref_obj)
+                    numeric = True
+                except:
+                    y_test = test_obj
+                    y_ref = ref_obj
+                    numeric = False
+                if isinstance(test_obj, dict):
+                    # Check keys in reference are in test
+                    for key in ref_obj:
+                        self.assertTrue(key in test_obj, 'Reference key {0} not in test json at {1}'.format(key,path))
+                    # Check keys in test are in reference and recurse
+                    for key in test_obj:
+                        self.assertTrue(key in ref_obj, 'Test key {0} not in reference json at {1}'.format(key,path))
+                        new_path = '{0}.{1}'.format(path,key) if path else key
+                        recursive_compare(test_obj[key], ref_obj[key], new_path)
+                elif isinstance(test_obj, list):
+                    self.assertTrue(len(test_obj) == len(ref_obj), 'List length mismatch at {0}'.format(path))
+                    for idx, (t_item, r_item) in enumerate(zip(test_obj, ref_obj)):
+                        new_path = '{0}[{1}]'.format(path,idx)
+                        recursive_compare(t_item, r_item, new_path)
+                else:
+                    if numeric:
+                        # Compare values with tolerance
+                        tol = 1e-3
+                        err_abs = np.absolute(y_test - y_ref)
+                        if (abs(y_ref) > 10 * tol):
+                            err_rel = err_abs / abs(y_ref)
+                        else:
+                            err_rel = 0
+                        err_tot = err_abs + err_rel
+                        self.assertTrue(err_tot <= tol, 'Total error ({0}) greater than tolerance ({1}) at {2}: {3} in test json != {4} in reference json'.format(err_tot, tol, path, y_test, y_ref))
+                    else:
+                        # Compare values
+                        self.assertTrue(y_test == y_ref, 'Value mismatch at {0}: {1} in test json != {2} in reference json'.format(path,y_test,y_ref))
+            recursive_compare(json_test, json_ref)
+        else:
+            # Otherwise, save as reference
+            with open(ref_filepath, 'w') as f:
+                json.dump(json_test,f)
 
-            return None
+        return None
 
     def compare_ref_values_df(self, df, ref_filepath):
         '''Compare a values dataframe to a reference csv.
@@ -345,10 +395,12 @@ class partialChecks(object):
         t = np.linspace(t_min, t_max, n)
         # Interpolate data
         data_interp = np.interp(t,index,data)
-        # Use at most 8 significant digits
+        # Use at most 8 significant digits for data
         data_interp = [ float('{:.8g}'.format(x)) for x in data_interp ]
+        # Use at most 10 significant digits for time
+        t_interp = [ float('{:.10g}'.format(x)) for x in t ]
         # Make Series
-        s_test = pd.Series(data=data_interp, index=t)
+        s_test = pd.Series(data=data_interp, index=t_interp)
 
         return s_test
 
