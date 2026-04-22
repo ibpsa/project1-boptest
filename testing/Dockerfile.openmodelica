@@ -12,13 +12,13 @@ RUN apt-get update \
     && . miniconda/bin/activate \
 	&& conda update -n base -c defaults conda \
 	&& conda activate pyfmi3 \
-	&& python -m pip install -U https://github.com/OpenModelica/OMPython/archive/master.zip
+	&& python -m pip install -U https://github.com/OpenModelica/OMPython/archive/v4.0.1.zip
 
 # Add boptest user
 RUN useradd -m -s /bin/bash boptest \
     && cp -r ./boptest $HOME/boptest \
     && chown -R boptest:boptest $HOME
-    
+
 
 # Install open-modelica
 RUN export DEBIAN_FRONTEND="noninteractive" && echo "VERSION: $VERSION" && test ! -z "$VERSION" && apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy \
@@ -30,7 +30,7 @@ RUN export DEBIAN_FRONTEND="noninteractive" && echo "VERSION: $VERSION" && test 
     && apt-get install omlibrary \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-    
+
 WORKDIR $HOME
 USER boptest
 
@@ -44,7 +44,7 @@ RUN mkdir $HOME/MODELICAPATH && mkdir git \
     && ln -s $HOME/git/modelica-buildings/Buildings $HOME/MODELICAPATH/Buildings \
     && ln -s $HOME/git/modelica-ibpsa/IBPSA $HOME/MODELICAPATH/IBPSA \
     && cd ../.. && chown -R boptest:boptest /home/boptest
-    
+
 ENV MODELICAPATH=$HOME/MODELICAPATH/:$HOME/MODELICAPATH/IBPSA:$HOME/MODELICAPATH/IDEAS:$HOME/MODELICAPATH/Buildings
 ENV PYTHONPATH=$HOME/boptest/lib
 WORKDIR /
