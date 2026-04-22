@@ -25,7 +25,7 @@ Released on xx/xx/xxxx.
   - Use ``dmc`` executable for test case compilation using Dymola.
 - The following changes have been made to unit testing. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422):
   - Add container support for compiling test cases with OpenModelica v1.24.4 and remove container support for compiling with JModelica by replacing the existing ``testing/Dockerfile`` with ``testing/Dockerfile.openmodelica``, which starts from the ``worker`` container image, installs OpenModelica (v1.24.4 by default), and sets up a different internal file structure.
-  - Refactored the ``testing/makefile`` to make use of OpenModelica container instead of JModelica container.
+  - Refactored the ``testing/makefile`` to make use of OpenModelica container instead of JModelica container, and make use of volume mounting instead of file copying.
   - Updated ``.travis.yml`` to make use of OpenModelica container instead of JModelica container.
 - For ``data/data_generator.py``, added support for use with OpenModelica and removed support for use with JModelica. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
 - Updated ``worker`` container to use Ubuntu 24.04 instead of Ubuntu 20.04. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
