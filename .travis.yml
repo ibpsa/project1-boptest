@@ -47,7 +47,7 @@ jobs:
     script: cd testing && make build_compiler_image && make test_testcase1
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make test_testcase2
+    script: cd testing && make test_testcase2_no_compile
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make test_testcase3_no_compile
