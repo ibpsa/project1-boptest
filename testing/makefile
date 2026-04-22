@@ -9,6 +9,7 @@ COMMAND_RUN=docker run \
 	  --detach=true \
 	  --rm \
 	  -it \
+	  -v ../:/home/compiler/boptest \
 	  ${IMG_NAME}
 # Help target
 help:
@@ -50,39 +51,32 @@ run_cimg:
 	$(COMMAND_RUN)
 
 copy_to_cimg:
-	docker cp ../${ARGS} ${IMG_NAME}:/home/boptest/boptest/lib \
-	&& docker exec -i --user root ${IMG_NAME} /bin/bash -c "chown -R boptest:boptest /home/boptest/boptest/lib && exit"
+	docker cp ../${ARGS} ${IMG_NAME}:/home/compiler
 
 
 copy_testcase_to_cimg:
 	make copy_to_cimg ARGS=testcases/${TESTCASE}
-	docker cp ../testcase.py ${IMG_NAME}:/home/boptest/boptest/lib/${TESTCASE}
-	docker cp ../version.txt ${IMG_NAME}:/home/boptest/boptest/lib/${TESTCASE}
-	make exec_cimg ARGS="touch /home/boptest/boptest/lib/${TESTCASE}/__init__.py"
+	docker cp ../testcase.py ${IMG_NAME}:/home/compiler/${TESTCASE}
+	docker cp ../version.txt ${IMG_NAME}:/home/compiler/${TESTCASE}
+	make exec_cimg ARGS="touch /home/compiler/${TESTCASE}/__init__.py"
 
 copy_from_cimg:
-	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/${ARGS} ../${ARGS}
+	docker cp ${IMG_NAME}:/home/compiler/${ARGS} ../${ARGS}
 
 copy_testcase_from_cimg:
-	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/${ARGS} ../testcases/${ARGS}
+	docker cp ${IMG_NAME}:/home/compiler/${ARGS} ../testcases/${ARGS}
 
 exec_cimg:
-	docker exec -i --env USER=boptest ${IMG_NAME} /bin/bash -c "${ARGS}"
+	docker exec -i --env USER=compiler ${IMG_NAME} /bin/bash -c "${ARGS}"
 
 stop_cimg:
 	docker stop ${IMG_NAME}
 # Make sure cimg image stops being used
-	python sleep10.py
+	python3 sleep10.py
 
 compile_testcase_model:
 	make run_cimg
-	make copy_to_cimg ARGS=parsing
-	make copy_to_cimg ARGS=testing/set_library_versions.py
-	make copy_to_cimg ARGS=testcases/${TESTCASE}
-	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd home/boptest/boptest/lib && python set_library_versions.py ${TESTCASE} && cd ${TESTCASE}/models && python compile_fmu.py openmodelica && exit"
-	make copy_testcase_from_cimg ARGS=${TESTCASE}/models/kpis.json
-	make copy_testcase_from_cimg ARGS=${TESTCASE}/models/wrapped.fmu
-	make copy_testcase_from_cimg ARGS=${TESTCASE}/models/wrapped.mo
+	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd /home/compiler/boptest && python testing/set_library_versions.py testcases/${TESTCASE} && cd /home/compiler/boptest/testcases/${TESTCASE}/models && python compile_fmu.py --tool openmodelica --algorithm cvode && exit"
 	make stop_cimg
 
 ###############################################################################
