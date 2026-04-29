@@ -17,6 +17,18 @@ We are excited to host the BOPTEST webinar series! These sessions highlight the 
 **Webinar Format:** Each session features two speakers, one from academia and one from industry, each presenting for 20 minutes, followed by a 10-minute Q&A.
 
 
+### Webinar 6: Hardware-efficient MPC and model comparison
+
+**Date and time:** April 27, 2026 - 15:00 UTC
+
+**Presentations:**
+
+*<u>Huayu Jiang</u>* (Department of Civil and Environmental Engineering, The Hong Kong University of Science and Technology) presents Tiny-AMPC: Hardware-Aware Compression of MLP Controllers for Mixed-Integer MPC, addressing the challenge of delivering high-performance MPC on low-cost hardware such as thermostats.
+
+*<u>Jaap Neven</u>* (KU Leuven) presents a comparison of White-Box vs. Gray-Box Model Predictive Control performance based on a Two-Zone BOPTEST Case Study, assessing whether a controller model will yield efficient MPC performance without full implementation.
+
+- [Webinar recording here](https://www.youtube.com/watch?v=rxm-0hh8yJQ)
+
 ### Webinar 5: A fresh look at MPC with BOPTEST
 
 **Date and time:** February 5, 2026 - 15:00 UTC
