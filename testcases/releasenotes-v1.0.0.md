@@ -232,6 +232,7 @@ Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follo
 - Reduce number of elements in radiators from 5 to 3 to increase numerical stability.
 - Changed feedback controllers from Modelica ``Buildings.Controls.Continuous.LimPID`` to CDL ``Buildings.Controls.OBC.CDL.Reals.PID``.
 - Updated pumps to use ``Buildings.Fluid.Movers.Preconfigured``.
+- Fixed building dimensions and updated documentation. This is for [#834](https://github.com/ibpsa/project1-boptest/issues/834).
 
 ### KPI Changes
 Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:
