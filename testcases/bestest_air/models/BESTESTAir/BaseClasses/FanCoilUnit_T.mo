@@ -57,11 +57,9 @@ model FanCoilUnit_T
     annotation (Placement(transformation(extent={{70,130},{90,150}})));
   Modelica.Blocks.Math.Gain fanGai(k=mAir_flow_nominal) "Fan gain"
     annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
-  Buildings.Fluid.Movers.FlowControlled_m_flow fan(
+  Buildings.Fluid.Movers.Preconfigured.FlowControlled_m_flow fan(
     redeclare package Medium = Medium1,
     m_flow_nominal=mAir_flow_nominal,
-    addPowerToMedium=false,
-    nominalValuesDefineDefaultPressureCurve=true,
     dp_nominal=dpAir_nominal) "Supply fan"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=90,
