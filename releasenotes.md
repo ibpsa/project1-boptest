@@ -44,6 +44,10 @@ Released on xx/xx/xxxx.
   - See more details about changes to each test case Modelica model and effects on KPIs to make all the above changes work and close additional issues in ``testcases/releasenotes-v1.0.0.md``.
 
 
+**The following changes are not backwards-compatible and significantly change benchmark results:**
+
+- Fixed building dimensions and updated documentation of multizone residential hydronic test case. Conditioned surface area has been changed slightly, resulting in slightly different KPIs. This is for [#834](https://github.com/ibpsa/project1-boptest/issues/834).
+
 ## BOPTEST v0.9.0
 
 Released on 11/18/2025.

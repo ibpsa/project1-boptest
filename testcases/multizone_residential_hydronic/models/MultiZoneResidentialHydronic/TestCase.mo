@@ -70,108 +70,109 @@ protected
 
   // Building reference floor surface
   parameter Modelica.Units.SI.Area S_ref = 100
-    "Buildign rerefence surface"; // used to scale up the actual building and take into account a bigger building surface
+    "Building reference surface"; // used to scale up the actual building and take into account a bigger building surface
 
   // Garage
-  parameter Modelica.Units.SI.Area S_Garage = 20.52 * S/S_ref;
-  parameter Modelica.Units.SI.Area Spe_Garage_Nord = 3.8 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spe_Garage_Est = 5.4 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spe_Garage_Ouest = 0.7 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_Garage_Salon = 8.5 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spl_Garage_Combles = S_Garage;
-  parameter Modelica.Units.SI.Area Spl_Garage_exterieur = S_Garage;
-  parameter Modelica.Units.SI.MassFlowRate Q_Garage = 0.5*S_Garage*HSP/3600*d_air;
+  parameter Modelica.Units.SI.Area S_Garage = 20.52 * S/S_ref; // Garage floor area
+  parameter Modelica.Units.SI.Area Spe_Garage_Nord = 3.8 * HSP * sqrt(S/S_ref); // Exterior wall area (north side)
+  parameter Modelica.Units.SI.Area Spe_Garage_Est = 5.4 * HSP * sqrt(S/S_ref); // Exterior wall area (east side)
+  parameter Modelica.Units.SI.Area Spe_Garage_Ouest = 0.7 * HSP * sqrt(S/S_ref); // Exterior wall area (west side)
+  parameter Modelica.Units.SI.Area Spi_Garage_Salon = 8.5 * HSP * sqrt(S/S_ref); // Internal wall area between garage and living room
+  parameter Modelica.Units.SI.Area Spl_Garage_Combles = S_Garage; // Ceiling area between garage and attic
+  parameter Modelica.Units.SI.Area Spl_Garage_exterieur = S_Garage; // Floor area exposed to exterior
+  parameter Modelica.Units.SI.MassFlowRate Q_Garage = 0.5*S_Garage*HSP/3600*d_air; // Air infiltration mass flow rate
 
   // Living room
-  parameter Modelica.Units.SI.Area S_Salon = 30.32 * S/S_ref;
-  parameter Modelica.Units.SI.Length L_ext_Salon = (Spe_Salon_Nord+Spi_Salon_Garage+Spe_Salon_Est+Spe_Salon_Sud)/HSP;
-  parameter Modelica.Units.SI.Area Spe_Salon_Nord = 2.8 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spe_Salon_Est = 2.6 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spe_Salon_Sud = 6.6 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_Salon_Garage = Spi_Garage_Salon;
-  parameter Modelica.Units.SI.Area Spi_Salon_Chambre1 = 3.6 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_Salon_SDB = 2.7 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_Salon_Couloir = 1 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spl_Salon_Combles = S_Salon;
-  parameter Modelica.Units.SI.Area Spl_Salon_exterieur = S_Salon;
-  parameter Modelica.Units.SI.Area Sf_Salon_Nord = 3.65 * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Sf_Salon_Sud = 5.52 * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.MassFlowRate Q_Salon = Q_batiment * S_Salon/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  parameter Modelica.Units.SI.Area S_Salon = 30.32 * S/S_ref; // Living room floor area
+  parameter Modelica.Units.SI.Length L_ext_Salon = (Spe_Salon_Nord+Spi_Salon_Garage+Spe_Salon_Est+Spe_Salon_Sud)/HSP; // Equivalent exterior wall length
+  parameter Modelica.Units.SI.Area Spe_Salon_Nord = 2.8 * HSP * sqrt(S/S_ref); // Exterior wall area (north)
+  parameter Modelica.Units.SI.Area Spe_Salon_Est = 2.6 * HSP * sqrt(S/S_ref); // Exterior wall area (east)
+  parameter Modelica.Units.SI.Area Spe_Salon_Sud = 6.6 * HSP * sqrt(S/S_ref); // Exterior wall area (south)
+  parameter Modelica.Units.SI.Area Spi_Salon_Garage = Spi_Garage_Salon; // Internal wall with garage
+  parameter Modelica.Units.SI.Area Spi_Salon_Chambre1 = 3.6 * HSP * sqrt(S/S_ref); // Internal wall with bedroom 1
+  parameter Modelica.Units.SI.Area Spi_Salon_SDB = 2.7 * HSP * sqrt(S/S_ref); // Internal wall with bathroom
+  parameter Modelica.Units.SI.Area Spi_Salon_Couloir = 1 * HSP * sqrt(S/S_ref); // Internal wall with corridor
+  parameter Modelica.Units.SI.Area Spl_Salon_Combles = S_Salon; // Ceiling area to attic
+  parameter Modelica.Units.SI.Area Spl_Salon_exterieur = S_Salon; // Floor area exposed to exterior
+  parameter Modelica.Units.SI.Area Sf_Salon_Nord = 3.65 * sqrt(S/S_ref); // Window area (north)
+  parameter Modelica.Units.SI.Area Sf_Salon_Sud = 5.52 * sqrt(S/S_ref); // Window area (south)
+  parameter Modelica.Units.SI.MassFlowRate Q_Salon = Q_batiment * S_Salon/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3); // Ventilation airflow distribution
 
   // Room 1
-  parameter Modelica.Units.SI.Area S_Chambre1 = 11.16 * S/S_ref;
-  parameter Modelica.Units.SI.Length L_ext_Chambre1 = Spe_Chambre1_Sud/HSP;
-  parameter Modelica.Units.SI.Area Spe_Chambre1_Sud = 3.1 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_Chambre1_Salon = Spi_Salon_Chambre1;
-  parameter Modelica.Units.SI.Area Spi_Chambre1_Couloir = 3.6 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_Chambre1_Chambre2 = 3.1 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spl_Chambre1_Combles = S_Chambre1;
-  parameter Modelica.Units.SI.Area Spl_Chambre1_exterieur = S_Chambre1;
-  parameter Modelica.Units.SI.Area Sf_Chambre1_Sud = 1.56 * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.MassFlowRate Q_Chambre1 = Q_batiment * S_Chambre1/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  parameter Modelica.Units.SI.Area S_Chambre1 = 11.16 * S/S_ref; // Bedroom 1 floor area
+  parameter Modelica.Units.SI.Length L_ext_Chambre1 = Spe_Chambre1_Sud/HSP; // Equivalent exterior wall length
+  parameter Modelica.Units.SI.Area Spe_Chambre1_Sud = 3.1 * HSP * sqrt(S/S_ref); // Exterior wall (south)
+  parameter Modelica.Units.SI.Area Spi_Chambre1_Salon = Spi_Salon_Chambre1; // Internal wall with living room
+  parameter Modelica.Units.SI.Area Spi_Chambre1_Couloir = 3.1 * HSP * sqrt(S/S_ref); // Internal wall with corridor
+  parameter Modelica.Units.SI.Area Spi_Chambre1_Chambre2 = 3.6 * HSP * sqrt(S/S_ref); // Internal wall with bedroom 2
+  parameter Modelica.Units.SI.Area Spl_Chambre1_Combles = S_Chambre1; // Ceiling to attic
+  parameter Modelica.Units.SI.Area Spl_Chambre1_exterieur = S_Chambre1; // Floor exposed to exterior
+  parameter Modelica.Units.SI.Area Sf_Chambre1_Sud = 1.56 * sqrt(S/S_ref); // Window area (south)
+  parameter Modelica.Units.SI.MassFlowRate Q_Chambre1 = Q_batiment * S_Chambre1/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3); // Airflow share
 
   // Room 2
-  parameter Modelica.Units.SI.Area S_Chambre2 = 9.85 * S/S_ref;
-  parameter Modelica.Units.SI.Length L_ext_Chambre2 = (Spe_Chambre2_Sud+Spe_Chambre2_Ouest)/HSP;
-  parameter Modelica.Units.SI.Area Spe_Chambre2_Sud = 3 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spe_Chambre2_Ouest = 3.1 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_Chambre2_Chambre1 = Spi_Chambre1_Chambre2;
-  parameter Modelica.Units.SI.Area Spi_Chambre2_Couloir = 3.5 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spl_Chambre2_Combles = S_Chambre2;
-  parameter Modelica.Units.SI.Area Spl_Chambre2_exterieur = S_Chambre2;
-  parameter Modelica.Units.SI.Area Sf_Chambre2_Sud = 1.56 * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.MassFlowRate Q_Chambre2 = Q_batiment * S_Chambre2/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  parameter Modelica.Units.SI.Area S_Chambre2 = 10.8 * S/S_ref; // Bedroom 2 floor area
+  parameter Modelica.Units.SI.Length L_ext_Chambre2 = (Spe_Chambre2_Sud+Spe_Chambre2_Ouest)/HSP; // Equivalent exterior wall length
+  parameter Modelica.Units.SI.Area Spe_Chambre2_Sud = 3 * HSP * sqrt(S/S_ref); // Exterior wall (south)
+  parameter Modelica.Units.SI.Area Spe_Chambre2_Ouest = 3.6 * HSP * sqrt(S/S_ref); // Exterior wall (west)
+  parameter Modelica.Units.SI.Area Spi_Chambre2_Chambre1 = Spi_Chambre1_Chambre2; // Internal wall with bedroom 1
+  parameter Modelica.Units.SI.Area Spi_Chambre2_Couloir = 3 * HSP * sqrt(S/S_ref); // Internal wall with corridor
+  parameter Modelica.Units.SI.Area Spl_Chambre2_Combles = S_Chambre2; // Ceiling to attic
+  parameter Modelica.Units.SI.Area Spl_Chambre2_exterieur = S_Chambre2; // Floor exposed to exterior
+  parameter Modelica.Units.SI.Area Sf_Chambre2_Sud = 1.56 * sqrt(S/S_ref); // Window area (south)
+  parameter Modelica.Units.SI.MassFlowRate Q_Chambre2 = Q_batiment * S_Chambre2/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3); // Airflow share
 
   // Room 3
-  parameter Modelica.Units.SI.Area S_Chambre3 = 14.28 * S/S_ref;
-  parameter Modelica.Units.SI.Length L_ext_Chambre3 = (Spe_Chambre3_Ouest+Spe_Chambre3_Nord)/HSP;
-  parameter Modelica.Units.SI.Area Spe_Chambre3_Ouest = 3.4 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spe_Chambre3_Nord = 4.2 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_Chambre3_SDB = 3.4 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_Chambre3_Couloir = 4.2 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spl_Chambre3_Combles = S_Chambre3;
-  parameter Modelica.Units.SI.Area Spl_Chambre3_exterieur = S_Chambre3;
-  parameter Modelica.Units.SI.Area Sf_Chambre3_Nord = 1.56 * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.MassFlowRate Q_Chambre3 = Q_batiment * S_Chambre3/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  parameter Modelica.Units.SI.Area S_Chambre3 = 14.28 * S/S_ref; // Bedroom 3 floor area
+  parameter Modelica.Units.SI.Length L_ext_Chambre3 = (Spe_Chambre3_Ouest+Spe_Chambre3_Nord)/HSP; // Equivalent exterior wall length
+  parameter Modelica.Units.SI.Area Spe_Chambre3_Ouest = 3.4 * HSP * sqrt(S/S_ref); // Exterior wall (west)
+  parameter Modelica.Units.SI.Area Spe_Chambre3_Nord = 4.2 * HSP * sqrt(S/S_ref); // Exterior wall (north)
+  parameter Modelica.Units.SI.Area Spi_Chambre3_SDB = 3.4 * HSP * sqrt(S/S_ref); // Internal wall with bathroom
+  parameter Modelica.Units.SI.Area Spi_Chambre3_Couloir = 4.2 * HSP * sqrt(S/S_ref); // Internal wall with corridor
+  parameter Modelica.Units.SI.Area Spl_Chambre3_Combles = S_Chambre3; // Ceiling to attic
+  parameter Modelica.Units.SI.Area Spl_Chambre3_exterieur = S_Chambre3; // Floor exposed to exterior
+  parameter Modelica.Units.SI.Area Sf_Chambre3_Nord = 1.56 * sqrt(S/S_ref); // Window area (north)
+  parameter Modelica.Units.SI.MassFlowRate Q_Chambre3 = Q_batiment * S_Chambre3/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3); // Airflow share
 
   // Bathroom
-  parameter Modelica.Units.SI.Area S_SDB = 6.46 * S/S_ref;
-  parameter Modelica.Units.SI.Length L_ext_SDB = (Spe_SDB_Nord+Spe_SDB_Est)/HSP;
-  parameter Modelica.Units.SI.Area Spe_SDB_Nord = 1.9 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spe_SDB_Est = 0.7 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_SDB_Salon = Spi_Salon_SDB;
-  parameter Modelica.Units.SI.Area Spi_SDB_Couloir = 1.9 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_SDB_Chambre3 = Spi_Chambre3_SDB;
-  parameter Modelica.Units.SI.Area Spl_SDB_Combles = S_SDB;
-  parameter Modelica.Units.SI.Area Spl_SDB_exterieur = S_SDB;
-  parameter Modelica.Units.SI.Area Sf_SDB_Nord = 0.15 * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area S_SDB = 6.46 * S/S_ref; // Bathroom floor area
+  parameter Modelica.Units.SI.Length L_ext_SDB = (Spe_SDB_Nord+Spe_SDB_Est)/HSP; // Equivalent exterior wall length
+  parameter Modelica.Units.SI.Area Spe_SDB_Nord = 1.9 * HSP * sqrt(S/S_ref); // Exterior wall (north)
+  parameter Modelica.Units.SI.Area Spe_SDB_Est = 0.7 * HSP * sqrt(S/S_ref); // Exterior wall (east)
+  parameter Modelica.Units.SI.Area Spi_SDB_Salon = Spi_Salon_SDB; // Internal wall with living room
+  parameter Modelica.Units.SI.Area Spi_SDB_Couloir = 1.9 * HSP * sqrt(S/S_ref); // Internal wall with corridor
+  parameter Modelica.Units.SI.Area Spi_SDB_Chambre3 = Spi_Chambre3_SDB; // Internal wall with bedroom 3
+  parameter Modelica.Units.SI.Area Spl_SDB_Combles = S_SDB; // Ceiling to attic
+  parameter Modelica.Units.SI.Area Spl_SDB_exterieur = S_SDB; // Floor exposed to exterior
+  parameter Modelica.Units.SI.Area Sf_SDB_Nord = 0.15 * sqrt(S/S_ref); // Window area (north)
 
   // Hall
-  parameter Modelica.Units.SI.Area S_Couloir = 7.05 * S/S_ref;
-  parameter Modelica.Units.SI.Length L_ext_Couloir = Spe_Couloir_Ouest/HSP;
-  parameter Modelica.Units.SI.Area Spe_Couloir_Ouest = 1.5 * HSP * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spi_Couloir_Chambre1 = Spi_Chambre1_Couloir;
-  parameter Modelica.Units.SI.Area Spi_Couloir_Chambre2 = Spi_Chambre2_Couloir;
-  parameter Modelica.Units.SI.Area Spi_Couloir_Chambre3 = Spi_Chambre3_Couloir;
-  parameter Modelica.Units.SI.Area Spi_Couloir_SDB = Spi_SDB_Couloir;
-  parameter Modelica.Units.SI.Area Spi_Couloir_Salon = Spi_Salon_Couloir;
-  parameter Modelica.Units.SI.Area Spl_Couloir_Combles = S_Couloir;
-  parameter Modelica.Units.SI.Area Spl_Couloir_exterieur = S_Couloir;
+  parameter Modelica.Units.SI.Area S_Couloir = 6.1 * S/S_ref; // Corridor floor area
+  parameter Modelica.Units.SI.Length L_ext_Couloir = Spe_Couloir_Ouest/HSP; // Exterior wall length
+  parameter Modelica.Units.SI.Area Spe_Couloir_Ouest = 1 * HSP * sqrt(S/S_ref); // Exterior wall (west)
+  parameter Modelica.Units.SI.Area Spi_Couloir_Chambre1 = Spi_Chambre1_Couloir; // Internal wall with bedroom 1
+  parameter Modelica.Units.SI.Area Spi_Couloir_Chambre2 = Spi_Chambre2_Couloir; // Internal wall with bedroom 2
+  parameter Modelica.Units.SI.Area Spi_Couloir_Chambre3 = Spi_Chambre3_Couloir; // Internal wall with bedroom 3
+  parameter Modelica.Units.SI.Area Spi_Couloir_SDB = Spi_SDB_Couloir; // Internal wall with bathroom
+  parameter Modelica.Units.SI.Area Spi_Couloir_Salon = Spi_Salon_Couloir; // Internal wall with living room
+  parameter Modelica.Units.SI.Area Spl_Couloir_Combles = S_Couloir; // Ceiling to attic
+  parameter Modelica.Units.SI.Area Spl_Couloir_exterieur = S_Couloir; // Floor exposed to exterior
 
   // Attic
-  parameter Modelica.Units.SI.Area S_Combles = 100 * S/S_ref;
-  parameter Modelica.Units.SI.Area Spe_Combles_exterieur_Nord = sqrt(H_Combles^2 + (8*sqrt(S/S_ref))^2)*(12.7*sqrt(S/S_ref));
-  parameter Modelica.Units.SI.Area Spl_Combles_Est = 8 * H_Combles/2 * sqrt(S/S_ref);
-  parameter Modelica.Units.SI.Area Spl_Combles_Ouest = Spl_Combles_Est;
-  parameter Modelica.Units.SI.Area Spe_Combles_exterieur_Sud = Spe_Combles_exterieur_Nord;
-  parameter Modelica.Units.SI.Area Spl_Combles_Garage = Spl_Garage_Combles;
-  parameter Modelica.Units.SI.Area Spl_Combles_Salon = Spl_Salon_Combles;
-  parameter Modelica.Units.SI.Area Spl_Combles_Chambre1 = Spl_Chambre1_Combles;
-  parameter Modelica.Units.SI.Area Spl_Combles_Chambre2 = Spl_Chambre2_Combles;
-  parameter Modelica.Units.SI.Area Spl_Combles_Chambre3 = Spl_Chambre3_Combles;
-  parameter Modelica.Units.SI.Area Spl_Combles_SDB = Spl_SDB_Combles;
-  parameter Modelica.Units.SI.Area Spl_Combles_Couloir = Spl_Couloir_Combles;
-  parameter Modelica.Units.SI.MassFlowRate Q_Combles = 0.5*S_Combles*H_Combles/2/3600*d_air;
+  parameter Modelica.Units.SI.Area S_Combles = 100 * S/S_ref; // Attic floor area
+  parameter Modelica.Units.SI.Area Spe_Combles_exterieur_Nord = sqrt(H_Combles^2 + (4*sqrt(S/S_ref))^2)*(12.7*sqrt(S/S_ref)); // Roof surface (north slope)
+  parameter Modelica.Units.SI.Area Spl_Combles_Est = 8 * H_Combles/2 * sqrt(S/S_ref); // Gable wall (east)
+  parameter Modelica.Units.SI.Area Spl_Combles_Ouest = Spl_Combles_Est; // Gable wall (west)
+  parameter Modelica.Units.SI.Area Spe_Combles_exterieur_Sud = Spe_Combles_exterieur_Nord; // Roof surface (south slope)
+  parameter Modelica.Units.SI.Area Spl_Combles_Garage = Spl_Garage_Combles; // Interface with garage
+  parameter Modelica.Units.SI.Area Spl_Combles_Salon = Spl_Salon_Combles; // Interface with living room
+  parameter Modelica.Units.SI.Area Spl_Combles_Chambre1 = Spl_Chambre1_Combles; // Interface with bedroom 1
+  parameter Modelica.Units.SI.Area Spl_Combles_Chambre2 = Spl_Chambre2_Combles; // Interface with bedroom 2
+  parameter Modelica.Units.SI.Area Spl_Combles_Chambre3 = Spl_Chambre3_Combles; // Interface with bedroom 3
+  parameter Modelica.Units.SI.Area Spl_Combles_SDB = Spl_SDB_Combles; // Interface with bathroom
+  parameter Modelica.Units.SI.Area Spl_Combles_Couloir = Spl_Couloir_Combles; // Interface with corridor
+  parameter Modelica.Units.SI.MassFlowRate Q_Combles = 0.5*S_Combles*H_Combles/2/3600*d_air; // Infiltration air mass flow rate
+  parameter Modelica.Units.SI.Angle alpha_Attic = Modelica.Math.atan(H_Combles/4); // Tilt angle of North and South roofs in the attic
 
   Modelica.Blocks.Sources.BooleanExpression booDHW(y=false)
     annotation (Placement(transformation(extent={{-190,-170},{-178,-154}})));
@@ -616,11 +617,11 @@ public
           Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Ceiling,
           Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Ceiling}),
     datConExt(
-      layers={CeilingWall,ExtWall,CeilingWall,ExtWall},
+      layers={CeilingWall,ExtWall,ExtWall,CeilingWall},
       A={Spe_Combles_exterieur_Nord,Spl_Combles_Est,Spl_Combles_Ouest,
           Spe_Combles_exterieur_Sud},
-      til={Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Floor,
-          Buildings.Types.Tilt.Ceiling},
+      til={alpha_Attic,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,
+          alpha_Attic},
       azi={Buildings.Types.Azimuth.N,Buildings.Types.Azimuth.E,Buildings.Types.Azimuth.W,
           Buildings.Types.Azimuth.S}),
     T_start=273.15 + 19,
@@ -2293,7 +2294,7 @@ i.e. the French national building energy regulation. Therefore,
 the typology is defined to be representative of French new
 dwellings.
 The area not including the unconditioned attic and unconditioned
-garage is of 81.08 m&sup2;.
+garage is of 79.12 m&sup2;.
 The following figure shows the building layout and
 a sketch of the hydraulic system. The coloured elements in the scheme
 represent the controllable components
@@ -2302,7 +2303,8 @@ through the BOPTEST interface. The dimensions are provided in metres.
 </p>
 <p align=\"center\">
 <img alt=\"Simulated residential dwelling\"
-src=\"../../Resources/layout.png\">
+src=\"../../Resources/layout.png\"
+width=\"800\">
 </p>
 
 <p>
@@ -2323,7 +2325,9 @@ zones:
 <p>
 The building envelope was defined in order to cover the new construction
 modes existing on the market. Thus, each of these modes was characterized
-by a different level of insulation (Table 1).
+by a different level of insulation (Table 1). The U-values include the effects
+of the conductive resistances of the wall layers, and both internal and
+external convection (h<sub>in</sub> = 7.7 W/m²·K, h<sub>ex</sub> = 25 W/m²·K).
 </p>
 
 <p><span style=\"font-family: Arial,sans-serif;\">Table 1.Building envelope characteristic</span> </p>
@@ -2338,6 +2342,14 @@ by a different level of insulation (Table 1).
 <tr>
 <td></td>
 <td><p><br><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U = 0.272 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+<tr>
+<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Internal wall</span></b></p></td>
+<td><p><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Outer material (13 mm, &lambda;=0.4 W/mK) + inner material (100 mm, &lambda;=0.667 W/mK) + outer material (13 mm, &lambda;=0.4 W/mK)</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U = 2.107 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
 </tr>
 <tr>
 <td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Floor</span></b></p></td>
@@ -3214,6 +3226,12 @@ See the BOPTEST design documentation for more information.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 24th, 2026, by Jaap Neven:<br/>
+Correct model dimensions and update documentation.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/834>
+BOPTEST issue #834</a>.
+</li>
 <li>
 September 6th, 2025, by Ettore Zanetti:<br/>
 Update test case to Modelica 4.0
