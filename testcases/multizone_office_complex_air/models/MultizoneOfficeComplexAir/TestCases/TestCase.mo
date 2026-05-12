@@ -1,7 +1,7 @@
 within MultizoneOfficeComplexAir.TestCases;
 model TestCase "Large office testcase"
   extends Modelica.Icons.Example;
-  extends MultizoneOfficeComplexAir.BaseClasses.AirSide                  (
+  extends MultizoneOfficeComplexAir.BaseClasses.AirSide(
       alpha=1.25,
       sou(nPorts=3),
       floor1(
@@ -521,7 +521,7 @@ equation
 </html>"),
     __Dymola_Commands(file="Resources/script/Testcase.mos" "Simulate and Plot"),
     experiment(
-      StopTime=14860800,
+      StopTime=31536000,
       __Dymola_NumberOfIntervals=1440,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"));
