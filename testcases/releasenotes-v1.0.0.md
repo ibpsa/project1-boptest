@@ -5,6 +5,7 @@ These notes summarize specific changes to test case models from BOPTEST v0.9.0 t
 ## BESTEST Air
 ### Model Changes
 - Updated fan coil to use ``Buildings.Fluid.Movers.Preconfigured``.
+- Time period scenario days changed for ``peak_heat_day``, ``peak_cool_day``, ``typical_heat_day``, ``typical_cool_day``, and ``mix_day``
 
 ### KPI Changes
 Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:
@@ -79,8 +80,9 @@ Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follo
 
 ### Model Changes
 - Use a newly created local mover component for the circulation pump ``BaseClasses/FlowControlled_dp.mo``, which wraps ``IDEAS.Fluid.Movers.FlowControlled_dp`` with the same parameters used in ``Buildings.Fluid.Movers.Preconfigured.FlowControlled_dp`` but maintains the stage input, as ``Buildings.Fluid.Movers.Preconfigured.FlowControlled_dp`` only supports real input in Building v12.1.0.
-- Updated weather file to ``BEL_VLG_Uccle.064470_TMYx.2007_2021.mos`` to reflect changes in IDEAS. Updated ``weather.csv`` and scenario days in ``days.json`` to reflect change in weather file.
+- Updated weather file to ``BEL_VLG_Uccle.064470_TMYx.2007_2021.mos`` to reflect changes in IDEAS. Updated ``weather.csv`` to reflect change in weather file.
 - Fixed the ``energyDynamics`` parameter on the heat pump to use ``Modelica.Fluid.Types.Dynamics.DynamicFreeInitial``.
+- Time period scenario days changed for ``peak_heat_day`` and ``typical_heat_day``.
 
 ### KPI Changes
 Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:
@@ -116,7 +118,8 @@ Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follo
 
 ### Model Changes
 - Use a newly created local mover component for the circulation pump ``BaseClasses/FlowControlled_dp.mo``, which wraps ``IDEAS.Fluid.Movers.FlowControlled_dp`` with the same parameters used in ``Buildings.Fluid.Movers.Preconfigured.FlowControlled_dp`` but maintains the stage input, as ``Buildings.Fluid.Movers.Preconfigured.FlowControlled_dp`` only supports real input in Building v12.1.0.
-- Updated weather file to ``BEL_VLG_Uccle.064470_TMYx.2007_2021.mos`` to reflect changes in IDEAS. Updated ``weather.csv`` and scenario days in ``days.json`` to reflect change in weather file.
+- Updated weather file to ``BEL_VLG_Uccle.064470_TMYx.2007_2021.mos`` to reflect changes in IDEAS. Updated ``weather.csv`` to reflect change in weather file.
+- Time period scenario days changed for ``peak_heat_day`` and ``typical_heat_day``.
 
 ### KPI Changes
 Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:
@@ -156,6 +159,7 @@ Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follo
 - Combine pressure drops across different equipment in the same hydronic loop into fewer components and increase buffer volume size to increase numerical stability.
 - Copied ``occ.txt`` resource file into the test case's Modelica package directory and updated the path reference to load the file from this location in ``RealOccupancy.mo``.
 - Updated weather file path to test case Modelica path instead of relative path to external resource.
+- Time period scenario days changed for ``typical_heat_day``.
 
 ### KPI Changes
 Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:
@@ -192,9 +196,10 @@ Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follo
 ### Model Changes
 - Updated documentation to correct material property typos.  This is for [#806](https://github.com/ibpsa/project1-boptest/issues/806).
 - Added ``dayZon_reaTRooOpe_y`` and ``nigZon_reaTRooOpe_y`` outputs to expose the operative temperature of the zones.  This is for [#791](https://github.com/ibpsa/project1-boptest/issues/791)
-- Updated occupancy profiles and set back temperature (using 16°C) in thermostat models and associated ``.csv`` files in the test case's ``Resources`` directory. This is for [#539](https://github.com/ibpsa/project1-boptest/issues/539).
+- Updated occupancy profiles and set back temperature (using 17°C) in thermostat models and associated ``.csv`` files in the test case's ``Resources`` directory. This is for [#539](https://github.com/ibpsa/project1-boptest/issues/539).
 - Corrected infiltration airflow in the model to the value specified in the documentation, reducing the model value by about half.
 - Updated pumps to use ``Buildings.Fluid.Movers.Preconfigured``.
+- Time period scenario days changed for ``peak_heat_day`` and ``typical_heat_day``.
 
 ### KPI Changes
 Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:
@@ -233,6 +238,7 @@ Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follo
 - Changed feedback controllers from Modelica ``Buildings.Controls.Continuous.LimPID`` to CDL ``Buildings.Controls.OBC.CDL.Reals.PID``.
 - Updated pumps to use ``Buildings.Fluid.Movers.Preconfigured``.
 - Fixed building dimensions and updated documentation. This is for [#834](https://github.com/ibpsa/project1-boptest/issues/834).
+- Time period scenario days changed for ``peak_heat_day`` and ``typical_heat_day``.
 
 ### KPI Changes
 Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:
@@ -272,6 +278,7 @@ Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follo
 - Updated fans and pumps in ``AirCooledChiller.mo``, ``AirToWaterHeatPump.mo``, and ``PartialHVAC.mo`` to use ``Buildings.Fluid.Movers.Preconfigured``.
 - Updated connections and StateGraph transitions in ``ModeSelector.mo``.
 - Updated damper models and default control in VAV boxes to reflect updates in the Buildings library in the ``Buildings.Examples.VAVReheat.ASHRAE2006`` model. This also fixes [#612](https://github.com/ibpsa/project1-boptest/issues/612).
+- Time period scenario days changed for ``peak_heat_day``, ``typical_heat_day``, and ``typical_cool_day``.
 
 ### KPI Changes
 Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:
