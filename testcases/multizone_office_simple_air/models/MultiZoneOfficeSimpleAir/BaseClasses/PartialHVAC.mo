@@ -248,7 +248,7 @@ partial model PartialHVAC
     THeaWatInl_nominal=THotWatInl_nominal,
     THeaWatOut_nominal=THotWatInl_nominal - 10,
     THeaAirInl_nominal(displayUnit="K") = 12 + 273.15,
-    THeaAirDis_nominal=(28 + 273.15) + 273.15,
+    THeaAirDis_nominal(displayUnit="K") = 28 + 273.15,
     VRoo=VRooSou,
     allowFlowReversal=allowFlowReversal,
     QHea_flow_nominal=mSou_flow_nominal*ratVFloHea*cpAir*(32-12))
@@ -261,8 +261,8 @@ partial model PartialHVAC
     mHeaAir_flow_nominal=mEas_flow_nominal,
     THeaWatInl_nominal=THotWatInl_nominal,
     THeaWatOut_nominal=THotWatInl_nominal - 10,
-    THeaAirInl_nominal=(12 + 273.15) + 273.15,
-    THeaAirDis_nominal=(28 + 273.15) + 273.15,
+    THeaAirInl_nominal(displayUnit="K") = 12 + 273.15,
+    THeaAirDis_nominal(displayUnit="K") = 28 + 273.15,
     VRoo=VRooEas,
     allowFlowReversal=allowFlowReversal,
     QHea_flow_nominal=mEas_flow_nominal*ratVFloHea*cpAir*(32-12))
@@ -275,8 +275,8 @@ partial model PartialHVAC
     mHeaAir_flow_nominal=mNor_flow_nominal,
     THeaWatInl_nominal=THotWatInl_nominal,
     THeaWatOut_nominal=THotWatInl_nominal - 10,
-    THeaAirInl_nominal=(12 + 273.15) + 273.15,
-    THeaAirDis_nominal=(28 + 273.15) + 273.15,
+    THeaAirInl_nominal(displayUnit="K") = 12 + 273.15,
+    THeaAirDis_nominal(displayUnit="K") = 28 + 273.15,
     VRoo=VRooNor,
     allowFlowReversal=allowFlowReversal,
     QHea_flow_nominal=mNor_flow_nominal*ratVFloHea*cpAir*(32-12))

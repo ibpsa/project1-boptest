@@ -2,18 +2,14 @@ within MultiZoneOfficeSimpleAir.BaseClasses;
 model ASHRAE2006
   "Variable air volume flow system with terminal reheat and ASHRAE 2006 control sequence serving five thermal zones"
   extends MultiZoneOfficeSimpleAir.BaseClasses.PartialHVAC(amb(nPorts=3),
-    splHeaRet(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splHeaSup(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splCooRet(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splCooSup(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splRetNor(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splSupNor(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splRetEas(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splSupEas(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splRetSou(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splSupSou(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splRetRoo1(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-    splSupRoo1(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial));
+    cor(THeaWatInl_nominal(displayUnit="K"), THeaWatOut_nominal(displayUnit="K")),
+    sou(
+      THeaWatInl_nominal(displayUnit="K"),
+      THeaWatOut_nominal(displayUnit="K"),
+      THeaAirDis_nominal(displayUnit="K")),
+    eas(THeaWatInl_nominal(displayUnit="K"), THeaWatOut_nominal(displayUnit="K")),
+    nor(THeaWatInl_nominal(displayUnit="K"), THeaWatOut_nominal(displayUnit="K")),
+    wes(THeaWatInl_nominal(displayUnit="K"), THeaWatOut_nominal(displayUnit="K")));
 
   parameter Real ratVMinCor_flow(final unit="1")=
     max(1.5*VCorOA_flow_nominal, 0.15*mCor_flow_nominal/1.2) /

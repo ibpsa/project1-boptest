@@ -9,7 +9,7 @@ import json
 
 days = find_days(heat='heaPum.heaPum.QCon_flow',
                  cool='chi.chi.QEva_flow',
-                 data='sim_heat_cool.csv',
+                 cooling_negative=True,                 
                  peak_cool_restriction_hour=12)
 
 with open('days.json', 'w') as f:
