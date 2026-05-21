@@ -4,7 +4,7 @@
 
 Released on xx/xx/xxxx.
 
-**The following changes are backwards compatible and do not significantly change benchmark results:**
+**The following changes are API-backwards compatible and do not significantly change benchmark results:**
 
 - Add support for deployment using Podman. This is for [#748](https://github.com/ibpsa/project1-boptest/issues/748).
 - Add OpenAPI Specification of RESTful HTTP API and serve API docs upon deployment. This is for [#819](https://github.com/ibpsa/project1-boptest/issues/819).
@@ -12,7 +12,7 @@ Released on xx/xx/xxxx.
 - Reduce size of unit test reference results by only storing 500 points for time trajectories.  Also enhance json testing to include tolerance and detailed failure messages.  This is for [#253](https://github.com/ibpsa/project1-boptest/issues/253).
 - Add ``bacnet/requirements.txt`` file, and change ``objectName`` in ``bacnet/example/BACpypes.ini`` from ``BopTestProxy`` to ``ExampleReadWrite``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
 
-**The following changes are not backwards compatible, but do not change benchmark results:**
+**The following changes are not API-backwards compatible, but do not change benchmark results:**
 
 - Change port BOPTEST listens to on localhost from ``:80`` to ``:8000``. This is for [#822](https://github.com/ibpsa/project1-boptest/issues/822).
 - Change ``bacnet/BopTestProxy.py`` control step argument from ``simulation_step`` to ``control_step``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
@@ -29,12 +29,7 @@ Released on xx/xx/xxxx.
 - For ``data/data_generator.py``, added support for and required use with OpenModelica and OMPython, removed support for use with JModelica, and require use of the ReaderTMY3 model in the IBPSA Modelica Library. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
 - Updated ``worker`` container to use Ubuntu 24.04 instead of Ubuntu 20.04. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
 
-
-**The following changes are not backwards-compatible and significantly change benchmark results:**
-
-- For ``twozone_apartment_hydronic`` test case, added additional outputs for operative temperature of both zones, ``dayZon_reaTRooOpe_y`` and ``nigZon_reaTRooOpe_y``. Calculate thermal discomfort based on operative instead of air temperature. Update BACnet interface points accordingly. This is for [#791](https://github.com/ibpsa/project1-boptest/issues/791).
-
-**The following changes are backwards-compatible, but may change benchmark results:**
+**The following changes are API-backwards-compatible, but may change benchmark results:**
 
 - Update all test cases as follows:
   - Use Modelica Standard Library (MSL) v4.0.0 from v3.2.3, except ``multizone_office_complex_air`` and ``multizone_office_simple_hydronic`` which already used MSL v4.0.0. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).

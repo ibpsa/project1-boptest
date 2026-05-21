@@ -194,11 +194,12 @@ Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follo
 ## Two Zone Apartment Hydronic
 
 ### Model Changes
-- Updated documentation to correct material property typos.  This is for [#806](https://github.com/ibpsa/project1-boptest/issues/806).
-- Added ``dayZon_reaTRooOpe_y`` and ``nigZon_reaTRooOpe_y`` outputs to expose the operative temperature of the zones.  This is for [#791](https://github.com/ibpsa/project1-boptest/issues/791)
+- Added ``dayZon_reaTRooOpe_y`` and ``nigZon_reaTRooOpe_y`` outputs to expose the operative temperature of the zones.  Update BACnet interface points accordingly.  This is for [#791](https://github.com/ibpsa/project1-boptest/issues/791).
+- Calculate thermal discomfort KPI based on operative instead of air temperature. This is for [#791](https://github.com/ibpsa/project1-boptest/issues/791).
 - Updated occupancy profiles and set back temperature (using 17°C) in thermostat models and associated ``.csv`` files in the test case's ``Resources`` directory. This is for [#539](https://github.com/ibpsa/project1-boptest/issues/539).
 - Corrected infiltration airflow in the model to the value specified in the documentation, reducing the model value by about half.
 - Updated pumps to use ``Buildings.Fluid.Movers.Preconfigured``.
+- Updated documentation to correct material property typos.  This is for [#806](https://github.com/ibpsa/project1-boptest/issues/806).
 - Time period scenario days changed for ``peak_heat_day`` and ``typical_heat_day``.
 
 ### KPI Changes
