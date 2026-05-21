@@ -12,7 +12,6 @@ Released on xx/xx/xxxx.
 - Reduce size of unit test reference results by only storing 500 points for time trajectories.  Also enhance json testing to include tolerance and detailed failure messages.  This is for [#253](https://github.com/ibpsa/project1-boptest/issues/253).
 - Add ``bacnet/requirements.txt`` file, and change ``objectName`` in ``bacnet/example/BACpypes.ini`` from ``BopTestProxy`` to ``ExampleReadWrite``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
 
-
 **The following changes are not backwards compatible, but do not change benchmark results:**
 
 - Change port BOPTEST listens to on localhost from ``:80`` to ``:8000``. This is for [#822](https://github.com/ibpsa/project1-boptest/issues/822).
@@ -27,7 +26,7 @@ Released on xx/xx/xxxx.
   - Add container support for compiling test cases with OpenModelica v1.24.4 and remove container support for compiling with JModelica by replacing the existing ``testing/Dockerfile`` with ``testing/Dockerfile.openmodelica``, which starts from the ``worker`` container image, installs OpenModelica (v1.24.4 by default), and sets up a different internal file structure.
   - Refactored the ``testing/makefile`` to make use of OpenModelica container instead of JModelica container, and make use of volume mounting instead of file copying.
   - Updated ``.travis.yml`` to make use of OpenModelica container instead of JModelica container.
-- For ``data/data_generator.py``, added support for use with OpenModelica and removed support for use with JModelica. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
+- For ``data/data_generator.py``, added support for and required use with OpenModelica and OMPython, removed support for use with JModelica, and require use of the ReaderTMY3 model in the IBPSA Modelica Library. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
 - Updated ``worker`` container to use Ubuntu 24.04 instead of Ubuntu 20.04. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
 
 
