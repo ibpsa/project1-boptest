@@ -7,9 +7,9 @@ This case needs to be deployed if using BOPTEST image.
 from data.find_days import find_days
 import json
 
-days = find_days(heat='heaPum.heaPum.QCon_flow',
+days = find_days(heat='totZonHeaLoa.y',
                  cool='chi.chi.QEva_flow',
-                 cooling_negative=True,                 
+                 cooling_negative=True,
                  peak_cool_restriction_hour=12)
 
 with open('days.json', 'w') as f:

@@ -58,6 +58,11 @@ model TestCase
   Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta
     "BOPTEST weather station"
     annotation (Placement(transformation(extent={{-70,-30},{-90,-10}})));
+  Modelica.Blocks.Sources.RealExpression totZonHeaLoa(y=hvac.cor.terHea.Q2_flow
+         + hvac.eas.terHea.Q2_flow + hvac.wes.terHea.Q2_flow + hvac.nor.terHea.Q2_flow
+         + hvac.sou.terHea.Q2_flow)
+    "Sum of reheat (W) for each zone terminal box "
+    annotation (Placement(transformation(extent={{-90,-90},{-70,-70}})));
 equation
   connect(CO2Cor.y, multiplex5_1.u5[1]) annotation (Line(points={{-79,38},{-76,38},
           {-76,40},{-42,40}}, color={0,0,127}));
