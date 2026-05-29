@@ -5,7 +5,7 @@ These notes summarize specific changes to test case models from BOPTEST v0.9.0 t
 ## BESTEST Air
 ### Model Changes
 - Updated fan coil to use ``Buildings.Fluid.Movers.Preconfigured``.
-- Time period scenario days changed for ``peak_heat_day``, ``peak_cool_day``, ``typical_heat_day``, ``typical_cool_day``, and ``mix_day``
+- Time period scenario days changed for ``peak_heat_day``, ``typical_heat_day``, ``typical_cool_day``, and ``mix_day``
 
 ### KPI Changes
 Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:
