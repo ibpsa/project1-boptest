@@ -226,7 +226,7 @@ partial model PartialHVAC
         MediumA, m_flow_nominal=m_flow_nominal) "Outside air volume flow rate"
     annotation (Placement(transformation(extent={{-90,-50},{-70,-30}})));
 
-  Buildings.Examples.VAVReheat.BaseClasses.VAVReheatBox cor(
+  MultiZoneOfficeSimpleAir.BaseClasses.VAVReheatBox cor(
     redeclare package MediumA = MediumA,
     redeclare package MediumW = MediumW,
     mCooAir_flow_nominal=mCor_flow_nominal,

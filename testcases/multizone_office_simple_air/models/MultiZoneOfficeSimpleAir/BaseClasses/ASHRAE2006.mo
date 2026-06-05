@@ -2,7 +2,8 @@ within MultiZoneOfficeSimpleAir.BaseClasses;
 model ASHRAE2006
   "Variable air volume flow system with terminal reheat and ASHRAE 2006 control sequence serving five thermal zones"
   extends MultiZoneOfficeSimpleAir.BaseClasses.PartialHVAC(amb(nPorts=3),
-    cor(THeaWatInl_nominal(displayUnit="K"), THeaWatOut_nominal(displayUnit="K")),
+    cor(THeaWatInl_nominal(displayUnit="K"), THeaWatOut_nominal(displayUnit="K"),
+      zone="cor"),
     sou(
       THeaWatInl_nominal(displayUnit="K"),
       THeaWatOut_nominal(displayUnit="K"),
