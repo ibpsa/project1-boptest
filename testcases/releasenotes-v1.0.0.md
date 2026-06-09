@@ -424,13 +424,79 @@ Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follo
   |cost_tot_highly_dynamic|+x.xx%  |
 
 
-## Multizone Office Air Complex
+## Multizone Office Complex Air
 
 ### Model Changes
-No additional changes.
+- Relocate the supply air temperature measurement from coil outlet to fan outlet.  This is for [#842](https://github.com/ibpsa/project1-boptest/issues/842).
+- Disable the economizer lockout low limit.  This is for [#842](https://github.com/ibpsa/project1-boptest/issues/842).
 
 ### KPI Changes
-No changes.
+Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:
+
+  **Peak Heat Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+x.xx%  |
+  |emis_tot               |+x.xx%  |
+  |tdis_tot               |-x.xx%  |
+  |idis_tot               |-x.xx%  |
+  |pele_tot               |-x.xx%  |
+  |pdih_tot               |-x.xx%  |
+  |cost_tot_constant      |+x.xx%  |
+  |cost_tot_dynamic       |+x.xx%  |
+  |cost_tot_highly_dynamic|+x.xx%  |
+
+  **Typical Heat Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+x.xx%  |
+  |emis_tot               |-x.xx%  |
+  |tdis_tot               |-x.xx%  |
+  |idis_tot               |-x.xx%  |
+  |pele_tot               |-x.xx%  |
+  |pdih_tot               |-x.xx%  |
+  |cost_tot_constant      |+x.xx%  |
+  |cost_tot_dynamic       |+x.xx%  |
+  |cost_tot_highly_dynamic|+x.xx%  |
+
+  **Mix Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+x.xx%  |
+  |emis_tot               |+x.xx%  |
+  |tdis_tot               |-x.xx%  |
+  |idis_tot               |-x.xx%  |
+  |pele_tot               |-x.xx%  |
+  |pdih_tot               |-x.xx%  |
+  |cost_tot_constant      |+x.xx%  |
+  |cost_tot_dynamic       |+x.xx%  |
+  |cost_tot_highly_dynamic|+x.xx%  |
+
+  **Typical Cool Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+x.xx%  |
+  |emis_tot               |-x.xx%  |
+  |tdis_tot               |-x.xx%  |
+  |idis_tot               |-x.xx%  |
+  |pele_tot               |-x.xx%  |
+  |pdih_tot               |-x.xx%  |
+  |cost_tot_constant      |+x.xx%  |
+  |cost_tot_dynamic       |+x.xx%  |
+  |cost_tot_highly_dynamic|+x.xx%  |
+
+  **Peak Cool Day**
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+x.xx%  |
+  |emis_tot               |+x.xx%  |
+  |tdis_tot               |-x.xx%  |
+  |idis_tot               |-x.xx%  |
+  |pele_tot               |-x.xx%  |
+  |pdih_tot               |-x.xx%  |
+  |cost_tot_constant      |+x.xx%  |
+  |cost_tot_dynamic       |+x.xx%  |
+  |cost_tot_highly_dynamic|+x.xx%  |
 
 
 ## Testcase 1
