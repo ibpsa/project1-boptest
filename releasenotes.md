@@ -11,11 +11,6 @@ Released on xx/xx/xxxx.
 - Remove unit test for readme commands. This is for [#824](https://github.com/ibpsa/project1-boptest/issues/824).
 - Reduce size of unit test reference results by only storing 500 points for time trajectories.  Also enhance json testing to include tolerance and detailed failure messages.  This is for [#253](https://github.com/ibpsa/project1-boptest/issues/253).
 - Add ``bacnet/requirements.txt`` file, and change ``objectName`` in ``bacnet/example/BACpypes.ini`` from ``BopTestProxy`` to ``ExampleReadWrite``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
-
-**The following changes are not API-backwards compatible, but do not change benchmark results:**
-
-- Change port BOPTEST listens to on localhost from ``:80`` to ``:8000``. This is for [#822](https://github.com/ibpsa/project1-boptest/issues/822).
-- Change ``bacnet/BopTestProxy.py`` control step argument from ``simulation_step`` to ``control_step``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
 - The following changes have been made to ``parsing/parser.py``. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422):
   - Add support for test case compilation using OpenModelica v1.24.4. The parser can take argument ``tool='openmodelica'``.
   - Remove support for test case compilation using JModelica.
@@ -28,6 +23,11 @@ Released on xx/xx/xxxx.
   - Updated ``.travis.yml`` to make use of OpenModelica container instead of JModelica container.
 - For ``data/data_generator.py``, added support for and required use with OpenModelica and OMPython, removed support for use with JModelica, and require use of the ReaderTMY3 model in the IBPSA Modelica Library. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
 - Updated ``worker`` container to use Ubuntu 24.04 instead of Ubuntu 20.04. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
+
+**The following changes are not API-backwards compatible, but do not change benchmark results:**
+
+- Change port BOPTEST listens to on localhost from ``:80`` to ``:8000``. This is for [#822](https://github.com/ibpsa/project1-boptest/issues/822).
+- Change ``bacnet/BopTestProxy.py`` control step argument from ``simulation_step`` to ``control_step``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
 
 **The following changes are API-backwards-compatible, but may change benchmark results:**
 
