@@ -427,8 +427,7 @@ Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follo
 ## Multizone Office Complex Air
 
 ### Model Changes
-- Relocate the supply air temperature measurement from coil outlet to fan outlet.  This is for [#842](https://github.com/ibpsa/project1-boptest/issues/842).
-- Disable the economizer lockout low limit.  This is for [#842](https://github.com/ibpsa/project1-boptest/issues/842).
+- Relocate the supply air temperature measurement from cooling coil outlet to supply fan outlet.  This is for [#842](https://github.com/ibpsa/project1-boptest/issues/842).
 
 ### KPI Changes
 Changes in baseline KPIs compared to v0.9.0 for indicated scenarios are as follows:

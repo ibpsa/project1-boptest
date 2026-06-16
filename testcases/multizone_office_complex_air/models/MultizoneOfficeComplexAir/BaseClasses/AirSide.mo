@@ -10,7 +10,7 @@ model AirSide "Air side system"
     "Pressure drop in the water side";
   parameter Modelica.Units.SI.Temperature TemEcoHig=273.15 + 15.58
     "the highest temeprature when the economizer is on";
-  parameter Modelica.Units.SI.Temperature TemEcoLow=273.15 - 50
+  parameter Modelica.Units.SI.Temperature TemEcoLow=273.15 - 0
     "the lowest temeprature when the economizer is on";
   parameter Real MixingBoxDamMin = 0.3 "the minimum damper postion";
   parameter Modelica.Units.SI.VolumeFlowRate VolFloCur[n,:]={{(mAirFloRat1[1]
