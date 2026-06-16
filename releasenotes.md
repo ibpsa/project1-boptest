@@ -15,7 +15,7 @@ Released on xx/xx/xxxx.
   - Add support for test case compilation using OpenModelica v1.26.8. The parser can take argument ``tool='openmodelica'``.
   - Remove support for test case compilation using JModelica.
   - Add arguments ``algorithm`` and ``tolerance`` to ``export_fmu()`` function. The ``algorithm`` must match the specification used by the ``tool``.
-  - Update the ``compile_fmu.py`` script for each test case to accept ``tool`` and ``algorithm`` as CLI arguments.  Default values represent options used to compile the test case FMU in the repository.
+  - Update the ``compile_fmu.py`` script for each test case to accept ``tool``, ``algorithm``, and ``tolerance`` as CLI arguments.  Default values represent options used to compile the test case FMU in the repository.
   - Use ``dmc`` executable for test case compilation using Dymola.
 - The following changes have been made to unit testing. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422):
   - Add container support for compiling test cases with OpenModelica v1.26.8 and remove container support for compiling with JModelica by replacing the existing ``testing/Dockerfile`` with ``testing/Dockerfile.openmodelica``, which starts from the ``worker`` container image, installs OpenModelica (v1.26.8 by default), and sets up a different internal file structure.
