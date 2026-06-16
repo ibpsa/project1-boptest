@@ -12,13 +12,13 @@ Released on xx/xx/xxxx.
 - Reduce size of unit test reference results by only storing 500 points for time trajectories.  Also enhance json testing to include tolerance and detailed failure messages.  This is for [#253](https://github.com/ibpsa/project1-boptest/issues/253).
 - Add ``bacnet/requirements.txt`` file, and change ``objectName`` in ``bacnet/example/BACpypes.ini`` from ``BopTestProxy`` to ``ExampleReadWrite``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
 - The following changes have been made to ``parsing/parser.py``. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422):
-  - Add support for test case compilation using OpenModelica v1.24.4. The parser can take argument ``tool='openmodelica'``.
+  - Add support for test case compilation using OpenModelica v1.26.8. The parser can take argument ``tool='openmodelica'``.
   - Remove support for test case compilation using JModelica.
   - Add arguments ``algorithm`` and ``tolerance`` to ``export_fmu()`` function. The ``algorithm`` must match the specification used by the ``tool``.
   - Update the ``compile_fmu.py`` script for each test case to accept ``tool`` and ``algorithm`` as CLI arguments.  Default values represent options used to compile the test case FMU in the repository.
   - Use ``dmc`` executable for test case compilation using Dymola.
 - The following changes have been made to unit testing. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422):
-  - Add container support for compiling test cases with OpenModelica v1.24.4 and remove container support for compiling with JModelica by replacing the existing ``testing/Dockerfile`` with ``testing/Dockerfile.openmodelica``, which starts from the ``worker`` container image, installs OpenModelica (v1.24.4 by default), and sets up a different internal file structure.
+  - Add container support for compiling test cases with OpenModelica v1.26.8 and remove container support for compiling with JModelica by replacing the existing ``testing/Dockerfile`` with ``testing/Dockerfile.openmodelica``, which starts from the ``worker`` container image, installs OpenModelica (v1.26.8 by default), and sets up a different internal file structure.
   - Refactored the ``testing/makefile`` to make use of OpenModelica container instead of JModelica container, and make use of volume mounting instead of file copying.
   - Updated ``.travis.yml`` to make use of OpenModelica container instead of JModelica container.
 - For ``data/data_generator.py``, added support for and required use with OpenModelica and OMPython, removed support for use with JModelica, and require use of the ReaderTMY3 model in the IBPSA Modelica Library. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
@@ -34,7 +34,7 @@ Released on xx/xx/xxxx.
 - Update all test cases as follows:
   - Use Modelica Standard Library (MSL) v4.0.0 from v3.2.3, except ``multizone_office_complex_air`` and ``multizone_office_simple_hydronic`` which already used MSL v4.0.0. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
   - Use Modelica Buildings Library v12.1.0 and Modelica IDEAS Library v4.0.0 (respectively for whichever library is used in each test case), except ``multizone_office_complex_air`` and ``multizone_office_simple_hydronic`` for which library versions have not changed. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
-  - Compile all test case FMUs in repository using Dymola 2025x with the Binary Model Export option, except for ``Testcase1`` which is compiled using OpenModelica v1.24.4. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
+  - Compile all test case FMUs in repository using Dymola 2025x with the Binary Model Export option, except for ``Testcase1`` which is compiled using OpenModelica v1.26.8. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
   - See more details about changes to each test case Modelica model and effects on KPIs to make all the above changes work and close additional issues in ``testcases/releasenotes-v1.0.0.md``.
 
 

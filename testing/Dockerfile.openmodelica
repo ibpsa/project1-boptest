@@ -12,7 +12,7 @@ RUN apt-get update \
     && . miniconda/bin/activate \
 	&& conda update -n base -c defaults conda \
 	&& conda activate pyfmi3 \
-	&& python -m pip install -U https://github.com/OpenModelica/OMPython/archive/v4.0.1.zip
+	&& python -m pip install -U https://github.com/OpenModelica/OMPython/archive/master.zip
 
 # Install open-modelica
 RUN export DEBIAN_FRONTEND="noninteractive" && echo "VERSION: $VERSION" && test ! -z "$VERSION" && apt-get update && apt-get upgrade -qy && apt-get dist-upgrade -qy \

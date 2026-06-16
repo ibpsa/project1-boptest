@@ -1,7 +1,7 @@
 # Makefile for building OpenModelica Docker container with Modelica libraries and run unit tests
 
 # Default values
-VERSION=1.24.4
+VERSION=1.26.8
 IMG_NAME=openmodelica_fmu_generator
 
 COMMAND_RUN=docker run \
@@ -16,10 +16,10 @@ help:
 	@echo "Usage: make build_compiler_image VERSION=<x.x.x>"
 	@echo ""
 	@echo "Options:"
-	@echo "  VERSION                   - OpenModelica version, default if not specified is 1.24.4"
+	@echo "  VERSION                   - OpenModelica version, default if not specified is 1.26.8"
 	@echo ""
 	@echo "Examples:"
-	@echo "  make build_compiler_image VERSION=1.24.4"
+	@echo "  make build_compiler_image VERSION=1.26.8"
 	@echo "==============================================================="
 	@echo "Usage: make compile_testcase_model TESTCASE=<testcase>"
 	@echo ""
