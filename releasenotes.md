@@ -20,7 +20,7 @@ Released on xx/xx/xxxx.
 - The following changes have been made to unit testing. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422):
   - Add container support for compiling test cases with OpenModelica v1.26.8 and remove container support for compiling with JModelica by replacing the existing ``testing/Dockerfile`` with ``testing/Dockerfile.openmodelica``, which starts from the ``worker`` container image, installs OpenModelica (v1.26.8 by default), and sets up a different internal file structure.
   - Refactored the ``testing/makefile`` to make use of OpenModelica container instead of JModelica container, and make use of volume mounting instead of file copying.
-  - Updated ``.travis.yml`` to make use of OpenModelica container instead of JModelica container.
+  - Updated ``.travis.yml`` to make use of the ``testing/makefile`` target ``test_%_no_compile`` for all test cases, except for ``testcase1`` which uses the ``test_testcase1`` target with OpenModelica container instead of JModelica container.
 - For ``data/data_generator.py``, added support for and required use with OpenModelica and OMPython, removed support for use with JModelica, and require use of the ReaderTMY3 model in the IBPSA Modelica Library. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
 - Updated ``worker`` container to use Ubuntu 24.04 instead of Ubuntu 20.04. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
 
@@ -34,7 +34,7 @@ Released on xx/xx/xxxx.
 - Update all test cases as follows:
   - Use Modelica Standard Library (MSL) v4.0.0 from v3.2.3, except ``multizone_office_complex_air`` and ``multizone_office_simple_hydronic`` which already used MSL v4.0.0. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
   - Use Modelica Buildings Library v12.1.0 and Modelica IDEAS Library v4.0.0 (respectively for whichever library is used in each test case), except ``multizone_office_complex_air`` and ``multizone_office_simple_hydronic`` for which library versions have not changed. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
-  - Compile all test case FMUs in repository using Dymola 2025x with the Binary Model Export option, except for ``Testcase1`` which is compiled using OpenModelica v1.26.8. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
+  - Compile all test case FMUs in repository using Dymola 2025x with the Binary Model Export option, except for ``testcase1`` which is compiled using OpenModelica v1.26.8. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
   - See more details about changes to each test case Modelica model and effects on baseline KPIs to make all the above changes work and close additional issues in ``testcases/releasenotes-v1.0.0``.
 
 
