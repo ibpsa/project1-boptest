@@ -9,7 +9,7 @@ model GenerateData
   parameter Modelica.Units.SI.Area S_Chambre1 = 11.16;
 
   // Room 2
-  parameter Modelica.Units.SI.Area S_Chambre2 = 9.85;
+  parameter Modelica.Units.SI.Area S_Chambre2 = 10.8;
 
   // Room 3
   parameter Modelica.Units.SI.Area S_Chambre3 = 14.28;
