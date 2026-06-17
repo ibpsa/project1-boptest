@@ -1373,10 +1373,10 @@ public
         origin={-113,-119})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveEmiPum(u(
       min=0,
-      max=1,
-      unit="1"), description=
-        "Control signal to the circulation pump of the emission system")
-    "Overwrite the control signal to the circulation pump of the emission system"
+      max=mBoi_flow_nominal,
+      unit="kg/s"), description=
+        "Mass flow rate prescribed to the circulation pump of the emission system")
+    "Overwrite the mass flow rate prescribed to the circulation pump of the emission system"
     annotation (Placement(transformation(
         extent={{-3,-3},{3,3}},
         rotation=0,
@@ -2644,7 +2644,7 @@ The model inputs are:
 <code>oveEmiPum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveEmiPum_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>oveEmiPum_u</code> [1] [min=0.0, max=1.0]: Control signal to the circulation pump of the emission system
+<code>oveEmiPum_u</code> [kg/s] [min=0.0, max=0.25]: Mass flow rate prescribed to the circulation pump of the emission system
 </li>
 <li>
 <code>oveMixValSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveMixValSup_u where 1 activates, 0 deactivates (default value)
