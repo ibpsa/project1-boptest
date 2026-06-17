@@ -28,6 +28,7 @@ Released on xx/xx/xxxx.
 
 - Change port BOPTEST listens to on localhost from ``:80`` to ``:8000``. This is for [#822](https://github.com/ibpsa/project1-boptest/issues/822).
 - Change ``bacnet/BopTestProxy.py`` control step argument from ``simulation_step`` to ``control_step``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
+- Fix description of overwrite block ``oveEmiPum`` for the ``multizone_residential_hydronic`` test case in the design documentation. This is for [#847](https://github.com/ibpsa/project1-boptest/issues/847).
 
 **The following changes are API-backwards-compatible, but significantly change benchmark results:**
 
