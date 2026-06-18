@@ -35,7 +35,7 @@ Released on xx/xx/xxxx.
   - Use Modelica Standard Library (MSL) v4.0.0 from v3.2.3, except ``multizone_office_complex_air`` and ``multizone_office_simple_hydronic`` which already used MSL v4.0.0. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
   - Use Modelica Buildings Library v12.1.0 and Modelica IDEAS Library v4.0.0 (respectively for whichever library is used in each test case), except ``multizone_office_complex_air`` and ``multizone_office_simple_hydronic`` for which library versions have not changed. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
   - Compile all test case FMUs in repository using Dymola 2025x with the Binary Model Export option, except for ``testcase1`` which is compiled using OpenModelica v1.26.8. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
-  - See more details about changes to each test case Modelica model and effects on baseline KPIs to make all the above changes work and close additional issues in ``testcases/releasenotes-v1.0.0``.
+  - See more details about changes to each test case Modelica model and effects on baseline KPIs to make all the above changes work and close additional issues in ``testcases/releasenotes/v1.0.0``.
 
 
 ## BOPTEST v0.9.0
