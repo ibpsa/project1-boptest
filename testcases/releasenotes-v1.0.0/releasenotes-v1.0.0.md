@@ -50,7 +50,8 @@ For changes in KPIs from embedded baseline controllers from v0.9.0 to v1.0.0 for
 - Updated pumps to use ``Buildings.Fluid.Movers.Preconfigured``.
 - Fixed building dimensions and updated documentation. This is for [#834](https://github.com/ibpsa/project1-boptest/issues/834).
 - Time period scenario days changed for ``peak_heat_day`` and ``typical_heat_day``.
-
+- Fixed the scaling of internal gains of ``Ro3`` for the ``multizone residential hydronic`` case, related to the updated building topology by [#834](https://github.com/ibpsa/project1-boptest/issues/834). The file ``dataFromModel.csv`` was updated accordingly. This is for [#847](https://github.com/ibpsa/project1-boptest/issues/847).
+- Fix configuration and description of overwrite block ``oveEmiPum`` for the ``multizone_residential_hydronic`` test case in the design documentation. This is for [#847](https://github.com/ibpsa/project1-boptest/issues/847).
 
 ### multizone_office_simple_air
 - Replaced Modelica control blocks with CDL blocks in ``ASHRAE2006.mo``, like ``Buildings.Controls.OBC.CDL.Reals.Switch``, ``Buildings.Controls.OBC.CDL.Reals.Sources.Constant``, ``Buildings.Controls.OBC.CDL.Reals.MultiMin``, and ``Buildings.Controls.OBC.CDL.Reals.Hysteresis``.
