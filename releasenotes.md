@@ -28,6 +28,7 @@ Released on xx/xx/xxxx.
 
 - Change port BOPTEST listens to on localhost from ``:80`` to ``:8000``. This is for [#822](https://github.com/ibpsa/project1-boptest/issues/822).
 - Change ``bacnet/BopTestProxy.py`` control step argument from ``simulation_step`` to ``control_step``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
+- Fix configuration and description of overwrite block ``oveEmiPum`` for the ``multizone_residential_hydronic`` test case in the design documentation. This is for [#847](https://github.com/ibpsa/project1-boptest/issues/847).
 
 **The following changes are API-backwards-compatible, but significantly change benchmark results:**
 
@@ -36,7 +37,7 @@ Released on xx/xx/xxxx.
   - Use Modelica Buildings Library v12.1.0 and Modelica IDEAS Library v4.0.0 (respectively for whichever library is used in each test case), except ``multizone_office_complex_air`` and ``multizone_office_simple_hydronic`` for which library versions have not changed. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
   - Compile all test case FMUs in repository using Dymola 2025x with the Binary Model Export option, except for ``testcase1`` which is compiled using OpenModelica v1.26.8. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
   - See more details about changes to each test case Modelica model and effects on baseline KPIs to make all the above changes work and close additional issues in ``testcases/releasenotes-v1.0.0``.
-
+- Fixed the scaling of internal gains of ``Ro3`` for the ``multizone residential hydronic`` case, related to the updated building topology by [#834](https://github.com/ibpsa/project1-boptest/issues/834). The file ``dataFromModel.csv`` was updated accordingly. This is for [#847](https://github.com/ibpsa/project1-boptest/issues/847).
 
 ## BOPTEST v0.9.0
 
