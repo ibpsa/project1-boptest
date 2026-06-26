@@ -59,7 +59,7 @@ model TestCase
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={150,150})));
+        origin={230,150})));
   Modelica.Blocks.Sources.Constant offSetOcc(k=0.2, y(unit="K"))
     "Offset above heating temperature setpoint during occupied hours to ensure comfort"
     annotation (Placement(transformation(extent={{-200,140},{-180,160}})));
@@ -100,7 +100,7 @@ model TestCase
   Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 1e-8 then
         TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
-  Modelica.Blocks.Continuous.LimPID conPI(
+  Modelica.Blocks.Continuous.LimPID conPIHeaPumY(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=0.6,
     Ti=8000,
@@ -108,7 +108,7 @@ model TestCase
     yMin=0,
     initType=Modelica.Blocks.Types.Init.InitialState)
     "PI controller for the boiler supply water temperature"
-    annotation (Placement(transformation(extent={{100,140},{120,160}})));
+    annotation (Placement(transformation(extent={{160,140},{180,160}})));
   Modelica.Blocks.Math.Add addOcc
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
   BESTESTHydronicHeatPump.BaseClasses.FlowControlled_dp pum(
@@ -273,6 +273,25 @@ model TestCase
         rotation=180,
         origin={30,150})));
 
+  IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSetSup(u(
+      max=273.15 + 35,
+      unit="K",
+      min=273.15 + 5), description=
+        "Supply temperature setpoint of the heat pump")
+    "Overwrite for supply temperature control signal" annotation (Placement(
+        transformation(
+        extent={{10,10},{-10,-10}},
+        rotation=180,
+        origin={110,150})));
+  Modelica.Blocks.Continuous.LimPID conPITSetSup(
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    k=10,
+    Ti=300,
+    yMax=273.15 + 80,
+    yMin=273.15 + 20,
+    initType=Modelica.Blocks.Types.Init.InitialState)
+    "PI controller for the boiler supply water temperature"
+    annotation (Placement(transformation(extent={{60,140},{80,160}})));
 initial equation
   heaPum.con.T=293.15;
   heaPum.eva.T=278.15;
@@ -283,8 +302,9 @@ equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
-  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,40},
-          {-52,18},{-81,18}}, color={0,0,127}));
+  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,
+          40},{-52,18},{-81,18}},
+                              color={0,0,127}));
   connect(senTemSup.port_b, pum.port_a)
     annotation (Line(points={{60,40},{40,40}}, color={0,127,255}));
   connect(bouWat.ports[1], pum.port_a)
@@ -332,12 +352,6 @@ equation
           {-172,56},{-162,56}}, color={0,0,127}));
   connect(greater.y, switch1.u2) annotation (Line(points={{-59,80},{-52,80},{
           -52,150},{-22,150}}, color={255,0,255}));
-  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
-          {-46,12},{-46,130},{110,130},{110,138}},
-                                                 color={0,0,127}));
-  connect(conPI.y, oveHeaPumY.u)
-    annotation (Line(points={{121,150},{138,150}},
-                                                 color={0,0,127}));
   connect(addOcc.y, switch1.u1) annotation (Line(points={{-139,130},{-128,130},
           {-128,158},{-22,158}}, color={0,0,127}));
   connect(addUno.y, switch1.u3) annotation (Line(points={{-139,50},{-120,50},{
@@ -364,10 +378,8 @@ equation
           {-170,-60},{-220,-60},{-220,44},{-162,44}}, color={0,0,127}));
   connect(TSetHea.y, addOcc.u2) annotation (Line(points={{-179,-30},{-170,-30},
           {-170,-60},{-220,-60},{-220,124},{-162,124}}, color={0,0,127}));
-  connect(oveTSet.y, conPI.u_s)
-    annotation (Line(points={{41,150},{98,150}}, color={0,0,127}));
-  connect(oveHeaPumY.y, heaPum.y) annotation (Line(points={{161,150},{290,150},{
-          290,-30},{127,-30},{127,-2}}, color={0,0,127}));
+  connect(oveHeaPumY.y, heaPum.y) annotation (Line(points={{241,150},{282,150},
+          {282,-24},{127,-24},{127,-2}},color={0,0,127}));
   connect(oveFan.y, realToInteger2.u)
     annotation (Line(points={{213,110},{250,110}}, color={0,0,127}));
   connect(ovePum.y, realToInteger.u)
@@ -376,10 +388,22 @@ equation
     annotation (Line(points={{80,-20},{124,-20},{124,0}}, color={0,127,255}));
   connect(senTemRet.port_a, floHea.port_b)
     annotation (Line(points={{60,-20},{-20,-20},{-20,10}}, color={0,127,255}));
+  connect(case900Template.TSensor, conPITSetSup.u_m) annotation (Line(points={{
+          -59,12},{-46,12},{-46,132},{70,132},{70,138}}, color={0,0,127}));
+  connect(oveTSet.y, conPITSetSup.u_s)
+    annotation (Line(points={{41,150},{58,150}}, color={0,0,127}));
+  connect(senTemSup.T, conPIHeaPumY.u_m) annotation (Line(points={{70,29},{70,
+          26},{90,26},{90,128},{170,128},{170,138}}, color={0,0,127}));
+  connect(oveTSetSup.y, conPIHeaPumY.u_s)
+    annotation (Line(points={{121,150},{158,150}}, color={0,0,127}));
+  connect(conPITSetSup.y, oveTSetSup.u)
+    annotation (Line(points={{81,150},{98,150}}, color={0,0,127}));
+  connect(conPIHeaPumY.y, oveHeaPumY.u)
+    annotation (Line(points={{181,150},{218,150}}, color={0,0,127}));
   annotation (
     experiment(
-      StopTime=31536000,
-      Interval=599.999616,
+      StopTime=86400,
+      Interval=900,
       __Dymola_Algorithm="Dassl"),
     Documentation(info="<html>
 <p>
