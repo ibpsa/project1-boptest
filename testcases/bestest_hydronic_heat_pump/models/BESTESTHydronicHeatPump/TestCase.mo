@@ -285,8 +285,8 @@ model TestCase
         origin={110,150})));
   Modelica.Blocks.Continuous.LimPID conPITSetSup(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=10,
-    Ti=300,
+    k=0.5,
+    Ti=180,
     yMax=273.15 + 80,
     yMin=273.15 + 20,
     initType=Modelica.Blocks.Types.Init.InitialState)
@@ -388,10 +388,6 @@ equation
     annotation (Line(points={{80,-20},{124,-20},{124,0}}, color={0,127,255}));
   connect(senTemRet.port_a, floHea.port_b)
     annotation (Line(points={{60,-20},{-20,-20},{-20,10}}, color={0,127,255}));
-  connect(case900Template.TSensor, conPITSetSup.u_m) annotation (Line(points={{
-          -59,12},{-46,12},{-46,132},{70,132},{70,138}}, color={0,0,127}));
-  connect(oveTSet.y, conPITSetSup.u_s)
-    annotation (Line(points={{41,150},{58,150}}, color={0,0,127}));
   connect(senTemSup.T, conPIHeaPumY.u_m) annotation (Line(points={{70,29},{70,
           26},{90,26},{90,128},{170,128},{170,138}}, color={0,0,127}));
   connect(oveTSetSup.y, conPIHeaPumY.u_s)
@@ -400,6 +396,10 @@ equation
     annotation (Line(points={{81,150},{98,150}}, color={0,0,127}));
   connect(conPIHeaPumY.y, oveHeaPumY.u)
     annotation (Line(points={{181,150},{218,150}}, color={0,0,127}));
+  connect(case900Template.TSensor, conPITSetSup.u_m) annotation (Line(points={{-59,
+          12},{-46,12},{-46,130},{70,130},{70,138}}, color={0,0,127}));
+  connect(oveTSet.y, conPITSetSup.u_s)
+    annotation (Line(points={{41,150},{58,150}}, color={0,0,127}));
   annotation (
     experiment(
       StopTime=86400,
