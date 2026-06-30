@@ -17,6 +17,17 @@ Coming Soon.
 
 # Past Meetings
 
+### June 25, 2026
+
+**Location:** Online
+
+**Time:** 6:00 AM - 7:00 AM U.S. Pacific
+
+**Notes:**
+
+- [Minutes](/ibpsa_project/meetings/task2/20260625_Progress/20260625_IBPSA-BOPTEST_Task2_Minutes.pdf)
+- [LBNL Update Slides](/ibpsa_project/meetings/task2/20260625_Progress/20260625_LBNL_Updates.pdf)
+
 ### December 18, 2025
 
 **Location:** Online
