@@ -8,7 +8,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput oveFan_activate "Activation for Integer signal to control the heat pump evaporator fan either on or off";
 	Modelica.Blocks.Interfaces.RealInput oveTSet_u(unit="K", min=278.15, max=308.15) "Zone operative temperature setpoint";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSet_activate "Activation for Zone operative temperature setpoint";
-	Modelica.Blocks.Interfaces.RealInput oveTSetSup_u(unit="K", min=293.15, max=355.15) "Supply temperature setpoint of the heat pump";
+	Modelica.Blocks.Interfaces.RealInput oveTSetSup_u(unit="K", min=293.15, max=353.15) "Supply temperature setpoint of the heat pump";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSetSup_activate "Activation for Supply temperature setpoint of the heat pump";
 	// Out read
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolHouAng_y(unit="rad") = mod.weaSta.reaWeaSolHouAng.y "Solar hour angle measurement";
