@@ -8,6 +8,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput oveFan_activate "Activation for Integer signal to control the heat pump evaporator fan either on or off";
 	Modelica.Blocks.Interfaces.RealInput oveTSet_u(unit="K", min=278.15, max=308.15) "Zone operative temperature setpoint";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSet_activate "Activation for Zone operative temperature setpoint";
+	Modelica.Blocks.Interfaces.RealInput oveTSetSup_u(unit="K", min=293.15, max=355.15) "Supply temperature setpoint of the heat pump";
+	Modelica.Blocks.Interfaces.BooleanInput oveTSetSup_activate "Activation for Supply temperature setpoint of the heat pump";
 	// Out read
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolHouAng_y(unit="rad") = mod.weaSta.reaWeaSolHouAng.y "Solar hour angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaWinDir_y(unit="rad") = mod.weaSta.reaWeaWinDir.y "Wind direction measurement";
@@ -54,5 +56,6 @@ model wrapped "Wrapped model"
 		ovePum(uExt(y=ovePum_u),activate(y=ovePum_activate)),
 		oveHeaPumY(uExt(y=oveHeaPumY_u),activate(y=oveHeaPumY_activate)),
 		oveFan(uExt(y=oveFan_u),activate(y=oveFan_activate)),
-		oveTSet(uExt(y=oveTSet_u),activate(y=oveTSet_activate))) "Original model with overwrites";
+		oveTSet(uExt(y=oveTSet_u),activate(y=oveTSet_activate)),
+		oveTSetSup(uExt(y=oveTSetSup_u),activate(y=oveTSetSup_activate))) "Original model with overwrites";
 end wrapped;

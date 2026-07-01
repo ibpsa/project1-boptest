@@ -274,9 +274,9 @@ model TestCase
         origin={30,150})));
 
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSetSup(u(
-      max=273.15 + 35,
+      max=273.15 + 80,
       unit="K",
-      min=273.15 + 5), description=
+      min=273.15 + 20), description=
         "Supply temperature setpoint of the heat pump")
     "Overwrite for supply temperature control signal" annotation (Placement(
         transformation(
@@ -302,9 +302,8 @@ equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
-  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,
-          40},{-52,18},{-81,18}},
-                              color={0,0,127}));
+  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,40},
+          {-52,14},{-58,14}}, color={0,0,127}));
   connect(senTemSup.port_b, pum.port_a)
     annotation (Line(points={{60,40},{40,40}}, color={0,127,255}));
   connect(bouWat.ports[1], pum.port_a)
