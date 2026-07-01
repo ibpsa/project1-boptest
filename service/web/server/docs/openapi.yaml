@@ -432,8 +432,8 @@ paths:
         Typically, the supported scenario settings include:
           * electricity_price: "constant" or "dynamic" or "highly_dynamic"
           * time_period: "typical_heat_day" or "peak_heat_day"
-          * temperature_uncertainty: *null* or "low" or "medium" or "high"
-          * solar_uncertainty: *null* or "low" or "medium" or "high"
+          * temperature_uncertainty: "none" (*null* also acceptable) or "low" or "medium" or "high"
+          * solar_uncertainty: "none" (*null* also acceptable) or "low" or "medium" or "high"
           * seed: *int*
 
         However, this is partly test case specific. See the test case documentation for supported scenarios.
