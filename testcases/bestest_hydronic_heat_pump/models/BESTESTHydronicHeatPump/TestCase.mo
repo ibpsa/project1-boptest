@@ -102,8 +102,8 @@ model TestCase
     annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
   Modelica.Blocks.Continuous.LimPID conPIHeaPumY(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=0.6,
-    Ti=8000,
+    k=0.001,
+    Ti=1,
     yMax=1,
     yMin=0,
     initType=Modelica.Blocks.Types.Init.InitialState)
@@ -274,7 +274,7 @@ model TestCase
         origin={30,150})));
 
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSetSup(u(
-      max=273.15 + 80,
+      max=273.15 + 60,
       unit="K",
       min=273.15 + 20), description=
         "Supply temperature setpoint of the heat pump")
@@ -285,9 +285,9 @@ model TestCase
         origin={110,150})));
   Modelica.Blocks.Continuous.LimPID conPITSetSup(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=0.5,
-    Ti=180,
-    yMax=273.15 + 80,
+    k=10,
+    Ti=300,
+    yMax=273.15 + 60,
     yMin=273.15 + 20,
     initType=Modelica.Blocks.Types.Init.InitialState)
     "PI controller for the boiler supply water temperature"
@@ -303,7 +303,7 @@ equation
           {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
   connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,40},
-          {-52,14},{-58,14}}, color={0,0,127}));
+          {-52,18},{-81,18}}, color={0,0,127}));
   connect(senTemSup.port_b, pum.port_a)
     annotation (Line(points={{60,40},{40,40}}, color={0,127,255}));
   connect(bouWat.ports[1], pum.port_a)
@@ -395,8 +395,8 @@ equation
     annotation (Line(points={{81,150},{98,150}}, color={0,0,127}));
   connect(conPIHeaPumY.y, oveHeaPumY.u)
     annotation (Line(points={{181,150},{218,150}}, color={0,0,127}));
-  connect(case900Template.TSensor, conPITSetSup.u_m) annotation (Line(points={{-59,
-          12},{-46,12},{-46,130},{70,130},{70,138}}, color={0,0,127}));
+  connect(case900Template.TSensor, conPITSetSup.u_m) annotation (Line(points={{-59,12},
+          {-46,12},{-46,130},{70,130},{70,138}},     color={0,0,127}));
   connect(oveTSet.y, conPITSetSup.u_s)
     annotation (Line(points={{41,150},{58,150}}, color={0,0,127}));
   annotation (
