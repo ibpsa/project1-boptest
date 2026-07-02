@@ -286,7 +286,7 @@ model TestCase
   Modelica.Blocks.Continuous.LimPID conPITSetSup(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=10,
-    Ti=300,
+    Ti=180,
     yMax=273.15 + 60,
     yMin=273.15 + 20,
     initType=Modelica.Blocks.Types.Init.InitialState)
