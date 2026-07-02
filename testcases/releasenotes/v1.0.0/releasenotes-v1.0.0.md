@@ -23,6 +23,7 @@ For changes in KPIs from embedded baseline controllers from v0.9.0 to v1.0.0 for
 - Use a newly created local mover component for the circulation pump ``BaseClasses/FlowControlled_dp.mo``, which wraps ``IDEAS.Fluid.Movers.FlowControlled_dp`` with the same parameters used in ``Buildings.Fluid.Movers.Preconfigured.FlowControlled_dp`` but maintains the stage input, as ``Buildings.Fluid.Movers.Preconfigured.FlowControlled_dp`` only supports real input in Building v12.1.0.
 - Updated weather file to ``BEL_VLG_Uccle.064470_TMYx.2007_2021.mos`` to reflect changes in IDEAS. Updated ``weather.csv`` to reflect change in weather file.
 - Time period scenario days changed for ``peak_heat_day`` and ``typical_heat_day``.
+- Incorporate an additional control layer, allowing users to control the supply temperature of the heat pump. This is for [#849](https://github.com/ibpsa/project1-boptest/issues/849).
 
 
 ### singlezone_commercial_hydronic
