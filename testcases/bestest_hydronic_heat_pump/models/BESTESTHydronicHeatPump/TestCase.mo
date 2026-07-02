@@ -102,8 +102,8 @@ model TestCase
     annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
   Modelica.Blocks.Continuous.LimPID conPIHeaPumY(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=0.001,
-    Ti=1,
+    k=0.1,
+    Ti=30,
     yMax=1,
     yMin=0,
     initType=Modelica.Blocks.Types.Init.InitialState)
@@ -286,7 +286,7 @@ model TestCase
   Modelica.Blocks.Continuous.LimPID conPITSetSup(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=10,
-    Ti=180,
+    Ti=8000,
     yMax=273.15 + 60,
     yMin=273.15 + 20,
     initType=Modelica.Blocks.Types.Init.InitialState)
@@ -685,6 +685,12 @@ is depicted as controller C2 in Figure 1.
 </li>
 <li>
 <code>oveTSet_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint
+</li>
+<li>
+<code>oveTSetSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetSup_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveTSetSup_u</code> [K] [min=293.15, max=333.15]: Supply temperature setpoint of the heat pump
 </li>
 </ul>
 <h4>Outputs</h4>
