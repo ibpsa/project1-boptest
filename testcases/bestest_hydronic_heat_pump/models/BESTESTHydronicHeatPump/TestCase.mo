@@ -401,7 +401,7 @@ equation
     annotation (Line(points={{41,150},{58,150}}, color={0,0,127}));
   annotation (
     experiment(
-      StopTime=86400,
+      StopTime=864000,
       Interval=900,
       __Dymola_Algorithm="Dassl"),
     Documentation(info="<html>
@@ -624,24 +624,25 @@ the nominal pressure rise of the heat pump evaporator fan is of 0.1 kPa.
 
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
-A baseline controller is implemented to procure comfort within the building zone.
-A PI controller is tuned with the zone operative temperature as the controlled variable
-and the heat pump modulation signal for compressor frequency as the control variable,
-as depicted as C1 in Figure 1 and shown in Figure 2 below.
-The control variable is limited between 0 and 1, and it is computed to drive the zone operative
-temperature towards the zone operative temperature setpoint.  For baseline control, this setpoint is
-computed as the heating comfort setpoint plus an offset
+A baseline controller, consisting of 2 cascaded PI-controllers, is implemented to procure comfort within the building zone.
+An outer PI-controller C1 is tuned with the zone operative temperature as the controlled variable
+and the heat pump supply temperature as the control variable.
+The heat pump supply temperature is limited between 20 and 60 degrees Celsius to respect the operating conditions of the heat pump.
+An inner PI-controller C2 is tuned with the heat pump supply temperature as the controlled variable and the 
+heat pump modulation signal for compressor frequency as control variable, limited between 0 and 1.
+Both PI-controllers are shown in Figure 1, with their control logic illustrated in Figure 2.
+For baseline control, this zone temperature setpoint is computed as the heating comfort setpoint plus an offset
 which varies depending on the occupancy schedule: during occupied periods the offset is
 set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations
 around the setpoint; during unoccupied periods the offset is set to 5.5 degrees Celsius
 and is meant to compensate for the large temperature setback used during these periods.
-The latter offset prevents the need of abrubpt changes in the indoor temperature that may not
+The latter offset prevents the need of abrupt changes in the indoor temperature that may not
 be achievable because of the large thermal inertia of the floor heating system and
 which would consequently cause discomfort. All other equipment
 (fan for the heat pump evaporator circuit and floor heating emission system pump)
 are switched on when the heat pump
 is working (modulating signal higher than 0) and switched off otherwise.  This
-is depicted as controller C2 in Figure 1.
+is depicted as controller C3 in Figure 1.
 
 <p>
 <br>
@@ -649,7 +650,7 @@ is depicted as controller C2 in Figure 1.
 
 </p>
 <p align=\"center\">
-<img src=\"modelica://IDEAS/Resources/Images/Examples/IBPSA/SingleZoneResidentialHydronicHeatPump_C1.png\" alt=\"image\"/>
+<img src=\"modelica://IDEAS/Resources/Images/Examples/IBPSA/SingleZoneResidentialHydronicHeatPump_Full.png\" alt=\"image\"/>
 <figcaption><small>Figure 2: Controller C1.</small></figcaption>
 </p>
 
