@@ -107,7 +107,7 @@ model TestCase
     yMax=1,
     yMin=0,
     initType=Modelica.Blocks.Types.Init.InitialState)
-    "PI controller for the boiler supply water temperature"
+    "PI controller for the heat pump supply water temperature"
     annotation (Placement(transformation(extent={{160,140},{180,160}})));
   Modelica.Blocks.Math.Add addOcc
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
@@ -290,7 +290,7 @@ model TestCase
     yMax=273.15 + 60,
     yMin=273.15 + 20,
     initType=Modelica.Blocks.Types.Init.InitialState)
-    "PI controller for the boiler supply water temperature"
+    "PI controller for the heat pump supply water temperature"
     annotation (Placement(transformation(extent={{60,140},{80,160}})));
 initial equation
   heaPum.con.T=293.15;
@@ -302,8 +302,9 @@ equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
-  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,40},
-          {-52,18},{-81,18}}, color={0,0,127}));
+  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,
+          40},{-52,14},{-58,14}},
+                              color={0,0,127}));
   connect(senTemSup.port_b, pum.port_a)
     annotation (Line(points={{60,40},{40,40}}, color={0,127,255}));
   connect(bouWat.ports[1], pum.port_a)
@@ -633,7 +634,7 @@ heat pump modulation signal for compressor frequency as control variable, limite
 Both PI-controllers are shown in Figure 1, with their control logic illustrated in Figure 2.
 For baseline control, this zone temperature setpoint is computed as the heating comfort setpoint plus an offset
 which varies depending on the occupancy schedule: during occupied periods the offset is
-set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations
+set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscillations
 around the setpoint; during unoccupied periods the offset is set to 5.5 degrees Celsius
 and is meant to compensate for the large temperature setback used during these periods.
 The latter offset prevents the need of abrupt changes in the indoor temperature that may not
@@ -932,6 +933,12 @@ See the BOPTEST design documentation for more information.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 3, 2026, by Jaap Neven:<br/>
+Incorporate an additional control layer, allowing users to control the supply temperature of the heat pump.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/849>
+BOPTEST issue #849</a>.
+</li>
 <li>
 April 1, 2026, by Ettore Zanetti:<br/>
 Updated model to use Modelica 4.0 and IDEAS 4.0.0.
