@@ -59,7 +59,7 @@ model TestCase
         transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
-        origin={150,150})));
+        origin={230,150})));
   Modelica.Blocks.Sources.Constant offSetOcc(k=0.2, y(unit="K"))
     "Offset above heating temperature setpoint during occupied hours to ensure comfort"
     annotation (Placement(transformation(extent={{-200,140},{-180,160}})));
@@ -100,15 +100,15 @@ model TestCase
   Modelica.Blocks.Sources.RealExpression TSetHea(y=if yOcc.y > 1e-8 then
         TSetHeaOcc else TSetHeaUno) "Heating temperature setpoint with setback with threshold strictly larger than 0 for detecting occupancy"
     annotation (Placement(transformation(extent={{-200,-40},{-180,-20}})));
-  Modelica.Blocks.Continuous.LimPID conPI(
+  Modelica.Blocks.Continuous.LimPID conPIHeaPumY(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=0.6,
-    Ti=8000,
+    k=0.1,
+    Ti=30,
     yMax=1,
     yMin=0,
     initType=Modelica.Blocks.Types.Init.InitialState)
-    "PI controller for the boiler supply water temperature"
-    annotation (Placement(transformation(extent={{100,140},{120,160}})));
+    "PI controller for the heat pump supply water temperature"
+    annotation (Placement(transformation(extent={{160,140},{180,160}})));
   Modelica.Blocks.Math.Add addOcc
     annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
   BESTESTHydronicHeatPump.BaseClasses.FlowControlled_dp pum(
@@ -273,6 +273,25 @@ model TestCase
         rotation=180,
         origin={30,150})));
 
+  IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSetSup(u(
+      max=273.15 + 60,
+      unit="K",
+      min=273.15 + 20), description=
+        "Supply temperature setpoint of the heat pump")
+    "Overwrite for supply temperature control signal" annotation (Placement(
+        transformation(
+        extent={{10,10},{-10,-10}},
+        rotation=180,
+        origin={110,150})));
+  Modelica.Blocks.Continuous.LimPID conPITSetSup(
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    k=10,
+    Ti=8000,
+    yMax=273.15 + 60,
+    yMin=273.15 + 20,
+    initType=Modelica.Blocks.Types.Init.InitialState)
+    "PI controller for the heat pump supply water temperature"
+    annotation (Placement(transformation(extent={{60,140},{80,160}})));
 initial equation
   heaPum.con.T=293.15;
   heaPum.eva.T=278.15;
@@ -283,8 +302,9 @@ equation
   connect(case900Template.ppm, reaCO2RooAir.u) annotation (Line(points={{-59,10},
           {-54,10},{-54,-50},{-58,-50}},
                                     color={0,0,127}));
-  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,40},
-          {-52,18},{-81,18}}, color={0,0,127}));
+  connect(yOcc.y, case900Template.yOcc) annotation (Line(points={{-59,40},{-52,
+          40},{-52,14},{-58,14}},
+                              color={0,0,127}));
   connect(senTemSup.port_b, pum.port_a)
     annotation (Line(points={{60,40},{40,40}}, color={0,127,255}));
   connect(bouWat.ports[1], pum.port_a)
@@ -332,12 +352,6 @@ equation
           {-172,56},{-162,56}}, color={0,0,127}));
   connect(greater.y, switch1.u2) annotation (Line(points={{-59,80},{-52,80},{
           -52,150},{-22,150}}, color={255,0,255}));
-  connect(case900Template.TSensor, conPI.u_m) annotation (Line(points={{-59,12},
-          {-46,12},{-46,130},{110,130},{110,138}},
-                                                 color={0,0,127}));
-  connect(conPI.y, oveHeaPumY.u)
-    annotation (Line(points={{121,150},{138,150}},
-                                                 color={0,0,127}));
   connect(addOcc.y, switch1.u1) annotation (Line(points={{-139,130},{-128,130},
           {-128,158},{-22,158}}, color={0,0,127}));
   connect(addUno.y, switch1.u3) annotation (Line(points={{-139,50},{-120,50},{
@@ -364,10 +378,8 @@ equation
           {-170,-60},{-220,-60},{-220,44},{-162,44}}, color={0,0,127}));
   connect(TSetHea.y, addOcc.u2) annotation (Line(points={{-179,-30},{-170,-30},
           {-170,-60},{-220,-60},{-220,124},{-162,124}}, color={0,0,127}));
-  connect(oveTSet.y, conPI.u_s)
-    annotation (Line(points={{41,150},{98,150}}, color={0,0,127}));
-  connect(oveHeaPumY.y, heaPum.y) annotation (Line(points={{161,150},{290,150},{
-          290,-30},{127,-30},{127,-2}}, color={0,0,127}));
+  connect(oveHeaPumY.y, heaPum.y) annotation (Line(points={{241,150},{282,150},
+          {282,-24},{127,-24},{127,-2}},color={0,0,127}));
   connect(oveFan.y, realToInteger2.u)
     annotation (Line(points={{213,110},{250,110}}, color={0,0,127}));
   connect(ovePum.y, realToInteger.u)
@@ -376,10 +388,22 @@ equation
     annotation (Line(points={{80,-20},{124,-20},{124,0}}, color={0,127,255}));
   connect(senTemRet.port_a, floHea.port_b)
     annotation (Line(points={{60,-20},{-20,-20},{-20,10}}, color={0,127,255}));
+  connect(senTemSup.T, conPIHeaPumY.u_m) annotation (Line(points={{70,29},{70,
+          26},{90,26},{90,128},{170,128},{170,138}}, color={0,0,127}));
+  connect(oveTSetSup.y, conPIHeaPumY.u_s)
+    annotation (Line(points={{121,150},{158,150}}, color={0,0,127}));
+  connect(conPITSetSup.y, oveTSetSup.u)
+    annotation (Line(points={{81,150},{98,150}}, color={0,0,127}));
+  connect(conPIHeaPumY.y, oveHeaPumY.u)
+    annotation (Line(points={{181,150},{218,150}}, color={0,0,127}));
+  connect(case900Template.TSensor, conPITSetSup.u_m) annotation (Line(points={{-59,12},
+          {-46,12},{-46,130},{70,130},{70,138}},     color={0,0,127}));
+  connect(oveTSet.y, conPITSetSup.u_s)
+    annotation (Line(points={{41,150},{58,150}}, color={0,0,127}));
   annotation (
     experiment(
-      StopTime=31536000,
-      Interval=599.999616,
+      StopTime=864000,
+      Interval=900,
       __Dymola_Algorithm="Dassl"),
     Documentation(info="<html>
 <p>
@@ -601,24 +625,25 @@ the nominal pressure rise of the heat pump evaporator fan is of 0.1 kPa.
 
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
-A baseline controller is implemented to procure comfort within the building zone.
-A PI controller is tuned with the zone operative temperature as the controlled variable
-and the heat pump modulation signal for compressor frequency as the control variable,
-as depicted as C1 in Figure 1 and shown in Figure 2 below.
-The control variable is limited between 0 and 1, and it is computed to drive the zone operative
-temperature towards the zone operative temperature setpoint.  For baseline control, this setpoint is
-computed as the heating comfort setpoint plus an offset
+A baseline controller, consisting of 2 cascaded PI-controllers, is implemented to procure comfort within the building zone.
+An outer PI-controller C1 is tuned with the zone operative temperature as the controlled variable
+and the heat pump supply temperature as the control variable.
+The heat pump supply temperature is limited between 20 and 60 degrees Celsius to respect the operating conditions of the heat pump.
+An inner PI-controller C2 is tuned with the heat pump supply temperature as the controlled variable and the 
+heat pump modulation signal for compressor frequency as control variable, limited between 0 and 1.
+Both PI-controllers are shown in Figure 1, with their control logic illustrated in Figure 2.
+For baseline control, this zone temperature setpoint is computed as the heating comfort setpoint plus an offset
 which varies depending on the occupancy schedule: during occupied periods the offset is
-set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations
+set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscillations
 around the setpoint; during unoccupied periods the offset is set to 5.5 degrees Celsius
 and is meant to compensate for the large temperature setback used during these periods.
-The latter offset prevents the need of abrubpt changes in the indoor temperature that may not
+The latter offset prevents the need of abrupt changes in the indoor temperature that may not
 be achievable because of the large thermal inertia of the floor heating system and
 which would consequently cause discomfort. All other equipment
 (fan for the heat pump evaporator circuit and floor heating emission system pump)
 are switched on when the heat pump
 is working (modulating signal higher than 0) and switched off otherwise.  This
-is depicted as controller C2 in Figure 1.
+is depicted as controller C3 in Figure 1.
 
 <p>
 <br>
@@ -626,7 +651,7 @@ is depicted as controller C2 in Figure 1.
 
 </p>
 <p align=\"center\">
-<img src=\"modelica://IDEAS/Resources/Images/Examples/IBPSA/SingleZoneResidentialHydronicHeatPump_C1.png\" alt=\"image\"/>
+<img src=\"modelica://IDEAS/Resources/Images/Examples/IBPSA/SingleZoneResidentialHydronicHeatPump_Full.png\" alt=\"image\"/>
 <figcaption><small>Figure 2: Controller C1.</small></figcaption>
 </p>
 
@@ -662,6 +687,12 @@ is depicted as controller C2 in Figure 1.
 </li>
 <li>
 <code>oveTSet_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint
+</li>
+<li>
+<code>oveTSetSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetSup_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveTSetSup_u</code> [K] [min=293.15, max=333.15]: Supply temperature setpoint of the heat pump
 </li>
 </ul>
 <h4>Outputs</h4>
@@ -902,6 +933,12 @@ See the BOPTEST design documentation for more information.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 3, 2026, by Jaap Neven:<br/>
+Incorporate an additional control layer, allowing users to control the supply temperature of the heat pump.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/849>
+BOPTEST issue #849</a>.
+</li>
 <li>
 April 1, 2026, by Ettore Zanetti:<br/>
 Updated model to use Modelica 4.0 and IDEAS 4.0.0.
