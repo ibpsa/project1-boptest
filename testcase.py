@@ -957,8 +957,8 @@ class TestCase(object):
         scenario : dict
             {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
              'time_period': see available <str> keys for test case,
-             'temperature_uncertainty':<'low' or 'medium' or 'high'>,
-             'solar_uncertainty':<'low' or 'medium' or 'high'>,
+             'temperature_uncertainty':<'none' or 'low' or 'medium' or 'high'>,
+             'solar_uncertainty':<'none' or 'low' or 'medium' or 'high'>,
              'seed': int, used for uncertainty sampling
             }
             If any value is None, it will not change existing.
@@ -1033,29 +1033,35 @@ class TestCase(object):
                 key = self.scenario['time_period']
                 start_time = self.days_json[key]*24*3600.-7*24*3600.
                 end_time = start_time + 14*24*3600.
-            # Handle temperature uncertainty levels
+            # Handle temperature uncertainty levels - check allowable and convert to None if 'none'
             if scenario['temperature_uncertainty']:
-                if scenario['temperature_uncertainty'] not in ['low', 'medium', 'high']:
+                if scenario['temperature_uncertainty'] not in ['none', 'low', 'medium', 'high']:
                     status = 400
                     message = "Scenario parameter temperature_uncertainty is {}, " \
-                              "but should be 'low', 'medium', or 'high'.". \
+                              "but should be 'none', 'low', 'medium', or 'high'.". \
                               format(scenario['temperature_uncertainty'])
                     logging.error(message)
                     return status, message, payload
-                self.scenario['temperature_uncertainty'] = scenario['temperature_uncertainty']
+                if scenario['temperature_uncertainty'] == 'none':
+                    self.scenario['temperature_uncertainty'] = None
+                else:
+                    self.scenario['temperature_uncertainty'] = scenario['temperature_uncertainty']
                 payload['temperature_uncertainty'] = self.scenario['temperature_uncertainty']
             else:
                 self.scenario['temperature_uncertainty'] = None
-            # Handle solar uncertainty levels
+            # Handle solar uncertainty levels - check allowable and convert to None if 'none'
             if scenario['solar_uncertainty']:
-                if scenario['solar_uncertainty'] not in ['low', 'medium', 'high']:
+                if scenario['solar_uncertainty'] not in ['none', 'low', 'medium', 'high']:
                     status = 400
                     message = "Scenario parameter solar_uncertainty is {}, " \
-                              "but should be 'low', 'medium', or 'high'.". \
+                              "but should be 'none', 'low', 'medium', or 'high'.". \
                         format(scenario['solar_uncertainty'])
                     logging.error(message)
                     return status, message, payload
-                self.scenario['solar_uncertainty'] = scenario['solar_uncertainty']
+                if scenario['solar_uncertainty'] == 'none':
+                    self.scenario['solar_uncertainty'] = None
+                else:
+                    self.scenario['solar_uncertainty'] = scenario['solar_uncertainty']
                 payload['solar_uncertainty'] = self.scenario['solar_uncertainty']
             else:
                 self.scenario['solar_uncertainty'] = None
