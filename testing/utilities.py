@@ -633,6 +633,8 @@ class partialTestAPI(partialChecks):
     def test_get_forecast_all(self):
         '''Check that the forecaster is able to GET all the data.
 
+        Also test that default uncertainty scenario is 'none'.
+
         All available forecast points are checked.
 
         '''
@@ -647,6 +649,18 @@ class partialTestAPI(partialChecks):
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_all.csv')
+        # Check the forecast
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+
+        if self.name in ['testcase1','testcase3']:
+            scenario = {'temperature_uncertainty':'none'}
+        else:
+            scenario = {'temperature_uncertainty':'none', 'solar_uncertainty':'none'}
+        res = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario).json()
+        if res['status'] != 200:
+            raise Exception('Status code {0} returned with message: {1}'.format(res['status'], res['message']))
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 

@@ -11,6 +11,7 @@ Released on xx/xx/xxxx.
 - Remove unit test for readme commands. This is for [#824](https://github.com/ibpsa/project1-boptest/issues/824).
 - Reduce size of unit test reference results by only storing 500 points for time trajectories.  Also enhance json testing to include tolerance and detailed failure messages.  This is for [#253](https://github.com/ibpsa/project1-boptest/issues/253).
 - Add ``bacnet/requirements.txt`` file, and change ``objectName`` in ``bacnet/example/BACpypes.ini`` from ``BopTestProxy`` to ``ExampleReadWrite``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
+- Add ``'none'`` as an acceptable argument for outside temperature and solar forecast uncertainty scenario parameters, which has the same function as a ``None`` object previously (also still accepted).  This is for [#850](https://github.com/ibpsa/project1-boptest/issues/850).
 - The following changes have been made to ``parsing/parser.py``. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422):
   - Add support for test case compilation using OpenModelica v1.26.8. The parser can take argument ``tool='openmodelica'``.
   - Remove support for test case compilation using JModelica.
