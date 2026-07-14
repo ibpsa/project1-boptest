@@ -82,3 +82,51 @@ export function validationResponse(req, res, next) {
   }
   next()
 }
+
+export function handleCorsPreflight(req, res, next, allowedMethods) {
+  if (req.method === 'OPTIONS') {
+    const origin = req.header('Origin');
+    res.setHeader('Vary', 'Origin');
+
+    if (origin && isValidOrigin(origin)) {
+      console.log("Pre-flight allowed: ", origin)
+
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Access-Control-Allow-Methods', allowedMethods);
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight response for 24 hours
+      res.sendStatus(204); // No Content
+    } else {
+      console.log("Pre-flight rejected: ", origin)
+      res.sendStatus(405); // Method Not Allowed
+    }
+  } else {
+    next();
+  }
+}
+
+export function addCorsOriginHdr(req, res, next) {
+  const origin = req.header('Origin');
+  if (origin && isValidOrigin(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  }
+  next()
+}
+
+// Parse allowed origins from environment variable (comma-separated)
+const additionalAllowedOrigins = (process.env.BOPTEST_ALLOWED_ORIGINS || '')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(origin => origin.length > 0);
+
+function isValidOrigin(origin) {
+  // Check hardcoded patterns
+  const hardcodedPatternRegex = /^https?:\/\/(localhost:\d+|(.*\.)?boptest\.net)$/;
+  if (hardcodedPatternRegex.test(origin)) {
+    return true;
+  }
+  
+  // Check additional origins from environment variable
+  return additionalAllowedOrigins.includes(origin);
+}

@@ -378,3 +378,54 @@ def test_authorization_for_generic_endpoints():
         f"{host}/users/{username}/rubbish", headers={"Authorization": auth_token}
     )
     check.equal(response.status_code, 404)
+
+
+def test_cors_headers():
+    """CORS headers are present for allowed origins and absent for disallowed ones."""
+    allowed_origin = "http://localhost:3000"
+    disallowed_origin = "https://attacker.com"
+
+    # GET /version — CORS header expected
+    response = requests.get(f"{host}/version", headers={"Origin": allowed_origin})
+    check.equal(response.status_code, 200)
+    check.equal(response.headers.get("Access-Control-Allow-Origin"), allowed_origin)
+    check.is_not_none(response.headers.get("Vary"))
+
+    # GET /testcases — CORS header expected
+    response = requests.get(f"{host}/testcases", headers={"Origin": allowed_origin})
+    check.equal(response.status_code, 200)
+    check.equal(response.headers.get("Access-Control-Allow-Origin"), allowed_origin)
+
+    # OPTIONS preflight for GET /testcases
+    response = requests.options(
+        f"{host}/testcases",
+        headers={
+            "Origin": allowed_origin,
+            "Access-Control-Request-Method": "GET",
+            "Access-Control-Request-Headers": "Authorization",
+        },
+    )
+    check.equal(response.status_code, 204)
+    check.equal(response.headers.get("Access-Control-Allow-Origin"), allowed_origin)
+    check.is_not_none(response.headers.get("Access-Control-Allow-Methods"))
+    check.is_not_none(response.headers.get("Access-Control-Allow-Headers"))
+    check.equal(response.headers.get("Access-Control-Max-Age"), "86400")
+
+    # OPTIONS preflight for POST /testcases/:id/select
+    # The OPTIONS handler does not validate the testcase ID, so any string works here.
+    response = requests.options(
+        f"{host}/testcases/testcase1/select",
+        headers={
+            "Origin": allowed_origin,
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "Content-Type",
+        },
+    )
+    check.equal(response.status_code, 204)
+    check.equal(response.headers.get("Access-Control-Allow-Origin"), allowed_origin)
+    check.equal(response.headers.get("Access-Control-Allow-Methods"), "POST")
+
+    # Disallowed origin must not receive CORS headers
+    response = requests.get(f"{host}/testcases", headers={"Origin": disallowed_origin})
+    check.equal(response.status_code, 200)
+    check.is_none(response.headers.get("Access-Control-Allow-Origin"))

@@ -12,6 +12,26 @@ on:
 
 jobs:
 
+  cors-unit-tests:
+    name: Run CORS middleware unit tests
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: service/web/server
+
+      - name: Run CORS unit tests
+        run: npm test
+        working-directory: service/web/server
+
   simulation-tests:
     name: Build containers and run boptest simulation tests
     runs-on: ubuntu-22.04

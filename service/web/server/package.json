@@ -7,13 +7,14 @@
     "build-server": "babel -d ./build ./src -s",
     "build": "npm run clean && npm run build-server",
     "start": "node ./build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require @babel/register 'test/**/*.test.js'"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",
+    "@babel/register": "^7.10.2",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/polyfill": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
