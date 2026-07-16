@@ -4,13 +4,25 @@
 VERSION=1.26.8
 IMG_NAME=openmodelica_fmu_generator
 
-COMMAND_RUN=docker run \
+COMMAND_RUN=sudo docker run \
 	  --name ${IMG_NAME} \
 	  --detach=true \
 	  --rm \
 	  -it \
 	  -v ../:/home/compiler/boptest \
 	  ${IMG_NAME}
+
+# Options for CI testing
+SINGLE=true
+
+# If can't just use 'python' command for virtual environment (as in travis and github actions), set 'python' command to use local CI venv
+ifeq (, $(shell which python))
+	VENV_CI=${HOME}/.venvs/boptest_unit_tests
+	PYTHON_CI=${VENV_CI}/bin/python
+else
+	PYTHON_CI=python
+endif
+
 # Help target
 help:
 	@echo "Usage: make build_compiler_image VERSION=<x.x.x>"
@@ -33,46 +45,46 @@ help:
 
 build_compiler_image:
 	@echo "Building openmodelica compiler container with name $(IMG_NAME)..."
-	docker build -f Dockerfile.openmodelica \
+	sudo docker build -f Dockerfile.openmodelica \
 	--build-arg VERSION=$(VERSION) \
 	--tag $(IMG_NAME) .
 
 
 build_boptest_image:
-	cd .. && docker compose build
+	cd .. && sudo docker compose build
 
 remove_cimg_image:
-	docker rmi ${IMG_NAME}
+	sudo docker rmi ${IMG_NAME}
 
 remove_boptest_image:
-	docker rmi project1-boptest-provision project1-boptest-web project1-boptest-worker minio/minio minio/mc redis pafortin/goaws
+	sudo docker rmi project1-boptest-provision project1-boptest-web project1-boptest-worker minio/minio minio/mc redis pafortin/goaws
 
 run_cimg:
 	$(COMMAND_RUN)
 
 copy_to_cimg:
-	docker cp ../${ARGS} ${IMG_NAME}:/home/compiler
+	sudo docker cp ../${ARGS} ${IMG_NAME}:/home/compiler/testing
 
 
 copy_testcase_to_cimg:
 	make copy_to_cimg ARGS=testcases/${TESTCASE}
-	docker cp ../testcase.py ${IMG_NAME}:/home/compiler/${TESTCASE}
-	docker cp ../version.txt ${IMG_NAME}:/home/compiler/${TESTCASE}
-	make exec_cimg ARGS="touch /home/compiler/${TESTCASE}/__init__.py"
+	sudo docker cp ../testcase.py ${IMG_NAME}:/home/compiler/testing/${TESTCASE}
+	sudo docker cp ../version.txt ${IMG_NAME}:/home/compiler/testing/${TESTCASE}
+	make exec_cimg ARGS="touch /home/compiler/testing/testing/${TESTCASE}/__init__.py"
 
 copy_from_cimg:
-	docker cp ${IMG_NAME}:/home/compiler/${ARGS} ../${ARGS}
+	sudo docker cp ${IMG_NAME}:/home/compiler/${ARGS} ../${ARGS}
 
 copy_testcase_from_cimg:
-	docker cp ${IMG_NAME}:/home/compiler/${ARGS} ../testcases/${ARGS}
+	sudo docker cp ${IMG_NAME}:/home/compiler/${ARGS} ../testcases/${ARGS}
 
 exec_cimg:
-	docker exec -i --env USER=compiler ${IMG_NAME} /bin/bash -c "${ARGS}"
+	sudo docker exec -i --env USER=compiler ${IMG_NAME} /bin/bash -c "${ARGS}"
 
 stop_cimg:
-	docker stop ${IMG_NAME}
+	sudo docker stop ${IMG_NAME}
 # Make sure cimg image stops being used
-	python3 sleep10.py
+	${PYTHON_CI} sleep10.py
 
 compile_testcase_model:
 	make run_cimg
@@ -89,29 +101,29 @@ test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	cd .. && sudo docker compose build -q web worker provision
+	cd .. && sudo docker compose up -d --quiet-pull web worker provision
+	${PYTHON_CI} sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_$*.py $(ARG)
+	cd .. && ${PYTHON_CI} testing/test_$*.py $(ARG)
 # Stop testcase container
-	cd .. && docker compose down
+	cd .. && sudo docker compose down
 	if [ $(SINGLE) = true ]; then\
-	     python report.py;\
+	     ${PYTHON_CI} report.py;\
 	fi\
 
 # Generic test for all testcases that will not test with model compile to run locally with cleanup
 test_%_no_compile:
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	cd .. && sudo docker compose build -q web worker provision
+	cd .. && sudo docker compose up -d --quiet-pull web worker provision
+	${PYTHON_CI} sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_$*.py $(ARG)
+	cd .. && ${PYTHON_CI} testing/test_$*.py $(ARG)
 # Stop testcase container
-	cd .. && docker compose down
+	cd .. && sudo docker compose down
 	if [ $(SINGLE) = true ]; then\
-	     python report.py;\
+	     ${PYTHON_CI} report.py;\
 	fi\
 
 # Test podman deployment using a generic testcase test (bestest_air)
@@ -119,53 +131,53 @@ test_podman:
 # Build and deploy testcase image
 	cd .. && podman compose build -q web worker provision
 	cd .. && podman compose up -d web worker provision
-	python sleep10.py
+	${PYTHON_CI} sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_bestest_air.py $(ARG)
+	cd .. && ${PYTHON_CI} testing/test_bestest_air.py $(ARG)
 # Stop testcase container
 	cd .. && podman compose down
 	if [ $(SINGLE) = true ]; then\
-	     python report.py;\
+	     ${PYTHON_CI} report.py;\
 	fi\
 
 test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	cd .. && sudo docker compose build -q web worker provision
+	cd .. && sudo docker compose up -d --quiet-pull web worker provision
+	${PYTHON_CI} sleep10.py
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
 # Python and checks
-	cd .. && python testing/test_testcase1.py
+	cd .. && ${PYTHON_CI} testing/test_testcase1.py
 # Stop testcase container
-	cd .. && docker compose down
+	cd .. && sudo docker compose down
 # Remove julia image
 	cd ../examples/julia && make remove-image Script=testcase1
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	${PYTHON_CI} report.py;\
 	fi
 
 test_testcase2:
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	cd .. && sudo docker compose build -q web worker provision
+	cd .. && sudo docker compose up -d --quiet-pull web worker provision
+	${PYTHON_CI} sleep10.py
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
 # Python and checks
-	cd .. && python testing/test_testcase2.py
+	cd .. && ${PYTHON_CI} testing/test_testcase2.py
 # Stop testcase container
-	cd .. && docker compose down
+	cd .. && sudo docker compose down
 # Remove julia image
 	cd ../examples/julia && make remove-image Script=testcase2
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	${PYTHON_CI} report.py;\
 	fi
 
 test_parser:
@@ -174,142 +186,131 @@ test_parser:
 	make copy_to_cimg ARGS=data
 	make copy_to_cimg ARGS=testing
 	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd home/boptest/boptest/lib && python testing/test_parser.py"
-	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/references/parser ./references
-	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/test_parser.log ./test_parser.log
+	sudo docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/references/parser ./references
+	sudo docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/test_parser.log ./test_parser.log
 	make stop_cimg
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	${PYTHON_CI} report.py;\
 	fi
 
 test_data:
 # Run cimg docker container
 	make run_cimg
-# Copy the required files and folders for the test
-	make copy_to_cimg ARGS=data
-	make copy_to_cimg ARGS=forecast
-	make copy_to_cimg ARGS=kpis
-	make copy_to_cimg ARGS=testing
-	make copy_testcase_to_cimg TESTCASE=testcase2
-	make copy_testcase_to_cimg TESTCASE=testcase3
-	docker cp ../testing/references/data/testcase2/kpis.json ${IMG_NAME}:/home/boptest/boptest/lib/testcase2/models
-	docker cp ../testing/references/data/testcase3/kpis.json ${IMG_NAME}:/home/boptest/boptest/lib/testcase3/models
 # Run test_data.py
-	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd home/boptest/boptest/lib && python testing/test_data.py"
-	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/references/data ./references
-	docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/test_data.log ./test_data.log
+	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd home/compiler/boptest/testing && python test_data.py"
 # Stop cimg docker container
 	make stop_cimg
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	${PYTHON_CI} report.py;\
 	fi
 
 test_forecast:
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	cd .. && sudo docker compose build -q web worker provision
+	cd .. && sudo docker compose up -d --quiet-pull web worker provision
+	${PYTHON_CI} sleep10.py
 # Copy the required files and folders for testing
-	docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
-	docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
-	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
-	docker cp ../testcases/testcase2 project1-boptest-worker-1:/boptest/lib/testcases
-	docker cp ../testcases/testcase3 project1-boptest-worker-1:/boptest/lib/testcases
-	docker cp ../forecast project1-boptest-worker-1:/boptest/lib/forecast
+	sudo docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
+	sudo docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
+	sudo docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
+	sudo docker cp ../testcases/testcase2 project1-boptest-worker-1:/boptest/lib/testcases
+	sudo docker cp ../testcases/testcase3 project1-boptest-worker-1:/boptest/lib/testcases
+	sudo docker cp ../forecast project1-boptest-worker-1:/boptest/lib/forecast
 # Run test_forecast.py
-	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_forecast.py && exit"
-	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/forecast ./references
-	docker cp project1-boptest-worker-1:/boptest/lib/testing/test_forecast.log ./test_forecast.log
+	sudo docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_forecast.py && exit"
+	sudo docker cp project1-boptest-worker-1:/boptest/lib/testing/references/forecast ./references
+	sudo docker cp project1-boptest-worker-1:/boptest/lib/testing/test_forecast.log ./test_forecast.log
 # Stop docker container
-	cd .. && docker compose down
+	cd .. && sudo docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	${PYTHON_CI} report.py;\
 	fi
 
 test_forecast_uncertainty:
 # Build and deploy testcase image
-	cd .. && TESTCASE=testcase2 docker-compose up -d
-	python sleep10.py
+	cd .. && TESTCASE=testcase2 sudo docker-compose up -d
+	${PYTHON_CI} sleep10.py
 # Run test_forecast_uncertainty.py
-	cd .. && python testing/test_forecast_uncertainty.py $(ARG)
+	cd .. && ${PYTHON_CI} testing/test_forecast_uncertainty.py $(ARG)
 # Stop testcase container and report results
-	cd .. && docker-compose down
+	cd .. && sudo docker-compose down
 	if [ $(SINGLE) = true ]; then\
-	     python report.py;\
+	     ${PYTHON_CI} report.py;\
 	fi\
 
 test_kpis:
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	cd .. && sudo docker compose build -q web worker provision
+	cd .. && sudo docker compose up -d --quiet-pull web worker provision
+	${PYTHON_CI} sleep10.py
 # Copy the required files and folders for testing
-	docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
-	docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
-	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
-	docker cp ../testcases/testcase2 project1-boptest-worker-1:/boptest/lib/testcases
-	docker cp ../testcases/testcase3 project1-boptest-worker-1:/boptest/lib/testcases
-	docker cp ../forecast project1-boptest-worker-1:/boptest/lib/forecast
+	sudo docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
+	sudo docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
+	sudo docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
+	sudo docker cp ../testcases/testcase2 project1-boptest-worker-1:/boptest/lib/testcases
+	sudo docker cp ../testcases/testcase3 project1-boptest-worker-1:/boptest/lib/testcases
+	sudo docker cp ../forecast project1-boptest-worker-1:/boptest/lib/forecast
 # Run test_kpis.py
-	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_kpis.py && exit"
-	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/kpis ./references
-	docker cp project1-boptest-worker-1:/boptest/lib/testing/test_kpis.log ./test_kpis.log
+	sudo docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_kpis.py && exit"
+	sudo docker cp project1-boptest-worker-1:/boptest/lib/testing/references/kpis ./references
+	sudo docker cp project1-boptest-worker-1:/boptest/lib/testing/test_kpis.log ./test_kpis.log
 # Stop docker container
-	cd .. && docker compose down
+	cd .. && sudo docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	${PYTHON_CI} report.py;\
 	fi
 
 test_bacnet:
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision --scale worker=3
-	python sleep10.py
+	cd .. && sudo docker compose build -q web worker provision
+	cd .. && sudo docker compose up -d --quiet-pull web worker provision --scale worker=3
+	${PYTHON_CI} sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_bacnet.py
+	cd .. && ${PYTHON_CI} testing/test_bacnet.py
 # Stop testcase container
-	cd .. && docker compose down
+	cd .. && sudo docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	${PYTHON_CI} report.py;\
 	fi
 
 test_testcase:
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	cd .. && sudo docker compose build -q web worker provision
+	cd .. && sudo docker compose up -d --quiet-pull web worker provision
+	${PYTHON_CI} sleep10.py
 # Copy the required files and folders for testing
-	docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
-	docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
-	docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
-	docker cp ../testcases/bestest_air project1-boptest-worker-1:/boptest/lib/testcases
+	sudo docker cp ./ project1-boptest-worker-1:/boptest/lib/testing
+	sudo docker cp ../version.txt project1-boptest-worker-1:/boptest/lib/version.txt
+	sudo docker exec -it project1-boptest-worker-1 /bin/bash -c "mkdir /boptest/lib/testcases"
+	sudo docker cp ../testcases/bestest_air project1-boptest-worker-1:/boptest/lib/testcases
 # Run test_testcase.py
-	docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_testcase.py && exit"
-	docker cp project1-boptest-worker-1:/boptest/lib/testing/references/testcase ./references
-	docker cp project1-boptest-worker-1:/boptest/lib/testing/test_testcase.log ./test_testcase.log
+	sudo docker exec -i project1-boptest-worker-1 /bin/bash -c ". miniconda/bin/activate && conda activate pyfmi3 && cd /boptest/lib/testing && python test_testcase.py && exit"
+	sudo docker cp project1-boptest-worker-1:/boptest/lib/testing/references/testcase ./references
+	sudo docker cp project1-boptest-worker-1:/boptest/lib/testing/test_testcase.log ./test_testcase.log
 # Stop testcase container
-	cd .. && docker compose down
+	cd .. && sudo docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+        	${PYTHON_CI} report.py;\
 	fi
 
 test_autogen_client:
 # Test automatic generation of python client from OpenAPI Spec
 # Build and deploy testcase image
-	cd .. && docker compose build -q web worker provision
-	cd .. && docker compose up -d --quiet-pull web worker provision
-	python sleep10.py
+	cd .. && sudo docker compose build -q web worker provision
+	cd .. && sudo docker compose up -d --quiet-pull web worker provision
+	${PYTHON_CI} sleep10.py
 # Run openapi-python-client to autogenerate api client
 	openapi-python-client generate --url http://127.0.0.1:8000/openapi.yaml --output-path ../examples/python/autogenerated_client/output $(ARG)
 # Run the autogenerated client using the example usage.py
-	python ../examples/python/autogenerated_client/usage.py
+	${PYTHON_CI} ../examples/python/autogenerated_client/usage.py
 # Stop testcase container
-	cd .. && docker compose down
+	cd .. && sudo docker compose down
 
 ###############################################################################
 
