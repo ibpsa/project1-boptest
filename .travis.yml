@@ -26,10 +26,10 @@ jobs:
     script: cd testing && make test_autogen_client ARG=--overwrite
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_compiler_image && make test_parser
+    script: docker compose build -q worker && cd testing && make build_compiler_image && make test_parser
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_compiler_image && make test_data
+    script: docker compose build -q worker && cd testing && make build_compiler_image && make test_data
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make test_forecast
@@ -44,7 +44,7 @@ jobs:
     script: cd testing && make test_testcase
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
-    script: cd testing && make build_compiler_image && make test_testcase1
+    script: docker compose build -q worker && cd testing && make build_compiler_image && make test_testcase1
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make test_testcase2_no_compile
