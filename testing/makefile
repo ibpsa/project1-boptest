@@ -9,7 +9,7 @@ COMMAND_RUN=sudo docker run \
 	  --detach=true \
 	  --rm \
 	  -it \
-	  -v ../:/home/compiler/boptest \
+	  -v ${PWD}/../:/home/compiler/boptest \
 	  ${IMG_NAME}
 
 # Options for CI testing
