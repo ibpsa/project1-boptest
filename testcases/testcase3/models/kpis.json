@@ -1,1 +1,1 @@
-{"CO2Concentration[North]": ["CO2RooAirNor_y"], "CO2Concentration[South]": ["CO2RooAirSou_y"], "GasPower": ["PHeaCooNor_y", "PHeaCooSou_y"], "AirZoneTemperature[North]": ["TRooAirNor_y"], "OperativeZoneTemperature[South]": ["TRooAirSou_y"]}
+{"OperativeZoneTemperature[South]": ["TRooAirSou_y"], "GasPower": ["PHeaCooSou_y", "PHeaCooNor_y"], "CO2Concentration[South]": ["CO2RooAirSou_y"], "AirZoneTemperature[North]": ["TRooAirNor_y"], "CO2Concentration[North]": ["CO2RooAirNor_y"]}
