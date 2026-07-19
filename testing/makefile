@@ -181,13 +181,11 @@ test_testcase2:
 	fi
 
 test_parser:
+# Run cimg docker container
 	make run_cimg
-	make copy_to_cimg ARGS=parsing
-	make copy_to_cimg ARGS=data
-	make copy_to_cimg ARGS=testing
-	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd home/boptest/boptest/lib && python testing/test_parser.py"
-	sudo docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/references/parser ./references
-	sudo docker cp ${IMG_NAME}:/home/boptest/boptest/lib/testing/test_parser.log ./test_parser.log
+# Run test_parser.py
+	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd /home/compiler/boptest/testing && python test_parser.py"
+# Stop cimg docker container
 	make stop_cimg
 # Report test results
 	if [ $(SINGLE) = true ]; then\
@@ -198,7 +196,7 @@ test_data:
 # Run cimg docker container
 	make run_cimg
 # Run test_data.py
-	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd home/compiler/boptest/testing && python test_data.py"
+	make exec_cimg ARGS=". miniconda/bin/activate && conda activate pyfmi3 && cd /home/compiler/boptest/testing && python test_data.py"
 # Stop cimg docker container
 	make stop_cimg
 # Report test results
