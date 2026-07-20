@@ -166,7 +166,7 @@ test_testcase1:
         	${PYTHON_CI} report.py;\
 	fi
 
-test_testcase2:
+test_testcase2_no_compile:
 # Build and deploy testcase image
 	cd .. && sudo docker compose build -q web worker provision
 	cd .. && sudo docker compose up -d --quiet-pull web worker provision
