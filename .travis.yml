@@ -17,7 +17,6 @@ services:
 
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
-  - sudo chown -R 1000:1000 $(pwd)
 
 jobs:
   include:
