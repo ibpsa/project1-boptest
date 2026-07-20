@@ -21,6 +21,7 @@ import subprocess
 import os
 import shutil
 import json
+from pathlib import Path
 from data.data_manager import Data_Manager
 import warnings
 import time
@@ -531,7 +532,7 @@ def export_fmu(model_path, file_name, tool='openmodelica', algorithm='cvode', to
     # Get signal exchange instances and kpi signals
     instances, signals = parse_instances(model_path, file_name, tool, algorithm=algorithm, tolerance=tolerance)
     # Write wrapper and export as fmu
-    fmu_path, _ = write_wrapper(model_path, file_name, instances, tool, algorithm=algorithm, tolerance=tolerance)
+    fmu_path, wrapped_path = write_wrapper(model_path, file_name, instances, tool, algorithm=algorithm, tolerance=tolerance)
     # Write kpi json
     kpi_path = os.path.join(os.getcwd(), 'kpis.json')
     with open(kpi_path, 'w') as f:
@@ -542,7 +543,11 @@ def export_fmu(model_path, file_name, tool='openmodelica', algorithm='cvode', to
 
     # Clean up
     folder_content_remove = set(os.listdir())
-    keep = {"wrapped.fmu", "wrapped.mo","kpis.json"}
+    keep = ["wrapped.fmu", "wrapped.mo","kpis.json"]
+    # Keep original compiled fmu if no signal exchange blocks
+    if wrapped_path is None:
+        fmu_file_name = Path(fmu_path).name
+        keep.append(fmu_file_name)
     for item in folder_content_remove:
         if item not in folder_content and item not in keep:
             if os.path.isdir(item):
