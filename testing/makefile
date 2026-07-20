@@ -1,8 +1,11 @@
 # Makefile for building OpenModelica Docker container with Modelica libraries and run unit tests
+# The OpenModelica Docker container will run with UID inherited from the host machine upon building
 
 # Default values
 VERSION=1.26.8
 IMG_NAME=openmodelica_fmu_generator
+# Inherit the compiler docker container user id from the host
+USER_ID=$(shell id -u)
 
 COMMAND_RUN=sudo docker run \
 	  --name ${IMG_NAME} \
@@ -13,6 +16,7 @@ COMMAND_RUN=sudo docker run \
 	  ${IMG_NAME}
 
 # Options for CI testing
+# Run single test at time
 SINGLE=true
 
 # If can't just use 'python' command for virtual environment (as in travis and github actions), set 'python' command to use local CI venv
@@ -47,6 +51,7 @@ build_compiler_image:
 	@echo "Building openmodelica compiler container with name $(IMG_NAME)..."
 	sudo docker build -f Dockerfile.openmodelica \
 	--build-arg VERSION=$(VERSION) \
+	--build-arg USERID=$(USER_ID) \
 	--tag $(IMG_NAME) .
 
 

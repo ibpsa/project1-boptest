@@ -1,7 +1,11 @@
 FROM project1-boptest-worker
 
 # Build arguments
+# OpenModelica version
 ARG VERSION=""
+# User ID to use for the compiler user within the container
+# Can be passed from host to promote write permissions to shared volume
+ARG USERID=1000
 
 ENV HOME=/home/compiler
 
@@ -25,8 +29,8 @@ RUN export DEBIAN_FRONTEND="noninteractive" && echo "VERSION: $VERSION" && test 
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Add compiler user
-RUN export uid=1000 gid=1000 && \
+# Add compiler user with UID set to environment variable
+RUN export uid=$USERID gid=$USERID && \
     mkdir -p /home/compiler && \
     mkdir -p /etc/sudoers.d && \
     echo "compiler:x:${uid}:${gid}:compiler,,,:/home/compiler:/bin/bash" >> /etc/passwd && \
