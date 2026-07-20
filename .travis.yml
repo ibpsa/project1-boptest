@@ -20,7 +20,7 @@ before_script:
 
 jobs:
   include:
-  - script: docker compose up -d web worker provision && sleep 10 && travis_wait 90 docker compose up test --no-deps --exit-code-from test
+  - script: docker compose up -d web worker provision && sleep 10 && docker compose up test --no-deps --exit-code-from test
   - python: 3.10
     install: pip install --upgrade pip && pip install pandas==2.3.3 numpy==2.2.6 requests==2.32.5 openapi-python-client==0.28.1
     script: cd testing && make test_autogen_client ARG=--overwrite
