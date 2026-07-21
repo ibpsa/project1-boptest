@@ -51,16 +51,13 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput ovePum_y(unit="1") = mod.ovePum.y "Integer signal to control the emission circuit pump either on or off";
 	Modelica.Blocks.Interfaces.RealOutput oveFan_y(unit="1") = mod.oveFan.y "Integer signal to control the heat pump evaporator fan either on or off";
 	Modelica.Blocks.Interfaces.RealOutput oveTSet_y(unit="K") = mod.oveTSet.y "Zone operative temperature setpoint";
+	Modelica.Blocks.Interfaces.RealOutput oveTSetSup_y(unit="K") = mod.oveTSetSup.y "Supply temperature setpoint of the heat pump";
 	// Original model
 	BESTESTHydronicHeatPump.TestCase mod(
 		oveHeaPumY(uExt(y=oveHeaPumY_u),activate(y=oveHeaPumY_activate)),
 		ovePum(uExt(y=ovePum_u),activate(y=ovePum_activate)),
 		oveFan(uExt(y=oveFan_u),activate(y=oveFan_activate)),
-<<<<<<< Updated upstream
 		oveTSet(uExt(y=oveTSet_u),activate(y=oveTSet_activate)),
 		oveTSetSup(uExt(y=oveTSetSup_u),activate(y=oveTSetSup_activate))) "Original model with overwrites";
-=======
-		oveTSet(uExt(y=oveTSet_u),activate(y=oveTSet_activate))) "Original model with overwrites";
 annotation(experiment(Tolerance=1e-06,__Dymola_Algorithm="Cvode"));
->>>>>>> Stashed changes
 end wrapped;
