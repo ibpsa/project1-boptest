@@ -32,7 +32,8 @@ For changes in KPIs from embedded baseline controllers from v0.9.0 to v1.0.0 for
 - Combine pressure drops across different equipment in the same hydronic loop into fewer components and increase buffer volume size to increase numerical stability.
 - Copied ``occ.txt`` resource file into the test case's Modelica package directory and updated the path reference to load the file from this location in ``RealOccupancy.mo``.
 - Updated weather file path to test case Modelica path instead of relative path to external resource.
-- Time period scenario days changed for ``typical_heat_day``.
+- Updated weather file to ``DNK_HS_Copenhagen-Kastrup.AP.061800_TMYx.2011-2025.mos`` for. Updated ``weather.csv`` to reflect change in weather file. This is for [#855](https://github.com/ibpsa/project1-boptest/issues/855).
+- Time period scenario days changed for ``peak_heat_day`` and ``typical_heat_day``.
 
 
 ### twozone_apartment_hydronic
@@ -50,9 +51,10 @@ For changes in KPIs from embedded baseline controllers from v0.9.0 to v1.0.0 for
 - Changed feedback controllers from Modelica ``Buildings.Controls.Continuous.LimPID`` to CDL ``Buildings.Controls.OBC.CDL.Reals.PID``.
 - Updated pumps to use ``Buildings.Fluid.Movers.Preconfigured``.
 - Fixed building dimensions and updated documentation. This is for [#834](https://github.com/ibpsa/project1-boptest/issues/834).
-- Time period scenario days changed for ``peak_heat_day`` and ``typical_heat_day``.
 - Fixed the scaling of internal gains of ``Ro3`` for the ``multizone residential hydronic`` case, related to the updated building topology by [#834](https://github.com/ibpsa/project1-boptest/issues/834). The file ``dataFromModel.csv`` was updated accordingly. This is for [#847](https://github.com/ibpsa/project1-boptest/issues/847).
 - Fix configuration and description of overwrite block ``oveEmiPum`` for the ``multizone_residential_hydronic`` test case in the design documentation. This is for [#847](https://github.com/ibpsa/project1-boptest/issues/847).
+- Updated weather file to ``FRA_AC_Bordeaux.Merignac.AP.075100_TMYx.2011-2025.mos`` for. Updated ``weather.csv`` to reflect change in weather file. This is for [#855](https://github.com/ibpsa/project1-boptest/issues/855).
+- Time period scenario days changed for ``peak_heat_day`` and ``typical_heat_day``.
 
 ### multizone_office_simple_air
 - Replaced Modelica control blocks with CDL blocks in ``ASHRAE2006.mo``, like ``Buildings.Controls.OBC.CDL.Reals.Switch``, ``Buildings.Controls.OBC.CDL.Reals.Sources.Constant``, ``Buildings.Controls.OBC.CDL.Reals.MultiMin``, and ``Buildings.Controls.OBC.CDL.Reals.Hysteresis``.
