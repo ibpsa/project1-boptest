@@ -9,7 +9,7 @@ Created on Thu Jan  7 13:20:58 2021
 from data.find_days import find_days
 import json
 
-days = find_days(heat='dh.qdh', cool= None)
+days = find_days(heat='dh.qdh', cool= None, heat_day_high_limit=136)
 
 with open('days.json', 'w') as f:
     json.dump(days, f)

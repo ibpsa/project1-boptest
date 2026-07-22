@@ -467,8 +467,7 @@ public
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3     weaDat(                           winSpe=
         5.25,
     winSpeSou=Buildings.BoundaryConditions.Types.DataSource.Parameter,
-    filNam=Modelica.Utilities.Files.loadResource(
-        "modelica://MultiZoneResidentialHydronic/Resources/FRA_Bordeaux.075100_IWEC.mos"))
+    filNam=Modelica.Utilities.Files.loadResource("modelica://MultiZoneResidentialHydronic/Resources/FRA_AC_Bordeaux.Merignac.AP.075100_TMYx.2011-2025.mos"))
     annotation (Placement(transformation(extent={{-296,46},{-276,66}})));
   Building.Schedules.ScheduleDay schDay(delta_ST=delta_ST_rad) "Day schedule"
     annotation (Placement(transformation(extent={{-372,-16},{-350,6}})));
@@ -1399,6 +1398,10 @@ public
     annotation (Placement(transformation(extent={{-210,-148},{-198,-136}})));
   Buildings.Controls.OBC.CDL.Reals.GreaterThreshold greThr(t=0.05, h=0.025)
     annotation (Placement(transformation(extent={{-184,-194},{-204,-174}})));
+  Modelica.Blocks.Sources.RealExpression heaTotRad(y=reaHeaLiv.y + reaHeaRo1.y
+         + reaHeaRo2.y + reaHeaRo3.y + reaHeaBth.y)
+    "Total heat flow from radiators"
+    annotation (Placement(transformation(extent={{-70,-202},{-64,-196}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -2429,7 +2432,7 @@ day long during weekends. Otherwise, this level is reduced by 80&percnt;.
 <h4>Climate data</h4>
 <p>
 The model uses a climate file containing one year
-of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos).
+of weather data for Bordeaux, France  (FRA_AC_Bordeaux.Merignac.AP.075100_TMYx.2011-2025.mos).
 The ground temperature is assumed to be a sinusoidal signal with an amplitude
 of 2&deg;C oscilating with a yearly period around 15&deg;C.
 </p>
@@ -3227,6 +3230,12 @@ See the BOPTEST design documentation for more information.
 </html>", revisions="<html>
 <ul>
 <li>
+July 22, 2026, by David Blum:<br/>
+Change weather file to FRA_AC_Bordeaux.Merignac.AP.075100_TMYx.2011-2025.mos.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/855>
+BOPTEST issue #855</a>.
+</li>
+<li>
 March 24th, 2026, by Jaap Neven:<br/>
 Correct model dimensions and update documentation.
 This is for <a href=https://github.com/ibpsa/project1-boptest/issues/834>
@@ -3285,7 +3294,7 @@ First implementation.
 </html>"),
     experiment(
       StopTime=31536000,
-      Interval=299.999808,
+      Interval=900,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     __Dymola_experimentSetupOutput,

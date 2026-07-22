@@ -103,7 +103,7 @@ parameter Buildings.HeatTransfer.Data.Shades.Generic blinds(
   annotation (Placement(transformation(extent={{204,192},{224,212}})));
 Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource(
-        "modelica://OU44Emulator/Resources/Climate/DNK_Copenhagen.061800_IWEC.mos"))
+        "modelica://OU44Emulator/Resources/Climate/DNK_HS_Copenhagen-Kastrup.AP.061800_TMYx.2011-2025.mos"))
   annotation (Placement(transformation(extent={{238,138},{218,158}})));
 Buildings.BoundaryConditions.WeatherData.Bus weaBus annotation (Placement(
       transformation(extent={{18,70},{58,110}}),iconTransformation(extent={{-160,
