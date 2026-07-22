@@ -13,7 +13,7 @@ model SimpleRC
     "Set the outside air temperature"
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
   Modelica.Blocks.Sources.Sine souTOut(
-    freqHz=1/(3600*24),
+    f=1/(3600*24),
     offset=273.15 + 20,
     amplitude=10) "Artificial outside air temperature"
     annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
@@ -55,7 +55,7 @@ model SimpleRC
     annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
   Buildings.Utilities.IO.SignalExchange.Read
                                          CO2RooAir(
-    y(unit="ppm"),
+    y(unit="ppm",displayUnit="ppm"),
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration")
     "Read the room air CO2 concentration"
@@ -63,7 +63,7 @@ model SimpleRC
 
   Modelica.Blocks.Sources.Sine     conCO2(
     amplitude=250,
-    freqHz=1/(3600*24),
+    f=1/(3600*24),
     offset=750) "Concetration of CO2"
     annotation (Placement(transformation(extent={{40,50},{60,70}})));
 equation
@@ -96,8 +96,8 @@ equation
   connect(conCO2.y, CO2RooAir.u)
     annotation (Line(points={{61,60},{78,60}}, color={0,0,127}));
 
-  annotation (uses(Modelica(version="3.2.3"),
-      Buildings(version="8.0.0")),
+  annotation (uses(Modelica(version="4.0.0"),
+      Buildings(version="12.1.0")),
       experiment(
       StopTime=60,
       Interval=1,
@@ -236,6 +236,12 @@ equation
 <p>Based on the kgCO2 emitted per amount of natural gas burned in terms of energy content. It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU). For reference, see https://www.eia.gov/environment/emissions/co2_vol_mass.php. </p>
 </html>", revisions="<html>
 <ul>
+<li>
+September 6th, 2025, by Ettore Zanetti:<br/>
+Update test case to Modelica 4.0
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
 <li>
 March 6th, 2025, by Jaap Neven:<br/>
 Initial version.

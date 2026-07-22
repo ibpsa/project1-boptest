@@ -131,9 +131,9 @@ model AirHandlingUnit
     Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
           Water)
       annotation (Placement(transformation(extent={{30,-110},{50,-90}})));
-    parameter Modelica.SIunits.MassFlowRate m_flow_nominal=20
+    parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=20
       "Nominal mass flow rate - air";
-    parameter Modelica.SIunits.MassFlowRate m2_flow_nominal=2
+    parameter Modelica.Units.SI.MassFlowRate m2_flow_nominal=2
       "Nominal mass flow rate - water";
     Modelica.Blocks.Interfaces.RealOutput Tsu annotation (Placement(
           transformation(
@@ -216,8 +216,10 @@ model AirHandlingUnit
         rotation=180,
         origin={20,-14})));
 
-  Buildings.Controls.Continuous.LimPID conPID(controllerType=Modelica.Blocks.Types.SimpleController.PID,
-      initType=Modelica.Blocks.Types.InitPID.InitialState)
+  Buildings.Controls.Continuous.LimPID conPID(
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    Ti=10,                                                                                               initType
+      =Modelica.Blocks.Types.Init.InitialState)
     annotation (Placement(transformation(extent={{-12,-8},{-32,12}})));
   Modelica.Blocks.Interfaces.RealInput TsupSet
     "Supply temperature setpoint for rotary wheel control" annotation (
@@ -239,7 +241,7 @@ model AirHandlingUnit
     Ti=10,
     k=0.005,
     yMin=0.2,
-    initType=Modelica.Blocks.Types.InitPID.InitialState,
+    initType=Modelica.Blocks.Types.Init.InitialState,
     xi_start=0,
     xd_start=0,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -411,5 +413,15 @@ equation
       StopTime=3960000,
       Interval=600.0012,
       Tolerance=1e-05,
-      __Dymola_Algorithm="Cvode"));
+      __Dymola_Algorithm="Cvode"),
+    Documentation(revisions="<html>
+<ul>
+<li>
+May 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
+</ul>
+</html>"));
 end AirHandlingUnit;

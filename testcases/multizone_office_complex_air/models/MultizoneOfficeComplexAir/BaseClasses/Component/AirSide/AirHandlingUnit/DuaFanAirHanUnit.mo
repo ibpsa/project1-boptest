@@ -510,6 +510,10 @@ equation
     annotation (Line(points={{-20,22},{-16,22}}, color={0,127,255}));
   connect(senTFreCoiLea.T, TFreCoiLea)
     annotation (Line(points={{-24,26.4},{-24,46},{110,46}}, color={0,0,127}));
+  connect(senTDisAir.T, cooCoi.TSupAirMea) annotation (Line(
+      points={{88,28.6},{84,28.6},{84,44},{14,44},{14,24},{3.8,24}},
+      color={0,0,127},
+      pattern=LinePattern.Dash));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -140},{100,140}}),                                  graphics={
         Rectangle(

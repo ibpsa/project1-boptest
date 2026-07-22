@@ -6,34 +6,34 @@ model Boiler
       annotation (choicesAllMatching = true);
 
   // Boiler specifications
-  parameter Modelica.SIunits.Power Q_flow_nominal "Nominal heating power";
-  parameter Modelica.SIunits.Temperature T_nominal=353.15
+  parameter Modelica.Units.SI.Power Q_flow_nominal "Nominal heating power";
+  parameter Modelica.Units.SI.Temperature T_nominal=353.15
     "Temperature used to compute nominal efficiency (only used if efficiency curve depends on temperature)";
   parameter Buildings.Fluid.Types.EfficiencyCurves effCur=Buildings.Fluid.Types.EfficiencyCurves.Constant
     "Curve used to compute the efficiency";
   parameter Real a[:] = {0.9} "Coefficients for efficiency curve";
   parameter Buildings.Fluid.Data.Fuels.Generic fue "Fuel type"
    annotation (choicesAllMatching = true);
-  parameter Modelica.SIunits.ThermalConductance UA=0.05*Q_flow_nominal/30
+  parameter Modelica.Units.SI.ThermalConductance UA=0.05*Q_flow_nominal/30
     "Overall UA value";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal = 0
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal = 0
     "Nominal mass flow rate"
     annotation(Dialog(group = "Nominal condition"));
-  parameter Modelica.SIunits.PressureDifference dp_nominal = 0
+  parameter Modelica.Units.SI.PressureDifference dp_nominal = 0
     "Pressure difference"
     annotation(Dialog(group = "Nominal condition"));
- parameter Modelica.SIunits.Power ConsoElec_Ventilateur = 25 "Boiler fan electic power " annotation(Dialog(group = "Boiler characteristics"));
- parameter Modelica.SIunits.Power ConsoElec_VannesGaz = 7 "Gas valvez electric power" annotation(Dialog(group = "Boiler characteristics"));
- parameter Modelica.SIunits.Power[5,2] ConsoElec_PompeCirculation = [0,0;7/60,0;9.65/60,63;11.35/60,105;12/60,105] "Heating pump electric power" annotation(Dialog(group = "Boiler characteristics"));
- parameter Modelica.SIunits.Power ConsoElec_PompeECS = 45 "DHW Pump electric power" annotation(Dialog(group = "Boiler characteristics"));
- parameter Modelica.SIunits.Power ConsoElec_Veille = 4 "Standby electric power" annotation(Dialog(group = "Boiler characteristics"));
+ parameter Modelica.Units.SI.Power ConsoElec_Ventilateur = 25 "Boiler fan electic power " annotation(Dialog(group = "Boiler characteristics"));
+ parameter Modelica.Units.SI.Power ConsoElec_VannesGaz = 7 "Gas valvez electric power" annotation(Dialog(group = "Boiler characteristics"));
+ parameter Modelica.Units.SI.Power[5,2] ConsoElec_PompeCirculation = [0,0;7/60,0;9.65/60,63;11.35/60,105;12/60,105] "Heating pump electric power" annotation(Dialog(group = "Boiler characteristics"));
+ parameter Modelica.Units.SI.Power ConsoElec_PompeECS = 45 "DHW Pump electric power" annotation(Dialog(group = "Boiler characteristics"));
+ parameter Modelica.Units.SI.Power ConsoElec_Veille = 4 "Standby electric power" annotation(Dialog(group = "Boiler characteristics"));
 
-parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
+parameter Modelica.Units.SI.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
     "Water volume of boiler";
 
-//  Modelica.SIunits.Power QFue_flow "Heat released by fuel";
-//  Modelica.SIunits.Power QWat_flow "Heat transfer from gas into water";
-  Modelica.SIunits.Efficiency eta "Boiler efficiency";
+//  Modelica.Units.SI.Power QFue_flow "Heat released by fuel";
+//  Modelica.Units.SI.Power QWat_flow "Heat transfer from gas into water";
+  Modelica.Units.SI.Efficiency eta "Boiler efficiency";
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package Medium =
         MediumW) annotation (Placement(transformation(rotation=0, extent={{-94,-10},
@@ -85,7 +85,8 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
     annotation (Placement(transformation(extent={{4,-42},{24,-22}})));
   Modelica.Blocks.Sources.RealExpression Tmeas4(y=ConsoElec_Veille)
     annotation (Placement(transformation(extent={{-24,-110},{-10,-94}})));
-  Modelica.Blocks.Tables.CombiTable1D combiTable1D(table=
+  Modelica.Blocks.Tables.CombiTable1Ds combiTable1D(
+                                                   table=
         ConsoElec_PompeCirculation, columns={2})
     annotation (Placement(transformation(extent={{4,-70},{24,-50}})));
   Modelica.Blocks.Math.MultiSum multiSum(nu=4)
@@ -111,14 +112,14 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
     y(unit="W"))
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
 
-  Buildings.Fluid.Sensors.TemperatureTwoPort T_depart(redeclare package Medium
-      = MediumW, m_flow_nominal=m_flow_nominal) annotation (Placement(
+  Buildings.Fluid.Sensors.TemperatureTwoPort T_depart(redeclare package Medium =
+        MediumW, m_flow_nominal=m_flow_nominal) annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={50,0})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort T_retour(redeclare package Medium
-      = MediumW, m_flow_nominal=m_flow_nominal) annotation (Placement(
+  Buildings.Fluid.Sensors.TemperatureTwoPort T_retour(redeclare package Medium =
+        MediumW, m_flow_nominal=m_flow_nominal) annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
@@ -140,18 +141,15 @@ equation
   connect(booleanToReal4.y,multiSum. u[1]) annotation (Line(points={{25,-32},{28,
           -32},{28,-58.85},{38,-58.85}},
                                       color={0,0,127}));
-  connect(combiTable1D.y,multiSum. u[2:2])
-    annotation (Line(points={{25,-60},{38,-60},{38,-60.95}},
-                                                          color={0,0,127}));
-  connect(booleanToReal3.y,multiSum. u[3]) annotation (Line(points={{25,-84},{30,
-          -84},{30,-63.05},{38,-63.05}}, color={0,0,127}));
-  connect(Tmeas4.y,multiSum. u[4]) annotation (Line(points={{-9.3,-102},{32,-102},
-          {32,-65.15},{38,-65.15}}, color={0,0,127}));
+  connect(booleanToReal3.y,multiSum. u[2]) annotation (Line(points={{25,-84},{30,
+          -84},{30,-60.95},{38,-60.95}}, color={0,0,127}));
+  connect(Tmeas4.y,multiSum. u[3]) annotation (Line(points={{-9.3,-102},{32,-102},
+          {32,-63.05},{38,-63.05}}, color={0,0,127}));
   connect(multiSum.y, consoElec_ch)
     annotation (Line(points={{51.02,-62},{120,-62}},color={0,0,127}));
   connect(massFlowRate.m_flow, ONOFFChaudiere.u)
     annotation (Line(points={{-76,-11},{-76,-32},{-26,-32}}, color={0,0,127}));
-  connect(m_PompeCirc, combiTable1D.u[1]) annotation (Line(points={{-120,-50},{-60,
+  connect(m_PompeCirc, combiTable1D.u) annotation (Line(points={{-120,-50},{-60,
           -50},{-60,-60},{2,-60}}, color={0,0,127}));
   connect(Mode_ECS, booleanToReal3.u) annotation (Line(points={{-120,-86},{-60,-86},
           {-60,-84},{2,-84}}, color={255,0,255}));
@@ -171,6 +169,8 @@ equation
     annotation (Line(points={{-66,0},{-50,0}}, color={0,127,255}));
   connect(T_retour.port_b, chaudiere.port_a)
     annotation (Line(points={{-30,0},{-10,0}}, color={0,127,255}));
+  connect(combiTable1D.y, multiSum.u[4:4]) annotation (Line(points={{25,-60},{32,
+          -60},{32,-65.15},{38,-65.15}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(extent={{-100,-120},{100,100}})),
                                                                      Icon(
         coordinateSystem(extent={{-100,-120},{100,100}}),

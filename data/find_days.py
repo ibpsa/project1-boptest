@@ -113,6 +113,9 @@ def find_days(heat, cool, data='simulate', plot=False, cooling_negative=False,
         subprocess.call(cmd_docker_container)
         cmd_docker_cp = 'docker cp wrapped.fmu find_days:/boptest/wrapped.fmu'.split()
         subprocess.call(cmd_docker_cp)
+        print('Copying forecast into container...')
+        cmd_docker_cp = 'docker cp ../../../forecast find_days:/boptest/forecast'.split()
+        subprocess.call(cmd_docker_cp)
         print('Running simulation ...')
         # Run simulation for target 'length'
         cmd_docker ='docker exec -t find_days /bin/bash -c '.split()

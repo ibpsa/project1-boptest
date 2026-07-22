@@ -7,7 +7,6 @@ Created on Feb 20, 2020
 from data.data_generator import Data_Generator
 import os
 import pandas as pd
-from pymodelica import compile_fmu
 from pyfmi import load_fmu
 from scipy import interpolate
 
@@ -104,15 +103,9 @@ emissions_boptest.to_csv(os.path.join(gen.resources_dir, 'emissions.csv'), index
 #=====================================================================
 # Initialize data frame
 df = gen.create_df()
-file_name    = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                            'BESTESTHydronic')
-class_name   = 'BESTESTHydronic.TestCase'
-
-# Compile the model to generate the data
-fmu_path = compile_fmu(file_name=file_name, class_name=class_name)
 
 # Load FMU
-model = load_fmu(fmu_path)
+model = load_fmu('wrapped.fmu')
 
 # Set number of communication points
 options = model.simulate_options()
@@ -126,16 +119,16 @@ res = model.simulate(start_time=gen.time[0],
 keysMap = {}
 
 # Occupancy schedules
-keysMap['Occupancy[1]'] = 'yOcc.y'
+keysMap['Occupancy[1]'] = 'mod.yOcc.y'
 
 # Internal gains
-keysMap['InternalGainsRad[1]'] = 'case900Template.intGaiOcc.portRad.Q_flow'
-keysMap['InternalGainsCon[1]'] = 'case900Template.intGaiOcc.portCon.Q_flow'
-keysMap['InternalGainsLat[1]'] = 'case900Template.airModel.preHeaFloLat.Q_flow'
+keysMap['InternalGainsRad[1]'] = 'mod.case900Template.intGaiOcc.portRad.Q_flow'
+keysMap['InternalGainsCon[1]'] = 'mod.case900Template.intGaiOcc.portCon.Q_flow'
+keysMap['InternalGainsLat[1]'] = 'mod.case900Template.airModel.preHeaFloLat.Q_flow'
 
 # Comfort range setpoints
-keysMap['LowerSetp[1]'] = 'reaTSetHea.y'
-keysMap['UpperSetp[1]'] = 'reaTSetCoo.y'
+keysMap['LowerSetp[1]'] = 'mod.reaTSetHea.y'
+keysMap['UpperSetp[1]'] = 'mod.reaTSetCoo.y'
 
 # Get model outputs
 output_names = keysMap.keys()

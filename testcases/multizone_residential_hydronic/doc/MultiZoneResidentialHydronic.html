@@ -137,7 +137,7 @@ day long during weekends. Otherwise, this level is reduced by 80&percnt;.
 <h4>Climate data</h4>
 <p>
 The model uses a climate file containing one year
-of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos).
+of weather data for Bordeaux, France  (FRA_AC_Bordeaux.Merignac.AP.075100_TMYx.2011-2025.mos).
 The ground temperature is assumed to be a sinusoidal signal with an amplitude
 of 2&deg;C oscilating with a yearly period around 15&deg;C.
 </p>
@@ -352,7 +352,7 @@ The model inputs are:
 <code>oveEmiPum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveEmiPum_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>oveEmiPum_u</code> [1] [min=0.0, max=1.0]: Control signal to the circulation pump of the emission system
+<code>oveEmiPum_u</code> [kg/s] [min=0.0, max=0.25]: Mass flow rate prescribed to the circulation pump of the emission system
 </li>
 <li>
 <code>oveMixValSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveMixValSup_u where 1 activates, 0 deactivates (default value)

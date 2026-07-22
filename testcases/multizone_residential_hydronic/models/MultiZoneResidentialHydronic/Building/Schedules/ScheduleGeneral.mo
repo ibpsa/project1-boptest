@@ -1,21 +1,21 @@
 within MultiZoneResidentialHydronic.Building.Schedules;
 model ScheduleGeneral "French thermal regulation schedules"
 
-parameter Modelica.SIunits.Temperature SetHeaOccup=19+273.15
+parameter Modelica.Units.SI.Temperature SetHeaOccup=19+273.15
     "Heating setpoint during occupation";
-parameter Modelica.SIunits.Temperature SetHeaInoccupa=16+273.15
+parameter Modelica.Units.SI.Temperature SetHeaInoccupa=16+273.15
     "Heating setpoint during inoccupation for less than 48 hours";
-parameter Modelica.SIunits.Temperature SetHeaInoccupb=7+273.15
+parameter Modelica.Units.SI.Temperature SetHeaInoccupb=7+273.15
     "Heating setpoint during inoccupation for less than 48 hours";
-parameter Modelica.SIunits.Temperature SetHeaFictif=2+273.15
+parameter Modelica.Units.SI.Temperature SetHeaFictif=2+273.15
     "Heating setpoint during no heating period";
-parameter Modelica.SIunits.Temperature SetCooOccup=26+273.15
+parameter Modelica.Units.SI.Temperature SetCooOccup=26+273.15
     "Cooling setpoint during occupation";
-parameter Modelica.SIunits.Temperature SetCooInoccupa=30+273.15
+parameter Modelica.Units.SI.Temperature SetCooInoccupa=30+273.15
     "Cooling setpoint during inoccupation for less than 48 hours";
-parameter Modelica.SIunits.Temperature SetCooInoccupb=30+273.15
+parameter Modelica.Units.SI.Temperature SetCooInoccupb=30+273.15
     "Cooling setpoint during inoccupation for less than 48 hours";
-parameter Modelica.SIunits.Temperature SetCooFictif=32+273.15
+parameter Modelica.Units.SI.Temperature SetCooFictif=32+273.15
     "Cooling setpoint during no heating period";
 
   Modelica.Blocks.MathBoolean.And OccupRT12a(nu=3) "Ocupancy permision"

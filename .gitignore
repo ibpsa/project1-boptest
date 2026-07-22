@@ -1,7 +1,8 @@
 *.pyc
 *.txt
 !version.txt
-!testcases/singlezone_commercial_hydronic/models/OU44Emulator/occ.txt
+!testcases/singlezone_commercial_hydronic/models/OU44Emulator/Resources/occ.txt
+!.travis.yml
 *.mat
 *.log
 *.err

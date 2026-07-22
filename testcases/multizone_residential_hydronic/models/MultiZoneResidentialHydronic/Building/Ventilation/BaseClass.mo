@@ -5,7 +5,7 @@ model BaseClass "Base class for ventilation"
                                                     iconTransformation(extent={{-110,
             -10},{-90,10}})));
   parameter Integer nPorts=2 "Number of ports";
-  parameter Modelica.SIunits.MassFlowRate m_flow_vent = 1
+  parameter Modelica.Units.SI.MassFlowRate m_flow_vent = 1
     "Ventilation airflow that is infiltrated or extracted";
   parameter String zone="1" "Zone designation";
   parameter Boolean isConditionedZone=true "True if the zone is conditioned";

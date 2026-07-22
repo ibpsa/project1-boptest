@@ -9,26 +9,13 @@ InternalGains.csv, occupancy.csv, weather.csv and setpoints.csv
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#
-# import from future to make Python2 behave like Python3
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from future import standard_library
-standard_library.install_aliases()
-from builtins import *
-from io import open
+
+
 # end of from future import
 import os
 import matplotlib
 matplotlib.use('qt5agg')
-import matplotlib.pyplot as plt
-from buildingspy.io.outputfile import Reader
 import pandas as pd
-import datetime
-import numpy as np
-from scipy import integrate
 
 def _extract_data(mat_file, re_val, tool):
     """

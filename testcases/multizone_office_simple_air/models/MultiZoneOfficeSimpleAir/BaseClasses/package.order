@@ -9,7 +9,6 @@ AirCooledChiller
 GasBoiler
 PartialHVAC
 AirToWaterHeatPump
-Economizer
 ModeSelector
 OperationModes
 State

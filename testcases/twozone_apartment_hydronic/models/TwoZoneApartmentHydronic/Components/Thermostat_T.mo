@@ -1,11 +1,18 @@
 within TwoZoneApartmentHydronic.Components;
 model Thermostat_T
   "Implements basic control of FCU to maintain zone air temperature with temperature as output"
-  parameter Modelica.SIunits.Time occSta = 8*3600 "Occupancy start time" annotation (Dialog(group="Schedule"));
-  parameter Modelica.SIunits.Time occEnd = 18*3600 "Occupancy end time" annotation (Dialog(group="Schedule"));
-  parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint Monday to Friday" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaWee = 273.15+16 "Heating setpoint Saturday and Sunday" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Time occSta=8*3600 "Occupancy start time"
+    annotation (Dialog(group="Schedule"));
+  parameter Modelica.Units.SI.Time occEnd=18*3600 "Occupancy end time"
+    annotation (Dialog(group="Schedule"));
+  parameter Modelica.Units.SI.Temperature TSetHeaUno=273.15 + 15
+    "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaOcc=273.15 + 21
+    "Occupied heating setpoint Monday to Friday"
+    annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaWee=273.15 + 16
+    "Heating setpoint Saturday and Sunday"
+    annotation (Dialog(group="Setpoints"));
   parameter Real bandwidth=2 "Bandwidth around reference signal";
   Modelica.Blocks.Interfaces.RealInput TZon "Measured zone air temperature"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
@@ -30,14 +37,14 @@ model Thermostat_T
     annotation (Placement(transformation(extent={{-60,50},{-40,70}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal
     annotation (Placement(transformation(extent={{-12,50},{8,70}})));
-  Modelica.Blocks.Logical.GreaterEqualThreshold greaterEqualThreshold(threshold=
-       TSetHeaUno)
-    annotation (Placement(transformation(extent={{-14,-10},{6,10}})));
+  Modelica.Blocks.Logical.GreaterEqualThreshold greaterEqualThreshold(threshold
+      =max(TSetHeaUno, TSetHeaOcc))
+    annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
   Modelica.Blocks.Interfaces.RealOutput Occ
     "If value is one thermal zone is occupied else it is empty"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal1
-    annotation (Placement(transformation(extent={{40,-10},{60,10}})));
+    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTsetZon(u(
       unit="K",
       min=273.15,
@@ -51,19 +58,19 @@ equation
     annotation (Line(points={{-39,60},{-14,60}}, color={255,0,255}));
   connect(booleanToReal.y, ValCon)
     annotation (Line(points={{9,60},{110,60}}, color={0,0,127}));
-  connect(greaterEqualThreshold.y, booleanToReal1.u)
-    annotation (Line(points={{7,0},{38,0}}, color={255,0,255}));
   connect(booleanToReal1.y, Occ)
-    annotation (Line(points={{61,0},{110,0}}, color={0,0,127}));
+    annotation (Line(points={{81,0},{110,0}}, color={0,0,127}));
   connect(TSetHea.y[1], oveTsetZon.u)
     annotation (Line(points={{-79,-60},{-68,-60}}, color={0,0,127}));
   connect(oveTsetZon.y, TSetZ)
     annotation (Line(points={{-45,-60},{110,-60}}, color={0,0,127}));
-  connect(oveTsetZon.y, greaterEqualThreshold.u) annotation (Line(points={{-45,
-          -60},{-34,-60},{-34,0},{-16,0}}, color={0,0,127}));
-  connect(onOffCon.reference, greaterEqualThreshold.u) annotation (Line(points=
-          {{-62,66},{-76,66},{-76,-20},{-34,-20},{-34,0},{-16,0}}, color={0,0,
+  connect(oveTsetZon.y, greaterEqualThreshold.u) annotation (Line(points={{-45,-60},
+          {-32,-60},{-32,0},{-22,0}},      color={0,0,127}));
+  connect(onOffCon.reference, greaterEqualThreshold.u) annotation (Line(points={{-62,66},
+          {-70,66},{-70,-2},{-32,-2},{-32,0},{-22,0}},             color={0,0,
           127}));
+  connect(greaterEqualThreshold.y, booleanToReal1.u)
+    annotation (Line(points={{1,0},{58,0}}, color={255,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                                 Rectangle(
         extent={{-100,-100},{100,100}},
