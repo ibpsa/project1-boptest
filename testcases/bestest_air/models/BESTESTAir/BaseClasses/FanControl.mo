@@ -1,6 +1,6 @@
 within BESTESTAir.BaseClasses;
 model FanControl "Internal fan controller to limit minimum speed"
-    parameter Modelica.SIunits.DimensionlessRatio minSpe = 0.2 "Minimum fan speed";
+    parameter Modelica.Units.SI.DimensionlessRatio minSpe = 0.2 "Minimum fan speed";
   Modelica.Blocks.Nonlinear.Limiter lim(uMax=1, uMin=minSpe)
     "Fan speed limiter"
     annotation (Placement(transformation(extent={{-20,20},{0,40}})));

@@ -12,15 +12,16 @@ is used to test the Data Manager in a multi-zone building example.
 
 import unittest
 import os
+import shutil
 import pandas as pd
 import numpy as np
 import utilities
-import json
+import tempfile
 from data.data_generator import Data_Generator
 from data.data_manager import Data_Manager
 from data.find_days import find_days
 
-testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
+testing_root_dir = os.path.join(utilities.get_root_path())
 
 class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
     '''Tests the data generator class
@@ -32,8 +33,21 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
 
         '''
 
-        resources_dir = os.path.join(testing_root_dir,'testcase2','models','Resources')
+        # Create temp directory to store test resource files generated
+        self.tmp_dir = tempfile.TemporaryDirectory()
+        resources_dir = self.tmp_dir.name
+        # Copy weather .mos file from test case 2 into temporary directory for resource file generation testing
+        shutil.copy(os.path.join(testing_root_dir,'testcases','testcase2','models','Resources','weatherdata','DRYCOLD.mos'),
+                    os.path.join(resources_dir,'DRYCOLD.mos'))
+        # Instantiate the data generator with the temp directory
         self.gen = Data_Generator(resources_dir)
+
+    def tearDown(self):
+        '''Tear down for each test.
+
+        '''
+
+        self.tmp_dir.cleanup()
 
     def test_generate_weather(self):
         '''Runs the generate weather data method and compares
@@ -49,7 +63,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
                                     'weather.csv')
 
         # Set reference file path
-        ref_filepath = os.path.join(testing_root_dir,
+        ref_filepath = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'default_weather.csv')
 
         # Check the data file has been created
@@ -75,7 +89,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
                                     'prices.csv')
 
         # Set reference file path
-        ref_filepath = os.path.join(testing_root_dir,
+        ref_filepath = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'default_prices.csv')
 
         # Check the data file has been created
@@ -101,7 +115,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
                                     'emissions.csv')
 
         # Set reference file path
-        ref_filepath = os.path.join(testing_root_dir,
+        ref_filepath = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'default_emissions.csv')
 
         # Check the data file has been created
@@ -120,14 +134,14 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
         '''
 
         # Generate weather file
-        self.gen.generate_occupancy(occ_num=10)
+        self.gen.generate_occupancy(occ_num=2)
 
         # Set generated file path
         gen_filepath = os.path.join(self.gen.resources_dir,
                                     'occupancy.csv')
 
         # Set reference file path
-        ref_filepath = os.path.join(testing_root_dir,
+        ref_filepath = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'default_occupancy.csv')
 
         # Check the data file has been created
@@ -153,7 +167,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
                                     'internalGains.csv')
 
         # Set reference file path
-        ref_filepath = os.path.join(testing_root_dir,
+        ref_filepath = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'default_internalGains.csv')
 
         # Check the data file has been created
@@ -179,7 +193,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
                                     'setpoints.csv')
 
         # Set reference file path
-        ref_filepath = os.path.join(testing_root_dir,
+        ref_filepath = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'default_setpoints.csv')
 
         # Check the data file has been created
@@ -191,7 +205,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
         # Check trajectories
         self.compare_ref_timeseries_df(df_gen, ref_filepath)
 
-class PartialDataManagerTest(object):
+class PartialDataManagerTest(utilities.partialChecks):
     '''This partial class implements common tests for the data manager class.
 
     References to self attributes for the tests should be set in the setUp
@@ -249,14 +263,10 @@ class PartialDataManagerTest(object):
         self.assertTrue(hasattr(self.case, 'data'))
 
         # Check content of the kpis.json loaded
-        with open(os.path.join(self.ref_kpis),'r') as f:
-            kpi_json_ref = json.loads(f.read())
-        self.assertDictEqual(self.case.kpi_json, kpi_json_ref)
+        self.compare_ref_json(self.case.kpi_json, os.path.join(self.ref_kpis))
 
         # Check content of the days.json loaded
-        with open(os.path.join(self.ref_days),'r') as f:
-            days_json_ref = json.loads(f.read())
-        self.assertDictEqual(self.case.days_json, days_json_ref)
+        self.compare_ref_json(self.case.days_json, os.path.join(self.ref_days))
 
         # Check the content of the data loaded
         df_man = self.case.data
@@ -307,8 +317,7 @@ class PartialDataManagerTest(object):
         df_man = pd.DataFrame(data_dict).set_index('time')
         self.compare_ref_timeseries_df(df_man, self.ref_data_over_year)
 
-class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
-                      PartialDataManagerTest):
+class DataManagerSingleZoneTest(unittest.TestCase, PartialDataManagerTest):
     '''Tests the data manager class in a single-zone example.
 
     '''
@@ -318,33 +327,33 @@ class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
 
         '''
 
-        # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
+        # Change directory to repo root
+        os.chdir(testing_root_dir)
+        from testcase import TestCase
         forecast_uncertainty_params_path = os.path.join(testing_root_dir,
                                                         'forecast',
                                                         'forecast_uncertainty_params.json')
-        self.case=TestCase(forecast_uncertainty_params_path=forecast_uncertainty_params_path)
+        fmupath = os.path.join(testing_root_dir,'testcases','testcase2','models','wrapped.fmu')
+        self.case=TestCase(fmupath=fmupath, forecast_uncertainty_params_path=forecast_uncertainty_params_path)
 
         # Instantiate a data manager
         self.man = Data_Manager(self.case)
 
         # Set reference file paths
-        self.ref_kpis = os.path.join(testing_root_dir,
+        self.ref_kpis = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'kpis.json')
-        self.ref_days = os.path.join(testing_root_dir,
+        self.ref_days = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'days.json')
-        self.ref_data_loaded = os.path.join(testing_root_dir,
+        self.ref_data_loaded = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'tc2_data_loaded.csv')
-        self.ref_data_default = os.path.join(testing_root_dir,
+        self.ref_data_default = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'tc2_data_retrieved_default.csv')
-        self.ref_data_index = os.path.join(testing_root_dir,
+        self.ref_data_index = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'tc2_data_retrieved_index.csv')
-        self.ref_data_over_year = os.path.join(testing_root_dir,
+        self.ref_data_over_year = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase2', 'tc2_data_retrieved_over_year.csv')
 
-class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
-                               PartialDataManagerTest):
+class DataManagerMultiZoneTest(unittest.TestCase, PartialDataManagerTest):
     '''Tests the data manager class in a single-zone example.
 
     '''
@@ -354,29 +363,30 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
 
         '''
 
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
+        # Change directory to repo root
+        os.chdir(testing_root_dir)
+        from testcase import TestCase
         forecast_uncertainty_params_path = os.path.join(testing_root_dir,
                                                         'forecast',
                                                         'forecast_uncertainty_params.json')
-        self.case=TestCase(forecast_uncertainty_params_path=forecast_uncertainty_params_path)
+        fmupath = os.path.join(testing_root_dir,'testcases','testcase3','models','wrapped.fmu')
+        self.case=TestCase(fmupath=fmupath, forecast_uncertainty_params_path=forecast_uncertainty_params_path)
 
         # Instantiate a data manager
         self.man = Data_Manager(self.case)
 
         # Set reference file paths
-        self.ref_kpis = os.path.join(testing_root_dir,
+        self.ref_kpis = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase3', 'kpis.json')
-        self.ref_days = os.path.join(testing_root_dir,
+        self.ref_days = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase3', 'days.json')
-        self.ref_data_loaded = os.path.join(testing_root_dir,
+        self.ref_data_loaded = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase3', 'tc3_data_loaded.csv')
-        self.ref_data_default = os.path.join(testing_root_dir,
+        self.ref_data_default = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase3', 'tc3_data_retrieved_default.csv')
-        self.ref_data_index = os.path.join(testing_root_dir,
+        self.ref_data_index = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase3', 'tc3_data_retrieved_index.csv')
-        self.ref_data_over_year = os.path.join(testing_root_dir,
+        self.ref_data_over_year = os.path.join(testing_root_dir,'testing',
             'references', 'data', 'testcase3', 'tc3_data_retrieved_over_year.csv')
 
 class FindDaysTest(unittest.TestCase, utilities.partialChecks):
@@ -392,15 +402,15 @@ class FindDaysTest(unittest.TestCase, utilities.partialChecks):
 
         '''
 
-        self.sim_data = os.path.join(testing_root_dir,'references',
+        self.sim_data = os.path.join(testing_root_dir,'testing','references',
                             'data', 'find_days', 'sim_test_days.csv')
 
-        self.sim_data_ncool = os.path.join(testing_root_dir,'references',
+        self.sim_data_ncool = os.path.join(testing_root_dir,'testing','references',
                             'data', 'find_days', 'sim_test_days_ncool.csv')
 
-        self.days_basic_ref = os.path.join(testing_root_dir,'references',
+        self.days_basic_ref = os.path.join(testing_root_dir,'testing','references',
                             'data', 'find_days', 'days_ref.json')
-        self.days_limits_ref = os.path.join(testing_root_dir,'references',
+        self.days_limits_ref = os.path.join(testing_root_dir,'testing','references',
                             'data', 'find_days', 'days_limits_ref.json')
 
 

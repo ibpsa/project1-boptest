@@ -1,8 +1,8 @@
 within BESTESTAir.BaseClasses;
 model ControlToTemperature
   "Convert control signals to temperature setpoints"
-  parameter Modelica.SIunits.Temperature THig "High temperature";
-  parameter Modelica.SIunits.Temperature TLow "Low temperature";
+  parameter Modelica.Units.SI.Temperature THig "High temperature";
+  parameter Modelica.Units.SI.Temperature TLow "Low temperature";
   parameter Boolean reverseAction = false "True in the case of cooling";
   Modelica.Blocks.Interfaces.RealInput u "Control signal"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));

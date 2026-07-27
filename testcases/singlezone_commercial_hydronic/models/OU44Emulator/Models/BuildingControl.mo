@@ -20,7 +20,6 @@ model BuildingControl
     Ti=600,
     k=0.005,
     yMin=0.3,
-    initType=Modelica.Blocks.Types.InitPID.InitialState,
     xi_start=0,
     xd_start=0,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -139,5 +138,15 @@ equation
           textStyle={TextStyle.Bold},
           fontSize=12,
           textString="District heating
-")}));
+")}),
+    Documentation(revisions="<html>
+<ul>
+<li>
+May 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
+</ul>
+</html>"));
 end BuildingControl;

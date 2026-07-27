@@ -1,1 +1,1 @@
-{"AirZoneTemperature[1]": ["reaTZon_y"], "DistrictHeatingPower": ["reaQHea_y"], "ElectricPower": ["ahu_reaPFanExt_y", "ahu_reaPFanSup_y", "reaPPum_y"], "CO2Concentration[1]": ["reaCO2Zon_y"]}
+{"ElectricPower": ["ahu_reaPFanExt_y", "ahu_reaPFanSup_y", "reaPPum_y"], "DistrictHeatingPower": ["reaQHea_y"], "CO2Concentration[1]": ["reaCO2Zon_y"], "AirZoneTemperature[1]": ["reaTZon_y"]}

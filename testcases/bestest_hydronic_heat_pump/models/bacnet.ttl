@@ -390,3 +390,12 @@ bldg:oveTSet_u a brick:Point ;
 		bacnet:objectOf bldg:boptest-proxy-device
 	] .
 
+bldg:oveTSetSup_u a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-output,43" ;
+		bacnet:object-type "analog-output" ;
+		bacnet:object-name "oveTSetSup_u" ;
+		bacnet:status-flags 0 ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+

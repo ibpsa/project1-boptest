@@ -1,4 +1,4 @@
-FROM --platform=linux/x86_64 ubuntu:20.04
+FROM --platform=linux/x86_64 ubuntu:24.04
 
 USER root
 ENV HOME /home/boptest
@@ -6,7 +6,7 @@ ENV HOME /home/boptest
 WORKDIR /
 
 RUN apt-get update -y && apt-get install -y \
-    ca-certificates wget curl libglu1 libgfortran4 libjpeg8 libfreetype6 libxi6 libdbus-glib-1-2 libfontconfig1 libsm6 gdebi-core \
+    ca-certificates wget curl libglu1 libjpeg8 libfreetype6 libxi6 libdbus-glib-1-2 libfontconfig1 libsm6 gdebi-core \
     && apt-get install -y git
 
 # Install commands for Spawn

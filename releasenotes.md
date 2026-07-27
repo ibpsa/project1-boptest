@@ -4,7 +4,7 @@
 
 Released on xx/xx/xxxx.
 
-**The following changes are backwards compatible and do not significantly change benchmark results:**
+**The following changes are API-backwards compatible and do not significantly change benchmark results:**
 
 - Add support for deployment using Podman. This is for [#748](https://github.com/ibpsa/project1-boptest/issues/748).
 - Add OpenAPI Specification of RESTful HTTP API and serve API docs upon deployment. This is for [#819](https://github.com/ibpsa/project1-boptest/issues/819).
@@ -12,11 +12,32 @@ Released on xx/xx/xxxx.
 - Reduce size of unit test reference results by only storing 500 points for time trajectories.  Also enhance json testing to include tolerance and detailed failure messages.  This is for [#253](https://github.com/ibpsa/project1-boptest/issues/253).
 - Add ``bacnet/requirements.txt`` file, and change ``objectName`` in ``bacnet/example/BACpypes.ini`` from ``BopTestProxy`` to ``ExampleReadWrite``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
 - Add ``'none'`` as an acceptable argument for outside temperature and solar forecast uncertainty scenario parameters, which has the same function as a ``None`` object previously (also still accepted).  This is for [#850](https://github.com/ibpsa/project1-boptest/issues/850).
+- The following changes have been made to ``parsing/parser.py``. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422):
+  - Add support for test case compilation using OpenModelica v1.26.8. The parser can take argument ``tool='openmodelica'``.
+  - Remove support for test case compilation using JModelica.
+  - Add arguments ``algorithm`` and ``tolerance`` to ``export_fmu()`` function. The ``algorithm`` must match the specification used by the ``tool``.
+  - Update the ``compile_fmu.py`` script for each test case to accept ``tool``, ``algorithm``, and ``tolerance`` as CLI arguments.  Default values represent options used to compile the test case FMU in the repository.
+  - Use ``dmc`` executable for test case compilation using Dymola.
+- The following changes have been made to unit testing. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422):
+  - Add container support for compiling test cases with OpenModelica v1.26.8 and remove container support for compiling with JModelica by replacing the existing ``testing/Dockerfile`` with ``testing/Dockerfile.openmodelica``, which starts from the ``worker`` container image, installs OpenModelica (v1.26.8 by default), and sets up a different internal file structure.
+  - Refactored the ``testing/makefile`` to make use of OpenModelica container instead of JModelica container, and make use of volume mounting instead of file copying.
+  - Updated ``.travis.yml`` to make use of the ``testing/makefile`` target ``test_%_no_compile`` for all test cases, except for ``testcase1`` which uses the ``test_testcase1`` target with OpenModelica container instead of JModelica container.
+- For ``data/data_generator.py``, added support for and required use with OpenModelica and OMPython, removed support for use with JModelica, and require use of the ReaderTMY3 model in the IBPSA Modelica Library. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
+- Updated ``worker`` container to use Ubuntu 24.04 instead of Ubuntu 20.04. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
 
-**The following changes are not backwards compatible, but do not change benchmark results:**
+**The following changes are not API-backwards compatible, but do not change benchmark results:**
 
-- Change ``bacnet/BopTestProxy.py`` control step argument from ``simulation_step`` to ``control_step``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
 - Change port BOPTEST listens to on localhost from ``:80`` to ``:8000``. This is for [#822](https://github.com/ibpsa/project1-boptest/issues/822).
+- Change ``bacnet/BopTestProxy.py`` control step argument from ``simulation_step`` to ``control_step``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
+
+**The following changes are API-backwards-compatible, but significantly change benchmark results:**
+
+- Update all test cases as follows:
+  - Use Modelica Standard Library (MSL) v4.0.0 from v3.2.3, except ``multizone_office_complex_air`` and ``multizone_office_simple_hydronic`` which already used MSL v4.0.0. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
+  - Use Modelica Buildings Library v12.1.0 and Modelica IDEAS Library v4.0.0 (respectively for whichever library is used in each test case), except ``multizone_office_complex_air`` and ``multizone_office_simple_hydronic`` for which library versions have not changed. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
+  - Compile all test case FMUs in repository using Dymola 2025x with the Binary Model Export option, except for ``testcase1`` which is compiled using OpenModelica v1.26.8. This is for [#422](https://github.com/ibpsa/project1-boptest/issues/422).
+  - See more details about changes to each test case Modelica model and effects on baseline KPIs to make all the above changes work and close additional issues in ``testcases/releasenotes/v1.0.0``.
+
 
 ## BOPTEST v0.9.0
 

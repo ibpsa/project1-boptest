@@ -152,7 +152,7 @@ package Documentation "Documentation"
 </p>
 <p>The weather data is based on Copenhagen Typical Meteorological Year. The weather file is located in <span
         style=\"font-family: Courier
-        New;\">modelica://OU44Emulator/Resources/Weather/DNK_Copenhagen.061800_IWEC.mos</span>. </p>
+        New;\">modelica://OU44Emulator/Resources/Weather/DNK_HS_Copenhagen-Kastrup.AP.061800_TMYx.2011-2025.mos</span>. </p>
 <p>
 <h3>HVAC System Design</h3>
 </p>
@@ -678,6 +678,12 @@ See the BOPTEST design documentation for more information.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+July 22, 2026, by David Blum:<br/>
+Change weather file to DNK_HS_Copenhagen-Kastrup.AP.061800_TMYx.2011-2025.mos.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/855>
+BOPTEST issue #855</a>.
+</li>
 <li>
 December, 2024, by Harald Taxt Walnum:<br/>
 Updated model according to Adrenalin changes.

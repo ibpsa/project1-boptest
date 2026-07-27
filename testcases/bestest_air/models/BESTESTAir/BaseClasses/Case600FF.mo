@@ -3,20 +3,20 @@ model Case600FF
   "Basic test with light-weight construction and free floating temperature"
 
   replaceable package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium model";
-  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal "Nominal air mass flow rate";
-  parameter Modelica.SIunits.Angle S_=
+  parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal "Nominal air mass flow rate";
+  parameter Modelica.Units.SI.Angle S_=
     Buildings.Types.Azimuth.S "Azimuth for south walls";
-  parameter Modelica.SIunits.Angle E_=
+  parameter Modelica.Units.SI.Angle E_=
     Buildings.Types.Azimuth.E "Azimuth for east walls";
-  parameter Modelica.SIunits.Angle W_=
+  parameter Modelica.Units.SI.Angle W_=
     Buildings.Types.Azimuth.W "Azimuth for west walls";
-  parameter Modelica.SIunits.Angle N_=
+  parameter Modelica.Units.SI.Angle N_=
     Buildings.Types.Azimuth.N "Azimuth for north walls";
-  parameter Modelica.SIunits.Angle C_=
+  parameter Modelica.Units.SI.Angle C_=
     Buildings.Types.Tilt.Ceiling "Tilt for ceiling";
-  parameter Modelica.SIunits.Angle F_=
+  parameter Modelica.Units.SI.Angle F_=
     Buildings.Types.Tilt.Floor "Tilt for floor";
-  parameter Modelica.SIunits.Angle Z_=
+  parameter Modelica.Units.SI.Angle Z_=
     Buildings.Types.Tilt.Wall "Tilt for wall";
   parameter Integer nConExtWin = 1 "Number of constructions with a window";
   parameter Integer nConBou = 1
@@ -105,9 +105,7 @@ model Case600FF
       hWin={2},
       fFra={0.001},
       til={Z_},
-      azi={S_}),
-    lat=weaDat.lat,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+      azi={S_}))
     "Room model for Case 600"
     annotation (Placement(transformation(extent={{36,-30},{66,0}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_1
@@ -151,7 +149,7 @@ model Case600FF
         nStaRef=Buildings.ThermalZones.Detailed.Validation.BESTEST.nStaRef)})
                            "Roof"
     annotation (Placement(transformation(extent={{60,84},{74,98}})));
-  Buildings.ThermalZones.Detailed.Validation.BESTEST.Data.Win600
+  parameter Buildings.ThermalZones.Detailed.Validation.BESTEST.Data.Win600
          window600(
     UFra=3,
     haveExteriorShade=false,
@@ -387,7 +385,7 @@ equation
           32.1},{-52,32.1}}, color={0,0,127}));
   connect(lig.con, sumLig.u[2]) annotation (Line(points={{-79,50},{-60,50},{-60,
           27.9},{-52,27.9}}, color={0,0,127}));
-  connect(TRooAirSen.T, reaTRooAir.u) annotation (Line(points={{90,21},{96,21},
+  connect(TRooAirSen.T, reaTRooAir.u) annotation (Line(points={{90.5,21},{96,21},
           {96,0},{118,0}}, color={0,0,127}));
   connect(reaTRooAir.y, TRooAir)
     annotation (Line(points={{141,0},{170,0}}, color={0,0,127}));
