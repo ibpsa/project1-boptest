@@ -231,6 +231,38 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         self._perform_test(self.case.pgas_tot, self.case.pgas_dict, 'pgas')
         self._perform_test(self.case.pdih_tot, self.case.pdih_dict, 'pdih')
 
+    def test_get_core_kpis_subset(self):
+        '''Checks that requesting a subset of the core KPIs returns only those
+        KPIs, with the values a request for all of them gives, and that an
+        unknown name is rejected.
+
+        '''
+
+        # time_rat is a wall-clock measurement, so it is not comparable
+        # between two runs and is left out of the value comparison
+        names = ['cost_tot', 'tdis_tot']
+
+        # Calculate all of the KPIs from the stored test case data
+        kpis_all = self.cal.get_core_kpis()
+        self.assertEqual(list(kpis_all.keys()), self.cal.get_core_kpi_names())
+
+        # Calculate only the subset, from the same starting state
+        self.cal.initialize()
+        kpis_sub = self.cal.get_core_kpis(names=names)
+
+        # Only the requested KPIs come back, in the order they are computed
+        self.assertEqual(list(kpis_sub.keys()),
+                         [name for name in self.cal.get_core_kpi_names()
+                          if name in names])
+        # ...and with the same values
+        for name in names:
+            self.assertEqual(kpis_sub[name], kpis_all[name],
+                             '{0} differs when requested on its own.'.format(name))
+
+        # An unknown name is rejected rather than silently ignored
+        with self.assertRaises(ValueError):
+            self.cal.get_core_kpis(names=['cost_tot', 'not_a_kpi'])
+
     def test_change_scenario_with_warmup(self):
         '''Checks that KPI calculator can change the scenario and
         re-calculate the KPIs from the beginning of the simulation
