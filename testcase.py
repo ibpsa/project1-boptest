@@ -750,20 +750,24 @@ class TestCase(object):
         logging.info(message)
         return status, message, payload
 
-    def get_kpis(self):
+    def get_kpis(self, names=None):
         '''Returns KPI data.
 
         Requires standard sensor signals.
 
         Parameters
         ----------
-        None
+        names: list of str, optional
+            Names of the core KPIs to calculate.  KPIs not named are skipped
+            and left out of the payload.
+            Default is None, which returns all of them.
 
         Returns
         -------
         status: int
             Indicates whether a request for querying the KPIs has been completed.
             If 200, the KPIs were successfully queried.
+            If 400, an invalid KPI name was requested.
             If 500, an internal error occured.
         message: str
             Includes detailed debugging information
@@ -776,6 +780,25 @@ class TestCase(object):
 
         status = 200
         message = "Queried KPIs successfully."
+        if names is not None:
+            if isinstance(names, str):
+                names = [names]
+            try:
+                names = [str(name) for name in names]
+            except TypeError:
+                payload = None
+                status = 400
+                message = "Invalid value {} for parameter names. Value must be a list of KPI names.".format(names)
+                logging.error(message)
+                return status, message, payload
+            available = self.cal.get_core_kpi_names()
+            unknown = [name for name in names if name not in available]
+            if unknown:
+                payload = None
+                status = 400
+                message = "Invalid KPI name(s) {0} requested. Available names are {1}.".format(unknown, available)
+                logging.error(message)
+                return status, message, payload
         try:
             # Set correct price scenario for cost
             if self.scenario['electricity_price'] == 'constant':
@@ -785,7 +808,8 @@ class TestCase(object):
             elif self.scenario['electricity_price'] == 'highly_dynamic':
                 price_scenario = 'HighlyDynamic'
             # Calculate the core kpis
-            payload = self.cal.get_core_kpis(price_scenario=price_scenario)
+            payload = self.cal.get_core_kpis(price_scenario=price_scenario,
+                                             names=names)
         except:
             payload = None
             status = 500
