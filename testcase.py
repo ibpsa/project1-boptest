@@ -31,7 +31,8 @@ class TestCase(object):
 
     def __init__(self,
                  fmupath='models/wrapped.fmu',
-                 forecast_uncertainty_params_path='forecast/forecast_uncertainty_params.json'):
+                 forecast_uncertainty_params_path='forecast/forecast_uncertainty_params.json',
+                 direct_step=False):
         '''Constructor.
 
         Parameters
@@ -42,6 +43,10 @@ class TestCase(object):
         forecast_uncertainty_params_path : str, optional
             Path to the JSON file containing the uncertainty parameters.
             Default is assuming a particular directory structure.
+        direct_step : bool, optional
+            Step the fmu with do_step directly in advance, instead of calling
+            pyfmi.fmu.simulate once per control step.  Results are unchanged.
+            Default is False.
 
         '''
 
@@ -61,6 +66,8 @@ class TestCase(object):
                                      forecast_uncertainty_params_path=forecast_uncertainty_params_path)
         # Define name
         self.name = self.config_json['name']
+        # Step the fmu directly in advance, instead of through fmu.simulate
+        self.direct_step = bool(direct_step)
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
         self.fmu.set_log_level(7)
@@ -91,6 +98,9 @@ class TestCase(object):
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
         self.options['filter'] = self.output_names + self.input_names
+        # Cache what the direct stepping path needs
+        if self.direct_step:
+            self._direct_step_initialize()
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Initialize test case
@@ -146,6 +156,123 @@ class TestCase(object):
             self.u[key] = a.array('d',[])
         self.u_store = copy.deepcopy(self.u)
 
+    def _direct_step_initialize(self):
+        '''Cache the value references the direct stepping path reads.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+
+        '''
+
+        from pyfmi.fmi import FMI2_BOOLEAN, FMI2_REAL
+
+        # Split the filtered variables by FMI type for the bulk getters
+        self._direct_step_real_names = []
+        self._direct_step_bool_names = []
+        unsupported = []
+        for key in self.options['filter']:
+            data_type = self.fmu.get_variable_data_type(key)
+            if data_type == FMI2_BOOLEAN:
+                self._direct_step_bool_names.append(key)
+            elif data_type == FMI2_REAL:
+                self._direct_step_real_names.append(key)
+            else:
+                unsupported.append((key, data_type))
+        if unsupported:
+            raise ValueError(
+                'Direct stepping only supports Real and Boolean inputs and '
+                'outputs, but this test case has {0}. Run without '
+                'direct_step=True.'.format(unsupported[:5]))
+        self._direct_step_real_refs = np.array(
+            [self.fmu.get_variable_valueref(key) for key in self._direct_step_real_names],
+            dtype=np.uint32)
+        self._direct_step_bool_refs = np.array(
+            [self.fmu.get_variable_valueref(key) for key in self._direct_step_bool_names],
+            dtype=np.uint32)
+
+    def _direct_step_record(self, res):
+        '''Append the current fmu state to a results dictionary.
+
+        Parameters
+        ----------
+        res: dict
+            Maps variable name to a list of values, plus a 'time' key.
+
+        Returns
+        -------
+        None
+
+        '''
+
+        res['time'].append(self.fmu.time)
+        if len(self._direct_step_real_refs):
+            values = self.fmu.get_real(self._direct_step_real_refs)
+            for key, value in zip(self._direct_step_real_names, values):
+                res[key].append(value)
+        if len(self._direct_step_bool_refs):
+            values = self.fmu.get_boolean(self._direct_step_bool_refs)
+            for key, value in zip(self._direct_step_bool_names, values):
+                res[key].append(float(value))
+
+    def _direct_step_simulation(self,start_time,end_time,input_object=None):
+        '''Simulates the FMU using the pyfmi fmu.do_step function.
+
+        Steps self.options['ncp'] times on the same communication grid that
+        fmu.simulate uses, so results are unchanged.
+
+        Parameters
+        ----------
+        start_time: int
+            Start time of simulation in seconds.
+        end_time: int
+            Final time of simulation in seconds.
+        input_object: pyfmi input_object, optional
+            Input object for simulation
+            Default is None
+
+        Returns
+        -------
+        res: dict
+            Results of the fmu simulation, keyed by variable name.
+
+        '''
+
+        try:
+            # Initialize the FMU on the first step, as pyfmi would
+            if self.initialize_fmu:
+                self.fmu.setup_experiment(start_time=start_time,
+                                          stop_time_defined=self.options['stop_time_defined'],
+                                          stop_time=end_time)
+                self.fmu.initialize()
+            # Set control inputs, constant over the step
+            if input_object is not None:
+                self.fmu.set(input_object[0], input_object[1][0, 1:])
+            # Reproduce pyfmi's communication grid
+            ncp = self.options['ncp']
+            h = (end_time - start_time) / ncp
+            res = {key: [] for key in ['time'] + list(self.options['filter'])}
+            # pyfmi always records the start of the interval
+            self._direct_step_record(res)
+            t = start_time
+            for _ in range(ncp):
+                status = self.fmu.do_step(t, h, True)
+                if status != 0:
+                    raise Exception('The FMU returned status {0} for the step '
+                                    'from {1}s to {2}s.'.format(status, t, t+h))
+                t = t + h
+                self._direct_step_record(res)
+        except:
+            return traceback.format_exc()
+        # Set internal fmu initialization
+        self.initialize_fmu = False
+
+        return res
+
     def __simulation(self,start_time,end_time,input_object=None):
         '''Simulates the FMU using the pyfmi fmu.simulate function.
 
@@ -176,6 +303,9 @@ class TestCase(object):
             pass
         elif (step < 30) and (step > 0):
             self.options['ncp'] = int((end_time-start_time)/step)
+        # Step the fmu directly, on the sample rate resolved above
+        if self.direct_step:
+            return self._direct_step_simulation(start_time, end_time, input_object)
         # Simulate fmu
         try:
             res = self.fmu.simulate(start_time=start_time,
