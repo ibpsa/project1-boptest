@@ -117,7 +117,14 @@ const select = async (req, res, next) => {
     if (req.account) {
       userSub = req.account.sub
     }
-    res.json(await boptestLib.select(req.testcaseKey, userSub, req.params.async))
+    // Optional test case options, passed on only when the client sends them
+    const options = {}
+    for (const key of ['direct_step']) {
+      if (req.body && typeof req.body[key] !== 'undefined') {
+        options[key] = req.body[key]
+      }
+    }
+    res.json(await boptestLib.select(req.testcaseKey, userSub, req.params.async, options))
   } else {
     res.sendStatus(404)
   }
