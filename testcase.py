@@ -146,7 +146,7 @@ class TestCase(object):
             self.u[key] = a.array('d',[])
         self.u_store = copy.deepcopy(self.u)
 
-    def __simulation(self,start_time,end_time,input_object=None):
+    def __simulation(self,start_time,end_time,input_object=None,interval=30):
         '''Simulates the FMU using the pyfmi fmu.simulate function.
 
         Parameters
@@ -158,6 +158,10 @@ class TestCase(object):
         input_object: pyfmi input_object, optional
             Input object for simulation
             Default is None
+        interval: float, optional
+            Sample interval in seconds.  Only the warmup simulation passes
+            anything other than the default.
+            Default is 30
 
         Returns
         -------
@@ -170,11 +174,11 @@ class TestCase(object):
         self.options['initialize'] = self.initialize_fmu
         # Set sample rate
         step = end_time - start_time
-        if step >= 30:
-            self.options['ncp'] = int((end_time-start_time)/30)
+        if step >= interval:
+            self.options['ncp'] = int((end_time-start_time)/interval)
         elif step == 0:
             pass
-        elif (step < 30) and (step > 0):
+        elif (step < interval) and (step > 0):
             self.options['ncp'] = int((end_time-start_time)/step)
         # Simulate fmu
         try:
@@ -381,7 +385,8 @@ class TestCase(object):
 
             return status, message, payload
 
-    def initialize(self, start_time, warmup_period, end_time=np.inf):
+    def initialize(self, start_time, warmup_period, end_time=np.inf,
+                   warmup_interval=None):
         '''Initialize the test simulation.
 
         Parameters
@@ -393,13 +398,18 @@ class TestCase(object):
         end_time: int or float, optional
             Specifies a finite end time to allow the simulation to continue
             Default value is infinite.
+        warmup_interval: int or float, optional
+            Sub-interval in seconds for the warmup simulation.  Control steps
+            are unaffected.  Use ``inf`` for a single step over the whole
+            warmup period.
+            Default is None, which warms up on the 30 s control grid.
 
         Returns
         -------
         status: int
             Indicates whether an initialization request has been completed.
             If 200, initialization was completed successfully.
-            If 400, an invalid start time or warmup period (non-numeric) was identified.
+            If 400, an invalid start time, warmup period (non-numeric) or warmup interval was identified.
             If 500, an error occurred during the initialization simulation.
         message: str
             Includes detailed debugging information.
@@ -450,6 +460,21 @@ class TestCase(object):
             message = "Invalid value {} for parameter warmup_period. Value must not be negative.".format(warmup_period)
             logging.error(message)
             return status, message, payload
+        if warmup_interval is not None:
+            try:
+                warmup_interval = float(warmup_interval)
+            except:
+                payload = None
+                status = 400
+                message = "Invalid value {} for parameter warmup_interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(warmup_interval, type(warmup_interval))
+                logging.error(message)
+                return status, message, payload
+            if warmup_interval <= 0:
+                payload = None
+                status = 400
+                message = "Invalid value {} for parameter warmup_interval. Value must be positive.".format(warmup_interval)
+                logging.error(message)
+                return status, message, payload
         # Record initial testing time
         self.initial_time = start_time
         # Record end testing time
@@ -458,7 +483,9 @@ class TestCase(object):
         self.initialize_fmu = True
         # Simulate fmu for warmup period.
         # Do not allow negative starting time to avoid confusions
-        res = self.__simulation(max(start_time-warmup_period, 0), start_time)
+        # Pass the warmup grid on only when one was asked for
+        kwargs = {} if warmup_interval is None else {'interval': warmup_interval}
+        res = self.__simulation(max(start_time-warmup_period, 0), start_time, **kwargs)
         # Process result
         if not isinstance(res, str):
             # Get result
