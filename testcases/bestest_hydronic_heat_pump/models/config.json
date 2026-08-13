@@ -1,0 +1,7 @@
+{
+"name"          : "bestest_hydronic_heat_pump",
+"area"          : 192.0,
+"start_time"    : 0.0,
+"warmup_period" : 0.0,
+"step"          : 3600.0
+}

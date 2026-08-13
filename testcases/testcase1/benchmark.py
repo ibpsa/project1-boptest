@@ -2,9 +2,9 @@
 """
 This module is an example python-based testing interface.  It uses the
 ``requests`` package to make REST API calls to the test case container,
-which mus already be running.  A controller is tested, which is 
+which mus already be running.  A controller is tested, which is
 imported from a different module.
-  
+
 """
 
 # GENERAL PACKAGE IMPORT
@@ -15,15 +15,15 @@ import testcase
 
 def run():
     '''Run test case.
-    
+
     Parameters
     ----------
     None
-        
+
     Returns
     -------
     None
-    
+
     '''
 
     # SETUP TEST CASE
@@ -31,7 +31,7 @@ def run():
     # Set URL for testcase
     tc = testcase.TestCase()
     # ---------------
-    
+
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
@@ -48,7 +48,7 @@ def run():
     step_def = tc.get_step()
     print('Default Simulation Step:\t{0}'.format(step_def))
     # --------------------
-    
+
     # RUN TEST CASE
     # -------------
     # Reset test case
@@ -64,7 +64,7 @@ def run():
     end = time.time()
     print('\nBenchmark complete in {0} seconds.'.format(end-start))
     # -------------
-        
+
 
 if __name__ == "__main__":
     run()

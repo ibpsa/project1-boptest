@@ -1,0 +1,45 @@
+{
+    "save_kpi_results": true,
+    "save_measurements": false,
+    "run_user_defined_test": false,
+    "user_defined_test_options": {
+        "electricity_price": "highly_dynamic",
+        "start_time": 28857600,
+        "warmup_period": 604800,
+        "length": 1209600
+    },
+    "bestest_air": {
+        "electricity_price": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day", "peak_cool_day", "typical_cool_day", "mix_day"]
+    },
+	
+	"bestest_hydronic": {
+        "electricity_price": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day"]
+    },
+		
+	"bestest_hydronic_heat_pump": {
+        "electricity_price": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day"]
+    },
+		
+	"multizone_office_simple_air": {
+        "electricity_price": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day", "peak_cool_day", "typical_cool_day", "mix_day"]
+    },
+		
+	"multizone_residential_hydronic": {
+        "electricity_price": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day"]
+    },
+		
+	"singlezone_commercial_hydronic": {
+        "electricity_price": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day"]
+    },
+			
+	"twozone_apartment_hydronic": {
+        "electricity_price": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day"]
+    }
+}

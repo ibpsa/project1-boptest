@@ -17,7 +17,7 @@ model TwoZones
     "Set the outside air temperature"
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
   Modelica.Blocks.Sources.Sine souTOut(
-    freqHz=1/(3600*24),
+    f=1/(3600*24),
     offset=273.15 + 20,
     amplitude=10) "Artificial outside air temperature"
     annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
@@ -51,7 +51,7 @@ model TwoZones
     zone=zonSouName)   "Read the room air temperature of south zone"
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read PHeaSou(
+  IBPSA.Utilities.IO.SignalExchange.Read PHeaCooSou(
     y(unit="W"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power of south zone")
@@ -69,7 +69,7 @@ model TwoZones
 
   Modelica.Blocks.Sources.Sine conCO2Sou(
     amplitude=250,
-    freqHz=1/(3600*24),
+    f=1/(3600*24),
     offset=750) "Concetration of CO2 in south zone"
     annotation (Placement(transformation(extent={{120,-40},{140,-20}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor capNor(C=1e6)
@@ -111,7 +111,7 @@ model TwoZones
     zone=zonNorName)   "Read the room air temperature of north zone"
     annotation (Placement(transformation(extent={{80,120},{60,140}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read PHeaNor(
+  IBPSA.Utilities.IO.SignalExchange.Read PHeaCooNor(
     y(unit="W"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power of north zone")
@@ -129,7 +129,7 @@ model TwoZones
 
   Modelica.Blocks.Sources.Sine conCO2Nor(
     amplitude=250,
-    freqHz=1/(3600*24),
+    f=1/(3600*24),
     offset=750) "Concetration of CO2 in north zone"
     annotation (Placement(transformation(extent={{120,80},{140,100}})));
 equation
@@ -152,13 +152,14 @@ equation
           -80},{-2,-80}}, color={0,0,127}));
   connect(setSou.y, conSou.u_s)
     annotation (Line(points={{-79,-30},{-72,-30}}, color={0,0,127}));
-  connect(senTZonSou.T, TRooAirSou.u) annotation (Line(points={{80,0},{90,0},{90,
-          -50},{82,-50}}, color={0,0,127}));
+  connect(senTZonSou.T, TRooAirSou.u) annotation (Line(points={{81,0},{90,0},{
+          90,-50},{82,-50}},
+                          color={0,0,127}));
   connect(TRooAirSou.y, conSou.u_m)
     annotation (Line(points={{59,-50},{-60,-50},{-60,-42}}, color={0,0,127}));
   connect(effSou.y, absSou.u)
     annotation (Line(points={{21,-80},{28,-80}}, color={0,0,127}));
-  connect(absSou.y, PHeaSou.u)
+  connect(absSou.y, PHeaCooSou.u)
     annotation (Line(points={{51,-80},{78,-80}}, color={0,0,127}));
   connect(conCO2Sou.y, CO2RooAirSou.u)
     annotation (Line(points={{141,-30},{158,-30}}, color={0,0,127}));
@@ -176,23 +177,33 @@ equation
     annotation (Line(points={{-79,100},{-72,100}}, color={0,0,127}));
   connect(effNor.y, absNor.u)
     annotation (Line(points={{21,160},{28,160}}, color={0,0,127}));
-  connect(absNor.y, PHeaNor.u)
+  connect(absNor.y, PHeaCooNor.u)
     annotation (Line(points={{51,160},{78,160}}, color={0,0,127}));
   connect(conCO2Nor.y, CO2RooAirNor.u)
     annotation (Line(points={{141,90},{158,90}}, color={0,0,127}));
-  connect(senTZonNor.T, TRooAirNor.u) annotation (Line(points={{80,60},{90,60},{
-          90,130},{82,130}}, color={0,0,127}));
+  connect(senTZonNor.T, TRooAirNor.u) annotation (Line(points={{81,60},{90,60},
+          {90,130},{82,130}},color={0,0,127}));
   connect(effNor.u, preHeaNor.Q_flow) annotation (Line(points={{-2,160},{-10,160},
           {-10,100},{0,100}}, color={0,0,127}));
   connect(TRooAirNor.y, conNor.u_m)
     annotation (Line(points={{59,130},{-60,130},{-60,112}}, color={0,0,127}));
   connect(preHeaNor.port, capNor.port)
     annotation (Line(points={{20,100},{40,100},{40,60}}, color={191,0,0}));
-  annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")),
+  annotation (uses(Modelica(version="4.0.0"), IBPSA(version="4.0.0")),
       experiment(
       StopTime=60,
       Interval=1,
       Tolerance=1e-06),
     Diagram(coordinateSystem(extent={{-100,-100},{220,180}})),
-    Icon(coordinateSystem(extent={{-100,-100},{220,180}})));
+    Icon(coordinateSystem(extent={{-100,-100},{220,180}})),
+    Documentation(revisions="<html>
+<ul>
+<li>
+October 24, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
+</ul>
+</html>"));
 end TwoZones;

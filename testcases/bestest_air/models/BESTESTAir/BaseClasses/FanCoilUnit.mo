@@ -2,17 +2,17 @@ within BESTESTAir.BaseClasses;
 model FanCoilUnit "Four-pipe fan coil unit model"
   replaceable package Medium1 = Buildings.Media.Air(extraPropertiesNames={"CO2"});
   replaceable package Medium2 = Buildings.Media.Water;
-  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal=0.55 "Nominal air flowrate" annotation (Dialog(group="Air"));
-  parameter Modelica.SIunits.DimensionlessRatio minSpe=0.2 "Minimum fan speed" annotation (Dialog(group="Air"));
-  parameter Modelica.SIunits.Power QCooCap=3666 "Cooling coil capacity" annotation (Dialog(group="Coils"));
-  parameter Modelica.SIunits.Power QHeaCap=7000 "Heating coil capacity" annotation (Dialog(group="Coils"));
-  parameter Modelica.SIunits.DimensionlessRatio COP = 3 "Assumed COP of chiller supplying chilled water to FCU in [W_thermal/W_electric]" annotation (Dialog(group="Plant"));
-  parameter Modelica.SIunits.DimensionlessRatio eff = 0.9 "Assumed efficiency of gas boiler supplying hot water to FCU in [W_gas/W_thermal]" annotation (Dialog(group="Plant"));
-  final parameter Modelica.SIunits.Pressure dpAir_nominal=185 "Nominal supply air pressure";
-  final parameter Modelica.SIunits.MassFlowRate mCoo_flow_nominal=QCooCap/(4200*5) "Nominal chilled water flowrate";
-  final parameter Modelica.SIunits.MassFlowRate mHea_flow_nominal=QHeaCap/(4200*20) "Nominal heating water flowrate";
-  final parameter Modelica.SIunits.Pressure dpCoo_nominal=((mCoo_flow_nominal/1000)*3600/(0.865*1))^2*1e5 "Nominal chilled water pressure drop";
-  final parameter Modelica.SIunits.Pressure dpHea_nominal=((mHea_flow_nominal/1000)*3600/(0.865*1))^2*1e5 "Nominal heating water pressure drop";
+  parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal=0.55 "Nominal air flowrate" annotation (Dialog(group="Air"));
+  parameter Modelica.Units.SI.DimensionlessRatio minSpe=0.2 "Minimum fan speed" annotation (Dialog(group="Air"));
+  parameter Modelica.Units.SI.Power QCooCap=3666 "Cooling coil capacity" annotation (Dialog(group="Coils"));
+  parameter Modelica.Units.SI.Power QHeaCap=7000 "Heating coil capacity" annotation (Dialog(group="Coils"));
+  parameter Modelica.Units.SI.DimensionlessRatio COP = 3 "Assumed COP of chiller supplying chilled water to FCU in [W_thermal/W_electric]" annotation (Dialog(group="Plant"));
+  parameter Modelica.Units.SI.DimensionlessRatio eff = 0.9 "Assumed efficiency of gas boiler supplying hot water to FCU in [W_gas/W_thermal]" annotation (Dialog(group="Plant"));
+  final parameter Modelica.Units.SI.Pressure dpAir_nominal=185 "Nominal supply air pressure";
+  final parameter Modelica.Units.SI.MassFlowRate mCoo_flow_nominal=QCooCap/(4200*5) "Nominal chilled water flowrate";
+  final parameter Modelica.Units.SI.MassFlowRate mHea_flow_nominal=QHeaCap/(4200*20) "Nominal heating water flowrate";
+  final parameter Modelica.Units.SI.Pressure dpCoo_nominal=((mCoo_flow_nominal/1000)*3600/(0.865*1))^2*1e5 "Nominal chilled water pressure drop";
+  final parameter Modelica.Units.SI.Pressure dpHea_nominal=((mHea_flow_nominal/1000)*3600/(0.865*1))^2*1e5 "Nominal heating water pressure drop";
   Modelica.Fluid.Interfaces.FluidPort_a returnAir(redeclare final package
       Medium = Medium1) "Return air" annotation (Placement(transformation(
           extent={{130,-170},{150,-150}}),
@@ -57,16 +57,16 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-8,150},{12,170}})));
   Modelica.Blocks.Math.Gain powCoo(k=1/COP)
     annotation (Placement(transformation(extent={{-8,170},{12,190}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSup(description=
+  Buildings.Utilities.IO.SignalExchange.Read reaTSup(description=
         "Supply air temperature", y(unit="K")) "Read supply air temperature"
     annotation (Placement(transformation(extent={{110,110},{130,130}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTRet(y(unit="K"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaTRet(y(unit="K"), description=
         "Return air temperature") "Read return air temperature"
     annotation (Placement(transformation(extent={{110,-150},{130,-130}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaFloSup(y(unit="kg/s"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaFloSup(y(unit="kg/s"), description=
         "Supply air mass flow rate") "Read supply air flowrate"
     annotation (Placement(transformation(extent={{40,110},{60,130}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaFanSpeSet(y(unit="1"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaFanSpeSet(y(unit="1"), description=
         "Supply fan speed setpoint") "Read supply fan speed setpoint"
     annotation (Placement(transformation(extent={{20,-120},{40,-100}})));
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage cooVal(
@@ -139,10 +139,10 @@ model FanCoilUnit "Four-pipe fan coil unit model"
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,-80})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaHeaVal(y(unit="1"), description="Heating valve control signal")
+  Buildings.Utilities.IO.SignalExchange.Read reaHeaVal(y(unit="1"), description="Heating valve control signal")
     "Read heating valve control signal"
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaCooVal(y(unit="1"), description="Cooling valve control signal")
+  Buildings.Utilities.IO.SignalExchange.Read reaCooVal(y(unit="1"), description="Cooling valve control signal")
     "Read cooling valve control signal"
     annotation (Placement(transformation(extent={{-80,90},{-60,110}})));
   Modelica.Blocks.Sources.RealExpression powCooThe(y=senCooMasFlo.m_flow*(
@@ -155,7 +155,7 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-60,150},{-40,170}})));
   Modelica.Blocks.Interfaces.BooleanInput uFanSta "Status of fan"
     annotation (Placement(transformation(extent={{-180,-180},{-140,-140}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveFan(description="Fan speed control signal",
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveFan(description="Fan speed control signal",
       u(
       min=0,
       max=1,
@@ -163,13 +163,13 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-120,-110},{-100,-90}})));
   FanControl fanControl(minSpe=minSpe)
     annotation (Placement(transformation(extent={{-70,-130},{-50,-110}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveCooVal(description="Cooling valve control signal",
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveCooVal(description="Cooling valve control signal",
       u(
       min=0,
       max=1,
       unit="1")) "Overwrite for cooling valve control signal"
     annotation (Placement(transformation(extent={{-120,90},{-100,110}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveHeaVal(description="Heating valve control signal",
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveHeaVal(description="Heating valve control signal",
       u(
       min=0,
       max=1,
@@ -179,44 +179,44 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-134,-166},{-122,-154}})));
   Modelica.Blocks.Math.RealToBoolean realToBoolean
     annotation (Placement(transformation(extent={{-92,-136},{-80,-124}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveFanSta(description="Fan status control signal",
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveFanSta(description="Fan status control signal",
       u(
       min=0,
       max=1,
       unit="1")) "Overwrite for fan status control signal"
     annotation (Placement(transformation(extent={{-120,-140},{-100,-120}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaFloCoo(y(unit="kg/s"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaFloCoo(y(unit="kg/s"), description=
         "Cooling coil water flow rate") "Read cooling coil water flow rate"
     annotation (Placement(transformation(extent={{40,40},{60,60}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaFloHea(y(unit="kg/s"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaFloHea(y(unit="kg/s"), description=
         "Heating coil water flow rate")
     "Read heating coil supply water flow rate"
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTHeaLea(description=
+  Buildings.Utilities.IO.SignalExchange.Read reaTHeaLea(description=
         "Heating coil water leaving temperature", y(unit="K"))
     "Read heating coil water leaving temperature"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTCooLea(description=
+  Buildings.Utilities.IO.SignalExchange.Read reaTCooLea(description=
         "Cooling coil water leaving temperature", y(unit="K"))
     "Read cooling coil water leaving temperature"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPCoo(
+  Buildings.Utilities.IO.SignalExchange.Read reaPCoo(
     y(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     description="Cooling electrical power consumption")
     "Read power for cooling"
     annotation (Placement(transformation(extent={{70,170},{90,190}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read reaPHea(
+  Buildings.Utilities.IO.SignalExchange.Read reaPHea(
     y(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heating thermal power consumption") "Read power for heating"
     annotation (Placement(transformation(extent={{70,150},{90,170}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read reaPFan(
+  Buildings.Utilities.IO.SignalExchange.Read reaPFan(
     y(unit="W"),
     description="Supply fan electrical power consumption",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
     "Read power for supply fan"
     annotation (Placement(transformation(extent={{70,130},{90,150}})));
 equation

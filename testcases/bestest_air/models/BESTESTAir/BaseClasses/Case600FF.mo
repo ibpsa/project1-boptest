@@ -3,20 +3,20 @@ model Case600FF
   "Basic test with light-weight construction and free floating temperature"
 
   replaceable package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium model";
-  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal "Nominal air mass flow rate";
-  parameter Modelica.SIunits.Angle S_=
+  parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal "Nominal air mass flow rate";
+  parameter Modelica.Units.SI.Angle S_=
     Buildings.Types.Azimuth.S "Azimuth for south walls";
-  parameter Modelica.SIunits.Angle E_=
+  parameter Modelica.Units.SI.Angle E_=
     Buildings.Types.Azimuth.E "Azimuth for east walls";
-  parameter Modelica.SIunits.Angle W_=
+  parameter Modelica.Units.SI.Angle W_=
     Buildings.Types.Azimuth.W "Azimuth for west walls";
-  parameter Modelica.SIunits.Angle N_=
+  parameter Modelica.Units.SI.Angle N_=
     Buildings.Types.Azimuth.N "Azimuth for north walls";
-  parameter Modelica.SIunits.Angle C_=
+  parameter Modelica.Units.SI.Angle C_=
     Buildings.Types.Tilt.Ceiling "Tilt for ceiling";
-  parameter Modelica.SIunits.Angle F_=
+  parameter Modelica.Units.SI.Angle F_=
     Buildings.Types.Tilt.Floor "Tilt for floor";
-  parameter Modelica.SIunits.Angle Z_=
+  parameter Modelica.Units.SI.Angle Z_=
     Buildings.Types.Tilt.Wall "Tilt for wall";
   parameter Integer nConExtWin = 1 "Number of constructions with a window";
   parameter Integer nConBou = 1
@@ -105,16 +105,14 @@ model Case600FF
       hWin={2},
       fFra={0.001},
       til={Z_},
-      azi={S_}),
-    lat=weaDat.lat,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+      azi={S_}))
     "Room model for Case 600"
     annotation (Placement(transformation(extent={{36,-30},{66,0}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_1
     annotation (Placement(transformation(extent={{-18,64},{-10,72}})));
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/DRYCOLD.mos"),
-      computeWetBulbTemperature=false)
+      computeWetBulbTemperature=true)
     annotation (Placement(transformation(extent={{98,-94},{86,-82}})));
   Modelica.Blocks.Sources.Constant uSha(k=0)
     "Control signal for the shading device"
@@ -151,7 +149,7 @@ model Case600FF
         nStaRef=Buildings.ThermalZones.Detailed.Validation.BESTEST.nStaRef)})
                            "Roof"
     annotation (Placement(transformation(extent={{60,84},{74,98}})));
-  Buildings.ThermalZones.Detailed.Validation.BESTEST.Data.Win600
+  parameter Buildings.ThermalZones.Detailed.Validation.BESTEST.Data.Win600
          window600(
     UFra=3,
     haveExteriorShade=false,
@@ -244,10 +242,10 @@ model Case600FF
     annotation (Placement(transformation(extent={{-52,62},{-40,74}})));
   Modelica.Blocks.Math.MultiSum sumLat(nu=3) "Sum of latent internal gains"
     annotation (Placement(transformation(extent={{-52,42},{-40,54}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPLig(y(unit="W"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaPLig(y(unit="W"), description=
         "Lighting power submeter") "Read lighting power consumption"
     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPPlu(y(unit="W"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaPPlu(y(unit="W"), description=
         "Plug load power submeter") "Read plug load power consumption"
     annotation (Placement(transformation(extent={{-20,0},{0,20}})));
   Modelica.Blocks.Math.MultiSum sumLig(k=fill(roo.AFlo, 2), nu=2)
@@ -256,15 +254,15 @@ model Case600FF
   Modelica.Blocks.Math.MultiSum sumPlu(k=fill(roo.AFlo, 2), nu=2)
     "Plug power consumption"
     annotation (Placement(transformation(extent={{-52,4},{-40,16}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTRooAir(
+  Buildings.Utilities.IO.SignalExchange.Read reaTRooAir(
     description="Zone air temperature",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K")) "Read room air temperature"
     annotation (Placement(transformation(extent={{120,-10},{140,10}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read reaCO2RooAir(
+  Buildings.Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="Zone air CO2 concentration",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     y(unit="ppm"))
                  "Read room air CO2 concentration"
     annotation (Placement(transformation(extent={{130,-40},{150,-20}})));
@@ -290,6 +288,9 @@ model Case600FF
         Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
     "Conversion from mass fraction CO2 to volume fraction CO2"
     annotation (Placement(transformation(extent={{70,-40},{90,-20}})));
+  Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta
+    "BOPTEST weather station"
+    annotation (Placement(transformation(extent={{60,-80},{40,-60}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{-9.6,68},{20,68},{20,-9},{34.8,-9}},
@@ -384,7 +385,7 @@ equation
           32.1},{-52,32.1}}, color={0,0,127}));
   connect(lig.con, sumLig.u[2]) annotation (Line(points={{-79,50},{-60,50},{-60,
           27.9},{-52,27.9}}, color={0,0,127}));
-  connect(TRooAirSen.T, reaTRooAir.u) annotation (Line(points={{90,21},{96,21},
+  connect(TRooAirSen.T, reaTRooAir.u) annotation (Line(points={{90.5,21},{96,21},
           {96,0},{118,0}}, color={0,0,127}));
   connect(reaTRooAir.y, TRooAir)
     annotation (Line(points={{141,0},{170,0}}, color={0,0,127}));
@@ -419,6 +420,11 @@ equation
     annotation (Line(points={{18,-49},{18,-30},{69,-30}}, color={0,0,127}));
   connect(conMasVolFra.V, gaiPPM.u)
     annotation (Line(points={{91,-30},{98,-30}}, color={0,0,127}));
+  connect(weaSta.weaBus, roo.weaBus) annotation (Line(
+      points={{59.9,-70.1},{80,-70},{80.07,-70},{80.07,-1.575},{64.425,-1.575}},
+      color={255,204,51},
+      thickness=0.5));
+
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"

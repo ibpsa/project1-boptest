@@ -64,7 +64,7 @@
   \endgroup
   \rule{\textwidth}{1pt}
   \vspace{12pt}
-}  
+}
 
 \pagenumbering{arabic}
 

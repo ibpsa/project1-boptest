@@ -1,13 +1,15 @@
 within BESTESTAir.BaseClasses;
 model OccupancyLoad
   "A model for occupancy and resulting internal loads"
-  parameter Modelica.SIunits.Power senPower "Sensible heat gain per person";
-  parameter Modelica.SIunits.DimensionlessRatio radFraction "Fraction of sensible gain that is radiant";
-  parameter Modelica.SIunits.Power latPower "Latent heat gain per person";
-  parameter Modelica.SIunits.MassFlowRate co2Gen "CO2 generation per person";
-  parameter Modelica.SIunits.DimensionlessRatio occ_density "Number of occupants per m^2";
-  Buildings.Air.Systems.SingleZone.VAV.Examples.BaseClasses.InternalLoads sch(table=[0,
-        0; 8*3600,0; 8*3600,1.0; 18*3600,1.0; 18*3600,0; 24*3600,0])
+  parameter Modelica.Units.SI.Power senPower "Sensible heat gain per person";
+  parameter Modelica.Units.SI.DimensionlessRatio radFraction "Fraction of sensible gain that is radiant";
+  parameter Modelica.Units.SI.Power latPower "Latent heat gain per person";
+  parameter Modelica.Units.SI.MassFlowRate co2Gen "CO2 generation per person";
+  parameter Modelica.Units.SI.DimensionlessRatio occ_density "Number of occupants per m^2";
+  Modelica.Blocks.Sources.CombiTimeTable sch(
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+    table=[0,0; 8*3600,0; 8*3600,1.0; 18*3600,1.0; 18*3600,0; 24*3600,0],
+    columns={2})
     "Occupancy schedule"
     annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
   Modelica.Blocks.Interfaces.RealOutput rad "Radiant load in W/m^2"

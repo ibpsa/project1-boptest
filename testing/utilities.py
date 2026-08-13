@@ -11,15 +11,17 @@ import unittest
 import numpy as np
 import json
 import pandas as pd
+import re
+from datetime import datetime
 
 def get_root_path():
     '''Returns the path to the root repository directory.
-    
+
     '''
-    
+
     testing_path = os.path.dirname(os.path.realpath(__file__));
     root_path = os.path.split(testing_path)[0]
-    
+
     return root_path;
 
 def clean_up(dir_path):
@@ -29,22 +31,24 @@ def clean_up(dir_path):
     ----------
     dir_path : str
         Directory path to clean up
-        
+
     '''
 
     files = os.listdir(dir_path)
     for f in files:
         if f.endswith('.fmu') or f.endswith('.mo') or f.endswith('.txt') or f.endswith('.mat') or f.endswith('.json'):
             os.remove(os.path.join(dir_path, f))
-            
-def run_tests(test_file_name):
+
+def run_tests(test_file_name, test_names=[]):
     '''Run tests and save results for specified test file.
-    
+
     Parameters
     ----------
     test_file_name : str
         Test file name (ends in .py)
-    
+    test_names : list or tuple of str
+        List of test functions or classes to run present within test module.
+
     '''
 
     # Load tests
@@ -52,13 +56,17 @@ def run_tests(test_file_name):
     suite = test_loader.discover(os.path.join(get_root_path(),'testing'), pattern = test_file_name)
     num_cases = suite.countTestCases()
     # Run tests
-    print('\nFound {0} tests to run in {1}.\n\nRunning...'.format(num_cases, test_file_name))
+    if test_names:
+        print('\nRunning only these tests within {0}: {1}. Skipping others.\n\nRunning...'.format(test_file_name, test_names))
+    else:
+        print('\nRunning all {0} tests within {1}.\n\nRunning...'.format(num_cases, test_file_name))
     result = unittest.TextTestRunner(verbosity = 1).run(suite);
     # Parse and save results
     num_failures = len(result.failures)
     num_errors = len(result.errors)
-    num_passed = num_cases - num_errors - num_failures
-    log_json = {'TestFile':test_file_name, 'NCases':num_cases, 'NPassed':num_passed, 'NErrors':num_errors, 'NFailures':num_failures, 'Failures':{}, 'Errors':{}}
+    num_skipped = len(result.skipped)
+    num_passed = num_cases - num_errors - num_failures - num_skipped
+    log_json = {'TestFile':test_file_name, 'NCases':num_cases, 'NPassed':num_passed, 'NErrors':num_errors, 'NFailures':num_failures, 'NSkipped':num_skipped, 'Failures':{}, 'Errors':{}}
     for i, failure in enumerate(result.failures):
         log_json['Failures'][i]= failure[1]
     for i, error in enumerate(result.errors):
@@ -66,104 +74,226 @@ def run_tests(test_file_name):
     log_file = os.path.splitext(test_file_name)[0] + '.log'
     with open(os.path.join(get_root_path(),'testing',log_file), 'w') as f:
         json.dump(log_json, f)
-                
+
+def compare_references(vars_timeseries = ['reaTRoo_y'],
+                       refs_old = 'multizone_residential_hydronic_old',
+                       refs_new = 'multizone_residential_hydronic'):
+    '''Method to perform visual inspection on how references have changed
+    with respect to a previous version.
+
+    Parameters
+    ----------
+    vars_timeseries : list
+        List with strings indicating the variables to be plotted in time
+        series graphs.
+    refs_old : str
+        Name of the folder containing the old references.
+    refs_new : str
+        Name of the folder containing the new references.
+
+    '''
+
+    import matplotlib.pyplot as plt
+
+    dir_old = os.path.join(get_root_path(), 'testing', 'references', refs_old)
+
+    for subdir, _, files in os.walk(dir_old):
+        for filename in files:
+            f_old = os.path.join(subdir, filename)
+            f_new = os.path.join(subdir.replace(refs_old,refs_new), filename)
+            if not os.path.exists(f_new):
+                print('File: {} has not been compared since it does not exist anymore.'.format(f_new))
+
+            elif not f_old.endswith('.csv'):
+                print('File: {} has not been compared since it is not a csv file.'.format(f_old))
+
+            else:
+                df_old = pd.read_csv(f_old)
+                df_new = pd.read_csv(f_new)
+
+                if not('time' in df_old.columns or 'keys' in df_old.columns):
+                    print('File: {} has not been compared because the format is not recognized.'.format(f_old))
+                else:
+                    if 'time' in df_old.columns:
+                        df_old.drop('time', axis=1, inplace=True)
+                        df_new.drop('time', axis=1, inplace=True)
+                        kind = 'line'
+                        vars_to_plot = vars_timeseries
+                    elif 'keys' in df_old.columns:
+                        df_old = df_old.set_index('keys')
+                        df_new = df_new.set_index('keys')
+                        kind = 'bar'
+                        vars_to_plot = df_old.columns
+
+                    if 'kpis_' in filename:
+                        fig, axs = plt.subplots(nrows=1, ncols=len(df_old.index), figsize=(10,8))
+                        for i,k in enumerate(df_old.index):
+                            axs[i].bar(0, df_old.loc[k,'value'], label='old', alpha=0.5, color='orange')
+                            axs[i].bar(0, df_new.loc[k,'value'], label='new', alpha=0.5, color='blue')
+                            axs[i].set_title(k)
+                        fig.suptitle(str(f_new))
+                        plt.legend()
+                    else:
+                        if any([v in df_old.keys() for v in vars_to_plot]):
+                            for v in vars_to_plot:
+                                if v in df_old.keys():
+                                    _, ax = plt.subplots(1, figsize=(10,8))
+                                    df_old[v].plot(ax=ax, label='old '+v, kind=kind, alpha=0.5, color='orange')
+                                    df_new[v].plot(ax=ax, label='new '+v, kind=kind, alpha=0.5, color='blue')
+                                    ax.set_title(str(f_new))
+                                    ax.legend()
+                        else:
+                            print('File: {} has not been compared because it does not contain any of the variables to plot'.format(f_old))
+
+    plt.show()
+
 class partialChecks(object):
     '''This partial class implements common ref data check methods.
-    
+
     '''
-    
+
     def compare_ref_timeseries_df(self, df, ref_filepath):
         '''Compare a timeseries dataframe to a reference csv.
-        
+
         Parameters
         ----------
         df : pandas DataFrame
             Test dataframe with "time" as index.
         ref_filepath : str
-            Reference file path relative to testing directory.
-            
+            Reference file path.
+
         Returns
         -------
         None
-        
+
         '''
-        
+
         # Check time is index
         assert(df.index.name == 'time')
+        # Resample to 500 points limit if needed.
+        if len(df)>500:
+            y_test = []
+            keys = []
+            for key in df.columns:
+                y_test.append(self.create_test_points(df[key], n=500))
+                keys.append(key)
+            df_test = pd.concat(y_test, axis=1, keys=keys)
+            df_test.index.name = 'time'
+        else:
+            df_test = df
         # Perform test
         if os.path.exists(ref_filepath):
             # If reference exists, check it
-            df_ref = pd.read_csv(ref_filepath, index_col='time')   
+            df_ref = pd.read_csv(ref_filepath, index_col='time')
             # Check all keys in reference are in test
             for key in df_ref.columns.to_list():
-                self.assertTrue(key in df.columns.to_list(), 'Reference key {0} not in test data.'.format(key))
+                self.assertTrue(key in df_test.columns.to_list(), 'Reference key {0} not in test data.'.format(key))
             # Check all keys in test are in reference
-            for key in df.columns.to_list():
+            for key in df_test.columns.to_list():
                 self.assertTrue(key in df_ref.columns.to_list(), 'Test key {0} not in reference data.'.format(key))
             # Check trajectories
-            for key in df.columns:
-                y_test = self.create_test_points(df[key]).get_values()
-                y_ref = self.create_test_points(df_ref[key]).get_values()
+            for key in df_test.columns:
+                y_test = df_test[key].to_numpy()
+                y_ref = df_ref[key].to_numpy()
                 results = self.check_trajectory(y_test, y_ref)
                 self.assertTrue(results['Pass'], '{0} Key is {1}.'.format(results['Message'],key))
         else:
             # Otherwise, save as reference
-            df.to_csv(ref_filepath)
-            
+            df_test.to_csv(ref_filepath)
+
         return None
-    
+
     def compare_ref_json(self, json_test, ref_filepath):
-            '''Compare a json to a reference json saved as .json.
-            
-            Parameters
-            ----------
-            json_test : Dict
-                Test json in the form of a dictionary.
-            ref_filepath : str
-                Reference .json file path relative to testing directory.
-                
-            Returns
-            -------
-            None
-            
-            '''
-            
-            # Perform test
-            if os.path.exists(ref_filepath):
-                # If reference exists, check it
-                with open(ref_filepath, 'r') as f:
-                    json_ref = json.load(f)               
-                self.assertTrue(json_test==json_ref, 'json_test:\n{0}\ndoes not equal\njson_ref:\n{1}'.format(json_test, json_ref))
-            else:
-                # Otherwise, save as reference
-                with open(ref_filepath, 'w') as f:
-                    json.dump(json_test,f)
-                
-            return None
-        
+        '''Compare a json to a reference json saved as .json.
+
+        Parameters
+        ----------
+        json_test : Dict
+            Test json in the form of a dictionary.
+        ref_filepath : str
+            Reference .json file path relative to testing directory.
+
+        Returns
+        -------
+        None
+
+        '''
+
+        # Perform test
+        if os.path.exists(ref_filepath):
+            # If reference exists, check it
+            with open(ref_filepath, 'r') as f:
+                json_ref = json.load(f)
+            # Perform recursive comparison of json structures
+            def recursive_compare(test_obj, ref_obj, path='root'):
+                # Determine if numeric value
+                try:
+                    y_test = float(test_obj)
+                    y_ref = float(ref_obj)
+                    numeric = True
+                except:
+                    y_test = test_obj
+                    y_ref = ref_obj
+                    numeric = False
+                if isinstance(test_obj, dict):
+                    # Check keys in reference are in test
+                    for key in ref_obj:
+                        self.assertTrue(key in test_obj, 'Reference key {0} not in test json at {1}'.format(key,path))
+                    # Check keys in test are in reference and recurse
+                    for key in test_obj:
+                        self.assertTrue(key in ref_obj, 'Test key {0} not in reference json at {1}'.format(key,path))
+                        new_path = '{0}.{1}'.format(path,key) if path else key
+                        recursive_compare(test_obj[key], ref_obj[key], new_path)
+                elif isinstance(test_obj, list):
+                    self.assertTrue(len(test_obj) == len(ref_obj), 'List length mismatch at {0}'.format(path))
+                    for idx, (t_item, r_item) in enumerate(zip(test_obj, ref_obj)):
+                        new_path = '{0}[{1}]'.format(path,idx)
+                        recursive_compare(t_item, r_item, new_path)
+                else:
+                    if numeric:
+                        # Compare values with tolerance
+                        tol = 1e-3
+                        err_abs = np.absolute(y_test - y_ref)
+                        if (abs(y_ref) > 10 * tol):
+                            err_rel = err_abs / abs(y_ref)
+                        else:
+                            err_rel = 0
+                        err_tot = err_abs + err_rel
+                        self.assertTrue(err_tot <= tol, 'Total error ({0}) greater than tolerance ({1}) at {2}: {3} in test json != {4} in reference json'.format(err_tot, tol, path, y_test, y_ref))
+                    else:
+                        # Compare values
+                        self.assertTrue(y_test == y_ref, 'Value mismatch at {0}: {1} in test json != {2} in reference json'.format(path,y_test,y_ref))
+            recursive_compare(json_test, json_ref)
+        else:
+            # Otherwise, save as reference
+            with open(ref_filepath, 'w') as f:
+                json.dump(json_test,f)
+
+        return None
+
     def compare_ref_values_df(self, df, ref_filepath):
         '''Compare a values dataframe to a reference csv.
-        
+
         Parameters
         ----------
         df : pandas DataFrame
             Test dataframe with a number of keys as index paired with values.
         ref_filepath : str
             Reference file path relative to testing directory.
-            
+
         Returns
         -------
         None
-        
+
         '''
-        
+
         # Check keys is index
         assert(df.index.name == 'keys')
         assert(df.columns.to_list() == ['value'])
         # Perform test
         if os.path.exists(ref_filepath):
             # If reference exists, check it
-            df_ref = pd.read_csv(ref_filepath, index_col='keys')           
+            df_ref = pd.read_csv(ref_filepath, index_col='keys')
             for key in df.index.values:
                 y_test = [df.loc[key,'value']]
                 y_ref = [df_ref.loc[key,'value']]
@@ -172,19 +302,19 @@ class partialChecks(object):
         else:
             # Otherwise, save as reference
             df.to_csv(ref_filepath)
-            
+
         return None
-    
+
     def check_trajectory(self, y_test, y_ref):
         '''Check a numeric trajectory against a reference with a tolerance.
-        
+
         Parameters
         ----------
         y_test : list-like of numerics
             Test trajectory
         y_ref : list-like of numerics
             Reference trajectory
-            
+
         Returns
         -------
         result : dict
@@ -194,9 +324,9 @@ class partialChecks(object):
              'IndexMax' : int or None, Index of maximum error,None if fail length check
              'Message' : str or None, Message if failed check, None if passed.
             }
-        
+
         '''
-    
+
         # Set tolerance
         tol = 1e-3
         # Initialize return dictionary
@@ -232,15 +362,15 @@ class partialChecks(object):
                     result['ErrorMax'] = err_max,
                     result['IndexMax'] = i_max,
                     result['Message'] = 'Max error ({0}) in trajectory greater than tolerance ({1}) at index {2}. y_test: {3}, y_ref:{4}'.format(err_max, tol, i_max, y_test[i_max], y_ref[i_max])
-        
+
         return result
-    
+
     def create_test_points(self, s,n=500):
         '''Create interpolated points to test of a certain number.
-        
+
         Useful to reduce number of points to test and to avoid failed tests from
         event times being slightly different.
-    
+
         Parameters
         ----------
         s : pandas Series
@@ -248,16 +378,16 @@ class partialChecks(object):
         n : int, optional
             Number of points to create
             Default is 500
-            
+
         Returns
         -------
         s_test : pandas Series
-            Series containing interpolated data    
-    
+            Series containing interpolated data
+
         '''
-        
+
         # Get data
-        data = s.get_values()
+        data = s.to_numpy()
         index = s.index.values
         # Make interpolated index
         t_min = index.min()
@@ -265,46 +395,85 @@ class partialChecks(object):
         t = np.linspace(t_min, t_max, n)
         # Interpolate data
         data_interp = np.interp(t,index,data)
-        # Use at most 8 significant digits
+        # Use at most 8 significant digits for data
         data_interp = [ float('{:.8g}'.format(x)) for x in data_interp ]
+        # Use at most 10 significant digits for time
+        t_interp = [ float('{:.10g}'.format(x)) for x in t ]
         # Make Series
-        s_test = pd.Series(data=data_interp, index=t)
-        
+        s_test = pd.Series(data=data_interp, index=t_interp)
+
         return s_test
-    
-    def results_to_df(self, results):
+
+    def results_to_df(self, points, start_time, final_time, testid, url='http://127.0.0.1:8000'):
         '''Convert results from boptest into pandas DataFrame timeseries.
-        
+
         Parameters
         ----------
-        results: dict
-            Dictionary of results provided by boptest api "/results".
-        
+        points: list of str
+            List of points to retrieve from boptest api.
+        start_time: int
+            Starting time of data to get in seconds.
+        final_time: int
+            Ending time of data to get in seconds.
+        testid: str
+            testid of running test case.
+        url: str, optional
+            URL pointing to deployed boptest test case.
+            Default is http://127.0.0.1:80.
+
         Returns
         -------
         df: pandas DataFrame
             Timeseries dataframe object with "time" as index in seconds.
-            
+
         '''
-        
-        df = pd.DataFrame()
-        for s in ['y','u']:
-            for x in results[s].keys():
-                if x != 'time':
-                    df = pd.concat((df,pd.DataFrame(data=results[s][x], index=results['y']['time'],columns=[x])), axis=1)
-        df.index.name = 'time'
-        
-        return df        
+
+        res = requests.put('{0}/results/{1}'.format(url,testid), json={'point_names':points,'start_time':start_time, 'final_time':final_time}).json()['payload']
+        df = pd.DataFrame.from_dict(res)
+        df = df.set_index('time')
+
+        return df
+
+    def get_all_points(self, testid, url='127.0.0.1:80'):
+        '''Get all of the input and measurement point names from boptest.
+
+        Parameters
+        ----------
+        testid: str
+            testid of running test case.
+        url: str, optional
+            URL pointing to deployed boptest test case.
+            Default is 127.0.0.1:80.
+
+        Returns
+        -------
+        points: list of str
+            List of available point names.
+
+        '''
+
+        measurements = requests.get('{0}/measurements/{1}'.format(url,testid)).json()['payload']
+        inputs = requests.get('{0}/inputs/{1}'.format(url,testid)).json()['payload']
+        points = list(measurements.keys()) + list(inputs.keys())
+
+        return points
+
+    def compare_error_code(self, response, message=None, code_ref=400):
+        status_code = response.status_code
+        if message is None:
+            message = response.message
+        self.assertEqual(status_code, code_ref, message)
+
 
 class partialTestAPI(partialChecks):
     '''This partial class implements common API tests for test cases.
-    
-    References to self attributes for the tests should be set in the setUp 
+
+    References to self attributes for the tests should be set in the setUp
     method of the particular testclass test.  They are:
 
     url : str
         URL to deployed testcase.
-    name_ref : str
+    name : str
         Name given to test
     inputs_ref : list of str
         List of names of inputs
@@ -312,102 +481,133 @@ class partialTestAPI(partialChecks):
         List of names of measurements
     step_ref : numeric
         Default simulation step
-    
+
     '''
-    
-    def test_get_name(self):
-        '''Test getting the name of test.
-        
+
+    def test_get_version(self):
+        '''Test getting the version of BOPTEST.
+
         '''
 
-        name = requests.get('{0}/name'.format(self.url)).json()
-        self.assertEqual(name, self.name_ref)
-        
+        # Get version from BOPTEST API
+        result = requests.get('{0}/version'.format(self.url)).json()['payload']
+        # Create a regex object as three decimal digits seperated by period
+        r_num = re.compile('\d.\d.\d')
+        r_dev = re.compile('1.0.0-dev\n')
+        # Test that the returned version matches the expected string format
+        if r_num.match(result['version']) or r_dev.match(result['version']):
+            self.assertTrue(True)
+        else:
+            self.assertTrue(False, '/version did not return correctly. Returned {0}.'.format(result))
+
+    def test_get_name(self):
+        '''Test getting the name of test.
+
+        '''
+
+        name = requests.get('{0}/name/{1}'.format(self.url,self.testid)).json()['payload']
+        self.assertEqual(name['name'], self.name)
+
     def test_get_inputs(self):
         '''Test getting the input list of tests.
-        
+
         '''
-        
-        inputs = requests.get('{0}/inputs'.format(self.url)).json()
+
+        inputs = requests.get('{0}/inputs/{1}'.format(self.url,self.testid)).json()['payload']
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_inputs.json')
         self.compare_ref_json(inputs, ref_filepath)
 
     def test_get_measurements(self):
         '''Test getting the measurement list of test.
-        
+
         '''
 
-        measurements = requests.get('{0}/measurements'.format(self.url)).json()
+        measurements = requests.get('{0}/measurements/{1}'.format(self.url,self.testid)).json()['payload']
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_measurements.json')
         self.compare_ref_json(measurements, ref_filepath)
 
     def test_get_step(self):
         '''Test getting the communication step of test.
-        
+
         '''
 
-        step = requests.get('{0}/step'.format(self.url)).json()
+        step = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
         df = pd.DataFrame(data=[step], index=['step'], columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_step.csv')
         self.compare_ref_values_df(df, ref_filepath)
-        
+
     def test_set_step(self):
         '''Test setting the communication step of test.
-        
+
         '''
 
-        step_current = requests.get('{0}/step'.format(self.url)).json()
+        step_current = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
         step = 101
-        requests.put('{0}/step'.format(self.url), data={'step':step})
-        step_set = requests.get('{0}/step'.format(self.url)).json()
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':step})
+        step_set = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
         self.assertEqual(step, step_set)
-        requests.put('{0}/step'.format(self.url), data={'step':step_current})
-        
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':step_current})
+
     def test_initialize(self):
         '''Test initialization of test simulation.
-        
+
         '''
 
+        # Get measurements and inputs
+        points = self.get_all_points(self.testid, self.url)
         # Get current step
-        step = requests.get('{0}/step'.format(self.url)).json()
+        step = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
         # Initialize
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600})
-        # Check results are empty again
-        y = requests.get('{0}/results'.format(self.url)).json()
-        for key in y.keys():
-            for var in y[key].keys():
-                self.assertEqual(len(y[key][var]), 0)
-        # Advance
-        requests.put('{0}/step'.format(self.url), data={'step':1*24*3600})
-        y = requests.post('{0}/advance'.format(self.url),data = {}).json()
-        res = requests.get('{0}/results'.format(self.url)).json()
+        start_time = 0.5*24*3600
+        y = requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time':start_time, 'warmup_period':0.5*24*3600}).json()['payload']
+        # Check that initialize returns the right initial values and results
+        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'initial_values.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Check trajectories
-        # Make dataframe
-        df = pd.DataFrame()
-        for s in ['y','u']:
-            for x in res[s].keys():
-                if x != 'time':
-                    df = pd.concat((df,pd.DataFrame(data=res[s][x], index=res['y']['time'],columns=[x])), axis=1)
-        df.index.name = 'time'
+        df = self.results_to_df(points, 0, start_time, self.testid, self.url)
         # Set reference file path
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize.csv')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize_initial.csv')
         # Check results
         self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check kpis
+        res_kpi = requests.get('{0}/kpi/{1}'.format(self.url,self.testid)).json()['payload']
+        df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_initial.csv')
+        self.compare_ref_values_df(df, ref_filepath)
+        # Advance
+        step_advance = 1*24*3600
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':step_advance})
+        y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=dict()).json()['payload']
+        # Check trajectories
+        df = self.results_to_df(points, start_time, start_time+step_advance, self.testid, self.url)
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize_advance.csv')
+        # Check results
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check kpis
+        res_kpi = requests.get('{0}/kpi/{1}'.format(self.url,self.testid)).json()['payload']
+        df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_advance.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Set step back to step
-        requests.put('{0}/step'.format(self.url), data={'step':step})
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':step})
 
     def test_advance_no_data(self):
         '''Test advancing of simulation with no input data.
 
-        This is a basic test of functionality.  
+        This is a basic test of functionality.
         Tests for advancing with overwriting are done in the example tests.
 
         '''
 
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
-        y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
+        requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':self.step_ref})
+        y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=dict()).json()['payload']
         df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_no_data.csv')
@@ -416,80 +616,603 @@ class partialTestAPI(partialChecks):
     def test_advance_false_overwrite(self):
         '''Test advancing of simulation with overwriting as false.
 
-        This is a basic test of functionality.  
+        This is a basic test of functionality.
         Tests for advancing with overwriting are done in the example tests.
 
         '''
 
-        if self.name == 'testcase1':
-            u = {'oveAct_activate':0, 'oveAct_u':1500}
-        elif self.name == 'testcase2':
-            u = {'oveTSetRooHea_activate':0, 'oveTSetRooHea_u':273.15+22}
-        elif self.name == 'testcase3':
-            u = {'oveActNor_activate':0, 'oveActNor_u':1500,
-                 'oveActSou_activate':0, 'oveActSou_u':1500}
-        elif self.name == 'bestest_air':
-            u = {'fcu_oveTSup_activate':0, 'fcu_oveTSup_u':290}
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
-        y = requests.post('{0}/advance'.format(self.url), data=u).json()
-        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        u = self.input
+        requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': self.step_ref})
+        y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=u).json()['payload']
+        df = pd.DataFrame.from_dict(y, orient='index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_false_overwrite.csv')
         self.compare_ref_values_df(df, ref_filepath)
 
-    def test_get_forecast_default(self):
-        '''Check that the forecaster is able to retrieve the data.
-        
-        Default forecast parameters for testcase used.
+    def test_get_forecast_all(self):
+        '''Check that the forecaster is able to GET all the data.
+
+        Also test that default uncertainty scenario is 'none'.
+
+        All available forecast points are checked.
 
         '''
 
+        horizon = 7200
+        interval = 1800
         # Initialize
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time':0, 'warmup_period':0})
         # Test case forecast
-        forecast = requests.get('{0}/forecast'.format(self.url)).json()
+        forecast_points = list(requests.get('{0}/forecast_points/{1}'.format(self.url,self.testid)).json()['payload'].keys())
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         # Set reference file path
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_default.csv')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_all.csv')
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
-        
-    def test_put_and_get_parameters(self):
-        '''Check PUT and GET of forecast settings.
+
+        if self.name in ['testcase1','testcase3']:
+            scenario = {'temperature_uncertainty':'none'}
+        else:
+            scenario = {'temperature_uncertainty':'none', 'solar_uncertainty':'none'}
+        res = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario).json()
+        if res['status'] != 200:
+            raise Exception('Status code {0} returned with message: {1}'.format(res['status'], res['message']))
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Check the forecast
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+
+    def test_get_forecast_one(self):
+        '''Check that the forecaster is able to GET one variable.
+
+        The first point retrieved is checked.
 
         '''
 
-        # Define forecast parameters
-        forecast_parameters_ref = {'horizon':3600, 'interval':300}
-        # Set forecast parameters
-        ret = requests.put('{0}/forecast_parameters'.format(self.url), 
-                           data=forecast_parameters_ref)
-        # Get forecast parameters
-        forecast_parameters = requests.get('{0}/forecast_parameters'.format(self.url)).json()
-        # Check the forecast parameters
-        self.assertDictEqual(forecast_parameters, forecast_parameters_ref)
-        # Check the return on the put request
-        self.assertDictEqual(ret.json(), forecast_parameters_ref)
-        
-    def test_get_forecast_with_parameters(self):
-        '''Check that the forecaster is able to retrieve the data.
-        
-        Custom forecast parameters used.
-        
-        '''  
-
-        # Define forecast parameters
-        forecast_parameters_ref = {'horizon':3600, 'interval':300}
+        horizon = 7200
+        interval = 1800
         # Initialize
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-        # Set forecast parameters
-        requests.put('{0}/forecast_parameters'.format(self.url), 
-                     data=forecast_parameters_ref)
+        requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time':0, 'warmup_period':0})
         # Test case forecast
-        forecast = requests.get('{0}/forecast'.format(self.url)).json()
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':[self.forecast_point], 'horizon':horizon, 'interval':interval}).json()['payload']
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         # Set reference file path
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_with_parameters.csv')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_one.csv')
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+
+    def test_get_forecast_uncertain(self):
+        '''Check that the forecaster is able to GET uncertain forecasts.
+
+        'medium' temperature uncertainty tested with seed.
+        'low' solar uncertainty tested with seed.
+        'high' not tested for either. Forecaster tested in more detail in Forecaster unit tests.
+
+        '''
+
+        horizon = 86400
+        interval = 3600
+        # Initialize
+        if self.name in ['testcase1','testcase3']:
+            scenario = {'temperature_uncertainty':'medium', 'seed':1}
+        else:
+            scenario = {'temperature_uncertainty':'medium', 'solar_uncertainty':'low', 'seed':1}
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        # Test case forecast
+        forecast_points = list(requests.get('{0}/forecast_points/{1}'.format(self.url,self.testid)).json()['payload'].keys())
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain.csv')
+        # Check the forecast
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        # Check if advance 5 min and re-take forecast, TDryBul and HGloHor won't change
+        step_current = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': 300})
+        requests.post('{0}/advance/{1}'.format(self.url,self.testid))
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain_5min.csv')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        # Check if advance another hour and re-take forecast, TDryBul and HGloHor do change
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': 3600})
+        requests.post('{0}/advance/{1}'.format(self.url,self.testid))
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set new reference file path
+        ref_filepath_next_hour = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain_next_hour.csv')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath_next_hour)
+        # Set step back to reference
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': step_current})
+        # Test invalid horizon (<= 48 hours ) and different interval and changing horizon
+        horizon = 50*3600
+        interval = 3600
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval})
+        self.compare_error_code(payload, "Invalid horizon in forecast request did not return 400 message.")
+        # Test different interval
+        horizon = 24*3600
+        interval = 1800
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set new reference file path
+        ref_filepath_interval = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain_interval.csv')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath_interval)
+        # Test changing horizon
+        horizon =48*3600
+        interval = 3600
+        forecast = requests.put('{0}/forecast/{1}'.format(self.url,self.testid), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set new reference file path
+        ref_filepath_horizon = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_uncertain_horizon.csv')
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath_horizon)
+
+    def test_get_forecast_points(self):
+        '''Check GET of forecast points.
+
+        '''
+
+        forecast_points = requests.get('{0}/forecast_points/{1}'.format(self.url,self.testid)).json()['payload']
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_points.json')
+        self.compare_ref_json(forecast_points, ref_filepath)
+
+    def test_set_get_scenario(self):
+        '''Test setting and getting the scenario of test.
+
+        '''
+
+        # Set scenario
+        scenario_current = requests.get('{0}/scenario/{1}'.format(self.url,self.testid)).json()['payload']
+        scenario = {'electricity_price':'highly_dynamic',
+                    'time_period':self.test_time_period,
+                    'solar_uncertainty': None,
+                    'temperature_uncertainty': None,
+                    'seed': None}
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        scenario_set = requests.get('{0}/scenario/{1}'.format(self.url,self.testid)).json()['payload']
+        self.assertEqual(scenario, scenario_set)
+        # Check initialized correctly
+        if self.name == 'multizone_office_complex_air':
+            points_check = self.points_check
+        else:
+            points = self.get_all_points(self.testid, self.url)
+            # Don't check weather
+            points_check = []
+            for key in points:
+                if 'weaSta' not in key:
+                    points_check.append(key)
+        df = self.results_to_df(points_check, -63072000, 63072000, self.testid, self.url)
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_set_scenario.csv')
+        # Check results
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # Return scenario to original
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario_current)
+
+    def test_partial_results_inner(self):
+        '''Test getting results for start time after and final time before.
+
+        '''
+
+        requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time': 0, 'warmup_period': 0})
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': self.step_ref})
+        measurements = requests.get('{0}/measurements/{1}'.format(self.url,self.testid)).json()['payload']
+        y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=dict()).json()['payload']
+        point = self.measurement
+        if point not in measurements:
+            raise KeyError('Point {0} not in measurements list.'.format(point))
+        res_inner = requests.put('{0}/results/{1}'.format(self.url,self.testid), json={'point_names': [point],
+                                                                       'start_time': self.step_ref*0.25,
+                                                                       'final_time': self.step_ref*0.75}).json()['payload']
+        df = pd.DataFrame.from_dict(res_inner).set_index('time')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_inner.csv')
+        self.compare_ref_timeseries_df(df, ref_filepath)
+
+    def test_partial_results_outer(self):
+        '''Test getting results for start time before and final time after.
+
+        '''
+
+        requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time': 0, 'warmup_period': 0})
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':self.step_ref})
+        measurements = requests.get('{0}/measurements/{1}'.format(self.url,self.testid)).json()['payload']
+        y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=dict()).json()['payload']
+        point = self.measurement
+        if point not in measurements:
+            raise KeyError('Point {0} not in measurements list.'.format(point))
+        res_outer = requests.put('{0}/results/{1}'.format(self.url,self.testid), json={'point_names': [point],
+                                                                 'start_time': 0-self.step_ref,
+                                                                 'final_time': self.step_ref*2}).json()['payload']
+        df = pd.DataFrame.from_dict(res_outer).set_index('time')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
+        self.compare_ref_timeseries_df(df, ref_filepath)
+
+    def test_submit(self):
+        '''Test the submit API.
+
+        '''
+
+        # Get current scenario and step
+        scenario_current = requests.get('{0}/scenario/{1}'.format(self.url,self.testid)).json()['payload']
+        step_current = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
+        api_key = "valid_api_key"
+        # Set testing scenario
+        scenario = {"time_period":self.test_time_period,
+                    "electricity_price":"dynamic"}
+        # Set test case scenario
+        y = requests.put("{0}/scenario/{1}".format(self.url,self.testid), json=scenario).json()["payload"]["time_period"]
+        # Set step so doesn't take too long
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':86400})
+        # Simulation Loop
+        while y:
+            # Compute control signal
+            u = {}
+            # Advance simulation with control signal
+            y = requests.post("{0}/advance/{1}".format(self.url,self.testid), json=u).json()["payload"]
+        payload = requests.post("{0}/submit/{1}".format(self.url,self.testid), json={"api_key": api_key,
+                                                            "tag1":"baseline",
+                                                            "tag2":"unit_test",
+                                                            "unit_test":"True"}).json()['payload']
+        payload['payload']['results'][0]['kpis']['time_rat'] = 0
+        payload['payload']['results'][0]['uid'] = '1'
+        payload['payload']['results'][0]['dateRun'] = str(datetime(2020, 5, 17))
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'submit.json')
+        self.compare_ref_json(payload, ref_filepath)
+        # Return scenario and step to original
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario_current)
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':step_current})
+
+    def test_invalid_step(self):
+        '''Test set step with invalid non-numeric and negative values returns a 400 error.
+
+        '''
+
+        # Try setting non-numeric step
+        step = "5*7*24*3600"
+        payload = requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': step})
+        self.compare_error_code(payload, "Invalid step in set_step did not return 400 message.")
+        # Try setting negative step
+        step = -5*7*24*3600
+        payload = requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step': step})
+        self.compare_error_code(payload, "Negative step int set_step did not return 400 message.")
+
+    def test_invalid_forecast_parameters(self):
+        '''Check that the setting forecast parameter with invalid start or horizon returns 400 error.
+
+        '''
+
+        forecast_points = requests.get('{0}/forecast_points/{1}'.format(self.url,self.testid)).json()['payload']
+        # Try setting non-numeric horizon
+        forecast_parameters_ref = {'point_names':forecast_points,
+                                   'horizon': 'foo',
+                                   'interval': 300}
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid),
+                               json=forecast_parameters_ref)
+        self.compare_error_code(payload, "Invalid non-numeric horizon in forecast request did not return 400 message.")
+        # Try setting non-numeric interval
+        forecast_parameters_ref = {'point_names':forecast_points,
+                                   'horizon': 3600,
+                                   'interval': 'foo'}
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid),
+                               json=forecast_parameters_ref)
+        self.compare_error_code(payload, "Invalid non-numeric interval in forecast request did not return 400 message.")
+        # Try setting negative horizon
+        forecast_parameters_ref = {'point_names':forecast_points,
+                                   'horizon': -3600,
+                                   'interval': 300}
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid),
+                               json=forecast_parameters_ref)
+        self.compare_error_code(payload, "Invalid negative horizon in forecast request did not return 400 message.")
+        # Try setting negative interval
+        forecast_parameters_ref = {'point_names':forecast_points,
+                                   'horizon': 3600,
+                                   'interval': -300}
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid),
+                               json=forecast_parameters_ref)
+        self.compare_error_code(payload, "Invalid negative interval in forecast request did not return 400 message.")
+        # Try setting invalid point name
+        forecast_parameters_ref = {'point_names':['foo'],
+                                   'horizon': 3600,
+                                   'interval': 300}
+        payload = requests.put('{0}/forecast/{1}'.format(self.url,self.testid),
+                               json=forecast_parameters_ref)
+        self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
+
+    def test_invalid_scenario(self):
+        '''Test setting scenario with invalid identifier returns 400 error.
+
+        '''
+
+        # Set scenario
+        scenario_current = requests.get('{0}/scenario/{1}'.format(self.url,self.testid)).json()['payload']
+        # Try setting invalid electricity price
+        scenario = {'electricity_price': 'invalid_scenario', 'time_period': self.test_time_period}
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        self.compare_error_code(payload,
+                                "Invalid value for electricity_price in set_scenario request did not return 400 message.")
+        # Try setting invalid time period
+        scenario = {'electricity_price': 'highly_dynamic', 'time_period': "invalid_time_period"}
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value for time_period in set_scenario request did not return 400 message.")
+        # Try setting invalid temperature forecast uncertainty
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'temperature_uncertainty': 'invalid_uncertainty'}
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value for temperature_uncertainty in set_scenario request did not return 400 message.")
+        # Try setting invalid solar forecast uncertainty
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'solar_uncertainty': 'invalid_uncertainty'}
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value for solar_uncertainty in set_scenario request did not return 400 message.")
+        # Try setting invalid uncertainty seed
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'seed': 'invalid_seed'}
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value (string) for seed in set_scenario request did not return 400 message.")
+        scenario = {'electricity_price': 'highly_dynamic',
+                    'time_period':  self.test_time_period,
+                    'seed': -1}
+        payload = requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario)
+        self.compare_error_code(payload,
+                               "Invalid value (negative) for seed in set_scenario request did not return 400 message.")
+        # Return scenario to original
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario_current)
+
+    def test_invalid_initialize(self):
+        '''Test initialization of test simulation with invalid start_time and warmup_period returns 400 error.
+
+        '''
+
+        # Try setting non-numeric start_time
+        start_time = "0.5 * 24 * 3600"
+        warmup_period = 0.5*24*3600
+        y = requests.put('{0}/initialize/{1}'.format(self.url,self.testid),
+                         json={'start_time': start_time, 'warmup_period': warmup_period})
+        self.compare_error_code(y,  "Invalid start_time to initialize request did not return 400 message.")
+        # Try setting non-numeric warmup_period
+        start_time = 0.5*24*3600
+        warmup_period = "0.5 * 24 * 3600"
+        y = requests.put('{0}/initialize/{1}'.format(self.url,self.testid),
+                         json={'start_time': start_time, 'warmup_period': warmup_period})
+        self.compare_error_code(y, "Invalid warmup_period in initialize request did not return 400 message.")
+        # Try setting negative start_time
+        start_time = -0.5*24*3600
+        warmup_period = 0.5*24*3600
+        y = requests.put('{0}/initialize/{1}'.format(self.url,self.testid),
+                         json={'start_time': start_time, 'warmup_period': warmup_period})
+        self.compare_error_code(y, "Negative start_time in initialize request did not return 400 message.")
+        # Try setting negative warmup_period
+        start_time = 0.5*24*3600
+        warmup_period = -0.5*24*3600
+        y = requests.put('{0}/initialize/{1}'.format(self.url,self.testid),
+                         json={'start_time': start_time, 'warmup_period': warmup_period})
+        self.compare_error_code(y, "Negative warmup_period in initialize request did not return 400 message.")
+
+    def test_invalid_advance_value(self):
+        '''Test advancing of simulation with invalid input data type (non-numerical) will return 400 error.
+
+        This is a basic test of functionality.
+
+        '''
+
+        u = self.input
+        for key, value in u.items():
+            if '_activate' in key:
+                for value in ['invalid', 1.2, '1.2']:
+                    u[key] = value
+                    y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=u)
+                    self.compare_error_code(y, "Invalid advance request for _activate did not return 400 message.")
+            else:
+                u[key] = "invalid"
+                y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=u)
+                self.compare_error_code(y, "Invalid advance request for _u did not return 400 message.")
+
+    def test_invalid_advance_name(self):
+        '''Test advancing of simulation with invalid input parameter name will return 400 error.
+
+        This is a basic test of functionality.
+
+        '''
+
+        # Single invalid
+        u = {'invalid': 0}
+        y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=u)
+        self.compare_error_code(y, "Invalid advance request for _u did not return 400 message.")
+
+        # Paired invalid with valid
+        u = self.input
+        u['invalid'] = 1
+        y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=u)
+        self.compare_error_code(y, "Invalid advance request for _u did not return 400 message.")
+
+    def test_invalid_get_results(self):
+        '''Test getting results for start time before and final time after.
+
+        '''
+
+        requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time': 0, 'warmup_period': 0})
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':self.step_ref})
+        measurements = requests.get('{0}/measurements/{1}'.format(self.url,self.testid)).json()['payload']
+        requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=dict()).json()['payload']
+        point = self.measurement
+        if point not in measurements:
+            raise KeyError('Point {0} not in measurements list.'.format(point))
+        # Try getting invalid start_time
+        res = requests.put('{0}/results/{1}'.format(self.url,self.testid), json={'point_names': [point],
+                                                                 'start_time': "foo",
+                                                                 'final_time': self.step_ref*2})
+        self.compare_error_code(res, "Invalid start_time in get_results request did not return a 400 error.")
+        # Try getting invalid final_time
+        res = requests.put('{0}/results/{1}'.format(self.url,self.testid), json={'point_names': [point],
+                                                                 'start_time': 0.0 - self.step_ref,
+                                                                 'final_time': "foo"})
+        self.compare_error_code(res, "Invalid final_time in get_results request did not return a 400 error.")
+        # Try getting invalid point_name
+        res = requests.put('{0}/results/{1}'.format(self.url,self.testid), json={'point_names': ["foo"],
+                                                                 'start_time': 0.0 - self.step_ref,
+                                                                 'final_time': self.step_ref*2.0})
+        self.compare_error_code(res, "Invalid point_names in get_results request did not return a 400 error.")
+
+    def test_invalid_submit(self):
+        '''Test the submit API with invalid usage.
+
+        '''
+
+        # Get current scenario and step
+        scenario_current = requests.get('{0}/scenario/{1}'.format(self.url,self.testid)).json()['payload']
+        step_current = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
+        api_key = "valid_api_key"
+        # Set testing scenario
+        scenario = {"time_period":self.test_time_period,
+                    "electricity_price":"dynamic"}
+        # Set test case scenario
+        y = requests.put("{0}/scenario/{1}".format(self.url,self.testid), json=scenario).json()["payload"]["time_period"]
+        # Set step so doesn't take too long
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':86400})
+        # Simulation Loop
+        while y:
+            # Compute control signal
+            u = {}
+            # Advance simulation with control signal but stop after one iteration
+            y = requests.post("{0}/advance/{1}".format(self.url,self.testid), json=u).json()["payload"]
+            y = False
+        res = requests.post("{0}/submit/{1}".format(self.url,self.testid), json={"api_key": api_key,
+                                                            "tag1":"baseline",
+                                                            "tag2":"unit_test",
+                                                            "unit_test":"True"})
+        self.compare_error_code(res, "Invalid time run in submit request did not return a 500 error.", code_ref=500)
+        # Continue simulation Loop
+        y = True
+        while y:
+            # Compute control signal
+            u = {}
+            # Advance simulation to end of time period scenario
+            y = requests.post("{0}/advance/{1}".format(self.url,self.testid), json=u).json()["payload"]
+        # Test invalid tag number
+        res = requests.post("{0}/submit/{1}".format(self.url,self.testid), json={"api_key": api_key,
+                                                            "tag1":"1", "tag2":"2", "tag3":"3",
+                                                            "tag4":"4", "tag5":"5", "tag6":"6",
+                                                            "tag7":"7", "tag8":"2", "tag9":"3",
+                                                            "tag10":"1", "tag11":"2",
+                                                            "unit_test":"True"})
+        self.compare_error_code(res, "Invalid tag number in submit request did not return a 400 error.")
+        # Return scenario and step to original
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json=scenario_current)
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':step_current})
+
+class partialTestTimePeriod(partialChecks):
+    '''Partial class for testing the time periods for each test case
+
+    '''
+
+    def run_time_period(self, time_period):
+        '''Runs the example and tests the kpi and trajectory results for time period.
+
+        Only runs two days from time period.
+
+        Parameters
+        ----------
+        time_period: str
+            Name of test_period to run
+
+        Returns
+        -------
+        None
+
+        '''
+
+        # Set time period scenario
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={'time_period':time_period})
+        # Get default simulation step
+        step_def = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
+        # Set step to one day
+        step = 24*3600
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':24*3600})
+        # Simulation Loop
+        length = 48*3600
+        for i in range(int(length/step)):
+            # Advance simulation
+            y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json={}).json()['payload']
+        # Check results
+        df = self.results_to_df(self.points_check, -63072000, 63072000, self.testid, self.url)
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(time_period))
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # For each price scenario
+        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+            # Set scenario
+            requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={'electricity_price':price_scenario})
+            # Report kpis
+            res_kpi = requests.get('{0}/kpi/{1}'.format(self.url,self.testid)).json()['payload']
+            # Check kpis
+            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+            df.index.name = 'keys'
+            ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(time_period, price_scenario))
+            self.compare_ref_values_df(df, ref_filepath)
+        # Return test case to constant electricity price
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={'electricity_price':'constant'})
+        # Return test case to default step
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':step_def})
+
+class partialTestSeason(partialChecks):
+    '''Partial class for testing the time periods for each test case
+
+    '''
+
+    def run_season(self, season):
+        '''Runs the example and tests the kpi and trajectory results for a season.
+
+        Parameters
+        ----------
+        season: str
+            Name of season to run.
+            'winter' or 'summer' or 'shoulder'
+
+        Returns
+        -------
+        None
+
+        '''
+
+        if season == 'winter':
+            start_time = 1*24*3600
+        elif season == 'summer':
+            start_time = 248*24*3600
+        elif season == 'shoulder':
+            start_time = 118*24*3600
+        else:
+            raise ValueError('Season {0} unknown.'.format(season))
+        length = 48*3600
+        # Initialize test case
+        requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time':start_time, 'warmup_period':0})
+        # Get default simulation step
+        step_def = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
+        # Simulation Loop
+        for i in range(int(length/step_def)):
+            # Advance simulation
+            requests.post('{0}/advance/{1}'.format(self.url,self.testid), json={}).json()['payload']
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={'electricity_price':'constant'})
+        # Check results
+        points = self.get_all_points(self.testid, self.url)
+        df = self.results_to_df(points, start_time, start_time+length, self.testid, self.url)
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # For each price scenario
+        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+            # Set scenario
+            requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={'electricity_price':price_scenario})
+            # Report kpis
+            res_kpi = requests.get('{0}/kpi/{1}'.format(self.url,self.testid)).json()['payload']
+            # Check kpis
+            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+            df.index.name = 'keys'
+            ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
+            self.compare_ref_values_df(df, ref_filepath)
