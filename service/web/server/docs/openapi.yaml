@@ -184,6 +184,13 @@ paths:
             schema:
               type: object
               description: Optional selection parameters (implementation-specific).
+              properties:
+                direct_step:
+                  type: boolean
+                  default: false
+                  description: >-
+                    Step the emulator FMU with do_step directly, instead of calling pyfmi.fmu.simulate once
+                    per control step. The communication grid is unchanged. Omit to use fmu.simulate.
       responses:
         '200':
           description: Test case selected successfully.
