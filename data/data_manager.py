@@ -310,20 +310,20 @@ class Data_Manager(object):
 
         '''
 
-        # Filter the requested data columns
+        # Filter the requested data columns by name only, since slicing them
+        # out of the data frame copies every row of the year
         if variables is not None:
             if category is not None:
                 raise ValueError('You cannot use category and variables '\
                                  'at the same time to filter data. Use '\
                                  'either one or the other. ')
-            cols = variables
-            data_slice = self.case.data.loc[:,cols]
+            cols = list(variables)
         elif category is not None:
             cols = [col for col in self.case.data if \
                     any(col.startswith(key) for key in self.categories[category])]
-            data_slice = self.case.data.loc[:,cols]
         else:
-            data_slice = self.case.data
+            cols = list(self.case.data.columns)
+        data_index = self.case.data.index
 
         # If no index use horizon and interval
         if index is None:
@@ -351,21 +351,23 @@ class Data_Manager(object):
         # Normalizing index with respect to starting year
         index_norm = index - year_start
         stop_norm = index_norm[-1]
+        # If stop happens within the year interpolate without the intermediate
+        # data frame, whose values interpolate_data overwrites anyway
+        if stop_norm <= data_index[-1]:
+            return self._interpolate_to_dict(cols, index_norm, year_start)
+
         # If stop happens across the year divide df and interpolate separately
-        if stop_norm > data_slice.index[-1]:
-            idx_year = (np.abs(index_norm - year)).argmin() + 1
-            # Take previous index value if index at idx_year > year
-            if index_norm[idx_year - 1] - year > np.finfo(float).eps:
-                idx_year = idx_year -1
-            df_slice1 = data_slice.reindex(index_norm[:idx_year])
-            df_slice1 = self.interpolate_data(df_slice1,index_norm[:idx_year])
-            df_slice2 = data_slice.reindex(index_norm[idx_year:] - year)
-            df_slice2 = self.interpolate_data(df_slice2,index_norm[idx_year:] - year)
-            df_slice2.index = df_slice2.index + year
-            data_slice_reindexed = pd.concat([df_slice1,df_slice2])
-        else:
-            data_slice_reindexed = data_slice.reindex(index_norm)
-            data_slice_reindexed = self.interpolate_data(data_slice_reindexed,index_norm)
+        data_slice = self.case.data.loc[:,cols]
+        idx_year = (np.abs(index_norm - year)).argmin() + 1
+        # Take previous index value if index at idx_year > year
+        if index_norm[idx_year - 1] - year > np.finfo(float).eps:
+            idx_year = idx_year -1
+        df_slice1 = data_slice.reindex(index_norm[:idx_year])
+        df_slice1 = self.interpolate_data(df_slice1,index_norm[:idx_year])
+        df_slice2 = data_slice.reindex(index_norm[idx_year:] - year)
+        df_slice2 = self.interpolate_data(df_slice2,index_norm[idx_year:] - year)
+        df_slice2.index = df_slice2.index + year
+        data_slice_reindexed = pd.concat([df_slice1,df_slice2])
         # Add starting year back to index desired by user
         data_slice_reindexed.index = data_slice_reindexed.index + year_start
 
@@ -516,6 +518,51 @@ class Data_Manager(object):
 
         return data_metadata
 
+    def _interpolate_to_dict(self,cols,index_norm,year_start):
+        '''Interpolate the requested columns onto index_norm.
+
+        Linear interpolation for the weather variables and a zeroth order
+        hold for the rest, as interpolate_data does.
+
+        Parameters
+        ----------
+        cols: list of str
+            Columns to return, in order.
+        index_norm: np.array
+            Requested times, normalized to the start of the data year.
+        year_start: int
+            Seconds to add back to the returned time column.
+
+        Returns
+        -------
+        data: dict
+            Dictionary with the requested data, as get_data returns it.
+
+        '''
+
+        data = self.case.data
+        # Cache the numpy views, rebuilt if load_data_and_jsons binds a new frame
+        if getattr(self, '_np_data', None) is not data:
+            self._np_data = data
+            self._np_index = data.index.values
+            self._np_columns = {col: data[col].values for col in data.columns}
+        times = self._np_index
+
+        result = {data.index.name or 'index': (index_norm + year_start).tolist()}
+        # The zeroth order hold picks the same row for every held column
+        hold_rows = None
+        for col in cols:
+            values = self._np_columns[col]
+            if col in self.categories['weather']:
+                result[col] = np.interp(index_norm, times, values).tolist()
+            else:
+                if hold_rows is None:
+                    hold_rows = np.searchsorted(times, index_norm, side='right') - 1
+                    np.clip(hold_rows, 0, times.size - 1, out=hold_rows)
+                result[col] = values[hold_rows].tolist()
+
+        return result
+
     def interpolate_data(self,df,index):
         '''Interpolate testcase data.
 
@@ -562,22 +609,14 @@ class Data_Manager(object):
         y : np.array
             The interpolated values, same length as x.
         """
-    
-        def func(x0,k):
-            if x0 <= xp[0]:
-                return yp[0], k
-            if x0 >= xp[-1]:
-                return yp[-1], k
-           
-            while x0 >= xp[k]:
-                k += 1
-            return yp[k-1], k
-        k = 0
-        y = list()
-        for x0 in x:           
-            y0,k = func(x0,k)
-            y.append(y0)
-        return np.array(y)
+
+        xp = np.asarray(xp)
+        yp = np.asarray(yp)
+        # Hold the last data point at or before x0, clipping at both ends
+        k = np.searchsorted(xp, np.asarray(x), side='right') - 1
+        np.clip(k, 0, yp.size - 1, out=k)
+
+        return yp[k]
 
 
 if __name__ == "__main__":

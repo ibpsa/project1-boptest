@@ -22,6 +22,32 @@ from data.find_days import find_days
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
+def interp0_forward_walk(x, xp, yp):
+    '''Reference implementation of the zeroth order hold, as a forward walk.
+
+    This is the implementation ``Data_Manager.interp0`` used before it was
+    written with a binary search, kept here so that the two can be compared
+    directly. It carries the search index across the elements of ``x``, so it
+    is only valid for an increasing ``x``, which is how it is called.
+
+    '''
+
+    def func(x0,k):
+        if x0 <= xp[0]:
+            return yp[0], k
+        if x0 >= xp[-1]:
+            return yp[-1], k
+
+        while x0 >= xp[k]:
+            k += 1
+        return yp[k-1], k
+    k = 0
+    y = list()
+    for x0 in x:
+        y0,k = func(x0,k)
+        y.append(y0)
+    return np.array(y)
+
 class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
     '''Tests the data generator class
 
@@ -306,6 +332,50 @@ class PartialDataManagerTest(object):
         # Check the data retrieved with the manager
         df_man = pd.DataFrame(data_dict).set_index('time')
         self.compare_ref_timeseries_df(df_man, self.ref_data_over_year)
+
+    def test_get_data_variables(self):
+        '''Check that requesting a subset of the variables returns exactly the
+        values that a request for all of them returns.
+
+        '''
+
+        index = np.arange(0, 7*24*3600, 321)
+        data_all = self.man.get_data(index=index)
+        variables = [key for key in data_all if key != 'time'][:3]
+        data_sub = self.man.get_data(index=index, variables=variables)
+
+        # Only the requested variables, plus time, come back
+        self.assertEqual(sorted(data_sub.keys()), sorted(variables + ['time']))
+        for key in data_sub:
+            np.testing.assert_array_equal(np.array(data_sub[key]),
+                                          np.array(data_all[key]),
+                                          err_msg='Variable {0} differs when '
+                                                  'requested on its own.'.format(key))
+
+    def test_interp0_matches_forward_walk(self):
+        '''Check that the zeroth order hold interpolation agrees exactly with
+        the forward-walk implementation it replaced, including at and beyond
+        both ends of the data.
+
+        '''
+
+        xp = self.case.data.index.values
+        # A column that is held rather than interpolated
+        col = [key for key in self.case.data.columns
+               if key not in self.man.categories['weather']][0]
+        yp = self.case.data[col].values
+
+        # Points on the grid, off the grid, and outside it on both sides
+        probes = [np.arange(0, 7*24*3600, 321),
+                  xp[:100],
+                  xp[:100] + 0.5*(xp[1]-xp[0]),
+                  np.array([xp[0]-1e6, xp[0], xp[0]+1,
+                            xp[-1]-1, xp[-1], xp[-1]+1e6])]
+        for x in probes:
+            np.testing.assert_array_equal(
+                self.man.interp0(x, xp, yp),
+                interp0_forward_walk(x, xp, yp),
+                err_msg='interp0 differs from the forward walk for {0}.'.format(col))
 
 class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
                       PartialDataManagerTest):
