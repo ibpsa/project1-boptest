@@ -244,7 +244,8 @@ class Job:
         return {"status": response["status"], "message": response["message"], "payload": payload}
 
     def get_kpis(self, params):
-        return self.package_response(self.tc.get_kpis())
+        names = (params or {}).get("names")
+        return self.package_response(self.tc.get_kpis(names))
 
     def get_scenario(self, params):
         return self.package_response(self.tc.get_scenario())

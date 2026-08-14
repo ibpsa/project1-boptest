@@ -394,7 +394,15 @@ boptestRoutes.get('/kpi/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_kpis', {})
+      // Optional `names` selects a subset of the core KPIs, given either as a
+      // repeated query parameter or as a single comma separated one. Omitting
+      // it returns all of them, as before.
+      const params = {}
+      if (typeof req.query.names !== 'undefined') {
+        const names = Array.isArray(req.query.names) ? req.query.names : [req.query.names]
+        params.names = names.flatMap((n) => String(n).split(',')).map((n) => n.trim()).filter((n) => n.length)
+      }
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_kpis', params)
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
