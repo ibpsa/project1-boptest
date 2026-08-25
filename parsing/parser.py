@@ -28,6 +28,7 @@ import time
 import zipfile
 import xml.etree.ElementTree as ET
 import platform
+import re
 
 if 'MODELICAPATH' in os.environ:
     modelicapath=os.environ['MODELICAPATH']
@@ -452,11 +453,42 @@ def write_wrapper(model_path, file_name, instances, tool='openmodelica', algorit
             # Add original model
             f.write('\t// Original model\n')
             f.write('\t{0} mod(\n'.format(model_path))
-            # Connect inputs to original model overwrite and activate signals
+            # Connect inputs to original model overwrite and activate signals.
             if len_write_blocks:
-                for i,block in enumerate(instances['Overwrite']):
-                    f.write('\t\t{0}(uExt(y={1}),activate(y={2}))'.format(block, input_signals_wo_info[block], input_activate_wo_info[block]))
-                    if i == len(instances['Overwrite'])-1:
+                # Group Overwrite instances by their path with indices stripped out
+                overwrite_groups = {}
+                for block in instances['Overwrite'].keys():
+                    segs = []
+                    for token in block.split('.'):
+                        match = re.match(r'^(\w+)(?:\[([\d,\s]+)\])?$', token)
+                        idx_str = match.group(2)
+                        indices = tuple(int(i) for i in idx_str.split(',')) if idx_str else tuple()
+                        segs.append((match.group(1), indices))
+                    template = '.'.join(name for name, _ in segs)
+                    overwrite_groups.setdefault(template, []).append((block, segs))
+                group_items = list(overwrite_groups.items())
+                for gi, (template, members) in enumerate(group_items):
+                    names = [name for name, _ in members[0][1]]
+                    # Combined array shape: every dimension found along the path, in order
+                    shape = []
+                    for s in range(len(members[0][1])):
+                        for d in range(len(members[0][1][s][1])):
+                            shape.append(max(segs[s][1][d] for _, segs in members))
+                    # Map each member's flat position (0-based) within that shape to its variable names
+                    signal_values = {}
+                    activate_values = {}
+                    for block, segs in members:
+                        position = tuple(idx-1 for _, indices in segs for idx in indices)
+                        signal_values[position] = input_signals_wo_info[block]
+                        activate_values[position] = input_activate_wo_info[block]
+                    modifier = 'uExt(y={0}),activate(y={1})'.format(
+                        _nested_array_literal(shape, tuple(), signal_values),
+                        _nested_array_literal(shape, tuple(), activate_values))
+                    # Nest the modifier inward through each path segment, innermost first
+                    for name in reversed(names):
+                        modifier = '{0}({1})'.format(name, modifier)
+                    f.write('\t\t{0}'.format(modifier))
+                    if gi == len(group_items)-1:
                         f.write(') "Original model with overwrites";\n')
                     else:
                         f.write(',\n')
@@ -557,6 +589,30 @@ def export_fmu(model_path, file_name, tool='openmodelica', algorithm='cvode', to
 
     return fmu_path, kpi_path
 
+def _nested_array_literal(shape, position, values):
+    '''Recursively build a Modelica nested array literal from a flat position-to-value map.
+
+    Parameters
+    ----------
+    shape : list of int
+        Size of each remaining array dimension, outermost first.
+    position : tuple of int
+        Indices already fixed for outer dimensions.
+    values : dict
+        Maps a full 0-based position tuple to a variable name string.
+
+    Returns
+    -------
+    literal : str
+        Modelica expression, e.g. "x" or "{a,b}" or "{{a,b},{c,d}}".
+
+    '''
+
+    if not shape:
+        return values[position]
+
+    return '{' + ','.join(_nested_array_literal(shape[1:], position+(i,), values) for i in range(shape[0])) + '}'
+
 def _make_var_name(block, style, description='', attribute=''):
     '''Make a variable name from block instance name.
 
@@ -582,6 +638,8 @@ def _make_var_name(block, style, description='', attribute=''):
 
     # General modification
     name = block.replace('.', '_')
+    # Replace array index brackets, e.g. "block[1,2]" -> "block_1_2"
+    name = re.sub(r'\[([\d,\s]+)\]', lambda m: '_' + re.sub(r'[,\s]+', '_', m.group(1)), name)
     # Handle empty descriptions
     if description == '':
         description = ''

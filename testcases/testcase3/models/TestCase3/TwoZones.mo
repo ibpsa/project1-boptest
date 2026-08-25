@@ -1,10 +1,11 @@
-within ;
+within TestCase3;
 model TwoZones
 
   final parameter String zonNorName="North" "Parameter used to designate north zone";
   final parameter String zonSouName="South" "Parameter used to designate south zone";
 
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor capSou(C=1e6)
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor capSou(C=1e6, T(start=
+          291.15))
     "Thermal capacitance of south zone"
     annotation (Placement(transformation(extent={{30,0},{50,20}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalResistor resSou(R=0.01)
@@ -74,7 +75,7 @@ model TwoZones
   Modelica.Blocks.Sources.Sine conCO2Sou(
     amplitude=250,
     f=1/(3600*24),
-    offset=750) "Concetration of CO2 in south zone"
+    offset=700) "Concetration of CO2 in south zone"
     annotation (Placement(transformation(extent={{120,-40},{140,-20}})));
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor capNor(C=1e6)
     "Thermal capacitance of north zone"
@@ -131,7 +132,7 @@ model TwoZones
     y(unit="ppm"),
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration of north zone",
-    zone=zonNorName)   "Read the room air CO2 concentration in north zone"
+    zone=zonNorName) "Read the room air CO2 concentration in north zone"
     annotation (Placement(transformation(extent={{160,80},{180,100}})));
 
   Modelica.Blocks.Sources.Sine conCO2Nor(
@@ -139,6 +140,32 @@ model TwoZones
     f=1/(3600*24),
     offset=750) "Concetration of CO2 in north zone"
     annotation (Placement(transformation(extent={{120,80},{140,100}})));
+  Buildings.Utilities.IO.SignalExchange.Read CO2RooAirVec[2](
+    y(each unit="ppm"),
+    each KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    description={"Zone air CO2 concentration of north zone",
+        "Zone air CO2 concentration of south zone"},
+    zone={zonNorName,zonSouName})
+    "Read the room air CO2 concentration in zones"
+    annotation (Placement(transformation(extent={{160,40},{180,60}})));
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveActVec[2](u(
+      each unit="W",
+      each min=-10000,
+      each max=10000), description={"Heater thermal power of north zone",
+        "Heater thermal power of south zone"})
+    "Overwrite the heating power of zones"
+    annotation (Placement(transformation(extent={{-40,58},{-20,78}})));
+  CtrReaBlo ctrReaBlo[2](
+    descriptionCtr={{"Heater thermal power of north zone",
+        "Heater thermal power of south zone"},{
+        "Heater thermal power of north zone",
+        "Heater thermal power of south zone"}},
+    descriptionCO2={{"Zone air CO2 concentration of north zone",
+        "Zone air CO2 concentration of south zone"},{
+        "Zone air CO2 concentration of north zone",
+        "Zone air CO2 concentration of south zone"}},
+    zone={{zonNorName,zonSouName},{zonNorName,zonSouName}})
+    annotation (Placement(transformation(extent={{160,0},{180,20}})));
 equation
   connect(resSou.port_b, capSou.port)
     annotation (Line(points={{20,0},{40,0}}, color={191,0,0}));
@@ -195,7 +222,40 @@ equation
     annotation (Line(points={{59,130},{-60,130},{-60,112}}, color={0,0,127}));
   connect(preHeaNor.port, capNor.port)
     annotation (Line(points={{20,100},{40,100},{40,60}}, color={191,0,0}));
-  annotation (uses(Modelica(version="4.0.0"), Buildings(version="12.1.0")),
+  connect(conCO2Nor.y, CO2RooAirVec[1].u) annotation (Line(points={{141,90},{
+          150,90},{150,50},{158,50}}, color={0,0,127}));
+  connect(conCO2Sou.y, CO2RooAirVec[2].u) annotation (Line(points={{141,-30},{
+          150,-30},{150,50},{158,50}}, color={0,0,127}));
+  connect(conNor.y, oveActVec[1].u) annotation (Line(points={{-49,100},{-50,100},
+          {-50,68},{-42,68}}, color={0,0,127}));
+  connect(conSou.y, oveActVec[2].u) annotation (Line(points={{-49,-30},{-50,-30},
+          {-50,68},{-42,68}}, color={0,0,127}));
+  connect(conNor.y, ctrReaBlo[1].uCtr[1]) annotation (Line(points={{-49,100},{
+          -50,100},{-50,84},{114,84},{114,13.5},{158,13.5}},
+                                                     color={0,0,127}));
+  connect(conSou.y, ctrReaBlo[1].uCtr[2]) annotation (Line(points={{-49,-30},{
+          -50,-30},{-50,68},{-52,68},{-52,84},{114,84},{114,14.5},{158,14.5}},
+                                                                       color={0,
+          0,127}));
+  connect(conCO2Nor.y, ctrReaBlo[1].uCO2[1]) annotation (Line(points={{141,90},
+          {150,90},{150,50},{148,50},{148,5.5},{158,5.5}},
+                                                      color={0,0,127}));
+  connect(conCO2Sou.y, ctrReaBlo[1].uCO2[2]) annotation (Line(points={{141,-30},
+          {150,-30},{150,6.5},{158,6.5}},
+                                     color={0,0,127}));
+  connect(conCO2Nor.y, ctrReaBlo[2].uCO2[1]) annotation (Line(points={{141,90},
+          {150,90},{150,5.5},{158,5.5}},
+                                    color={0,0,127}));
+  connect(conCO2Sou.y, ctrReaBlo[2].uCO2[2]) annotation (Line(points={{141,-30},
+          {150,-30},{150,6.5},{158,6.5}},
+                                      color={0,0,127}));
+  connect(conNor.y, ctrReaBlo[2].uCtr[1]) annotation (Line(points={{-49,100},{
+          -50,100},{-50,84},{114,84},{114,13.5},{158,13.5}},
+                                                     color={0,0,127}));
+  connect(conSou.y, ctrReaBlo[2].uCtr[2]) annotation (Line(points={{-49,-30},{
+          -48,-30},{-48,12},{158,12},{158,14.5}},
+                                            color={0,0,127}));
+  annotation (
       experiment(
       StopTime=60,
       Interval=1,

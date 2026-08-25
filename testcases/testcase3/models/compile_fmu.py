@@ -15,8 +15,8 @@ from parsing import parser
 import argparse
 
 # Define model
-mopath = 'TwoZones.mo'
-modelpath = 'TwoZones'
+mopath = 'TestCase3/package.mo'
+modelpath = 'TestCase3.TwoZones'
 
 # Add CLI arguments
 cliargs = argparse.ArgumentParser(
