@@ -71,22 +71,183 @@ The setpoint for the P-controllers for both zones are not identical. For the nor
 <h4>Inputs</h4>
 The model inputs are:
 <ul>
-<li><code>oveActNor_activate</code> [None]: Activation for Heater / Cooler thermal power of north zone</li>
-<li><code>oveActNor_u</code> [W]: Heater / Cooler thermal power of north zone (Maximum: 10000.0, Minimum: -10000.0)</li>
-<li><code>oveActSou_activate</code> [None]: Activation for Heater / Cooler thermal power of south zone</li>
-<li><code>oveActSou_u</code> [W]: Heater / Cooler thermal power of south zone (Maximum: 10000.0, Minimum: -10000.0)</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_1_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_1_oveActGenDes_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_1_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_1_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_1_oveAct_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_1_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_2_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_2_oveActGenDes_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_2_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_2_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_2_oveAct_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_2_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of south zone
+</li>
+<li>
+<code>ctrReaBlo_1_oveAct_1_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_oveAct_1_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_oveAct_1_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>ctrReaBlo_1_oveAct_2_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_oveAct_2_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_oveAct_2_u</code> [W] [min=-5000, max=5000]: Heater thermal power of south zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_1_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_1_oveActGenDes_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_1_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_1_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_1_oveAct_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_1_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_2_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_2_oveActGenDes_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_2_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_2_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_2_oveAct_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_2_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of south zone
+</li>
+<li>
+<code>ctrReaBlo_2_oveAct_1_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_oveAct_1_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_oveAct_1_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>ctrReaBlo_2_oveAct_2_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_oveAct_2_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_oveAct_2_u</code> [W] [min=-5000, max=5000]: Heater thermal power of south zone
+</li>
+<li>
+<code>oveActNor_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActNor_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveActNor_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>oveActSou_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActSou_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveActSou_u</code> [W] [min=-10000, max=10000]: Heater thermal power of south zone
+</li>
+<li>
+<code>oveActVec_1_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActVec_1_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveActVec_1_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>oveActVec_2_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActVec_2_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveActVec_2_u</code> [W] [min=-15000, max=15000]: Heater thermal power of south zone
+</li>
 </ul>
-
 <h4>Outputs</h4>
 The model outputs are:
 <ul>
-  <li><code>CO2RooAirNor_y</code> [ppm]: Zone air CO2 concentration of north zone</li>
-  <li><code>CO2RooAirSou_y</code> [ppm]: Zone air CO2 concentration of south zone</li>
-  <li><code>PHeaCooNor_y</code> [W]: Heater / Cooler power of north zone</li>
-  <li><code>PHeaCooSou_y</code> [W]: Heater / Cooler power of south zone</li>
-  <li><code>TRooAirNor_y</code> [K]: Zone air temperature of north zone</li>
-  <li><code>TRooAirSou_y</code> [K]: Operative zone temperature of south zone</li>
+<li>
+<code>CO2RooAirNor_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>CO2RooAirSou_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
+<li>
+<code>CO2RooAirVec_1_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>CO2RooAirVec_2_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
+<li>
+<code>PHeaCooNor_y</code> [W] [min=None, max=None]: Heater / Cooler power of north zone
+</li>
+<li>
+<code>PHeaCooSou_y</code> [W] [min=None, max=None]: Heater / Cooler power of south zone
+</li>
+<li>
+<code>TRooAirNor_y</code> [K] [min=None, max=None]: Zone air temperature of north zone
+</li>
+<li>
+<code>TRooAirSou_y</code> [K] [min=None, max=None]: Operative zone temperature of south zone
+</li>
+<li>
+<code>ctrReaBlo_1_CO2RooAir_1_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>ctrReaBlo_1_CO2RooAir_2_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_1_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_2_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
+<li>
+<code>ctrReaBlo_2_CO2RooAir_1_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>ctrReaBlo_2_CO2RooAir_2_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_1_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_2_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
 </ul>
+<h4>Parser Array Testing</h4>
+<p>
+The heater overwrite and CO2 concentration read signals for both zones are
+implemented using arrays of signal exchange blocks,
+<code>oveActVec[2]</code> and <code>CO2RooAirVec[2]</code>, which are the
+blocks actually used to control the heating power of each zone and to
+report each zone's CO2 concentration. The scalar signal exchange blocks
+<code>oveActNor</code>/<code>oveActSou</code> and
+<code>CO2RooAirNor</code>/<code>CO2RooAirSou</code> read and write the
+same underlying signals in parallel and are included only for comparison,
+so that the array-based and scalar-based signal exchange block instances
+can be checked against each other.
+</p>
+<p>
+In addition, the model includes an array of the <code>CtrReaBlo</code>
+submodel, <code>ctrReaBlo[2]</code>, which is not connected to the
+physical zone model and serves only to test the BOPTEST parser's ability
+to flatten signal exchange block instance paths with multiple,
+independent array dimensions spanning several levels of model nesting.
+<code>CtrReaBlo</code> itself contains both a top-level array of signal
+exchange blocks (<code>oveAct[2]</code>, <code>CO2RooAir[2]</code>) and a
+nested array of a further submodel, <code>ctrReaBloNested[2]</code>,
+containing its own signal exchange blocks, producing instance paths such
+as <code>ctrReaBlo[i].oveAct[j]</code> and
+<code>ctrReaBlo[i].ctrReaBloNested[j].oveAct</code>. See
+<code>CtrReaBlo</code> and <code>CtrReaBloNested</code> for further
+details on this test structure.
+</p>
 
 <h4>Forecasts</h4>
 The model forecasts are:

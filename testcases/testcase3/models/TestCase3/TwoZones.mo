@@ -67,9 +67,9 @@ model TwoZones
   Buildings.Utilities.IO.SignalExchange.Read
                                          CO2RooAirSou(
     y(unit="ppm"),
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration of south zone",
-    zone=zonSouName)   "Read the room air CO2 concentration in south zone"
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+                       "Read the room air CO2 concentration in south zone"
     annotation (Placement(transformation(extent={{160,-40},{180,-20}})));
 
   Modelica.Blocks.Sources.Sine conCO2Sou(
@@ -130,9 +130,9 @@ model TwoZones
   Buildings.Utilities.IO.SignalExchange.Read
                                          CO2RooAirNor(
     y(unit="ppm"),
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration of north zone",
-    zone=zonNorName) "Read the room air CO2 concentration in north zone"
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+                     "Read the room air CO2 concentration in north zone"
     annotation (Placement(transformation(extent={{160,80},{180,100}})));
 
   Modelica.Blocks.Sources.Sine conCO2Nor(
@@ -150,21 +150,16 @@ model TwoZones
     annotation (Placement(transformation(extent={{160,40},{180,60}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveActVec[2](u(
       each unit="W",
-      each min=-10000,
-      each max=10000), description={"Heater thermal power of north zone",
+      min={-10000,-15000},
+      max={10000,15000}), description={"Heater thermal power of north zone",
         "Heater thermal power of south zone"})
     "Overwrite the heating power of zones"
-    annotation (Placement(transformation(extent={{-40,58},{-20,78}})));
+    annotation (Placement(transformation(extent={{-40,50},{-20,70}})));
   CtrReaBlo ctrReaBlo[2](
-    descriptionCtr={{"Heater thermal power of north zone",
-        "Heater thermal power of south zone"},{
-        "Heater thermal power of north zone",
-        "Heater thermal power of south zone"}},
-    descriptionCO2={{"Zone air CO2 concentration of north zone",
-        "Zone air CO2 concentration of south zone"},{
-        "Zone air CO2 concentration of north zone",
-        "Zone air CO2 concentration of south zone"}},
-    zone={{zonNorName,zonSouName},{zonNorName,zonSouName}})
+    descriptionCtr={{"Heater thermal power of north zone","Heater thermal power of south zone"},
+        {"Heater thermal power of north zone","Heater thermal power of south zone"}},
+    descriptionCO2={{"Zone air CO2 concentration of north zone","Zone air CO2 concentration of south zone"},
+        {"Zone air CO2 concentration of north zone","Zone air CO2 concentration of south zone"}})
     annotation (Placement(transformation(extent={{160,0},{180,20}})));
 equation
   connect(resSou.port_b, capSou.port)
@@ -178,12 +173,8 @@ equation
                                                color={0,0,127}));
   connect(conSou.y, oveActSou.u)
     annotation (Line(points={{-49,-30},{-42,-30}}, color={0,0,127}));
-  connect(oveActSou.y, preHeaSou.Q_flow)
-    annotation (Line(points={{-19,-30},{0,-30}}, color={0,0,127}));
   connect(preHeaSou.port, capSou.port)
     annotation (Line(points={{20,-30},{40,-30},{40,0}}, color={191,0,0}));
-  connect(oveActSou.y, effSou.u) annotation (Line(points={{-19,-30},{-10,-30},{-10,
-          -80},{-2,-80}}, color={0,0,127}));
   connect(setSou.y, conSou.u_s)
     annotation (Line(points={{-79,-30},{-72,-30}}, color={0,0,127}));
   connect(senTZonSou.T, TRooAirSou.u) annotation (Line(points={{81,0},{90,0},{90,
@@ -204,8 +195,6 @@ equation
           {-10,60},{0,60}}, color={191,0,0}));
   connect(conNor.y, oveActNor.u)
     annotation (Line(points={{-49,100},{-42,100}}, color={0,0,127}));
-  connect(oveActNor.y, preHeaNor.Q_flow)
-    annotation (Line(points={{-19,100},{0,100}}, color={0,0,127}));
   connect(setNor.y, conNor.u_s)
     annotation (Line(points={{-79,100},{-72,100}}, color={0,0,127}));
   connect(effNor.y, absNor.u)
@@ -216,8 +205,6 @@ equation
     annotation (Line(points={{141,90},{158,90}}, color={0,0,127}));
   connect(senTZonNor.T, TRooAirNor.u) annotation (Line(points={{81,60},{90,60},{
           90,130},{82,130}}, color={0,0,127}));
-  connect(effNor.u, preHeaNor.Q_flow) annotation (Line(points={{-2,160},{-10,160},
-          {-10,100},{0,100}}, color={0,0,127}));
   connect(TRooAirNor.y, conNor.u_m)
     annotation (Line(points={{59,130},{-60,130},{-60,112}}, color={0,0,127}));
   connect(preHeaNor.port, capNor.port)
@@ -226,35 +213,43 @@ equation
           150,90},{150,50},{158,50}}, color={0,0,127}));
   connect(conCO2Sou.y, CO2RooAirVec[2].u) annotation (Line(points={{141,-30},{
           150,-30},{150,50},{158,50}}, color={0,0,127}));
-  connect(conNor.y, oveActVec[1].u) annotation (Line(points={{-49,100},{-50,100},
-          {-50,68},{-42,68}}, color={0,0,127}));
-  connect(conSou.y, oveActVec[2].u) annotation (Line(points={{-49,-30},{-50,-30},
-          {-50,68},{-42,68}}, color={0,0,127}));
+  connect(conNor.y, oveActVec[1].u) annotation (Line(points={{-49,100},{-46,100},
+          {-46,60},{-42,60}}, color={0,0,127}));
+  connect(conSou.y, oveActVec[2].u) annotation (Line(points={{-49,-30},{-48,-30},
+          {-48,60},{-42,60}}, color={0,0,127}));
   connect(conNor.y, ctrReaBlo[1].uCtr[1]) annotation (Line(points={{-49,100},{
-          -50,100},{-50,84},{114,84},{114,13.5},{158,13.5}},
+          -46,100},{-46,118},{114,118},{114,13.5},{158,13.5}},
                                                      color={0,0,127}));
   connect(conSou.y, ctrReaBlo[1].uCtr[2]) annotation (Line(points={{-49,-30},{
-          -50,-30},{-50,68},{-52,68},{-52,84},{114,84},{114,14.5},{158,14.5}},
+          -48,-30},{-48,-44},{52,-44},{52,-20},{114,-20},{114,14.5},{158,14.5}},
                                                                        color={0,
           0,127}));
-  connect(conCO2Nor.y, ctrReaBlo[1].uCO2[1]) annotation (Line(points={{141,90},
-          {150,90},{150,50},{148,50},{148,5.5},{158,5.5}},
+  connect(conCO2Nor.y, ctrReaBlo[1].uCO2[1]) annotation (Line(points={{141,90},{
+          150,90},{150,50},{148,50},{148,5.5},{158,5.5}},
                                                       color={0,0,127}));
   connect(conCO2Sou.y, ctrReaBlo[1].uCO2[2]) annotation (Line(points={{141,-30},
           {150,-30},{150,6.5},{158,6.5}},
                                      color={0,0,127}));
-  connect(conCO2Nor.y, ctrReaBlo[2].uCO2[1]) annotation (Line(points={{141,90},
-          {150,90},{150,5.5},{158,5.5}},
+  connect(conCO2Nor.y, ctrReaBlo[2].uCO2[1]) annotation (Line(points={{141,90},{
+          150,90},{150,5.5},{158,5.5}},
                                     color={0,0,127}));
   connect(conCO2Sou.y, ctrReaBlo[2].uCO2[2]) annotation (Line(points={{141,-30},
           {150,-30},{150,6.5},{158,6.5}},
                                       color={0,0,127}));
   connect(conNor.y, ctrReaBlo[2].uCtr[1]) annotation (Line(points={{-49,100},{
-          -50,100},{-50,84},{114,84},{114,13.5},{158,13.5}},
+          -46,100},{-46,118},{114,118},{114,13.5},{158,13.5}},
                                                      color={0,0,127}));
   connect(conSou.y, ctrReaBlo[2].uCtr[2]) annotation (Line(points={{-49,-30},{
-          -48,-30},{-48,12},{158,12},{158,14.5}},
-                                            color={0,0,127}));
+          -48,-30},{-48,-44},{52,-44},{52,-20},{114,-20},{114,14},{158,14},{158,
+          14.5}},                           color={0,0,127}));
+  connect(oveActVec[1].y, preHeaNor.Q_flow) annotation (Line(points={{-19,60},{
+          -12,60},{-12,100},{0,100}}, color={0,0,127}));
+  connect(oveActVec[1].y, effNor.u) annotation (Line(points={{-19,60},{-12,60},
+          {-12,160},{-2,160}}, color={0,0,127}));
+  connect(oveActVec[2].y, preHeaSou.Q_flow) annotation (Line(points={{-19,60},{
+          -14,60},{-14,-32},{0,-32},{0,-30}}, color={0,0,127}));
+  connect(oveActVec[2].y, effSou.u) annotation (Line(points={{-19,60},{-18,60},
+          {-18,-80},{-2,-80}}, color={0,0,127}));
   annotation (
       experiment(
       StopTime=60,
@@ -335,23 +330,183 @@ The setpoint for the P-controllers for both zones are not identical. For the nor
 <h4>Inputs</h4>
 The model inputs are:
 <ul>
-<li><code>oveActNor_activate</code> [None]: Activation for Heater / Cooler thermal power of north zone</li>
-<li><code>oveActNor_u</code> [W]: Heater / Cooler thermal power of north zone (Maximum: 10000.0, Minimum: -10000.0)</li>
-<li><code>oveActSou_activate</code> [None]: Activation for Heater / Cooler thermal power of south zone</li>
-<li><code>oveActSou_u</code> [W]: Heater / Cooler thermal power of south zone (Maximum: 10000.0, Minimum: -10000.0)</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_1_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_1_oveActGenDes_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_1_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_1_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_1_oveAct_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_1_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_2_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_2_oveActGenDes_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_2_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_2_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_2_oveAct_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_2_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of south zone
+</li>
+<li>
+<code>ctrReaBlo_1_oveAct_1_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_oveAct_1_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_oveAct_1_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>ctrReaBlo_1_oveAct_2_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_oveAct_2_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_1_oveAct_2_u</code> [W] [min=-5000, max=5000]: Heater thermal power of south zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_1_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_1_oveActGenDes_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_1_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_1_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_1_oveAct_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_1_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_2_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_2_oveActGenDes_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_2_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_2_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_2_oveAct_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_2_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of south zone
+</li>
+<li>
+<code>ctrReaBlo_2_oveAct_1_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_oveAct_1_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_oveAct_1_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>ctrReaBlo_2_oveAct_2_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_oveAct_2_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>ctrReaBlo_2_oveAct_2_u</code> [W] [min=-5000, max=5000]: Heater thermal power of south zone
+</li>
+<li>
+<code>oveActNor_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActNor_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveActNor_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>oveActSou_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActSou_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveActSou_u</code> [W] [min=-10000, max=10000]: Heater thermal power of south zone
+</li>
+<li>
+<code>oveActVec_1_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActVec_1_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveActVec_1_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
+</li>
+<li>
+<code>oveActVec_2_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActVec_2_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveActVec_2_u</code> [W] [min=-15000, max=15000]: Heater thermal power of south zone
+</li>
 </ul>
-
 <h4>Outputs</h4>
 The model outputs are:
 <ul>
-  <li><code>CO2RooAirNor_y</code> [ppm]: Zone air CO2 concentration of north zone</li>
-  <li><code>CO2RooAirSou_y</code> [ppm]: Zone air CO2 concentration of south zone</li>
-  <li><code>PHeaCooNor_y</code> [W]: Heater / Cooler power of north zone</li>
-  <li><code>PHeaCooSou_y</code> [W]: Heater / Cooler power of south zone</li>
-  <li><code>TRooAirNor_y</code> [K]: Zone air temperature of north zone</li>
-  <li><code>TRooAirSou_y</code> [K]: Operative zone temperature of south zone</li>
+<li>
+<code>CO2RooAirNor_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>CO2RooAirSou_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
+<li>
+<code>CO2RooAirVec_1_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>CO2RooAirVec_2_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
+<li>
+<code>PHeaCooNor_y</code> [W] [min=None, max=None]: Heater / Cooler power of north zone
+</li>
+<li>
+<code>PHeaCooSou_y</code> [W] [min=None, max=None]: Heater / Cooler power of south zone
+</li>
+<li>
+<code>TRooAirNor_y</code> [K] [min=None, max=None]: Zone air temperature of north zone
+</li>
+<li>
+<code>TRooAirSou_y</code> [K] [min=None, max=None]: Operative zone temperature of south zone
+</li>
+<li>
+<code>ctrReaBlo_1_CO2RooAir_1_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>ctrReaBlo_1_CO2RooAir_2_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_1_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>ctrReaBlo_1_ctrReaBloNested_2_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
+<li>
+<code>ctrReaBlo_2_CO2RooAir_1_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>ctrReaBlo_2_CO2RooAir_2_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_1_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+</li>
+<li>
+<code>ctrReaBlo_2_ctrReaBloNested_2_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+</li>
 </ul>
-
+<h4>Parser Array Testing</h4>
+<p>
+The heater overwrite and CO2 concentration read signals for both zones are
+implemented using arrays of signal exchange blocks,
+<code>oveActVec[2]</code> and <code>CO2RooAirVec[2]</code>, which are the
+blocks actually used to control the heating power of each zone and to
+report each zone's CO2 concentration. The scalar signal exchange blocks
+<code>oveActNor</code>/<code>oveActSou</code> and
+<code>CO2RooAirNor</code>/<code>CO2RooAirSou</code> read and write the
+same underlying signals in parallel and are included only for comparison,
+so that the array-based and scalar-based signal exchange block instances
+can be checked against each other.
+</p>
+<p>
+In addition, the model includes an array of the <code>CtrReaBlo</code>
+submodel, <code>ctrReaBlo[2]</code>, which is not connected to the
+physical zone model and serves only to test the BOPTEST parser's ability
+to flatten signal exchange block instance paths with multiple,
+independent array dimensions spanning several levels of model nesting.
+<code>CtrReaBlo</code> itself contains both a top-level array of signal
+exchange blocks (<code>oveAct[2]</code>, <code>CO2RooAir[2]</code>) and a
+nested array of a further submodel, <code>ctrReaBloNested[2]</code>,
+containing its own signal exchange blocks, producing instance paths such
+as <code>ctrReaBlo[i].oveAct[j]</code> and
+<code>ctrReaBlo[i].ctrReaBloNested[j].oveAct</code>. See
+<code>CtrReaBlo</code> and <code>CtrReaBloNested</code> for further
+details on this test structure.
+</p>
 <h4>Forecasts</h4>
 The model forecasts are:
 <ul>
