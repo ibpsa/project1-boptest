@@ -1,8 +1,8 @@
 import Path from 'path';
 import { promises as fs } from "fs";
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import redis from '../redis';
-import s3 from '../s3';
+import { createUploadForm, deleteObject, listObjects } from '../s3';
 import { addJobToQueue } from './job';
 import messaging from './messaging';
 
@@ -64,50 +64,33 @@ function promiseTaskLater(task, time, ...args) {
   })
 }
 
-export function getTestcasePostForm(testcaseKey, s3url, share) {
-  return new Promise((resolve, reject) => {
-    // Construct a new postPolicy.
-    let params = {
-      Bucket: bucket,
-      Fields: {
-        key: testcaseKey
-      }
+export async function getTestcasePostForm(testcaseKey, s3url, share) {
+  // Construct a new postPolicy.
+  const params = {
+    Bucket: bucket,
+    Fields: {
+      key: testcaseKey
     }
+  }
 
-    if (share) {
-      // minio does not support object level ACL, therefore ExtraArgs will only apply to s3 configurations
-      params.Fields.acl = "public-read"
-    }
+  if (share) {
+    // minio does not support object level ACL, therefore ExtraArgs will only apply to s3 configurations
+    params.Fields.acl = "public-read"
+  }
 
-    s3.createPresignedPost(params, function(err, data) {
-      if (err) {
-        reject(err)
-      } else {
-        if (s3url) {
-          data.url = s3url
-        }
-        resolve(data)
-      }
-    })
-  })
+  const data = await createUploadForm(params)
+  if (s3url) {
+    data.url = s3url
+  }
+  return data
 }
 
-export function getTestcases(prefix) {
-  return new Promise((resolve, reject) => {
-    const params = {
-      Bucket: bucket,
-      Prefix: prefix
-    }
-
-    s3.listObjectsV2(params, function(err, data) {
-      if (err) {
-        reject(err)
-      } else {
-        const result = data.Contents.map(item => ({ testcaseid: Path.parse(item.Key).name }));
-        resolve(result)
-      }
-    })
+export async function getTestcases(prefix) {
+  const data = await listObjects({
+    Bucket: bucket,
+    Prefix: prefix
   })
+  return (data.Contents || []).map(item => ({ testcaseid: Path.parse(item.Key).name }));
 }
 
 export async function isTestcase(prefix, testcaseID) {
@@ -115,20 +98,10 @@ export async function isTestcase(prefix, testcaseID) {
   return (testcases.find(item => item.testcaseid == testcaseID)) != undefined
 }
 
-export function deleteTestcase(testcaseKey) {
-  return new Promise((resolve, reject) => {
-    const params = {
-      Bucket: bucket,
-      Key: testcaseKey
-    }
-
-    s3.deleteObject(params, function(err, data) {
-      if (err) {
-        reject(err)
-      } else {
-        resolve()
-      }
-    })
+export async function deleteTestcase(testcaseKey) {
+  await deleteObject({
+    Bucket: bucket,
+    Key: testcaseKey
   })
 }
 
@@ -154,7 +127,7 @@ async function removeTestFromDB(testid) {
 }
 
 export async function select(testcaseKey, userSub, asyc) {
-  const testid = uuidv4()
+  const testid = randomUUID()
   await addTestToDB(testid, userSub)
   await addJobToQueue("boptest_run_test", { testid, testcaseKey })
   if (!asyc) {
