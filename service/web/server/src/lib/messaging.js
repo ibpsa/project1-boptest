@@ -1,5 +1,5 @@
 import redis from '../redis'
-import { v4 as uuidv4 } from 'uuid'
+import { randomUUID } from 'crypto'
 import { pack, unpack } from 'msgpackr'
 
 class Messaging {
@@ -38,7 +38,7 @@ class Messaging {
       let responseTimeout
       const requestChannel = workerID + ':request'
       const responseChannel = workerID + ':response'
-      const requestID = uuidv4()
+      const requestID = randomUUID()
 
       this.messageHandlers[requestID] = async (parsedMessage) => {
         clearTimeout(responseTimeout)

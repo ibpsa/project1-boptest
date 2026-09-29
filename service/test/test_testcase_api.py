@@ -1,6 +1,7 @@
 import os
 import time
 import requests
+import pytest
 from requests_toolbelt import MultipartEncoder
 from collections import OrderedDict
 from pytest_check import check
@@ -70,6 +71,54 @@ def test_ibpsa_boptest_testcase():
     # Successful delete should return 200
     response = requests.delete(f"{host}/testcases/{testcase_id}", headers={"Authorization": auth_token})
     check.equal(response.status_code, 200)
+
+
+def test_results_api():
+    """Results retain their API shape for both Redis and S3 transport."""
+    auth = {"Authorization": os.environ["BOPTEST_TEST_PRIVILEGED_KEY"]}
+    testcase_id = "runtime_results"
+    testcase_path = "/boptest/testcases/testcase1/models/wrapped.fmu"
+    testid = None
+    try:
+        response = requests.get(
+            f"{host}/testcases/{testcase_id}/post-form", headers=auth,
+            timeout=30,
+        )
+        assert response.status_code == 200, response.text
+        response = upload_testcase(response, testcase_path)
+        assert response.status_code == 204, response.text
+        response = requests.post(
+            f"{host}/testcases/{testcase_id}/select", timeout=120,
+        )
+        assert response.status_code == 200, response.text
+        testid = response.json()["testid"]
+        response = requests.put(
+            f"{host}/initialize/{testid}",
+            json={"start_time": 0, "warmup_period": 0}, timeout=120,
+        )
+        assert response.status_code == 200, response.text
+        response = requests.post(f"{host}/advance/{testid}", timeout=120)
+        assert response.status_code == 200, response.text
+        measurement = response.json()["payload"]
+
+        response = requests.put(
+            f"{host}/results/{testid}",
+            json={"point_names": ["TRooAir_y"], "start_time": 0,
+                  "final_time": measurement["time"]}, timeout=120,
+        )
+        assert response.status_code == 200, response.text
+        result = response.json()
+        assert result["status"] == 200
+        payload = result["payload"]
+        assert set(payload) == {"time", "TRooAir_y"}
+        assert len(payload["time"]) == len(payload["TRooAir_y"])
+        assert payload["time"][-1] == measurement["time"]
+        assert payload["TRooAir_y"][-1] == pytest.approx(measurement["TRooAir_y"])
+    finally:
+        if testid is not None:
+            requests.put(f"{host}/stop/{testid}", timeout=30)
+        requests.delete(f"{host}/testcases/{testcase_id}", headers=auth,
+                        timeout=30)
 
 
 def test_shared_namespace_testcase():
