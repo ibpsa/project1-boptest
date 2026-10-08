@@ -102,7 +102,7 @@ def control_test(testcase_name, control_module='', start_time=0, warmup_period=0
     # -------------------------------------------------------------------------
     # Set URL for testcase
     url = 'http://127.0.0.1:8000'
-    # Instantiate concrete controller (pid, pidTwoZones, sup, etc.)
+    # Instantiate concrete controller (pid, pidFourZones, sup, etc.)
     controller = Controller(control_module, use_forecast)
 
     # Wrap test case selection in try/except to correctly handle errors in the API

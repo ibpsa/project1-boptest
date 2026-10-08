@@ -16,7 +16,7 @@ import argparse
 
 # Define model
 mopath = 'TestCase3/package.mo'
-modelpath = 'TestCase3.TwoZones'
+modelpath = 'TestCase3.MultiZone'
 
 # Add CLI arguments
 cliargs = argparse.ArgumentParser(

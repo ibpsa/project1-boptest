@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 This module contains a generic controller class that is used to instantiate
-concrete controller, found in pid.py, pidTwoZones.py, and sup.py.
+concrete controller, found in pid.py, pidFourZones.py, and sup.py.
 
 """
 

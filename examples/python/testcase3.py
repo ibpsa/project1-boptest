@@ -3,7 +3,7 @@
 This script demonstrates a minimalistic example of testing a feedback controller
 with the prototype test case called "testcase3". It uses the testing
 interface implemented in interface.py and the concrete controller implemented
-in controllers/pidTwoZones.py.
+in controllers/pidFourZones.py.
 
 """
 
@@ -39,7 +39,7 @@ def run(plot=False):
 
     # CONFIGURATION FOR THE CONTROL TEST
     # ----------------------------------
-    control_module = 'examples.python.controllers.pidTwoZones'
+    control_module = 'examples.python.controllers.pidFourZones'
     start_time = 0
     warmup_period = 0
     length = 48*3600
@@ -59,31 +59,39 @@ def run(plot=False):
 
     # POST-PROCESS RESULTS
     # --------------------
-    setpoints = forecasts
     time = df_res.index.values/3600  # convert s --> hr
-    setpoints.index = setpoints.index/3600  # convert s --> hr
-    zone_temp_north = df_res['TRooAirNor_y'].values-273.15  # convert K --> C
-    power_heat_north = df_res['PHeaCooNor_y'].values
-    zone_temp_south = df_res['TRooAirSou_y'].values-273.15  # convert K --> C
-    power_heat_south = df_res['PHeaCooSou_y'].values
-    setpoints = setpoints - 273.15  # convert K --> C
+    zone_temps = {
+        i: df_res['TRooAirVec_{0}_y'.format(i)].values - 273.15
+        for i in range(1, 5)
+    }
+    power_heat = {
+        i: df_res['PheaCooVec_{0}_y'.format(i)].values
+        for i in range(1, 5)
+    }
+
     # Plot results if needed
     if plot:
         try:
             from matplotlib import pyplot as plt
+
             plt.figure(1)
             plt.title('Zone Temperatures')
-            plt.plot(time, zone_temp_north, label='TZoneNor')
-            plt.plot(time, zone_temp_south, label='TZoneSou')
-            for stp in setpoints.columns:
-                plt.plot(setpoints[stp], '--', label=stp)
+            for i in range(1, 5):
+                plt.plot(time, zone_temps[i], label='Zone {0}'.format(i))
+            if forecasts is not None:
+                setpoints = forecasts.copy()
+                setpoints.index = setpoints.index/3600  # convert s --> hr
+                setpoints = setpoints - 273.15  # convert K --> C
+                for stp in setpoints.columns:
+                    plt.plot(setpoints.index, setpoints[stp], '--', label=stp)
             plt.ylabel('Temperature [C]')
             plt.xlabel('Time [hr]')
             plt.legend()
+
             plt.figure(2)
             plt.title('Heater / Cooler Powers')
-            plt.plot(time, power_heat_north, label='PHeatCoolNor')
-            plt.plot(time, power_heat_south, label='PHeatCoolSou')
+            for i in range(1, 5):
+                plt.plot(time, power_heat[i], label='Zone {0}'.format(i))
             plt.ylabel('Electrical Power [W]')
             plt.xlabel('Time [hr]')
             plt.legend()

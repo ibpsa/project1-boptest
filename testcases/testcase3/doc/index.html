@@ -72,152 +72,195 @@ The setpoint for the P-controllers for both zones are not identical. For the nor
 The model inputs are:
 <ul>
 <li>
-<code>ctrReaBlo_1_ctrReaBloNested_1_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_1_oveActGenDes_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>ctrReaBlo_1_ctrReaBloNested_1_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
-</li>
-<li>
 <code>ctrReaBlo_1_ctrReaBloNested_1_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_1_oveAct_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>ctrReaBlo_1_ctrReaBloNested_1_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
-</li>
-<li>
-<code>ctrReaBlo_1_ctrReaBloNested_2_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_2_oveActGenDes_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>ctrReaBlo_1_ctrReaBloNested_2_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+<code>ctrReaBlo_1_ctrReaBloNested_1_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of zone
 </li>
 <li>
 <code>ctrReaBlo_1_ctrReaBloNested_2_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_ctrReaBloNested_2_oveAct_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>ctrReaBlo_1_ctrReaBloNested_2_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of south zone
-</li>
-<li>
-<code>ctrReaBlo_1_oveAct_1_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_oveAct_1_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>ctrReaBlo_1_oveAct_1_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
-</li>
-<li>
-<code>ctrReaBlo_1_oveAct_2_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_1_oveAct_2_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>ctrReaBlo_1_oveAct_2_u</code> [W] [min=-5000, max=5000]: Heater thermal power of south zone
-</li>
-<li>
-<code>ctrReaBlo_2_ctrReaBloNested_1_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_1_oveActGenDes_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>ctrReaBlo_2_ctrReaBloNested_1_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+<code>ctrReaBlo_1_ctrReaBloNested_2_oveAct_u</code> [W] [min=-11000, max=11000]: Heater thermal power of zone
 </li>
 <li>
 <code>ctrReaBlo_2_ctrReaBloNested_1_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_1_oveAct_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>ctrReaBlo_2_ctrReaBloNested_1_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
-</li>
-<li>
-<code>ctrReaBlo_2_ctrReaBloNested_2_oveActGenDes_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_2_oveActGenDes_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>ctrReaBlo_2_ctrReaBloNested_2_oveActGenDes_u</code> [W] [min=-10000, max=10000]: Overwrite the heating power of zone
+<code>ctrReaBlo_2_ctrReaBloNested_1_oveAct_u</code> [W] [min=-12000, max=12000]: Heater thermal power of zone
 </li>
 <li>
 <code>ctrReaBlo_2_ctrReaBloNested_2_oveAct_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_ctrReaBloNested_2_oveAct_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>ctrReaBlo_2_ctrReaBloNested_2_oveAct_u</code> [W] [min=-10000, max=10000]: Heater thermal power of south zone
-</li>
-<li>
-<code>ctrReaBlo_2_oveAct_1_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_oveAct_1_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>ctrReaBlo_2_oveAct_1_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
-</li>
-<li>
-<code>ctrReaBlo_2_oveAct_2_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ctrReaBlo_2_oveAct_2_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>ctrReaBlo_2_oveAct_2_u</code> [W] [min=-5000, max=5000]: Heater thermal power of south zone
-</li>
-<li>
-<code>oveActNor_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActNor_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>oveActNor_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
-</li>
-<li>
-<code>oveActSou_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActSou_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>oveActSou_u</code> [W] [min=-10000, max=10000]: Heater thermal power of south zone
-</li>
-<li>
-<code>oveActVec_1_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActVec_1_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>oveActVec_1_u</code> [W] [min=-10000, max=10000]: Heater thermal power of north zone
-</li>
-<li>
-<code>oveActVec_2_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveActVec_2_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
-<code>oveActVec_2_u</code> [W] [min=-15000, max=15000]: Heater thermal power of south zone
+<code>ctrReaBlo_2_ctrReaBloNested_2_oveAct_u</code> [W] [min=-13000, max=13000]: Heater thermal power of zone
 </li>
 </ul>
 <h4>Outputs</h4>
 The model outputs are:
 <ul>
 <li>
-<code>CO2RooAirNor_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+<code>PheaCooVec_1_y</code> [W] [min=None, max=None]: Zone air CO2 concentration of zone zon1
 </li>
 <li>
-<code>CO2RooAirSou_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+<code>PheaCooVec_2_y</code> [W] [min=None, max=None]: Zone air CO2 concentration of zone zon2
 </li>
 <li>
-<code>CO2RooAirVec_1_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+<code>PheaCooVec_3_y</code> [W] [min=None, max=None]: Zone air CO2 concentration of zone zon3
 </li>
 <li>
-<code>CO2RooAirVec_2_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+<code>PheaCooVec_4_y</code> [W] [min=None, max=None]: Zone air CO2 concentration of zone zon4
 </li>
 <li>
-<code>PHeaCooNor_y</code> [W] [min=None, max=None]: Heater / Cooler power of north zone
+<code>TRooAirVec_1_y</code> [K] [min=None, max=None]: Air temperature of zone zon1
 </li>
 <li>
-<code>PHeaCooSou_y</code> [W] [min=None, max=None]: Heater / Cooler power of south zone
+<code>TRooAirVec_2_y</code> [K] [min=None, max=None]: Air temperature of zone zon2
 </li>
 <li>
-<code>TRooAirNor_y</code> [K] [min=None, max=None]: Zone air temperature of north zone
+<code>TRooAirVec_3_y</code> [K] [min=None, max=None]: Air temperature of zone zon3
 </li>
 <li>
-<code>TRooAirSou_y</code> [K] [min=None, max=None]: Operative zone temperature of south zone
+<code>TRooAirVec_4_y</code> [K] [min=None, max=None]: Air temperature of zone zon4
 </li>
 <li>
-<code>ctrReaBlo_1_CO2RooAir_1_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+<code>Zon_1_CO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone zon1
 </li>
 <li>
-<code>ctrReaBlo_1_CO2RooAir_2_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+<code>Zon_2_CO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone zon2
 </li>
 <li>
-<code>ctrReaBlo_1_ctrReaBloNested_1_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+<code>Zon_3_CO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone zon3
 </li>
 <li>
-<code>ctrReaBlo_1_ctrReaBloNested_2_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+<code>Zon_4_CO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone zon4
+</li>
+</ul>
+<h4>Forecasts</h4>
+The model forecasts are:
+<ul>
+<li>
+<code>EmissionsBiomassPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from biomass
 </li>
 <li>
-<code>ctrReaBlo_2_CO2RooAir_1_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+<code>EmissionsDistrictHeatingPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal district heating
 </li>
 <li>
-<code>ctrReaBlo_2_CO2RooAir_2_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+<code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity
 </li>
 <li>
-<code>ctrReaBlo_2_ctrReaBloNested_1_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of north zone
+<code>EmissionsGasPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from gas
 </li>
 <li>
-<code>ctrReaBlo_2_ctrReaBloNested_2_CO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration of south zone
+<code>EmissionsSolarThermalPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from solar irradiation
+</li>
+<li>
+<code>InternalGainsCon[zon1]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[zon2]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[zon3]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[zon4]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[zon1]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[zon2]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[zon3]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[zon4]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[zon1]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[zon2]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[zon3]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[zon4]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>LowerSetp[zon1]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[zon2]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[zon3]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[zon4]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>Occupancy[zon1]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[zon2]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[zon3]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[zon4]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>PriceBiomassPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from biomass
+</li>
+<li>
+<code>PriceDistrictHeatingPower</code> [($/Euro)/kWh]: Price of 1 kWh thermal from district heating
+</li>
+<li>
+<code>PriceElectricPowerConstant</code> [($/Euro)/kWh]: Completely constant electricity price
+</li>
+<li>
+<code>PriceElectricPowerDynamic</code> [($/Euro)/kWh]: Electricity price for a day/night tariff
+</li>
+<li>
+<code>PriceElectricPowerHighlyDynamic</code> [($/Euro)/kWh]: Spot electricity price
+</li>
+<li>
+<code>PriceGasPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from gas
+</li>
+<li>
+<code>PriceSolarThermalPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from solar irradiation
+</li>
+<li>
+<code>TDryBul</code> [K]: Dry bulb temperature at ground level
+</li>
+<li>
+<code>UpperCO2[zon1]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[zon2]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[zon3]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[zon4]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperSetp[zon1]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[zon2]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[zon3]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[zon4]</code> [K]: Upper temperature set point for thermal comfort of zone
 </li>
 </ul>
 <h4>Parser Array Testing</h4>

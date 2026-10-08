@@ -21,9 +21,9 @@ concrete controller implemented in ``controllers/sup.py``.
 test case called "testcase3" with custom test start and length parameters, as
 well as forecast data.
 It uses the testing interface implemented in ``interface.py`` and the
-concrete controller implemented in ``controllers/pidTwoZones.py``.
+concrete controller implemented in ``controllers/pidFourZones.py``.
 - ``/controllers`` contains a generic controller class ``controller.py`` that
-instantiates concrete controller methods defined in ``pid.py``, ``pidTwoZones.py``, and
+instantiates concrete controller methods defined in ``pid.py``, ``pidFourZones.py``, and
 ``sup.py``.
 - ``/custom_kpi`` contains a code base for implementing customized KPI calculation
 using results from BOPTEST.
