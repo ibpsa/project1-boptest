@@ -322,7 +322,7 @@ class Job:
         tar.close()
 
         uploadkey = "tests/%s" % tarname
-        # minio does not support object level ACL, therefore ExtraArgs will only apply to s3 configurations
+        # SeaweedFS maps public-read ACLs to world-readable object permissions.
         self.s3_bucket.upload_file(tarname, uploadkey, ExtraArgs={'ACL': 'public-read'})
         usertag = self.user or 'unknown'
         tagging = {'TagSet': [{'Key': 'user', 'Value': usertag}, {'Key': 'testcase', 'Value': self.testcaseKey}]}

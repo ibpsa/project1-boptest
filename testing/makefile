@@ -24,7 +24,7 @@ remove_jm_image:
 	docker rmi ${IMG_NAME}
 
 remove_boptest_image:
-	docker rmi project1-boptest-provision project1-boptest-web project1-boptest-worker minio/minio minio/mc redis pafortin/goaws
+	docker rmi project1-boptest-provision project1-boptest-web project1-boptest-worker chrislusf/seaweedfs:4.48 redis pafortin/goaws
 
 run_jm:
 	$(COMMAND_RUN)

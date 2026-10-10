@@ -75,7 +75,7 @@ export function getTestcasePostForm(testcaseKey, s3url, share) {
     }
 
     if (share) {
-      // minio does not support object level ACL, therefore ExtraArgs will only apply to s3 configurations
+      // SeaweedFS maps public-read ACLs to world-readable object permissions.
       params.Fields.acl = "public-read"
     }
 

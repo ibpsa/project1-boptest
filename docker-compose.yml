@@ -47,36 +47,17 @@ services:
     depends_on:
       - redis
       - worker
-      - mc
+      - seaweedfs
   # Local implementation of s3
-  minio:
-    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
-    entrypoint:
-      - minio
-      - server
-      - /data
-      - --console-address
-      - ":9001"
+  seaweedfs:
+    image: chrislusf/seaweedfs:4.48
+    command: ["mini"]
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9000:8333"
     environment:
-      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
-      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
-  mc:
-    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
-    entrypoint: >
-      /bin/sh -c "
-      sleep 5;
-      /usr/bin/mc config host add myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
-      /usr/bin/mc mb myminio/boptest;
-      /usr/bin/mc anonymous set public myminio/boptest;
-      /usr/bin/mc anonymous set download myminio/boptest/testcases;
-      /usr/bin/mc anonymous set download myminio/boptest/tests;
-      /usr/bin/mc admin user svcacct add --access-key ${AWS_ACCESS_KEY_ID} --secret-key ${AWS_SECRET_ACCESS_KEY} myminio ${MINIO_ROOT_USER};
-      "
-    depends_on:
-      - minio
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      S3_BUCKET: ${BOPTEST_S3_BUCKET}
   worker:
     build:
       dockerfile: service/worker/Dockerfile
@@ -95,7 +76,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     depends_on:
       - redis
-      - mc
+      - seaweedfs
   redis:
     image: redis
   test:

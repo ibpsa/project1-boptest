@@ -1,11 +1,11 @@
 # Object Storage
 
-BOPTEST-Service depends on S3-compatible object storage for persisting uploaded test cases and the artifacts produced while a test is running. In production the deployment targets Amazon S3, while local development typically uses [MinIO](https://min.io). Object stores are flat, but BOPTEST encodes structure by introducing `/` delimiters in the object key.
+BOPTEST-Service depends on S3-compatible object storage for persisting uploaded test cases and the artifacts produced while a test is running. In production the deployment targets Amazon S3, while local development uses [SeaweedFS](https://github.com/seaweedfs/seaweedfs). Object stores are flat, but BOPTEST encodes structure by introducing `/` delimiters in the object key.
 
 ## Bucket configuration
 
 - `BOPTEST_S3_BUCKET` identifies the bucket used by both the web tier and the workers.
-- `BOPTEST_INTERNAL_S3_URL` points the workers at the private endpoint (for example, the MinIO service running inside Docker Compose).
+- `BOPTEST_INTERNAL_S3_URL` points the workers at the private endpoint (for example, the SeaweedFS service running inside Docker Compose).
 - `BOPTEST_PUBLIC_S3_URL`, when set, is prepended to pre-signed form responses so a browser uploads directly to the public endpoint.
 
 ## Test case files
@@ -25,7 +25,7 @@ Test cases are uploaded via a pre-signed POST form returned by the API. The form
   users/<user_sub>/testcases/<testcase_id>/<testcase_id>.fmu
   ```
 
-When the client requests a shared upload, the web layer sets `acl=public-read` on the pre-signed form. MinIO ignores object level ACLs, but S3 honors them so shared artifacts become publicly readable.
+When the client requests a shared upload, the web layer sets `acl=public-read` on the pre-signed form. SeaweedFS maps this ACL to world-readable object permissions. User-specific uploads are not assigned this ACL.
 
 ## Test run artifacts
 
