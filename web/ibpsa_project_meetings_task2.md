@@ -12,7 +12,23 @@ permalink: /ibpsa/project/meetings/task2/
 
 # Upcoming Meetings
 
-Coming Soon.
+### December 17, 2026
+
+**Location:** Online
+
+**Time:** 7:00 AM - 8:00 AM U.S. Pacific
+
+### November 19, 2026
+
+**Location:** Online
+
+**Time:** 7:00 AM - 8:00 AM U.S. Pacific
+
+### October 29, 2026
+
+**Location:** Online
+
+**Time:** 7:00 AM - 8:00 AM U.S. Pacific
 
 
 # Past Meetings
