@@ -8,9 +8,9 @@
 # This code is from the alfalfa repository at https://github.com/NatLabRockies/alfalfa.
 # distributed under the 3-clause BSD License in service/LICENSE.md.
 
-FROM golang:1.24-alpine AS build
+FROM docker.io/library/golang:1.24-alpine AS build
 
-ARG MC_RELEASE
+ARG MC_RELEASE=RELEASE.2025-04-16T18-13-26Z
 
 ENV CGO_ENABLED=0
 ENV GOPATH=/go
@@ -25,7 +25,7 @@ RUN git clone --depth 1 --branch ${MC_RELEASE} https://github.com/minio/mc.git .
 RUN go build -trimpath -ldflags "$(go run buildscripts/gen-ldflags.go)" -o /go/bin/mc .
 
 # **** Minimal runtime image ****
-FROM alpine:3.19
+FROM docker.io/library/alpine:3.19
 
 RUN apk add --no-cache ca-certificates
 

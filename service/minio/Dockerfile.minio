@@ -8,9 +8,9 @@
 # This code is from the alfalfa repository at https://github.com/NatLabRockies/alfalfa.
 # distributed under the 3-clause BSD License in service/LICENSE.md.
 
-FROM golang:1.24-alpine AS build
+FROM docker.io/library/golang:1.24-alpine AS build
 
-ARG MINIO_RELEASE
+ARG MINIO_RELEASE=RELEASE.2025-04-22T22-12-26Z
 
 ENV CGO_ENABLED=0
 ENV GOSUMDB=off
@@ -24,7 +24,7 @@ RUN git clone --depth 1 --branch ${MINIO_RELEASE} https://github.com/minio/minio
 RUN make build
 
 # **** Minimal runtime image ****
-FROM alpine:3.19
+FROM docker.io/library/alpine:3.19
 
 RUN apk add --no-cache ca-certificates
 

@@ -105,7 +105,7 @@ services:
       - redis
       - mc
   redis:
-    image: redis
+    image: docker.io/library/redis:latest
   test:
     build:
       dockerfile: service/test/Dockerfile
