@@ -13,7 +13,7 @@ on:
 jobs:
   test_bestest_air:
     name: Deploy with Podman and test with bestest_air test case
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 1200
     steps:
       - name: Checkout code
@@ -43,7 +43,7 @@ jobs:
         run: |
           podman-compose build
           podman-compose up -d web worker provision
-          sleep 10
+          sleep 30
 
       - name: Run test
         run: |
