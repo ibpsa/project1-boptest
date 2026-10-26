@@ -4,7 +4,7 @@ import { validateTestid } from './validators'
 import * as boptestLib from '../lib/boptestLib'
 import messaging from '../lib/messaging'
 import * as middleware from './middleware'
-import s3 from '../s3'
+import { deleteObject, getObjectBody } from '../s3'
 import { unpack } from 'msgpackr'
 
 const boptestRoutes = express.Router()
@@ -426,11 +426,11 @@ boptestRoutes.put('/results/:testid',
 
       const bucketName = pointer.bucket ? pointer.bucket : bucket
 
-      const s3Object = await s3.getObject({ Bucket: bucketName, Key: pointer.key }).promise()
-      const resultPayload = unpack(s3Object.Body)
+      const objectBody = await getObjectBody({ Bucket: bucketName, Key: pointer.key })
+      const resultPayload = unpack(objectBody)
 
       try {
-        await s3.deleteObject({ Bucket: bucketName, Key: pointer.key }).promise()
+        await deleteObject({ Bucket: bucketName, Key: pointer.key })
       } catch (deleteError) {
         // Best-effort delete, log for visibility but do not fail request
         console.warn(`Failed to delete results object ${bucketName}/${pointer.key}: ${deleteError}`)
