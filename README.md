@@ -10,8 +10,8 @@ Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for mor
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
 - ``/service`` contains code for deploying BOPTEST framework as a web-service, known as BOPTEST-Service.
-- ``/examples`` contains code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (3.9) and Julia (Version 1.0.3).
-- ``/parsing`` contains code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
+- ``/examples`` contains example code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (3.9) and Julia (Version 1.0.3).
+- ``/parsing`` contains code for parsing a Modelica model using signal exchange blocks and compiling a test case FMU and KPI json.  See the README there for more information about using the parser.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
 - ``/data`` contains code for generating and managing data associated with test cases.  This includes boundary conditions, such as weather, schedules, and energy prices, as well as a map of test case FMU outputs needed to calculate KPIs.
 - ``/forecast`` contains code for returning boundary condition forecast, such as weather, schedules, and energy prices.

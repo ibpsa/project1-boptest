@@ -1,7 +1,7 @@
 within MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.Coil;
 model CoolingCoil "The model of the cooling coil"
   extends
-    MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.Coil.BaseClasses.WatCoil                     (val(
+    MultizoneOfficeComplexAir.BaseClasses.Component.AirSide.Coil.BaseClasses.WatCoil(val(
         dpValve_nominal=PreDroWat, y_start=0.1), pI(
       yMin=0.01,
       reverseActing=false,
@@ -17,6 +17,9 @@ model CoolingCoil "The model of the cooling coil"
     PreDroAir(displayUnit="Pa") = PreDroAir,
     PreDroWat(displayUnit="Pa") = 0,
     UA=UA) annotation (Placement(transformation(extent={{-18,-34},{20,8}})));
+  Modelica.Blocks.Interfaces.RealInput TSupAirMea(unit="K", displayUnit="degC")
+    "Supply air temperature measurement"
+    annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
 equation
   connect(coi.port_a_Wat, port_a_Wat) annotation (Line(
       points={{-18,-0.4},{-40,-0.4},{-40,0},{-60,0},{-60,80},{-100,80}},
@@ -34,8 +37,8 @@ equation
       points={{-18,-25.6},{-58,-25.6},{-58,-80},{-102,-80}},
       color={0,127,255},
       thickness=1));
-  connect(coi.TAirLea,pI.mea)  annotation (Line(
-      points={{21.9,-17.2},{58,-17.2},{58,-60},{-90,-60},{-90,14},{-82,14}},
+  connect(pI.mea, TSupAirMea) annotation (Line(
+      points={{-82,14},{-92,14},{-92,-60},{-120,-60}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   annotation (Icon(graphics={

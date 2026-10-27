@@ -1,8 +1,8 @@
 within TwoZoneApartmentHydronic.Components;
 model HydronicSystem "Hydronic circuit"
   replaceable package MediumW = Buildings.Media.Water "Medium model";
-  parameter Modelica.SIunits.MassFlowRate mflow_n= 700/3600 "nominal flow rate";
-  parameter Modelica.SIunits.Pressure DP_n= 500 "nominal flow rate";
+  parameter Modelica.Units.SI.MassFlowRate mflow_n=700/3600 "nominal flow rate";
+  parameter Modelica.Units.SI.Pressure DP_n=500 "nominal flow rate";
   parameter Integer QhpDes=5000 "Design Qhp";
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage valNigZon(
     redeclare package Medium = MediumW,
@@ -10,10 +10,9 @@ model HydronicSystem "Hydronic circuit"
     linearized=true,
     dpValve_nominal(displayUnit="Pa") = DP_n,
     m_flow_nominal=mflow_n,
-    riseTime=240,
+    strokeTime=240,
     dpFixed_nominal=DP_n,
-    from_dp=false,
-    use_inputFilter=true) "FloorHeatingValve" annotation (Placement(
+    from_dp=false)        "FloorHeatingValve" annotation (Placement(
         transformation(
         extent={{-8,-8},{8,8}},
         rotation=0,
@@ -38,10 +37,9 @@ model HydronicSystem "Hydronic circuit"
     linearized=true,
     dpValve_nominal(displayUnit="Pa") = DP_n,
     m_flow_nominal=mflow_n,
-    riseTime=240,
+    strokeTime=240,
     dpFixed_nominal=DP_n,
-    from_dp=false,
-    use_inputFilter=true) "Radiator valve" annotation (Placement(transformation(
+    from_dp=false)        "Radiator valve" annotation (Placement(transformation(
         extent={{-7,-8},{7,8}},
         rotation=0,
         origin={55,80})));
@@ -66,13 +64,13 @@ model HydronicSystem "Hydronic circuit"
           MediumW)                          "Return water from rooms"
     annotation (Placement(transformation(extent={{80,-100},{100,-20}}),
         iconTransformation(extent={{80,-100},{100,-20}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort dayZonRet(redeclare package Medium =
-        MediumW, m_flow_nominal=mflow_n) annotation (Placement(transformation(
+  Buildings.Fluid.Sensors.TemperatureTwoPort dayZonRet(redeclare package Medium
+      = MediumW, m_flow_nominal=mflow_n) annotation (Placement(transformation(
         extent={{8,-8},{-8,8}},
         rotation=0,
         origin={40,-40})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort nigZonRet(redeclare package Medium =
-        MediumW, m_flow_nominal=mflow_n) annotation (Placement(transformation(
+  Buildings.Fluid.Sensors.TemperatureTwoPort nigZonRet(redeclare package Medium
+      = MediumW, m_flow_nominal=mflow_n) annotation (Placement(transformation(
         extent={{8,-8},{-8,8}},
         rotation=0,
         origin={64,-80})));
@@ -82,16 +80,16 @@ model HydronicSystem "Hydronic circuit"
   Buildings.Fluid.Sensors.MassFlowRate mflowTotin(redeclare package Medium =
         MediumW)
     annotation (Placement(transformation(extent={{-20,-6},{-8,6}})));
-  Buildings.Fluid.Sensors.MassFlowRate m_flowDayZonin(redeclare package Medium =
-        MediumW)
+  Buildings.Fluid.Sensors.MassFlowRate m_flowDayZonin(redeclare package Medium
+      = MediumW)
     annotation (Placement(transformation(extent={{22,14},{34,26}})));
-  Buildings.Fluid.Sensors.MassFlowRate m_flowNigZonin(redeclare package Medium =
-        MediumW) annotation (Placement(transformation(extent={{36,-6},{48,6}})));
-  Buildings.Fluid.Sensors.MassFlowRate m_flowNigZout(redeclare package Medium =
-        MediumW)
+  Buildings.Fluid.Sensors.MassFlowRate m_flowNigZonin(redeclare package Medium
+      = MediumW) annotation (Placement(transformation(extent={{36,-6},{48,6}})));
+  Buildings.Fluid.Sensors.MassFlowRate m_flowNigZout(redeclare package Medium
+      = MediumW)
     annotation (Placement(transformation(extent={{30,-86},{18,-74}})));
-  Buildings.Fluid.Sensors.MassFlowRate m_flowDayZout(redeclare package Medium =
-        MediumW)
+  Buildings.Fluid.Sensors.MassFlowRate m_flowDayZout(redeclare package Medium
+      = MediumW)
     annotation (Placement(transformation(extent={{22,-46},{10,-34}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow
                                pump(
@@ -99,7 +97,6 @@ model HydronicSystem "Hydronic circuit"
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     allowFlowReversal=true,
     addPowerToMedium=false,
-    use_inputFilter=true,
     m_flow_nominal=mflow_n,
     nominalValuesDefineDefaultPressureCurve=true,
     inputType=Buildings.Fluid.Types.InputType.Continuous,
@@ -225,13 +222,15 @@ model HydronicSystem "Hydronic circuit"
     annotation (Placement(transformation(extent={{-50,4},{-40,14}})));
 equation
   connect(valDayZon.port_b, ports_b[1])
-    annotation (Line(points={{62,80},{90,80}}, color={0,127,255}));
+    annotation (Line(points={{62,80},{76,80},{76,50},{90,50}},
+                                               color={0,127,255}));
   connect(valNigZon.port_b, ports_b[2])
-    annotation (Line(points={{68,40},{90,40}}, color={0,127,255}));
+    annotation (Line(points={{68,40},{80,40},{80,70},{90,70}},
+                                               color={0,127,255}));
   connect(ports_a[1], dayZonRet.port_a)
-    annotation (Line(points={{90,-80},{90,-40},{48,-40}}, color={0,127,255}));
+    annotation (Line(points={{90,-70},{90,-40},{48,-40}}, color={0,127,255}));
   connect(ports_a[2], nigZonRet.port_a)
-    annotation (Line(points={{90,-40},{90,-80},{72,-80}}, color={0,127,255}));
+    annotation (Line(points={{90,-50},{90,-80},{72,-80}}, color={0,127,255}));
   connect(mflowTotin.port_b, splVal1.port_1) annotation (Line(points={{-8,0},{6,
           0}},                    color={0,127,255}));
   connect(splVal1.port_3, m_flowDayZonin.port_a)
@@ -266,7 +265,7 @@ equation
   connect(booleanToReal1.y, gainValNigZon.u)
     annotation (Line(points={{-27,50},{-34.4,50}}, color={0,0,127}));
   connect(weaBus.TDryBul,heatingCurve. u) annotation (Line(
-      points={{-196,-80},{-175.6,-80}},
+      points={{-195.92,-79.93},{-186,-79.93},{-186,-80},{-175.6,-80}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",

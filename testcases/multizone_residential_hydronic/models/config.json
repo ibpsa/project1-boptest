@@ -1,6 +1,6 @@
 {
 "name"          : "multizone_residential_hydronic",
-"area"          : 81.08,
+"area"          : 79.12,
 "start_time"    : 0.0,
 "warmup_period" : 0.0,
 "step"          : 3600.0

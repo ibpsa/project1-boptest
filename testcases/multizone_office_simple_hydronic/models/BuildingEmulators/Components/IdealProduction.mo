@@ -7,7 +7,7 @@ model IdealProduction "Ideal production model which assumes a linear efficiency 
     parameter Boolean heating = false
      "if true, heat pump, else chiller";
     .Modelica.Blocks.Interfaces.RealOutput P(unit = "W") "Energy used by the production component" annotation(Placement(transformation(extent = {{100.0,-70.0},{120.0,-50.0}},rotation = 0.0,origin = {0.0,0.0})));
-    .Modelica.Blocks.Interfaces.RealInput TSetIn(unit = "K", displayUnit="degC");
+    Real TSetIn(unit = "K", displayUnit="degC");
     parameter Real A = if boiler then 2.46575 else A_vcrs "Intercept of the linear expression";
     parameter Real B = if boiler then -0.005 else B_vcrs "Rate of change with the inlet temperature";
     parameter Real C = if boiler then 0 else C_vcrs  "Rate of change with the ambient temperature";
@@ -21,7 +21,7 @@ model IdealProduction "Ideal production model which assumes a linear efficiency 
     //\frac{0.1}{\left(1+\exp\left(x-C\right)\right)}+2.46575-0.005x
 equation
     if use_TSet then
-        connect(TSet,TSetIn);
+        TSetIn = TSet;
     else
         TSetIn = 0;
     end if;

@@ -1,13 +1,13 @@
 within MultiZoneResidentialHydronic.Building.Schedules;
 model ScheduleNight "French thermal regulation schedules for night time"
 
-parameter Modelica.SIunits.Temperature SetHeaOccup=19+273.15
+parameter Modelica.Units.SI.Temperature SetHeaOccup=19+273.15
     "Heating setpoint during occupation";
-parameter Modelica.SIunits.Temperature SetHeaInoccupa=16+273.15
+parameter Modelica.Units.SI.Temperature SetHeaInoccupa=16+273.15
     "Heating setpoint during inoccupation for less than 48 hours";
-parameter Modelica.SIunits.Temperature SetHeaInoccupb=7+273.15
+parameter Modelica.Units.SI.Temperature SetHeaInoccupb=7+273.15
     "Heating setpoint during inoccupation for less than 48 hours";
-parameter Modelica.SIunits.Temperature SetHeaFictif=2+273.15
+parameter Modelica.Units.SI.Temperature SetHeaFictif=2+273.15
     "Heating setpoint during no heating period";
 
 parameter Real delta_ST=0.2

@@ -2,11 +2,10 @@ within MultiZoneResidentialHydronic.Building.Control;
 model ConHea "General controller for heating system"
   parameter Real Khea=1e6 "Gain value for the heating controller";
   parameter Real k=1e-2 "Gain of controller";
-  parameter Modelica.SIunits.Time Ti=300
+  parameter Modelica.Units.SI.Time Ti=300
     "Time constant of Integrator block";
   Buildings.Controls.Continuous.LimPID conHea(
     Ni=0.1,
-    initType=Modelica.Blocks.Types.InitPID.InitialState,
     Td=1e4,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     yMax=1,

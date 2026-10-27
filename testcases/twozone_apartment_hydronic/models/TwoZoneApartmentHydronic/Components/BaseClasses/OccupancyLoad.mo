@@ -1,11 +1,13 @@
 within TwoZoneApartmentHydronic.Components.BaseClasses;
 model OccupancyLoad
   "A model for occupancy and resulting internal loads"
-  parameter Modelica.SIunits.Power senPower "Sensible heat gain per person";
-  parameter Modelica.SIunits.DimensionlessRatio radFraction "Fraction of sensible gain that is radiant";
-  parameter Modelica.SIunits.Power latPower "Latent heat gain per person";
-  parameter Modelica.SIunits.MassFlowRate co2Gen "CO2 generation per person";
-  parameter Modelica.SIunits.DimensionlessRatio occ_density "Number of occupants per m^2";
+  parameter Modelica.Units.SI.Power senPower "Sensible heat gain per person";
+  parameter Modelica.Units.SI.DimensionlessRatio radFraction
+    "Fraction of sensible gain that is radiant";
+  parameter Modelica.Units.SI.Power latPower "Latent heat gain per person";
+  parameter Modelica.Units.SI.MassFlowRate co2Gen "CO2 generation per person";
+  parameter Modelica.Units.SI.DimensionlessRatio occ_density
+    "Number of occupants per m^2";
   Modelica.Blocks.Interfaces.RealOutput rad "Radiant load in W/m^2"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
   Modelica.Blocks.Interfaces.RealOutput con "Convective load in W/m^2"

@@ -27,9 +27,9 @@ model GasBoiler "Gas boiler model"
     y(unit="W"))
     "Gas power consumed by boiler"
     annotation (Placement(transformation(extent={{72,90},{92,110}})));
-  parameter Modelica.SIunits.HeatFlowRate QMax_flow=Modelica.Constants.inf
+  parameter Modelica.Units.SI.HeatFlowRate QMax_flow=Modelica.Constants.inf
     "Maximum heat flow rate for heating (positive)";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal
     "Nominal mass flow rate";
   Buildings.Fluid.Sources.Boundary_pT
                             souHea(

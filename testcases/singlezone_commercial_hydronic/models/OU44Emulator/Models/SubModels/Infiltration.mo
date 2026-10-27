@@ -1,7 +1,7 @@
 within OU44Emulator.Models.SubModels;
 model Infiltration "Constant infiltration"
     replaceable package Air = Buildings.Media.Air(extraPropertiesNames={"CO2"});
-    parameter Modelica.SIunits.Volume Vi "Indoor air volume";
+    parameter Modelica.Units.SI.Volume Vi "Indoor air volume";
     parameter Real ach=0.2 "Infiltration air changes per hour";
     Buildings.Fluid.Sources.MassFlowSource_WeatherData infiltr(
       redeclare package Medium = Air,
@@ -86,5 +86,15 @@ equation
             points={{-60,-10},{-20,-30},{20,-10},{60,-30}},
             color={28,108,200},
             smooth=Smooth.Bezier)}),                               Diagram(
-          coordinateSystem(preserveAspectRatio=false)));
+          coordinateSystem(preserveAspectRatio=false)),
+    Documentation(revisions="<html>
+<ul>
+<li>
+September 30, 2025, by Ettore Zanetti:<br/>
+Updated model to use Modelica 4.0 and Buildings 12.1.0.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/422>
+BOPTEST issue #422</a>.
+</li>
+</ul>
+</html>"));
 end Infiltration;
