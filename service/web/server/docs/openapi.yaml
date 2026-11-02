@@ -221,6 +221,12 @@ paths:
                 warmup_period:
                   type: number
                   description: Warmup period in seconds.
+                warmup_interval:
+                  type: number
+                  default: 30
+                  description: >-
+                    Sub-interval in seconds for the warmup simulation. Control steps are unaffected. Send
+                    "inf" for a single step over the whole warmup period. Omit for 30.
       responses:
         '200':
           description: Simulation initialized successfully.

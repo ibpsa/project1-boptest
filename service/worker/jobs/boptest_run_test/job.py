@@ -210,8 +210,10 @@ class Job:
         warmup_period = params.get("warmup_period")
         final_time = params.get("final_time")
         final_time = float(final_time) if final_time else np.inf
+        warmup_interval = params.get("warmup_interval")
+        kwargs = {} if warmup_interval is None else {"warmup_interval": warmup_interval}
 
-        return self.package_response(self.tc.initialize(start_time, warmup_period, final_time))
+        return self.package_response(self.tc.initialize(start_time, warmup_period, final_time, **kwargs))
 
     def get_name(self, params):
         return self.package_response(self.tc.get_name())
