@@ -24,14 +24,18 @@ permalink: /ibpsa/project/meetings/task2/
 
 **Time:** 7:00 AM - 8:00 AM U.S. Pacific
 
+
+# Past Meetings
+
 ### October 29, 2026
 
 **Location:** Online
 
 **Time:** 7:00 AM - 8:00 AM U.S. Pacific
 
+**Notes:**
 
-# Past Meetings
+- [Minutes](/ibpsa_project/meetings/task2/20261029_Progress/20261029_IBPSA-BOPTEST_Task2_3_Minutes.pdf)
 
 ### June 25, 2026
 
