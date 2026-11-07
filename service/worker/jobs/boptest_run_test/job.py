@@ -21,6 +21,12 @@ class Job:
         self.testid = parameters.get("testid")
         self.testKey = "tests:%s" % self.testid
         self.testcaseKey = parameters.get("testcaseKey")
+        # Optional log levels, None to keep TestCase's defaults
+        self.testcase_kwargs = {
+            key: parameters[key]
+            for key in ("fmu_log_level", "log_level")
+            if parameters.get(key) is not None
+        }
         self.keep_running = True
         # abort True will end the run loop without cleanup
         self.abort = False
@@ -75,7 +81,8 @@ class Job:
         self.s3_bucket = self.s3.Bucket(self.s3_bucket_name)
         self.s3_bucket.download_file(self.testcaseKey, self.fmu_path)
 
-        self.tc = TestCase(self.fmu_path, self.forecast_uncertainty_params_path)
+        self.tc = TestCase(self.fmu_path, self.forecast_uncertainty_params_path,
+                           **self.testcase_kwargs)
 
         # subscribe to messages related to this test
         self.message_handlers = {}

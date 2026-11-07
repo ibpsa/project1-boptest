@@ -5,6 +5,7 @@ This module implements unit tests testcase.py.
 """
 
 import os
+import logging
 import unittest
 import pandas as pd
 import testcase
@@ -50,6 +51,36 @@ class Advance(unittest.TestCase, utilities.partialChecks):
         os.chdir('..')
         from testcase import TestCase
         self.testcase = TestCase(fmupath='testcases/bestest_air/models/wrapped.fmu')
+
+class LogLevels(unittest.TestCase):
+    '''Unit tests for the log level arguments of testcase.TestCase.
+
+    '''
+
+    def test_defaults_are_unchanged(self):
+        '''Test that the defaults are the levels earlier versions hard-coded.
+
+        '''
+
+        case = self._make()
+        self.assertEqual(case.fmu.get_log_level(), 7)
+        self.assertEqual(logging.getLogger().level, logging.DEBUG)
+
+    def test_levels_are_applied(self):
+        '''Test that both levels are set to what was asked for.
+
+        '''
+
+        case = self._make(fmu_log_level=0, log_level=logging.WARNING)
+        self.assertEqual(case.fmu.get_log_level(), 0)
+        self.assertEqual(logging.getLogger().level, logging.WARNING)
+
+    def _make(self, **kwargs):
+        os.chdir(os.path.join(testing_root_dir))
+        os.chdir('..')
+        from testcase import TestCase
+        return TestCase(fmupath='testcases/bestest_air/models/wrapped.fmu', **kwargs)
+
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

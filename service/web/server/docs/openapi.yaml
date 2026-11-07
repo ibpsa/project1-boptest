@@ -184,6 +184,17 @@ paths:
             schema:
               type: object
               description: Optional selection parameters (implementation-specific).
+              properties:
+                fmu_log_level:
+                  type: integer
+                  default: 7
+                  description: >-
+                    Log level for the emulator FMU, from 0 for nothing to 7 for everything. The FMU writes
+                    its log on every simulation step, so a lower value costs less. Omit for 7.
+                log_level:
+                  type: string
+                  default: DEBUG
+                  description: Log level for the test case log file and console output. Omit for DEBUG.
       responses:
         '200':
           description: Test case selected successfully.

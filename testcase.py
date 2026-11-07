@@ -31,7 +31,9 @@ class TestCase(object):
 
     def __init__(self,
                  fmupath='models/wrapped.fmu',
-                 forecast_uncertainty_params_path='forecast/forecast_uncertainty_params.json'):
+                 forecast_uncertainty_params_path='forecast/forecast_uncertainty_params.json',
+                 fmu_log_level=7,
+                 log_level=logging.DEBUG):
         '''Constructor.
 
         Parameters
@@ -42,6 +44,14 @@ class TestCase(object):
         forecast_uncertainty_params_path : str, optional
             Path to the JSON file containing the uncertainty parameters.
             Default is assuming a particular directory structure.
+        fmu_log_level : int, optional
+            Log level for the fmu, from 0 for nothing to 7 for everything.
+            The fmu writes its log on every simulation step.
+            Default is 7.
+        log_level : int or str, optional
+            Log level applied to the root logger, which this module logs to.
+            Default is logging.DEBUG, which is what earlier versions set here,
+            and which overrides any level the deployment has configured.
 
         '''
 
@@ -63,14 +73,16 @@ class TestCase(object):
         self.name = self.config_json['name']
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
-        self.fmu.set_log_level(7)
+        self.fmu.set_log_level(fmu_log_level)
         # Configure the log, log file, and console output
         name = 'boptest_{0}'.format(self.name)
         fmt = '%(asctime)s UTC\t%(name)-20s%(levelname)s\t%(message)s'
         datefmt = '%m/%d/%Y %I:%M:%S %p'
         formatter = logging.Formatter(fmt,datefmt)
-        logging.basicConfig(filename='{0}.log'.format(name), filemode='w', level=10, format=fmt, datefmt=datefmt)
+        logging.basicConfig(filename='{0}.log'.format(name), filemode='w', level=log_level, format=fmt, datefmt=datefmt)
         logger = logging.getLogger()
+        # Set explicitly, since basicConfig is a no-op once root has handlers
+        logger.setLevel(log_level)
         stream_handler = logging.StreamHandler()
         stream_handler.setFormatter(formatter)
         logger.addHandler(stream_handler)
