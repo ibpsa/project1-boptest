@@ -201,7 +201,51 @@ class KPI_Calculator(object):
         '''
         self.__init__(testcase=self.case)
 
-    def get_core_kpis(self, price_scenario='Constant'):
+    def _core_kpi_calculators(self, price_scenario):
+        '''Map each core KPI name to the method that calculates it.
+
+        Parameters
+        ----------
+        price_scenario : str
+            Price scenario for cost kpi calculation.
+
+        Returns
+        -------
+        calculators : OrderedDict
+            Maps KPI name to a zero-argument callable.
+
+        '''
+
+        return OrderedDict([
+            ('tdis_tot', self.get_thermal_discomfort),
+            ('idis_tot', self.get_iaq_discomfort),
+            ('ener_tot', self.get_energy),
+            ('cost_tot', lambda: self.get_cost(scenario=price_scenario)),
+            ('emis_tot', self.get_emissions),
+            ('pele_tot', self.get_peak_electricity),
+            ('pgas_tot', self.get_peak_gas),
+            ('pdih_tot', self.get_peak_district_heating),
+            ('time_rat', self.get_computational_time_ratio),
+#           ('atvl_tot', self.get_actuator_travel),   // While implemented here, can't be used until test cases updated
+        ])
+
+    def get_core_kpi_names(self):
+        '''Return the names of the core KPIs, in the order they are computed.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        names : list of str
+
+        '''
+
+        # Only the keys are read, so the price scenario is irrelevant here
+        return list(self._core_kpi_calculators(None).keys())
+
+    def get_core_kpis(self, price_scenario='Constant', names=None):
         '''Return the core KPIs of a test case.
 
         Parameters
@@ -210,6 +254,12 @@ class KPI_Calculator(object):
             Price scenario for cost kpi calculation.
             'Constant' or 'Dynamic' or 'HighlyDynamic'.
             Default is 'Constant'.
+        names : list of str, optional
+            Names of the core KPIs to calculate.  KPIs not named are skipped
+            and left out of the result.  Each KPI keeps its own integration
+            index, so one requested later still integrates over the whole
+            test period.
+            Default is None, which calculates all of them.
 
         Returns
         -------
@@ -220,17 +270,17 @@ class KPI_Calculator(object):
 
         '''
 
+        calculators = self._core_kpi_calculators(price_scenario)
+        if names is not None:
+            unknown = [name for name in names if name not in calculators]
+            if unknown:
+                raise ValueError(
+                    'Unknown core KPI name(s) {0}. Available names are '
+                    '{1}.'.format(unknown, list(calculators.keys())))
         ckpi = OrderedDict()
-        ckpi['tdis_tot'] = self.get_thermal_discomfort()
-        ckpi['idis_tot'] = self.get_iaq_discomfort()
-        ckpi['ener_tot'] = self.get_energy()
-        ckpi['cost_tot'] = self.get_cost(scenario=price_scenario)
-        ckpi['emis_tot'] = self.get_emissions()
-        ckpi['pele_tot'] = self.get_peak_electricity()
-        ckpi['pgas_tot'] = self.get_peak_gas()
-        ckpi['pdih_tot'] = self.get_peak_district_heating()
-        ckpi['time_rat'] = self.get_computational_time_ratio()
-#       ckpi['atvl_tot'] = self.get_actuator_travel()   // While implemented here, can't be used until test cases updated
+        for key, calculate in calculators.items():
+            if names is None or key in names:
+                ckpi[key] = calculate()
 
         return ckpi
 

@@ -64,7 +64,7 @@ API requests that interact with a running test case (those that require a ``test
 | Receive sensor signal point names (y) and metadata.                          |  GET ``measurements/{testid}``                                     |
 | Receive control signal point names (u) and metadata.                        |  GET ``inputs/{testid}``                                           |
 | Receive test result data for the given point names between the start and final time in seconds. |  PUT ``results/{testid}`` with required arguments ``point_names=<list of strings>``, ``start_time=<value>``, ``final_time=<value>``|
-| Receive test KPIs.                                                     |  GET ``kpi/{testid}``                                              |
+| Receive test KPIs.                                                     |  GET ``kpi/{testid}`` with optional argument ``names=<comma separated list of KPI names>``, which calculates only those core KPIs instead of all of them |
 | Receive test case name.                                                |  GET ``name/{testid}``                                             |
 | Receive boundary condition forecast from current communication step for the given point names for the horizon and at the interval in seconds.   |  PUT ``forecast/{testid}`` with required arguments ``point_names=<list of strings>``, ``horizon=<value>``, ``interval=<value>``|
 | Receive boundary condition forecast available point names and metadata. |  GET ``forecast_points/{testid}``                              |
