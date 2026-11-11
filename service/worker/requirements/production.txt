@@ -1,9 +1,8 @@
-boto3==1.11.0
-botocore==1.14.0
+boto3==1.43.73
+botocore==1.43.73
 redis==3.3.11
-requests==2.22.0
-msgpack==1.0.4
+requests==2.33.0
+msgpack==1.2.1
 kubernetes==18.20.0
 numpy==2.1
 pandas==2.2.3
-
