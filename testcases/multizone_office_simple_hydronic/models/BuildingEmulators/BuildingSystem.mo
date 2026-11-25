@@ -601,8 +601,8 @@ based only in the outdoor temperature (no room compensation is included).
 <ul>
 <li>The heating curve of the ventiloconvector heating coil takes the following points:</li>
         <ul>
-        <li>70 &#176;C when the outdoor temperature is -10 &#176;C</li>
-        <li>40 &#176;C when the outdoor temperature is 20 &#176;C</li>
+        <li>50 &#176;C when the outdoor temperature is -10 &#176;C</li>
+        <li>35 &#176;C when the outdoor temperature is 20 &#176;C</li>
         </ul>
 <li>The cooling curve of the ventiloconvector cooling coil takes the following points:</li>
         <ul>
@@ -614,8 +614,8 @@ based only in the outdoor temperature (no room compensation is included).
 
 For the ventilation coils, these set-points are set constant to:
 <ul>
-<li>50 &#176;C for the heating coil in the AHUs</li>
-<li>9 &#176;C for the heating coil in the AHUs</li>
+<li>45 &#176;C for the heating coil in the AHUs</li>
+<li>9 &#176;C for the cooling coil in the AHUs</li>
 </ul>
 The modulation is achieved by means of PI controllers.
 All PIs have a constant gain of 0.2 and an integral gain of 30s.
