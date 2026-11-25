@@ -14,6 +14,7 @@ Released on xx/xx/xxxx.
 - Add ``bacnet/requirements.txt`` file, and change ``objectName`` in ``bacnet/example/BACpypes.ini`` from ``BopTestProxy`` to ``ExampleReadWrite``. This is for [#830](https://github.com/ibpsa/project1-boptest/issues/830).
 - Add ``'none'`` as an acceptable argument for outside temperature and solar forecast uncertainty scenario parameters, which has the same function as a ``None`` object previously (also still accepted).  This is for [#850](https://github.com/ibpsa/project1-boptest/issues/850).
 - Move the web service to Node.js 24 and AWS SDK v3, update service dependencies, and add S3 and inline-results regression coverage.  This is for [#711](https://github.com/ibpsa/project1-boptest/issues/711).
+- For ``multizone_office_simple_hydronic`` test case, correct documentation of fan coil heating curve and AHU heating coil supply temperature setpoint to match the model, and fix typo on AHU cooling coil setpoint. This is for [#885](https://github.com/ibpsa/project1-boptest/issues/885).
 
 **The following changes are not backwards compatible, but do not change benchmark results:**
 
